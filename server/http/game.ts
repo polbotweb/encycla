@@ -17,6 +17,7 @@ import {
   MIN_QUESTIONS_PER_CATEGORY,
   categoryCounts,
   createRoomSchema,
+  languageSchema,
   parseBody,
   resolveSelection,
   tiktokRoomSchema,
@@ -44,6 +45,7 @@ const soloSchema = z
     mode: z.enum(['CLASSIC', 'SUBJECT', 'CONTEST']),
     category: z.enum(CATEGORY_VALUES).nullable().optional(),
     difficulty: z.enum(['Novice', 'Adventurer', 'Wizard']).nullable().optional(),
+    language: languageSchema.optional(),
   })
   .strict();
 

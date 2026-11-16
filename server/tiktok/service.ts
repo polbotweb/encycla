@@ -94,6 +94,7 @@ export class TikTokService implements TikTokPort {
       mode: selection.mode,
       category: selection.category,
       difficulty: selection.difficulty,
+      language: selection.language,
       host: null,
       isTikTok: true,
       maxPlayers: 100,

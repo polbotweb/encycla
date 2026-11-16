@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type { ErrorCode, TimerSync } from '../../shared/protocol';
+import type { Language } from '../../shared/languages';
 import type { Difficulty, GameMode, PublicRoomState } from '../../shared/types';
 import { createGameState, reduce, tick, toPublicState } from '../game/engine';
 import type { GameEvent, PlayerIdentity } from '../game/events';
@@ -59,6 +60,7 @@ export interface CreateRoomParams {
   mode: GameMode;
   category: string | null;
   difficulty: Difficulty | null;
+  language?: Language;
   host: PlayerIdentity | null;
   isPublic?: boolean;
   isTikTok?: boolean;
@@ -194,6 +196,7 @@ export class RoomManager {
       mode: params.mode,
       difficulty: params.difficulty,
       category: params.category,
+      ...(params.language === undefined ? {} : { language: params.language }),
       isPublic: params.isPublic ?? false,
       isTikTok: params.isTikTok ?? false,
       isSolo: params.isSolo ?? false,
@@ -237,7 +240,12 @@ export class RoomManager {
 
   /** Public room built by matchmaking: all players are joined, then the match starts at once. */
   createPublicRoom(
-    params: { mode: GameMode; category: string | null; difficulty: Difficulty | null },
+    params: {
+      mode: GameMode;
+      category: string | null;
+      difficulty: Difficulty | null;
+      language?: Language;
+    },
     players: PlayerIdentity[],
   ): GameState {
     for (const player of players) {

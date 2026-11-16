@@ -1,3 +1,4 @@
+import { DEFAULT_LANGUAGE } from '../../shared/languages';
 import type { GameEvent } from './events';
 import { selectQuestion } from './questions';
 import {
@@ -212,6 +213,7 @@ function startQuestion(state: GameState, now: number, deps: EngineDeps): Interna
         state.category,
         state.usedQuestionIds,
         deps.random,
+        state.language,
       );
 
   if (!selection) {
@@ -292,6 +294,7 @@ function revealFor(question: QuestionRuntime) {
     explanation: question.question.explanation,
     articleTitle: question.question.articleTitle,
     articleBody: question.question.articleBody,
+    textLanguage: question.textLanguage ?? DEFAULT_LANGUAGE,
     image: question.question.image ?? null,
   };
 }
@@ -962,6 +965,7 @@ function handleGameStart(
     state.category,
     state.usedQuestionIds,
     deps.random,
+    state.language,
   );
   if (!preloaded) {
     return reject(state, 'NO_QUESTIONS_AVAILABLE', 'No question is available for this room.');

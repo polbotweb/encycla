@@ -1,3 +1,4 @@
+import { DEFAULT_LANGUAGE, type Language } from '../../shared/languages';
 import type {
   Difficulty,
   GameMode,
@@ -29,6 +30,8 @@ export interface CreateRoomOptions {
   mode: GameMode;
   difficulty: Difficulty | null;
   category: string | null;
+  /** Language of the questions; French when omitted. */
+  language?: Language;
   isPublic: boolean;
   isTikTok: boolean;
   isSolo: boolean;
@@ -101,6 +104,7 @@ export function createGameState(options: CreateRoomOptions): GameState {
     mode: options.mode,
     difficulty: options.difficulty,
     category: options.category,
+    language: options.language ?? DEFAULT_LANGUAGE,
     isPublic: options.isPublic,
     isTikTok,
     isSolo: options.isSolo,
@@ -283,6 +287,7 @@ export function toPublicState(state: GameState, serverNow: number): PublicRoomSt
     mode: state.mode,
     difficulty: state.difficulty,
     category: state.category,
+    language: state.language,
     isPublic: state.isPublic,
     isTikTok: state.isTikTok,
     isSolo: state.isSolo,

@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { DEFAULT_LANGUAGE, type Language } from '../../shared/languages';
 import type { Difficulty, GameMode } from '../../shared/types';
 import type { PlayerIdentity } from '../game/events';
 import { AppError } from '../http/errors';
@@ -13,6 +14,8 @@ export interface QueueSelection {
   mode: GameMode;
   category: string | null;
   difficulty: Difficulty | null;
+  /** Players are only matched with others who want the same question language. */
+  language?: Language;
 }
 
 export interface QueueStatePayload {
@@ -68,7 +71,7 @@ interface Proposal {
 }
 
 export function queueKey(selection: QueueSelection): string {
-  return `${selection.mode}|${selection.difficulty ?? ''}|${selection.category ?? ''}`;
+  return `${selection.mode}|${selection.difficulty ?? ''}|${selection.category ?? ''}|${selection.language ?? DEFAULT_LANGUAGE}`;
 }
 
 export function targetFor(mode: GameMode): number {

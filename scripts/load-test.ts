@@ -1,6 +1,6 @@
 /**
  * Load smoke test: plays N complete CONTEST matches (2 players each) in parallel against a
- * running server and reports ack latencies.
+ * running server and reports ack latencies. Rooms cycle through fr, en and ar.
  *
  *   BASE_URL=http://localhost:3000 ROOMS=25 pnpm run test:load
  *
@@ -8,6 +8,7 @@
  * Exit code 1 on any error ack, timeout or when p95 ack latency exceeds P95_BUDGET_MS.
  */
 import { io, type Socket } from 'socket.io-client';
+import { LANGUAGES } from '../shared/languages';
 import type { Ack } from '../shared/protocol';
 import type { PublicRoomState } from '../shared/types';
 
@@ -84,7 +85,7 @@ async function playMatch(index: number): Promise<void> {
   try {
     const { roomCode } = await api<{ roomCode: string }>(
       '/api/rooms',
-      { mode: 'CONTEST' },
+      { mode: 'CONTEST', language: LANGUAGES[index % LANGUAGES.length] },
       a.token,
     );
     await emit(a, 'ROOM_JOIN', { code: roomCode });

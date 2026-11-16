@@ -4,6 +4,7 @@ import {
   MIN_QUESTIONS_PER_CATEGORY,
   type QuestionRecord,
 } from '../../shared/schemas';
+import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from '../../shared/languages';
 import type { Difficulty, GameMode } from '../../shared/types';
 import { AppError } from './errors';
 
@@ -11,12 +12,15 @@ export { MIN_QUESTIONS_PER_CATEGORY };
 
 const modeSchema = z.enum(['CLASSIC', 'SUBJECT', 'CONTEST']);
 const difficultySchema = z.enum(['Novice', 'Adventurer', 'Wizard']);
+export const languageSchema = z.enum(LANGUAGES);
 
 const selectionSchema = z
   .object({
     mode: modeSchema,
     category: z.enum(CATEGORY_VALUES).nullable().optional(),
     difficulty: difficultySchema.nullable().optional(),
+    /** Language of the questions of the room (French by default). */
+    language: languageSchema.optional(),
   })
   .strict();
 
@@ -32,6 +36,7 @@ export interface ModeSelection {
   mode: GameMode;
   category: string | null;
   difficulty: Difficulty | null;
+  language: Language;
 }
 
 export function categoryCounts(questions: readonly QuestionRecord[]): Map<string, number> {
@@ -58,12 +63,14 @@ export function resolveSelection(
     mode: GameMode;
     category?: string | null | undefined;
     difficulty?: Difficulty | null | undefined;
+    language?: Language | undefined;
   },
   questions: readonly QuestionRecord[],
   rules: { allowContest: boolean },
 ): ModeSelection {
   const category = input.category ?? null;
   const difficulty = input.difficulty ?? null;
+  const language = input.language ?? DEFAULT_LANGUAGE;
 
   if (input.mode === 'CONTEST') {
     if (!rules.allowContest) {
@@ -89,5 +96,5 @@ export function resolveSelection(
       );
     }
   }
-  return { mode: input.mode, category, difficulty };
+  return { mode: input.mode, category, difficulty, language };
 }

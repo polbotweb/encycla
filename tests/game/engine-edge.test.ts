@@ -865,6 +865,7 @@ describe('timeouts, abandonment and room cleanup', () => {
         explanation: 'e',
         articleTitle: 't',
         articleBody: 'body',
+        textLanguage: 'fr',
         image: null,
       },
       lastResults: [],

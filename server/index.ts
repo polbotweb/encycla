@@ -1,5 +1,9 @@
 import 'dotenv/config';
-import { loadQuestionBank, type QuestionBankValidation } from '../shared/question-bank';
+import {
+  emptyTranslationStats,
+  loadQuestionBank,
+  type QuestionBankValidation,
+} from '../shared/question-bank';
 import { CATEGORY_VALUES } from '../shared/schemas';
 import { loadConfig, validateConfig } from './config';
 import { LiveTikTokAdapter } from './tiktok/liveAdapter';
@@ -28,6 +32,7 @@ async function loadBank(path: string): Promise<QuestionBankValidation> {
         counts: emptyCounts(),
         total: 0,
         shortArticles: 0,
+        translations: emptyTranslationStats(),
       },
     };
   }

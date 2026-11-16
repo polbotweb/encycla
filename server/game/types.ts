@@ -1,3 +1,4 @@
+import type { Language } from '../../shared/languages';
 import type { QuestionRecord } from '../../shared/schemas';
 import type {
   Difficulty,
@@ -53,6 +54,8 @@ export interface QuestionRuntime {
   options: string[];
   correctIndex: number;
   optionOrder: number[];
+  /** Language of the explanation and the article (French when the translation falls back). */
+  textLanguage?: Language;
 }
 
 export type MatchStatus = 'in_progress' | 'completed' | 'abandoned';
@@ -62,6 +65,7 @@ export interface GameState {
   mode: GameMode;
   difficulty: Difficulty | null;
   category: string | null;
+  language: Language;
   isPublic: boolean;
   isTikTok: boolean;
   isSolo: boolean;

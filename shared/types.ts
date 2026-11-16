@@ -1,3 +1,5 @@
+import type { Language } from './languages';
+
 export type GameMode = 'CLASSIC' | 'SUBJECT' | 'CONTEST';
 
 export type Difficulty = 'Novice' | 'Adventurer' | 'Wizard';
@@ -40,6 +42,11 @@ export interface RevealView {
   explanation: string;
   articleTitle: string;
   articleBody: string;
+  /**
+   * Language of `explanation`, `articleTitle` and `articleBody`. It is the room language, except
+   * when the article does not exist in that language and the French text is shown instead.
+   */
+  textLanguage: Language;
   image: ImageView | null;
 }
 
@@ -94,6 +101,8 @@ export interface PublicRoomState {
   mode: GameMode;
   difficulty: Difficulty | null;
   category: string | null;
+  /** Language of the questions of this room (the UI language of each player is their own). */
+  language: Language;
   isPublic: boolean;
   isTikTok: boolean;
   isSolo: boolean;
