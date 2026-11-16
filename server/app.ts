@@ -10,6 +10,7 @@ import { sendError } from './http/errors';
 import { createSessionsRouter } from './http/sessions';
 import { createMemoryPersistence } from './persistence/db';
 import type { Persistence } from './persistence/repositories';
+import type { QueueManager } from './matchmaking/QueueManager';
 import { RoomManager } from './rooms/RoomManager';
 import { FixedWindowLimiter, httpRateLimit } from './security/rateLimit';
 import { SessionService } from './services/session-service';
@@ -23,6 +24,7 @@ export interface AppOptions {
   manager?: RoomManager;
   sessions?: SessionService;
   presence?: PresencePort;
+  queue?: QueueManager;
   adminToken?: string | null;
   now?: () => number;
   startedAt?: number;
@@ -82,6 +84,7 @@ export function createApp(options: AppOptions = {}): Express {
       persistence,
       questions: questionList,
       presence: options.presence ?? NOT_CONNECTED,
+      queue: options.queue,
       adminToken: options.adminToken ?? null,
       now,
       rateLimit,

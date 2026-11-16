@@ -7,6 +7,8 @@ import type { PlayerRecord, Persistence } from '../persistence/repositories';
 import type { RoomManager } from '../rooms/RoomManager';
 import { normalizeRoomCode } from '../rooms/codes';
 import { FixedWindowLimiter, httpRateLimit } from '../security/rateLimit';
+import type { QueueManager } from '../matchmaking/QueueManager';
+import { targetFor } from '../matchmaking/QueueManager';
 import type { SessionService } from '../services/session-service';
 import { adminAuth, getPlayer, playerAuth } from './auth';
 import { AppError, sendAppError, sendError } from './errors';
@@ -28,6 +30,7 @@ export interface GameRouterOptions {
   persistence: Persistence;
   questions: readonly QuestionRecord[];
   presence: PresencePort;
+  queue?: QueueManager | undefined;
   adminToken: string | null;
   now: () => number;
   rateLimit: boolean;
@@ -166,6 +169,34 @@ export function createGameRouter(options: GameRouterOptions): Router {
       response.status(201).json({ roomCode: state.roomCode, isSolo: true });
     }),
   );
+
+  router.post(
+    '/queue',
+    auth,
+    ...perSession(20),
+    guarded((request, response) => {
+      const player = getPlayer(response);
+      const body = parseBody(soloSchema, request.body);
+      const selection = resolveSelection(body, questions, { allowContest: true });
+      const queue = options.queue;
+      if (!queue) {
+        throw new AppError('INTERNAL_ERROR', 'Matchmaking is not available.');
+      }
+      queue.join(identityOf(player), selection);
+      const state = queue.snapshot(player.id);
+      response.status(202).json({
+        queued: true,
+        position: state?.position ?? 0,
+        targetPlayers: targetFor(selection.mode),
+        queuedAt: state?.queuedAt ?? options.now(),
+      });
+    }),
+  );
+
+  router.delete('/queue', auth, (_request, response) => {
+    options.queue?.leave(getPlayer(response).id);
+    response.status(204).end();
+  });
 
   router.post(
     '/admin/rooms/:code/close',

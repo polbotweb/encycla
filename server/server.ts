@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import type { Express } from 'express';
 import type { QuestionRecord } from '../shared/schemas';
 import { createApp, type AppOptions } from './app';
+import { QueueManager } from './matchmaking/QueueManager';
 import { Gateway } from './realtime/gateway';
 import { RoomManager, type RoomEmitter } from './rooms/RoomManager';
 import { RoomTokenRegistry } from './security/roomTokens';
@@ -11,7 +12,7 @@ import { createMemoryPersistence } from './persistence/db';
 import type { Persistence } from './persistence/repositories';
 import { silentLogger, type Logger } from './util/logger';
 
-export interface GameServerOptions extends Omit<AppOptions, 'manager' | 'sessions' | 'presence'> {
+export interface GameServerOptions extends Omit<AppOptions, 'manager' | 'sessions' | 'presence' | 'queue'> {
   questionList: readonly QuestionRecord[];
   logger?: Logger;
   random?: () => number;
@@ -23,6 +24,7 @@ export interface GameServer {
   httpServer: HttpServer;
   gateway: Gateway;
   manager: RoomManager;
+  queue: QueueManager;
   persistence: Persistence;
   roomTokens: RoomTokenRegistry;
   close(): Promise<void>;
@@ -49,11 +51,13 @@ export function createGameServer(options: GameServerOptions): GameServer {
     roomClosed: (code, reason) => gateway?.roomClosed(code, reason),
   };
 
+  let queue: QueueManager | null = null;
   const manager = new RoomManager({
     persistence,
     emitter,
     logger,
     now,
+    onRequeue: (playerIds, _code, selection) => queue?.requeue(playerIds, selection),
     deps: {
       now,
       random: options.random ?? Math.random,
@@ -63,7 +67,24 @@ export function createGameServer(options: GameServerOptions): GameServer {
   });
 
   const presence = { isConnected: (playerId: string) => gateway?.isConnected(playerId) ?? false };
-  const app = createApp({ ...options, persistence, sessions, manager, presence });
+  queue = new QueueManager({
+    manager,
+    now,
+    logger,
+    isConnected: presence.isConnected,
+    identityOf: (playerId) => {
+      const record = persistence.players.findById(playerId);
+      return record ? { id: record.id, pseudo: record.pseudo, avatar: record.avatar } : null;
+    },
+    emitter: {
+      queueState: (playerId, state) => gateway?.emitToPlayer(playerId, 'QUEUE_STATE', state),
+      matchFound: (playerId, roomCode) => gateway?.emitToPlayer(playerId, 'MATCH_FOUND', { roomCode }),
+      smallRoomProposal: (playerId, proposal) =>
+        gateway?.emitToPlayer(playerId, 'SMALL_ROOM_PROPOSAL', proposal),
+    },
+  });
+  const matchmaking = queue;
+  const app = createApp({ ...options, persistence, sessions, manager, presence, queue: matchmaking });
   const httpServer = createServer(app);
   gateway = Gateway.attach(httpServer, {
     sessions,
@@ -71,18 +92,22 @@ export function createGameServer(options: GameServerOptions): GameServer {
     roomTokens,
     logger,
     now,
+    queue: matchmaking,
     ...(options.allowedOrigin === undefined ? {} : { allowedOrigin: options.allowedOrigin }),
   });
   manager.start();
+  matchmaking.start();
 
   return {
     app,
     httpServer,
     gateway,
     manager,
+    queue: matchmaking,
     persistence,
     roomTokens,
     async close() {
+      matchmaking.stop();
       manager.stop();
       await gateway?.close();
       if (httpServer.listening) {

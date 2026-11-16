@@ -48,7 +48,11 @@ export interface RoomManagerOptions {
   now?: () => number;
   codeFactory?: () => string;
   /** Called when a public room is cancelled and its connected players must go back to the queue. */
-  onRequeue?: (playerIds: string[], roomCode: string) => void;
+  onRequeue?: (
+    playerIds: string[],
+    roomCode: string,
+    selection: { mode: GameMode; category: string | null; difficulty: Difficulty | null },
+  ) => void;
 }
 
 export interface CreateRoomParams {
@@ -119,7 +123,7 @@ export class RoomManager {
   private readonly engineDeps: EngineDeps;
   private readonly persistence: Persistence;
   private readonly codeFactory: () => string;
-  private readonly onRequeue: ((playerIds: string[], roomCode: string) => void) | undefined;
+  private readonly onRequeue: RoomManagerOptions['onRequeue'];
   private sweeper: ReturnType<typeof setInterval> | null = null;
 
   constructor(options: RoomManagerOptions) {
@@ -495,7 +499,8 @@ export class RoomManager {
         if (this.onRequeue && effect.playerIds.length > 0) {
           const ids = effect.playerIds;
           const code = effect.roomCode;
-          queueMicrotask(() => this.onRequeue?.(ids, code));
+          const { mode, category, difficulty } = room.state;
+          queueMicrotask(() => this.onRequeue?.(ids, code, { mode, category, difficulty }));
         }
         break;
       case 'LOG':
