@@ -844,4 +844,42 @@ Un bouton disabled garde un contraste lisible et un `aria-disabled`.
 12. Aucun `style=` inline.
 13. Aucune police, aucun script et aucune feuille de style chargés depuis un CDN ; les images éditoriales respectent l'allowlist.
 14. Aucune occurrence du nom de la marque encyclopédique historique.
-15. Les erreurs sont en anglais clair, sans code interne seul.
+15. Les erreurs sont en langage clair dans la langue de l'interface, sans code interne seul.
+16. `<html lang dir>` suit la langue choisie ; le contenu d'une question porte son propre `lang` et `dir`.
+17. Aucun défilement horizontal en 360 px, dans les trois langues.
+
+## 20. Langues et RTL
+
+### 20.1 Langues et choix
+
+- Français (défaut), anglais, arabe ; décisions D-84 à D-95.
+- Priorité : `?lang=` > `localStorage` (`encycla.lang.v1`) > français. Le navigateur n'est pas consulté.
+- Le sélecteur (`LanguageSwitcher`) est dans l'en-tête ; chaque langue est écrite dans sa propre langue (« Français », « English », « العربية »).
+- Les chaînes sont dans `client/i18n/` : `fr.ts` est la référence (les clés en sont le type `MessageKey`), `en.ts` et `ar.ts` doivent avoir exactement les mêmes clés, les mêmes `{variables}` et les formes de pluriel CLDR de la langue (arabe : zéro, un, deux, quelques, beaucoup, autre). Les tests l'imposent.
+- Pluriels via `Intl.PluralRules` ; interpolation `{nom}`.
+
+### 20.2 Droite à gauche
+
+- `<html dir="rtl" lang="ar">` ; le titre du document est traduit.
+- Tailwind en propriétés **logiques** : `ms-`, `me-`, `ps-`, `pe-`, `text-start`, `text-end`, `border-s`, `float-start`, `start-`/`end-`. Les classes physiques `ml-`, `pr-`, `text-left`… sont proscrites.
+- Éléments directionnels en miroir : anneau du timer (`[dir='rtl'] .timer-ring { transform: scaleX(-1) }`), ordre des colonnes des tableaux, rangées et marges de l'en-tête, du lobby et de l'overlay (propriétés logiques). L'interface n'utilise pas de flèches.
+- Restent en `dir="ltr"` : code de salon, lettres d'option A-D, nom « Encycla », chiffres du timer. Les pseudos des joueurs utilisent `<bdi>` / `dir="auto"` pour ne pas retourner la ponctuation.
+- Pas de lettrine en arabe, ni d'espacement de lettres ni de majuscules forcées (qui cassent la liaison des lettres) : `.label` repasse en `letter-spacing: 0; text-transform: none`.
+- Chiffres occidentaux (0-9) dans toutes les langues (D-87).
+
+### 20.3 Typographie arabe
+
+- Interface : **Noto Sans Arabic** (400, 500, 600, 700) ; titres et articles : **Noto Naskh Arabic** (400, 700). Auto-hébergées avec `@fontsource` (pas de CDN, CSP inchangée), `font-display: swap`.
+
+### 20.4 Langue du contenu
+
+- La question est dans la langue de la **room** ; l'interface reste dans la langue du joueur. Le bloc de question, la révélation et l'article portent `lang` et `dir` de la room, de sorte qu'une question arabe soit en RTL dans une interface française (et inversement).
+- Si l'article n'existe pas dans la langue de la room, la révélation et l'article sont affichés en français (`reveal.textLanguage = 'fr'`, `lang="fr" dir="ltr"`) avec la mention « Texte original : Français » ; rien n'est traduit automatiquement.
+- La fenêtre de création de partie propose « Langue des questions » (par défaut la langue de l'interface).
+- L'overlay TikTok et la console suivent `?lang=` comme le reste de l'application.
+
+### 20.5 Tests
+
+- Parité des dictionnaires, pluriels, ordre de priorité, `<html lang dir>` (Vitest).
+- axe-core dans les trois langues, sur l'accueil et la question, avec `lang` et `dir` du contenu (Vitest + Playwright).
+- Playwright : défaut français, persistance après rechargement, miroir RTL (position de l'en-tête), pas de défilement horizontal à 360 px, partie solo en arabe, contenu anglais dans une interface française.

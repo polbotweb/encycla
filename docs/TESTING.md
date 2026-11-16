@@ -512,6 +512,17 @@ La charge n'est pas un critère de release v1, mais un test de non-régression n
 - Une question retirée disparaît de la base.
 - Une question modifiée met à jour la base.
 
+### 12.1 Langues
+
+- Chaque question a une traduction `en` et `ar` : 4 options distinctes, la bonne réponse au même index que le français, `provenance` cohérente.
+- Un article `wikipedia` est un permalien de l'article de cette langue ; un article `fallback-fr` reprend le texte et la source français.
+- Un même libellé français est traduit de la même façon partout (< 1 % d'exceptions dues aux collisions).
+- Alt et crédit d'image traduits ; l'alt ne contient jamais la réponse (mot entier, Unicode).
+- Chaque question et chaque alt des seeds a une traduction anglaise et arabe.
+- Serveur : `localizeQuestion`, même permutation des options dans les trois langues, `textLanguage` de repli, `language` sur solo/rooms/queue, files de matchmaking par langue.
+- Client : parité des trois dictionnaires (clés, variables, formes de pluriel CLDR), pluriels fr/en/ar, ordre de priorité `?lang=` > `localStorage` > fr, `<html lang dir>`, axe dans les trois langues, `lang`/`dir` du contenu, article de repli.
+- E2E : défaut français, persistance, miroir RTL, 360 px sans défilement horizontal, partie solo en arabe.
+
 ## 13. Couverture
 
 Seuils bloquants dans `vitest.config.ts` :

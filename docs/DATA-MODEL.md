@@ -401,7 +401,8 @@ WHERE match_id IN (SELECT id FROM matches WHERE status = 'abandoned')
 - `id` : slug stable `lowercase-with-dashes`, unique, jamais réutilisé.
 - `category` : valeur exacte de l'enum `Category`.
 - `subject` : 1-80 caractères.
-- `questionText` : 1-300 caractères, anglais, une seule question.
+- `questionText` : 1-300 caractères, en français (langue de base), une seule question.
+- `translations` (optionnel mais présent pour toute la banque Wikipédia) : voir §6.2 bis.
 - `options` : exactement 4 chaînes non vides, distinctes après normalisation.
 - `correctIndex` : entier 0-3.
 - `explanation` : 1-500 caractères.
@@ -412,6 +413,22 @@ WHERE match_id IN (SELECT id FROM matches WHERE status = 'abandoned')
 - `image.credit`, `image.license`, `image.sourceUrl` : obligatoires si l'image est présente ; `image.author` (texte brut) et `source` (`url` permalien `oldid`, `revisionId`, `language`, `license`, `retrievedAt`) sont renseignés par le générateur Wikipédia et exigés par la validation (colonnes `image_author`, `source_*` ajoutées par la migration 002).
 - Aucun HTML, aucun script, aucun `data:` URI.
 - La bonne réponse ne doit pas être déductible de la formulation (pas d'indice « all of the above »).
+
+#### 6.2 bis Traductions (`translations`)
+
+La question française est la base : `id`, `category`, image, `correctIndex` et l'ordre des options sont communs aux trois langues. `translations.en` et `translations.ar` contiennent :
+
+| Champ | Contenu |
+| --- | --- |
+| `subject`, `questionText`, `options[4]`, `explanation` | mêmes éléments que la base, dans la langue (options dans le même ordre, la bonne au même index) |
+| `articleTitle`, `articleBody` | article de la langue, sinon article français |
+| `imageAlt`, `imageCredit` | texte alternatif et crédit de l'image dans la langue (la photo, l'auteur et la licence sont ceux de la base) |
+| `source` | permalien `oldid` de l'article d'où vient le texte (la révision française si l'article est en repli) |
+| `provenance.label` | origine du libellé de la réponse : `wikipedia` (titre de l'article de la langue, via le sitelink Wikidata), `wikidata` (libellé Wikidata) ou `fallback-fr` |
+| `provenance.options[4]` | idem pour chaque option, dans l'ordre |
+| `provenance.article` | `wikipedia` ou `fallback-fr` |
+
+Règles : rien n'est inventé ni traduit automatiquement ; chaque repli est marqué et compté (`pnpm run data:validate`, `data/sources/report.json › translations`). Le serveur applique `localizeQuestion(question, language)` au tirage ; un client ne reçoit que la langue de sa room.
 
 ### 6.3 Validation
 

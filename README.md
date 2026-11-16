@@ -6,7 +6,7 @@ Encycla est un quiz visuel multijoueur en temps réel : solo, rooms privées, ma
 
 - **Produit** : Encycla
 - **Jeu** : Encycla MindMaze
-- **Langue de l'UI** : anglais
+- **Langue de l'UI** : français par défaut, anglais et arabe (RTL) disponibles
 - **Langue de la documentation** : français
 - **Statut** : documentation d'architecture gelée, implémentation des phases 0 à 9 en place ; contenu SUBJECT, live test TikTok et release restants
 - **Gel de la documentation** : 2026-10-23
@@ -121,7 +121,7 @@ Les phases 0 à 9 sont implémentées et vérifiées automatiquement :
 - **TikTok** (`server/tiktok`) : parsing strict, connecteur avec backoff, faux adaptateur, route `POST /api/tiktok/rooms`, viewers (capacité 100, déduplication), overlay en lecture seule et console control. Le connecteur réel n'est pas livré par défaut : voir [docs/TIKTOK.md](docs/TIKTOK.md).
 - **Client** (`client/`) : React 19 + Zustand, toutes les vues de `docs/UI-UX.md` (accueil, lobby, file publique, countdown, question, révélation, article, fin de niveau, résultats, leaderboard, overlay, control), tokens sombres AA, annonces `aria-live`, raccourcis clavier, sons synthétisés en WebAudio (aucun fichier audio).
 - **Livraison** : `Dockerfile` multi-stage non-root avec healthcheck, `docker-compose.yml` durci, bundle serveur `dist/server/index.js`.
-- **Tests** : unitaires, intégration Socket.io de bout en bout (CONTEST complet, solo, file publique, vote small room, reconnexion, room TikTok à 100 viewers), sécurité HTTP, jsdom + axe pour les vues, Playwright (solo, deux joueurs, axe avec contraste), test de charge `pnpm run test:load`.
+- **Tests** : unitaires, intégration Socket.io de bout en bout (CONTEST complet, solo, file publique, vote small room, reconnexion, room TikTok à 100 viewers), sécurité HTTP, jsdom + axe pour les vues, Playwright (solo, deux joueurs, changement de langue, RTL arabe, axe avec contraste dans les trois langues), test de charge `pnpm run test:load` (les rooms alternent fr, en, ar).
 
 Ce qui reste, et qui ne peut pas être fait sans décision ou sans compte externe :
 
@@ -247,6 +247,7 @@ Procédure complète dans [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 - SUBJECT nécessite **100 questions par catégorie** (`MIN_QUESTIONS_PER_CATEGORY`, une partie en tire 20) ; les 18 catégories atteignent ce seuil.
 - Les options sont mélangées à chaque tirage.
 - Les articles sont du texte brut, sans HTML.
+- Chaque question existe en **français, anglais et arabe** (mêmes photos, mêmes options dans le même ordre) ; voir [Langues](#langues).
 
 ### Génération depuis Wikipédia et Wikimedia Commons
 
@@ -264,6 +265,15 @@ Les images sont servies en vignettes de 960 px (Commons n'accepte que des largeu
 - Aucune génération Gemini au runtime ; la génération est hors ligne, avec revue humaine.
 
 Voir [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
+
+## Langues
+
+- **Français par défaut**, anglais (`en`) et arabe (`ar`, mise en page de droite à gauche).
+- Choix : sélecteur dans l'en-tête, mémorisé dans `localStorage` (`encycla.lang.v1`) et dans l'URL (`?lang=ar`) ; le paramètre d'URL l'emporte. La langue du navigateur n'est pas utilisée.
+- Les questions sont affichées dans la **langue de la room** (« Langue des questions » à la création, par défaut la langue de l'interface). Le matchmaking public apparie les joueurs de la même langue. Chaque joueur garde son interface dans sa langue.
+- Traductions des questions : l'article Wikipédia de la langue (lien Wikidata), sinon le libellé Wikidata, sinon le français, **toujours signalé** (`translations.<langue>.provenance`). Rien n'est inventé ; `pnpm run data:validate` affiche le nombre de réponses par origine.
+- TikTok : les spectateurs répondent toujours par A, B, C ou D, quelle que soit la langue.
+- Décisions : [D-84 à D-95](docs/DECISIONS.md). Interface et RTL : [docs/UI-UX.md §20](docs/UI-UX.md).
 
 ## Non-objectifs v1
 

@@ -169,6 +169,8 @@ interface PublicRoomState {
   mode: GameMode;
   difficulty: Difficulty | null;
   category: string | null;
+  /** Langue des questions de la room : 'fr' | 'en' | 'ar'. */
+  language: Language;
   isPublic: boolean;
   isTikTok: boolean;
   isSolo: boolean;
@@ -206,6 +208,8 @@ Règles :
 - `phaseEndsAt` est nul pour les phases non minutées.
 - `remainingMs` est non nul en `PAUSED`.
 - `level` est 1-based ; `questionIndex` est 0-based et représente l'index dans le level courant. L'UI affiche `questionIndex + 1`.
+- `reveal.textLanguage` est la langue réelle de `explanation`, `articleTitle` et `articleBody` : la langue de la room, ou `fr` quand l'article n'existe pas dans cette langue (repli, voir DATA-MODEL §6.2 bis). Le client affiche alors ce texte en français, de gauche à droite, avec un avis.
+- `language` est la langue de la room (D-88) : `question`, `reveal` et leurs images (alt, crédit) sont servis dans cette langue ; l'ordre des options et `correctIndex` sont identiques dans les trois langues.
 - `difficulty` est `null` pour CLASSIC et CONTEST ; il porte la difficulté choisie en SUBJECT. CONTEST applique `Adventurer` comme preset fixe.
 - `hostId` est l'ID du joueur host en web, `null` pour une room TikTok (host spectateur).
 - `settings.maxPlayers` vaut 1 en solo, 2-8 en web, et 100 pour une room TikTok (capacité viewers, éliminés inclus).
@@ -278,12 +282,14 @@ Auth joueur. Crée une room privée.
   "mode": "CLASSIC",
   "category": null,
   "difficulty": null,
+  "language": "fr",
   "maxPlayers": 4
 }
 ```
 
 Contraintes :
 
+- `language` optionnel (`fr`, `en`, `ar`), défaut `fr`. Idem pour `POST /api/solo` et `POST /api/queue` ; une autre valeur donne `VALIDATION_ERROR`.
 - `maxPlayers` optionnel, 2-8, défaut 8 pour `CLASSIC`/`SUBJECT` ; forcé à 2 pour `CONTEST`.
 - `CLASSIC` : `category = null`, `difficulty = null`.
 - `SUBJECT` : `category` requis, `difficulty` requis.
@@ -338,9 +344,12 @@ Auth joueur. Rejoint la file publique.
 {
   "mode": "CLASSIC",
   "category": null,
-  "difficulty": null
+  "difficulty": null,
+  "language": "fr"
 }
 ```
+
+`language` (optionnel, défaut `fr`) fait partie de la clé de file : seuls des joueurs de la même langue sont appariés (D-89).
 
 Réponse `202` :
 

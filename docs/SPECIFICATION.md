@@ -674,10 +674,11 @@ Règles :
 - Produit : **Encycla**.
 - Jeu : **Encycla MindMaze**.
 - Le nom de la marque encyclopédique historique est interdit partout.
-- UI et contenu : anglais en v1.
+- UI et contenu : **français par défaut**, avec l'anglais et l'arabe (RTL) disponibles (D-84 à D-95).
 - Documentation : français.
-- Les chaînes UI sont centralisées dans `client/i18n/en.ts`.
-- Les catégories et questions restent en anglais.
+- Les chaînes UI sont centralisées dans `client/i18n/` : `fr.ts` (référence typée), `en.ts`, `ar.ts`.
+- Les catégories, les modes, les erreurs et tous les textes d'interface existent dans les trois langues.
+- Les questions sont servies dans la langue de la room, à partir de `translations` dans `data/questions.json`.
 
 ## 19. Non-objectifs v1
 
