@@ -59,6 +59,7 @@ interface QuestionRow {
   source_language: string | null;
   source_license: string | null;
   source_retrieved_at: string | null;
+  translations_json: string | null;
 }
 
 function mapPlayer(row: PlayerRow): PlayerRecord {
@@ -151,6 +152,10 @@ function mapQuestion(row: QuestionRow): QuestionRecord {
       license: row.source_license ?? 'CC BY-SA 4.0',
       retrievedAt: row.source_retrieved_at,
     };
+  }
+
+  if (row.translations_json !== null) {
+    question.translations = JSON.parse(row.translations_json) as QuestionRecord['translations'];
   }
 
   return question;

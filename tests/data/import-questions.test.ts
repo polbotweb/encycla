@@ -26,6 +26,7 @@ const QUESTION_TABLE_SQL = `
     source_language  TEXT,
     source_license   TEXT,
     source_retrieved_at TEXT,
+    translations_json TEXT,
     content_hash     TEXT NOT NULL UNIQUE,
     imported_at      INTEGER NOT NULL,
     updated_at       INTEGER NOT NULL
@@ -127,6 +128,48 @@ describe('syncQuestions provenance', () => {
       source_language: 'fr',
       source_license: 'CC BY-SA 4.0',
     });
+    db.close();
+  });
+});
+
+describe('syncQuestions translations', () => {
+  it('stores the translations as JSON, and NULL when there are none', () => {
+    const db = new Database(':memory:');
+    db.exec(QUESTION_TABLE_SQL);
+    const translated: QuestionRecord = {
+      ...question('fauna-lion-01', 'Lion'),
+      translations: {
+        en: {
+          subject: 'Lion',
+          questionText: 'Which animal is Lion?',
+          options: ['Lion', 'Other', 'Third', 'Fourth'],
+          explanation: 'Lion is the answer.',
+          articleTitle: 'Lion',
+          articleBody: 'Lion is a valid test subject with enough characters for the schema.',
+          imageAlt: 'Animal to identify',
+          imageCredit: 'Example Author, via Wikimedia Commons',
+          source: {
+            url: 'https://en.wikipedia.org/w/index.php?title=Lion&oldid=2',
+            revisionId: 2,
+            language: 'en',
+            license: 'CC BY-SA 4.0',
+            retrievedAt: '2026-11-16T09:00:00.000Z',
+          },
+          provenance: {
+            label: 'wikipedia',
+            options: ['wikipedia', 'wikidata', 'wikidata', 'fallback-fr'],
+            article: 'wikipedia',
+          },
+        },
+      },
+    };
+    syncQuestions(db, [translated, question('fauna-cat-01', 'Cat')], 1_000);
+
+    const rows = db
+      .prepare('SELECT id, translations_json FROM questions ORDER BY id')
+      .all() as Array<{ id: string; translations_json: string | null }>;
+    expect(rows[0]).toEqual({ id: 'fauna-cat-01', translations_json: null });
+    expect(JSON.parse(rows[1]?.translations_json ?? 'null')).toEqual(translated.translations);
     db.close();
   });
 });

@@ -51,6 +51,7 @@ export function syncQuestions(
       source_language,
       source_license,
       source_retrieved_at,
+      translations_json,
       content_hash,
       imported_at,
       updated_at
@@ -75,6 +76,7 @@ export function syncQuestions(
       @sourceLanguage,
       @sourceLicense,
       @sourceRetrievedAt,
+      @translationsJson,
       @contentHash,
       @importedAt,
       @updatedAt
@@ -99,6 +101,7 @@ export function syncQuestions(
       source_language = excluded.source_language,
       source_license = excluded.source_license,
       source_retrieved_at = excluded.source_retrieved_at,
+      translations_json = excluded.translations_json,
       content_hash = excluded.content_hash,
       updated_at = excluded.updated_at
   `);
@@ -133,6 +136,7 @@ export function syncQuestions(
         sourceLanguage: question.source?.language ?? null,
         sourceLicense: question.source?.license ?? null,
         sourceRetrievedAt: question.source?.retrievedAt ?? null,
+        translationsJson: question.translations ? JSON.stringify(question.translations) : null,
         contentHash: computeContentHash(question),
         importedAt: now,
         updatedAt: now,

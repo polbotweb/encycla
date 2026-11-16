@@ -34,8 +34,11 @@ export function labelFromTitle(title: string, kind: 'title' | 'flag' = 'title'):
   return label;
 }
 
+export type TextLanguage = 'fr' | 'en' | 'ar';
+
 /** Cleans an extract: drops headings, footnote markers, collapses whitespace, keeps paragraphs. */
-export function cleanExtract(extract: string): string {
+export function cleanExtract(extract: string, language: TextLanguage = 'fr'): string {
+  const lowercaseStart = language === 'ar' ? /^[\u0600-\u06FF]/ : /^[a-zà-ÿ]/;
   const lines = extract
     .replace(/\r/g, '')
     .split('\n')
@@ -47,7 +50,7 @@ export function cleanExtract(extract: string): string {
   const paragraphs: string[] = [];
   for (const line of lines) {
     const previous = paragraphs[paragraphs.length - 1];
-    if (previous !== undefined && !/[.!?…:;»)"”]$/.test(previous) && /^[a-zà-ÿ]/.test(line)) {
+    if (previous !== undefined && !/[.!?؟…:;؛»)"”]$/.test(previous) && lowercaseStart.test(line)) {
       paragraphs[paragraphs.length - 1] = `${previous} ${line}`;
     } else {
       paragraphs.push(line);
@@ -66,14 +69,25 @@ export function cleanExtract(extract: string): string {
 
 const ABBREVIATIONS =
   /(?:\b(?:[A-ZÀ-Ý]|St|Ste|av|apr|env|vol|fig|n°|M|Mme|Mlle|Dr|Pr|Mgr|J\.-C|J|c|p|éd|r|dir)\.)$/;
+const ABBREVIATIONS_EN =
+  /(?:\b(?:[A-Z]|St|Mr|Mrs|Ms|Dr|Prof|Mt|Jr|Sr|vs|c|ca|approx|Inc|Ltd|Co|e\.g|i\.e|No|ft|Fig|fig)\.)$/;
 
-/** Splits on sentence ends followed by a capital; keeps abbreviations ("J.-C.", "M.") together. */
-export function splitSentences(text: string): string[] {
-  const pieces = text.split(/(?<=[.!?…])\s+(?=[A-ZÀ-ÝŒ«"„(\d])/u);
+/**
+ * Splits on sentence ends followed by a capital (Arabic has no capitals: any sentence end);
+ * keeps abbreviations ("J.-C.", "M.", "Dr.") together.
+ */
+export function splitSentences(text: string, language: TextLanguage = 'fr'): string[] {
+  const pieces =
+    language === 'ar'
+      ? text.split(/(?<=[.!?؟…])\s+/u)
+      : text.split(/(?<=[.!?…])\s+(?=[A-ZÀ-ÝŒ«"„(\d])/u);
   const out: string[] = [];
   for (const piece of pieces) {
     const previous = out[out.length - 1];
-    if (previous !== undefined && ABBREVIATIONS.test(previous)) {
+    if (
+      previous !== undefined &&
+      (language === 'en' ? ABBREVIATIONS_EN : ABBREVIATIONS).test(previous)
+    ) {
       out[out.length - 1] = `${previous} ${piece}`;
     } else {
       out.push(piece);
@@ -83,13 +97,17 @@ export function splitSentences(text: string): string[] {
 }
 
 /** The longest run of whole sentences (paragraph-aware) that fits within `limit` characters. */
-export function buildArticleBody(extract: string, limit: number): string {
-  const paragraphs = cleanExtract(extract).split('\n\n');
+export function buildArticleBody(
+  extract: string,
+  limit: number,
+  language: TextLanguage = 'fr',
+): string {
+  const paragraphs = cleanExtract(extract, language).split('\n\n');
   const chosen: string[] = [];
   let length = 0;
 
   for (const paragraph of paragraphs) {
-    const sentences = splitSentences(paragraph);
+    const sentences = splitSentences(paragraph, language);
     const kept: string[] = [];
     for (const sentence of sentences) {
       const extra = sentence.length + (kept.length > 0 || chosen.length > 0 ? 2 : 0);
@@ -115,9 +133,14 @@ export function buildArticleBody(extract: string, limit: number): string {
  * A complete first sentence is returned as is. A sentence that is too long, or that ends on a
  * colon / without punctuation, is cut (verbatim) at its last clause boundary and ends with "…".
  */
-export function firstSentence(extract: string, limit: number): string {
-  const first = splitSentences(cleanExtract(extract).split('\n\n')[0] ?? '')[0] ?? '';
-  const complete = /[.!?…»)]$/.test(first);
+export function firstSentence(
+  extract: string,
+  limit: number,
+  language: TextLanguage = 'fr',
+): string {
+  const first =
+    splitSentences(cleanExtract(extract, language).split('\n\n')[0] ?? '', language)[0] ?? '';
+  const complete = /[.!?؟…»)]$/.test(first);
   if (first.length <= limit && complete) {
     return first;
   }
@@ -128,6 +151,7 @@ export function firstSentence(extract: string, limit: number): string {
     window.lastIndexOf(', '),
     window.lastIndexOf(' ; '),
     window.lastIndexOf(' — '),
+    window.lastIndexOf('، '),
   );
   const cut = clause > 60 ? clause : window.lastIndexOf(' ');
   if (cut < 40) {

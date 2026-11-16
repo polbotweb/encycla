@@ -1,5 +1,6 @@
 {
   "language": "fr",
+  "languages": ["fr", "en", "ar"],
   "seedTitles": 3832,
   "questions": 2496,
   "perCategory": {
@@ -21,6 +22,3597 @@
     "Music": { "seedTitles": 185, "questions": 149, "dropped": 36 },
     "Sports": { "seedTitles": 209, "questions": 150, "dropped": 32 },
     "Science": { "seedTitles": 229, "questions": 150, "dropped": 43 }
+  },
+  "translations": {
+    "en": {
+      "answerLabels": { "wikipedia": 2444, "wikidata": 44, "fallback-fr": 8 },
+      "optionLabels": { "wikipedia": 9860, "wikidata": 113, "fallback-fr": 11 },
+      "articles": { "wikipedia": 2444, "fallback-fr": 52 },
+      "perCategory": {
+        "Fauna": {
+          "questions": 150,
+          "labels": { "wikipedia": 148, "wikidata": 1, "fallback-fr": 1 },
+          "options": { "wikipedia": 598, "wikidata": 1, "fallback-fr": 1 },
+          "articles": { "wikipedia": 148, "fallback-fr": 2 }
+        },
+        "Flora": {
+          "questions": 144,
+          "labels": { "wikipedia": 133, "wikidata": 8, "fallback-fr": 3 },
+          "options": { "wikipedia": 556, "wikidata": 17, "fallback-fr": 3 },
+          "articles": { "wikipedia": 133, "fallback-fr": 11 }
+        },
+        "Flags": {
+          "questions": 150,
+          "labels": { "wikipedia": 150, "wikidata": 0, "fallback-fr": 0 },
+          "options": { "wikipedia": 600, "wikidata": 0, "fallback-fr": 0 },
+          "articles": { "wikipedia": 150, "fallback-fr": 0 }
+        },
+        "Birds": {
+          "questions": 128,
+          "labels": { "wikipedia": 127, "wikidata": 1, "fallback-fr": 0 },
+          "options": { "wikipedia": 505, "wikidata": 7, "fallback-fr": 0 },
+          "articles": { "wikipedia": 127, "fallback-fr": 1 }
+        },
+        "Trees": {
+          "questions": 109,
+          "labels": { "wikipedia": 105, "wikidata": 4, "fallback-fr": 0 },
+          "options": { "wikipedia": 428, "wikidata": 8, "fallback-fr": 0 },
+          "articles": { "wikipedia": 105, "fallback-fr": 4 }
+        },
+        "Insects": {
+          "questions": 150,
+          "labels": { "wikipedia": 143, "wikidata": 6, "fallback-fr": 1 },
+          "options": { "wikipedia": 573, "wikidata": 26, "fallback-fr": 1 },
+          "articles": { "wikipedia": 143, "fallback-fr": 7 }
+        },
+        "Mushrooms": {
+          "questions": 103,
+          "labels": { "wikipedia": 99, "wikidata": 3, "fallback-fr": 1 },
+          "options": { "wikipedia": 408, "wikidata": 3, "fallback-fr": 1 },
+          "articles": { "wikipedia": 98, "fallback-fr": 5 }
+        },
+        "Architecture": {
+          "questions": 150,
+          "labels": { "wikipedia": 149, "wikidata": 1, "fallback-fr": 0 },
+          "options": { "wikipedia": 599, "wikidata": 1, "fallback-fr": 0 },
+          "articles": { "wikipedia": 149, "fallback-fr": 1 }
+        },
+        "Inventions": {
+          "questions": 118,
+          "labels": { "wikipedia": 116, "wikidata": 1, "fallback-fr": 1 },
+          "options": { "wikipedia": 467, "wikidata": 1, "fallback-fr": 4 },
+          "articles": { "wikipedia": 117, "fallback-fr": 1 }
+        },
+        "Arts & Literature": {
+          "questions": 150,
+          "labels": { "wikipedia": 148, "wikidata": 1, "fallback-fr": 1 },
+          "options": { "wikipedia": 598, "wikidata": 1, "fallback-fr": 1 },
+          "articles": { "wikipedia": 148, "fallback-fr": 2 }
+        },
+        "Geography": {
+          "questions": 150,
+          "labels": { "wikipedia": 149, "wikidata": 1, "fallback-fr": 0 },
+          "options": { "wikipedia": 599, "wikidata": 1, "fallback-fr": 0 },
+          "articles": { "wikipedia": 149, "fallback-fr": 1 }
+        },
+        "Space & Astronomy": {
+          "questions": 108,
+          "labels": { "wikipedia": 108, "wikidata": 0, "fallback-fr": 0 },
+          "options": { "wikipedia": 432, "wikidata": 0, "fallback-fr": 0 },
+          "articles": { "wikipedia": 108, "fallback-fr": 0 }
+        },
+        "History": {
+          "questions": 137,
+          "labels": { "wikipedia": 137, "wikidata": 0, "fallback-fr": 0 },
+          "options": { "wikipedia": 548, "wikidata": 0, "fallback-fr": 0 },
+          "articles": { "wikipedia": 137, "fallback-fr": 0 }
+        },
+        "Mythology": {
+          "questions": 150,
+          "labels": { "wikipedia": 150, "wikidata": 0, "fallback-fr": 0 },
+          "options": { "wikipedia": 600, "wikidata": 0, "fallback-fr": 0 },
+          "articles": { "wikipedia": 150, "fallback-fr": 0 }
+        },
+        "Gastronomy": {
+          "questions": 150,
+          "labels": { "wikipedia": 139, "wikidata": 11, "fallback-fr": 0 },
+          "options": { "wikipedia": 565, "wikidata": 35, "fallback-fr": 0 },
+          "articles": { "wikipedia": 139, "fallback-fr": 11 }
+        },
+        "Music": {
+          "questions": 149,
+          "labels": { "wikipedia": 146, "wikidata": 3, "fallback-fr": 0 },
+          "options": { "wikipedia": 593, "wikidata": 3, "fallback-fr": 0 },
+          "articles": { "wikipedia": 146, "fallback-fr": 3 }
+        },
+        "Sports": {
+          "questions": 150,
+          "labels": { "wikipedia": 149, "wikidata": 1, "fallback-fr": 0 },
+          "options": { "wikipedia": 596, "wikidata": 4, "fallback-fr": 0 },
+          "articles": { "wikipedia": 149, "fallback-fr": 1 }
+        },
+        "Science": {
+          "questions": 150,
+          "labels": { "wikipedia": 148, "wikidata": 2, "fallback-fr": 0 },
+          "options": { "wikipedia": 595, "wikidata": 5, "fallback-fr": 0 },
+          "articles": { "wikipedia": 148, "fallback-fr": 2 }
+        }
+      },
+      "questionsWithAnyFallback": 54,
+      "fallbacks": [
+        {
+          "id": "fauna-loutre-de-mer",
+          "subject": "Loutre de mer",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-hermine",
+          "subject": "Hermine",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-pissenlit",
+          "subject": "Pissenlit",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-jonquille",
+          "subject": "Jonquille",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-hellebore",
+          "subject": "Hellébore",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-bambou",
+          "subject": "Bambou",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-aconit-napel",
+          "subject": "Aconit napel",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-petunia",
+          "subject": "Pétunia",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-ble-tendre",
+          "subject": "Blé tendre",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-verveine",
+          "subject": "Verveine",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-illet",
+          "subject": "Œillet",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-valeriane",
+          "subject": "Valériane",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-bruyere",
+          "subject": "Bruyère",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-paradisier",
+          "subject": "Paradisier",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-olivier",
+          "subject": "Olivier",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-flamboyant",
+          "subject": "Flamboyant",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-teck",
+          "subject": "Teck",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-cerisier",
+          "subject": "Cerisier",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-citron",
+          "subject": "Citron",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-charancon",
+          "subject": "Charançon",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-pou",
+          "subject": "Pou",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-zygene",
+          "subject": "Zygène",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-ephippigere",
+          "subject": "Éphippigère",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-mouche-verte",
+          "subject": "Mouche verte",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-tenthrede",
+          "subject": "Tenthrède",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-hygrophore",
+          "subject": "Hygrophore",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-cepe",
+          "subject": "Cèpe",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-orange",
+          "subject": "Bolet orangé",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-ramaire",
+          "subject": "Ramaire",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-lyophyllum",
+          "subject": "Lyophyllum",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-palais-ideal-du-facteur-cheval",
+          "subject": "Palais idéal du facteur Cheval",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "inventions-gramophone",
+          "subject": "Gramophone",
+          "label": "fallback-fr",
+          "article": "wikipedia",
+          "optionFallbacks": 2
+        },
+        {
+          "id": "inventions-boulier",
+          "subject": "Boulier",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "inventions-minitel",
+          "subject": "Minitel",
+          "label": "wikipedia",
+          "article": "wikipedia",
+          "optionFallbacks": 2
+        },
+        {
+          "id": "arts-literature-composition-viii",
+          "subject": "Composition VIII",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "arts-literature-le-moulin-rouge",
+          "subject": "Le Moulin Rouge",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-falaises-d-etretat",
+          "subject": "Falaises d'Étretat",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-camembert-de-normandie",
+          "subject": "Camembert de Normandie",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-fraise",
+          "subject": "Fraise",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-fondue-savoyarde",
+          "subject": "Fondue savoyarde",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-cheesecake",
+          "subject": "Cheesecake",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-pamplemousse",
+          "subject": "Pamplemousse",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-canard-laque",
+          "subject": "Canard laqué",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-papaye",
+          "subject": "Papaye",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-datte",
+          "subject": "Datte",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-groseille",
+          "subject": "Groseille",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-pate-en-croute",
+          "subject": "Pâté en croûte",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-magret-de-canard",
+          "subject": "Magret de canard",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-guitare-hawaienne",
+          "subject": "Guitare hawaïenne",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-piano-droit",
+          "subject": "Piano droit",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-piano-a-queue",
+          "subject": "Piano à queue",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "sports-boxe-anglaise",
+          "subject": "Boxe anglaise",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "science-soufre-natif",
+          "subject": "Soufre natif",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "science-schiste",
+          "subject": "Schiste",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        }
+      ]
+    },
+    "ar": {
+      "answerLabels": { "wikipedia": 2222, "wikidata": 53, "fallback-fr": 221 },
+      "optionLabels": { "wikipedia": 9506, "wikidata": 257, "fallback-fr": 221 },
+      "articles": { "wikipedia": 2071, "fallback-fr": 425 },
+      "perCategory": {
+        "Fauna": {
+          "questions": 150,
+          "labels": { "wikipedia": 142, "wikidata": 0, "fallback-fr": 8 },
+          "options": { "wikipedia": 592, "wikidata": 0, "fallback-fr": 8 },
+          "articles": { "wikipedia": 129, "fallback-fr": 21 }
+        },
+        "Flora": {
+          "questions": 144,
+          "labels": { "wikipedia": 133, "wikidata": 6, "fallback-fr": 5 },
+          "options": { "wikipedia": 556, "wikidata": 15, "fallback-fr": 5 },
+          "articles": { "wikipedia": 121, "fallback-fr": 23 }
+        },
+        "Flags": {
+          "questions": 150,
+          "labels": { "wikipedia": 150, "wikidata": 0, "fallback-fr": 0 },
+          "options": { "wikipedia": 600, "wikidata": 0, "fallback-fr": 0 },
+          "articles": { "wikipedia": 141, "fallback-fr": 9 }
+        },
+        "Birds": {
+          "questions": 128,
+          "labels": { "wikipedia": 126, "wikidata": 1, "fallback-fr": 1 },
+          "options": { "wikipedia": 504, "wikidata": 7, "fallback-fr": 1 },
+          "articles": { "wikipedia": 97, "fallback-fr": 31 }
+        },
+        "Trees": {
+          "questions": 109,
+          "labels": { "wikipedia": 102, "wikidata": 2, "fallback-fr": 5 },
+          "options": { "wikipedia": 424, "wikidata": 7, "fallback-fr": 5 },
+          "articles": { "wikipedia": 83, "fallback-fr": 26 }
+        },
+        "Insects": {
+          "questions": 150,
+          "labels": { "wikipedia": 93, "wikidata": 16, "fallback-fr": 41 },
+          "options": { "wikipedia": 485, "wikidata": 74, "fallback-fr": 41 },
+          "articles": { "wikipedia": 78, "fallback-fr": 72 }
+        },
+        "Mushrooms": {
+          "questions": 103,
+          "labels": { "wikipedia": 51, "wikidata": 5, "fallback-fr": 47 },
+          "options": { "wikipedia": 332, "wikidata": 33, "fallback-fr": 47 },
+          "articles": { "wikipedia": 26, "fallback-fr": 77 }
+        },
+        "Architecture": {
+          "questions": 150,
+          "labels": { "wikipedia": 132, "wikidata": 3, "fallback-fr": 15 },
+          "options": { "wikipedia": 571, "wikidata": 14, "fallback-fr": 15 },
+          "articles": { "wikipedia": 127, "fallback-fr": 23 }
+        },
+        "Inventions": {
+          "questions": 118,
+          "labels": { "wikipedia": 111, "wikidata": 4, "fallback-fr": 3 },
+          "options": { "wikipedia": 454, "wikidata": 15, "fallback-fr": 3 },
+          "articles": { "wikipedia": 110, "fallback-fr": 8 }
+        },
+        "Arts & Literature": {
+          "questions": 150,
+          "labels": { "wikipedia": 137, "wikidata": 1, "fallback-fr": 12 },
+          "options": { "wikipedia": 579, "wikidata": 9, "fallback-fr": 12 },
+          "articles": { "wikipedia": 132, "fallback-fr": 18 }
+        },
+        "Geography": {
+          "questions": 150,
+          "labels": { "wikipedia": 136, "wikidata": 1, "fallback-fr": 13 },
+          "options": { "wikipedia": 581, "wikidata": 6, "fallback-fr": 13 },
+          "articles": { "wikipedia": 133, "fallback-fr": 17 }
+        },
+        "Space & Astronomy": {
+          "questions": 108,
+          "labels": { "wikipedia": 108, "wikidata": 0, "fallback-fr": 0 },
+          "options": { "wikipedia": 432, "wikidata": 0, "fallback-fr": 0 },
+          "articles": { "wikipedia": 108, "fallback-fr": 0 }
+        },
+        "History": {
+          "questions": 137,
+          "labels": { "wikipedia": 134, "wikidata": 0, "fallback-fr": 3 },
+          "options": { "wikipedia": 545, "wikidata": 0, "fallback-fr": 3 },
+          "articles": { "wikipedia": 134, "fallback-fr": 3 }
+        },
+        "Mythology": {
+          "questions": 150,
+          "labels": { "wikipedia": 144, "wikidata": 0, "fallback-fr": 6 },
+          "options": { "wikipedia": 594, "wikidata": 0, "fallback-fr": 6 },
+          "articles": { "wikipedia": 138, "fallback-fr": 12 }
+        },
+        "Gastronomy": {
+          "questions": 150,
+          "labels": { "wikipedia": 103, "wikidata": 8, "fallback-fr": 39 },
+          "options": { "wikipedia": 519, "wikidata": 42, "fallback-fr": 39 },
+          "articles": { "wikipedia": 101, "fallback-fr": 49 }
+        },
+        "Music": {
+          "questions": 149,
+          "labels": { "wikipedia": 126, "wikidata": 4, "fallback-fr": 19 },
+          "options": { "wikipedia": 549, "wikidata": 28, "fallback-fr": 19 },
+          "articles": { "wikipedia": 121, "fallback-fr": 28 }
+        },
+        "Sports": {
+          "questions": 150,
+          "labels": { "wikipedia": 145, "wikidata": 2, "fallback-fr": 3 },
+          "options": { "wikipedia": 590, "wikidata": 7, "fallback-fr": 3 },
+          "articles": { "wikipedia": 143, "fallback-fr": 7 }
+        },
+        "Science": {
+          "questions": 150,
+          "labels": { "wikipedia": 149, "wikidata": 0, "fallback-fr": 1 },
+          "options": { "wikipedia": 599, "wikidata": 0, "fallback-fr": 1 },
+          "articles": { "wikipedia": 149, "fallback-fr": 1 }
+        }
+      },
+      "questionsWithAnyFallback": 425,
+      "fallbacks": [
+        {
+          "id": "fauna-grenouille-rousse",
+          "subject": "Grenouille rousse",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-wombat-commun",
+          "subject": "Wombat commun",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-requin-marteau-halicorne",
+          "subject": "Requin-marteau halicorne",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-castor-d-europe",
+          "subject": "Castor d'Europe",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-wallaby-de-bennett",
+          "subject": "Wallaby de Bennett",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-opossum-de-virginie",
+          "subject": "Opossum de Virginie",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-dauphin-commun",
+          "subject": "Dauphin commun",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-triton-crete",
+          "subject": "Triton crêté",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-marsouin-commun",
+          "subject": "Marsouin commun",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-orignal",
+          "subject": "Orignal",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-loutre-de-mer",
+          "subject": "Loutre de mer",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-maki-catta",
+          "subject": "Maki catta",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-hamster-d-europe",
+          "subject": "Hamster d'Europe",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-otarie-a-fourrure",
+          "subject": "Otarie à fourrure",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-gecko-tokay",
+          "subject": "Gecko tokay",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-sonneur-a-ventre-jaune",
+          "subject": "Sonneur à ventre jaune",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-hermine",
+          "subject": "Hermine",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "fauna-loir-gris",
+          "subject": "Loir gris",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-lion-de-mer-de-californie",
+          "subject": "Lion de mer de Californie",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-anguille-europeenne",
+          "subject": "Anguille européenne",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "fauna-hareng-atlantique",
+          "subject": "Hareng atlantique",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-marguerite-commune",
+          "subject": "Marguerite commune",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-pissenlit",
+          "subject": "Pissenlit",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-jonquille",
+          "subject": "Jonquille",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-ancolie",
+          "subject": "Ancolie",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-hellebore",
+          "subject": "Hellébore",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-bambou",
+          "subject": "Bambou",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-aconit-napel",
+          "subject": "Aconit napel",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-pelargonium",
+          "subject": "Pélargonium",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-petunia",
+          "subject": "Pétunia",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-ble-tendre",
+          "subject": "Blé tendre",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-cerfeuil",
+          "subject": "Cerfeuil",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-zinnia",
+          "subject": "Zinnia",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-verveine",
+          "subject": "Verveine",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-illet",
+          "subject": "Œillet",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "flora-ail-des-ours",
+          "subject": "Ail des ours",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-valeriane",
+          "subject": "Valériane",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-sphaigne",
+          "subject": "Sphaigne",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-cardere-sauvage",
+          "subject": "Cardère sauvage",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-begonia",
+          "subject": "Bégonia",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-bruyere",
+          "subject": "Bruyère",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-ajonc-d-europe",
+          "subject": "Ajonc d'Europe",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-nigelle-de-damas",
+          "subject": "Nigelle de Damas",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flora-rudbeckie",
+          "subject": "Rudbeckie",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-espagne",
+          "subject": "Espagne",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-belize",
+          "subject": "Belize",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-belgique",
+          "subject": "Belgique",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-suede",
+          "subject": "Suède",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-norvege",
+          "subject": "Norvège",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-perou",
+          "subject": "Pérou",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-guyana",
+          "subject": "Guyana",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-nouvelle-zelande",
+          "subject": "Nouvelle-Zélande",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "flags-fidji",
+          "subject": "Fidji",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-toucan-toco",
+          "subject": "Toucan toco",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-mesange-bleue",
+          "subject": "Mésange bleue",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-grue-cendree",
+          "subject": "Grue cendrée",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-colibri-a-gorge-rubis",
+          "subject": "Colibri à gorge rubis",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-mouette-rieuse",
+          "subject": "Mouette rieuse",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-goeland-argente",
+          "subject": "Goéland argenté",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-paradisier",
+          "subject": "Paradisier",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-calao-a-casque-rouge",
+          "subject": "Calao à casque rouge",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-caracara-huppe",
+          "subject": "Caracara huppé",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-manchot-royal",
+          "subject": "Manchot royal",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-pic-epeiche",
+          "subject": "Pic épeiche",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-manchot-de-humboldt",
+          "subject": "Manchot de Humboldt",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-pic-vert",
+          "subject": "Pic vert",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-troglodyte-mignon",
+          "subject": "Troglodyte mignon",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-foulque-macroule",
+          "subject": "Foulque macroule",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-poule-d-eau",
+          "subject": "Poule d'eau",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-grebe-huppe",
+          "subject": "Grèbe huppé",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-perdrix-rouge",
+          "subject": "Perdrix rouge",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-coq-bankiva",
+          "subject": "Coq bankiva",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-pintade-de-numidie",
+          "subject": "Pintade de Numidie",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-tetras-lyre",
+          "subject": "Tétras lyre",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-coucou-gris",
+          "subject": "Coucou gris",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-oie-des-neiges",
+          "subject": "Oie des neiges",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-gros-bec-casse-noyaux",
+          "subject": "Gros-bec casse-noyaux",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-avocette-elegante",
+          "subject": "Avocette élégante",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-bruant-jaune",
+          "subject": "Bruant jaune",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-loriot-d-europe",
+          "subject": "Loriot d'Europe",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-fregate-superbe",
+          "subject": "Frégate superbe",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-mesange-a-longue-queue",
+          "subject": "Mésange à longue queue",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-roitelet-huppe",
+          "subject": "Roitelet huppé",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "birds-tarier-patre",
+          "subject": "Tarier pâtre",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "trees-pin-sylvestre",
+          "subject": "Pin sylvestre",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-chene-sessile",
+          "subject": "Chêne sessile",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-catalpa-commun",
+          "subject": "Catalpa commun",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-hetre-commun",
+          "subject": "Hêtre commun",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-olivier",
+          "subject": "Olivier",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-erable-sycomore",
+          "subject": "Érable sycomore",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-sapin-de-nordmann",
+          "subject": "Sapin de Nordmann",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-pin-des-canaries",
+          "subject": "Pin des Canaries",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-erable-plane",
+          "subject": "Érable plane",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-meleze-d-europe",
+          "subject": "Mélèze d'Europe",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-erable-champetre",
+          "subject": "Érable champêtre",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-micocoulier-de-provence",
+          "subject": "Micocoulier de Provence",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-thuya-geant",
+          "subject": "Thuya géant",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-flamboyant",
+          "subject": "Flamboyant",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "trees-cypres-chauve",
+          "subject": "Cyprès chauve",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-tulipier-de-virginie",
+          "subject": "Tulipier de Virginie",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-saule-marsault",
+          "subject": "Saule marsault",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-araucaria-du-chili",
+          "subject": "Araucaria du Chili",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-erable-du-japon",
+          "subject": "Érable du Japon",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-teck",
+          "subject": "Teck",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "trees-alisier-blanc",
+          "subject": "Alisier blanc",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "trees-cerisier",
+          "subject": "Cerisier",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "trees-dragonnier",
+          "subject": "Dragonnier",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "trees-pommier",
+          "subject": "Pommier",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-tremble",
+          "subject": "Tremble",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "trees-fevier-d-amerique",
+          "subject": "Févier d'Amérique",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-zygene-de-la-filipendule",
+          "subject": "Zygène de la filipendule",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-agrion-elegant",
+          "subject": "Agrion élégant",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-citron",
+          "subject": "Citron",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-carabe-dore",
+          "subject": "Carabe doré",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-citron-papillon",
+          "subject": "Citron (papillon)",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-pieride-du-navet",
+          "subject": "Piéride du navet",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-cuivre-commun",
+          "subject": "Cuivré commun",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-azure-commun",
+          "subject": "Azuré commun",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-capricorne-du-chene",
+          "subject": "Capricorne du chêne",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-fourmi-coupe-feuille",
+          "subject": "Fourmi coupe-feuille",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-sphinx-du-tilleul",
+          "subject": "Sphinx du tilleul",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-melitee-du-plantain",
+          "subject": "Mélitée du plantain",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-morpho-bleu",
+          "subject": "Morpho bleu",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-tabac-d-espagne",
+          "subject": "Tabac d'Espagne",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-syrphe-ceinture",
+          "subject": "Syrphe ceinturé",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-grand-mars-changeant",
+          "subject": "Grand Mars changeant",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-sphinx-tete-de-mort",
+          "subject": "Sphinx tête de mort",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-lampyre",
+          "subject": "Lampyre",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-grillon-champetre",
+          "subject": "Grillon champêtre",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-tipule",
+          "subject": "Tipule",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-hesperie-de-la-mauve",
+          "subject": "Hespérie de la mauve",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-charancon",
+          "subject": "Charançon",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-sphinx-du-liseron",
+          "subject": "Sphinx du liseron",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-libellule-deprimee",
+          "subject": "Libellule déprimée",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-sphinx-de-l-euphorbe",
+          "subject": "Sphinx de l'euphorbe",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-aeschne-bleue",
+          "subject": "Aeschne bleue",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-sphinx-de-la-vigne",
+          "subject": "Sphinx de la vigne",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-cigale-grise",
+          "subject": "Cigale grise",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-moro-sphinx",
+          "subject": "Moro-sphinx",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-gerris",
+          "subject": "Gerris",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-dytique-borde",
+          "subject": "Dytique bordé",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-ecaille-chinee",
+          "subject": "Écaille chinée",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-coccinelle-asiatique",
+          "subject": "Coccinelle asiatique",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-cicindele-champetre",
+          "subject": "Cicindèle champêtre",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-pou",
+          "subject": "Pou",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-hesperie-de-la-houque",
+          "subject": "Hespérie de la houque",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-zygene",
+          "subject": "Zygène",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-myrtil",
+          "subject": "Myrtil",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-gaze",
+          "subject": "Gazé",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-tircis",
+          "subject": "Tircis",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-citron-de-provence",
+          "subject": "Citron de Provence",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-criocere-du-lis",
+          "subject": "Criocère du lis",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-dermeste",
+          "subject": "Dermeste",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-robert-le-diable",
+          "subject": "Robert-le-diable",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-ephippigere",
+          "subject": "Éphippigère",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-sylvain-azure",
+          "subject": "Sylvain azuré",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-typographe",
+          "subject": "Typographe",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-dectique-verrucivore",
+          "subject": "Dectique verrucivore",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-ephippigere-des-vignes",
+          "subject": "Éphippigère des vignes",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-megachile",
+          "subject": "Mégachile",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-bourdon-des-champs",
+          "subject": "Bourdon des champs",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-osmie-rousse",
+          "subject": "Osmie rousse",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-caloptene-italien",
+          "subject": "Caloptène italien",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-andrene",
+          "subject": "Andrène",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-cicadelle-verte",
+          "subject": "Cicadelle verte",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-halicte",
+          "subject": "Halicte",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-polistes",
+          "subject": "Polistes",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-nepe-cendree",
+          "subject": "Nèpe cendrée",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-cynips",
+          "subject": "Cynips",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-mouche-verte",
+          "subject": "Mouche verte",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-tenthrede",
+          "subject": "Tenthrède",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-fourmi-pharaon",
+          "subject": "Fourmi pharaon",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-bourdon-des-pierres",
+          "subject": "Bourdon des pierres",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-anax-empereur",
+          "subject": "Anax empereur",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-cordulie-bronzee",
+          "subject": "Cordulie bronzée",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-calopteryx-eclatant",
+          "subject": "Caloptéryx éclatant",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "insects-leste-vert",
+          "subject": "Leste vert",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-agrion-jouvencelle",
+          "subject": "Agrion jouvencelle",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-libellule-a-quatre-taches",
+          "subject": "Libellule à quatre taches",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-sympetrum-rouge-sang",
+          "subject": "Sympétrum rouge sang",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-orthetrum-reticule",
+          "subject": "Orthétrum réticulé",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "insects-phrygane",
+          "subject": "Phrygane",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-cepe-de-bordeaux",
+          "subject": "Cèpe de Bordeaux",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-coprin-chevelu",
+          "subject": "Coprin chevelu",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-jaune",
+          "subject": "Bolet jaune",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-polypore-versicolore",
+          "subject": "Polypore versicolore",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-rude",
+          "subject": "Bolet rude",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-morille-commune",
+          "subject": "Morille commune",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-amanite-panthere",
+          "subject": "Amanite panthère",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-amadouvier",
+          "subject": "Amadouvier",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-agaric-des-jacheres",
+          "subject": "Agaric des jachères",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-trompette-de-la-mort",
+          "subject": "Trompette de la mort",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-polypore-du-bouleau",
+          "subject": "Polypore du bouleau",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-pied-de-mouton",
+          "subject": "Pied-de-mouton",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-cortinaire-remarquable",
+          "subject": "Cortinaire remarquable",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-geastre",
+          "subject": "Géastre",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-rose-des-pres",
+          "subject": "Rosé des prés",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-galere-marginee",
+          "subject": "Galère marginée",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-lycoperdon",
+          "subject": "Lycoperdon",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-pholiote-ecailleuse",
+          "subject": "Pholiote écailleuse",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-champignon-de-paris",
+          "subject": "Champignon de Paris",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-entolome-livide",
+          "subject": "Entolome livide",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-inocybe-de-patouillard",
+          "subject": "Inocybe de Patouillard",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-coprin-micace",
+          "subject": "Coprin micacé",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-bolet-de-satan",
+          "subject": "Bolet de Satan",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-xylaire-du-bois",
+          "subject": "Xylaire du bois",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-clitocybe-nebuleux",
+          "subject": "Clitocybe nébuleux",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-chanterelle-en-tube",
+          "subject": "Chanterelle en tube",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-amer",
+          "subject": "Bolet amer",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-sparassis-crepu",
+          "subject": "Sparassis crépu",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-agaric-jaunissant",
+          "subject": "Agaric jaunissant",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-a-pied-rouge",
+          "subject": "Bolet à pied rouge",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-fistuline-hepatique",
+          "subject": "Fistuline hépatique",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-truffe-noire-du-perigord",
+          "subject": "Truffe noire du Périgord",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-hypholome-en-touffes",
+          "subject": "Hypholome en touffes",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-chanterelle-jaune",
+          "subject": "Chanterelle jaune",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-hygrophore",
+          "subject": "Hygrophore",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-russule-charbonniere",
+          "subject": "Russule charbonnière",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-psilocybe",
+          "subject": "Psilocybe",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-ganoderme-luisant",
+          "subject": "Ganoderme luisant",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-russule-emetique",
+          "subject": "Russule émétique",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-polypore-soufre",
+          "subject": "Polypore soufré",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-coprin-noir-d-encre",
+          "subject": "Coprin noir d'encre",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-lactaire",
+          "subject": "Lactaire",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-bai",
+          "subject": "Bolet bai",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-russule",
+          "subject": "Russule",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-armillaire-couleur-de-miel",
+          "subject": "Armillaire couleur de miel",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-amanite-citrine",
+          "subject": "Amanite citrine",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-bolet",
+          "subject": "Bolet",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-vesse-de-loup-perlee",
+          "subject": "Vesse-de-loup perlée",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-scleroderme-commun",
+          "subject": "Scléroderme commun",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-cepe",
+          "subject": "Cèpe",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-coprin",
+          "subject": "Coprin",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-marasme-des-oreades",
+          "subject": "Marasme des oréades",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-pholiote-changeante",
+          "subject": "Pholiote changeante",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-calocere-visqueuse",
+          "subject": "Calocère visqueuse",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-tricholome-de-la-saint-georges",
+          "subject": "Tricholome de la Saint-Georges",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-pezize-veinee",
+          "subject": "Pézize veinée",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-laccaire-amethyste",
+          "subject": "Laccaire améthyste",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-pezize-ecarlate",
+          "subject": "Pézize écarlate",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-bolet-orange",
+          "subject": "Bolet orangé",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-coprin-pie",
+          "subject": "Coprin pie",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-cepe-d-ete",
+          "subject": "Cèpe d'été",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-amanite-rougissante",
+          "subject": "Amanite rougissante",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-agaric-des-bois",
+          "subject": "Agaric des bois",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-granule",
+          "subject": "Bolet granulé",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-des-bouviers",
+          "subject": "Bolet des bouviers",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-bolet-elegant",
+          "subject": "Bolet élégant",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-bolet-a-chair-jaune",
+          "subject": "Bolet à chair jaune",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-typhula",
+          "subject": "Typhula",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-ramaire",
+          "subject": "Ramaire",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-fomitopsis",
+          "subject": "Fomitopsis",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-grifola-frondosa",
+          "subject": "Grifola frondosa",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-lentin-tigre",
+          "subject": "Lentin tigré",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-pluteus-cervinus",
+          "subject": "Pluteus cervinus",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-volvaire",
+          "subject": "Volvaire",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-pholiote-du-peuplier",
+          "subject": "Pholiote du peuplier",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mushrooms-mycene",
+          "subject": "Mycène",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mushrooms-tricholome-equestre",
+          "subject": "Tricholome équestre",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-palais-des-doges",
+          "subject": "Palais des Doges",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-wat-arun",
+          "subject": "Wat Arun",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-pont-saint-benezet",
+          "subject": "Pont Saint-Bénézet",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-cathedrale-de-brasilia",
+          "subject": "Cathédrale de Brasilia",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-theatre-amazonas",
+          "subject": "Théâtre Amazonas",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-arenes-de-nimes",
+          "subject": "Arènes de Nîmes",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-cite-de-carcassonne",
+          "subject": "Cité de Carcassonne",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-chateau-d-azay-le-rideau",
+          "subject": "Château d'Azay-le-Rideau",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-senso-ji",
+          "subject": "Sensō-ji",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-torre-latinoamericana",
+          "subject": "Torre Latinoamericana",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-abbaye-de-fontenay",
+          "subject": "Abbaye de Fontenay",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-chateau-de-vaux-le-vicomte",
+          "subject": "Château de Vaux-le-Vicomte",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-chateau-de-pierrefonds",
+          "subject": "Château de Pierrefonds",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-hotel-de-ville-de-toronto",
+          "subject": "Hôtel de ville de Toronto",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-basilique-notre-dame-de-fourviere",
+          "subject": "Basilique Notre-Dame de Fourvière",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-palais-ideal-du-facteur-cheval",
+          "subject": "Palais idéal du facteur Cheval",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-chateau-de-chaumont-sur-loire",
+          "subject": "Château de Chaumont-sur-Loire",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-chateau-de-chantilly",
+          "subject": "Château de Chantilly",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-abbaye-de-cluny",
+          "subject": "Abbaye de Cluny",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "architecture-basilique-saint-sernin-de-toulouse",
+          "subject": "Basilique Saint-Sernin de Toulouse",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-cathedrale-sainte-cecile-d-albi",
+          "subject": "Cathédrale Sainte-Cécile d'Albi",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-chateau-de-foix",
+          "subject": "Château de Foix",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "architecture-chateau-de-peyrepertuse",
+          "subject": "Château de Peyrepertuse",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "inventions-gramophone",
+          "subject": "Gramophone",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "inventions-parachute",
+          "subject": "Parachute",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "inventions-deltaplane",
+          "subject": "Deltaplane",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "inventions-telegraphe",
+          "subject": "Télégraphe",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "inventions-telegraphe-optique",
+          "subject": "Télégraphe optique",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "inventions-boulier",
+          "subject": "Boulier",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "inventions-tourne-disque",
+          "subject": "Tourne-disque",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "inventions-train-a-grande-vitesse",
+          "subject": "Train à grande vitesse",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "arts-literature-victoire-de-samothrace",
+          "subject": "Victoire de Samothrace",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "arts-literature-le-baiser",
+          "subject": "Le Baiser",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "arts-literature-les-bourgeois-de-calais",
+          "subject": "Les Bourgeois de Calais",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "arts-literature-statue-equestre-de-marc-aurele",
+          "subject": "Statue équestre de Marc Aurèle",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-l-eternel-printemps",
+          "subject": "L'Éternel Printemps",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-le-cyclope",
+          "subject": "Le Cyclope",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-les-trois-ombres",
+          "subject": "Les Trois Ombres",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-les-glaneuses",
+          "subject": "Les Glaneuses",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-l-angelus",
+          "subject": "L'Angélus",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-le-cavalier-polonais",
+          "subject": "Le Cavalier polonais",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-le-dejeuner-des-canotiers",
+          "subject": "Le Déjeuner des canotiers",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "arts-literature-composition-viii",
+          "subject": "Composition VIII",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-autoportrait-au-chapeau-de-paille",
+          "subject": "Autoportrait au chapeau de paille",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "arts-literature-le-joueur-de-fifre",
+          "subject": "Le Joueur de fifre",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-portrait-de-madame-recamier",
+          "subject": "Portrait de Madame Récamier",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-le-tricheur-a-l-as-de-carreau",
+          "subject": "Le Tricheur à l'as de carreau",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-le-moulin-rouge",
+          "subject": "Le Moulin Rouge",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "arts-literature-la-mer-de-glace",
+          "subject": "La Mer de glace",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "geography-barre-des-ecrins",
+          "subject": "Barre des Écrins",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-mont-ventoux",
+          "subject": "Mont Ventoux",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-puy-de-dome",
+          "subject": "Puy de Dôme",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-lhotse",
+          "subject": "Lhotse",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "geography-makalu",
+          "subject": "Makalu",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "geography-geysir",
+          "subject": "Geysir",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-mont-blanc-de-courmayeur",
+          "subject": "Mont Blanc de Courmayeur",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-falaises-d-etretat",
+          "subject": "Falaises d'Étretat",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-dune-du-pilat",
+          "subject": "Dune du Pilat",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-grandes-jorasses",
+          "subject": "Grandes Jorasses",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-cirque-de-gavarnie",
+          "subject": "Cirque de Gavarnie",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-dent-du-geant",
+          "subject": "Dent du Géant",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-gorges-du-verdon",
+          "subject": "Gorges du Verdon",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-calanques-de-marseille",
+          "subject": "Calanques de Marseille",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "geography-pic-du-midi-de-bigorre",
+          "subject": "Pic du Midi de Bigorre",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "geography-mer-de-glace",
+          "subject": "Mer de Glace",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "geography-mont-perdu",
+          "subject": "Mont Perdu",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "history-theatre-d-epidaure",
+          "subject": "Théâtre d'Épidaure",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "history-cutty-sark",
+          "subject": "Cutty Sark",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "history-alignements-de-carnac",
+          "subject": "Alignements de Carnac",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mythology-hydre-de-lerne",
+          "subject": "Hydre de Lerne",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mythology-bacchus",
+          "subject": "Bacchus",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mythology-sleipnir",
+          "subject": "Sleipnir",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mythology-hypnos",
+          "subject": "Hypnos",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mythology-nemesis",
+          "subject": "Némésis",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mythology-helios",
+          "subject": "Hélios",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mythology-echidna",
+          "subject": "Échidna",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "mythology-python",
+          "subject": "Python",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mythology-lugh",
+          "subject": "Lugh",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mythology-cernunnos",
+          "subject": "Cernunnos",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mythology-teutates",
+          "subject": "Teutatès",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "mythology-svarog",
+          "subject": "Svarog",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-camembert-de-normandie",
+          "subject": "Camembert de Normandie",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-bouillabaisse",
+          "subject": "Bouillabaisse",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-brie-de-meaux",
+          "subject": "Brie de Meaux",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-poire",
+          "subject": "Poire",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-cassoulet",
+          "subject": "Cassoulet",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-fraise",
+          "subject": "Fraise",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-fondue-savoyarde",
+          "subject": "Fondue savoyarde",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-cheesecake",
+          "subject": "Cheesecake",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-tarte-tatin",
+          "subject": "Tarte Tatin",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-pamplemousse",
+          "subject": "Pamplemousse",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-reblochon",
+          "subject": "Reblochon",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-saint-nectaire",
+          "subject": "Saint-nectaire",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-epoisses",
+          "subject": "Époisses",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-mimolette",
+          "subject": "Mimolette",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-ossau-iraty",
+          "subject": "Ossau-iraty",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-blanquette-de-veau",
+          "subject": "Blanquette de veau",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-cannele",
+          "subject": "Cannelé",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-pont-l-eveque",
+          "subject": "Pont-l'évêque",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-peche",
+          "subject": "Pêche",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-livarot",
+          "subject": "Livarot",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-tartiflette",
+          "subject": "Tartiflette",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-chouquette",
+          "subject": "Chouquette",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-manchego",
+          "subject": "Manchego",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-figue",
+          "subject": "Figue",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-moules-frites",
+          "subject": "Moules-frites",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-pho",
+          "subject": "Phở",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-pissaladiere",
+          "subject": "Pissaladière",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-canard-laque",
+          "subject": "Canard laqué",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-vacherin-mont-d-or",
+          "subject": "Vacherin Mont-d'Or",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-papaye",
+          "subject": "Papaye",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-brandade-de-morue",
+          "subject": "Brandade de morue",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-tomme-de-savoie",
+          "subject": "Tomme de Savoie",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-noix-de-coco",
+          "subject": "Noix de coco",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-crottin-de-chavignol",
+          "subject": "Crottin de Chavignol",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-gratin-dauphinois",
+          "subject": "Gratin dauphinois",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-sainte-maure-de-touraine",
+          "subject": "Sainte-maure-de-touraine",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-myrtille",
+          "subject": "Myrtille",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-valencay",
+          "subject": "Valençay",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-groseille",
+          "subject": "Groseille",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "gastronomy-rillettes",
+          "subject": "Rillettes",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-selles-sur-cher",
+          "subject": "Selles-sur-Cher",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-mandarine",
+          "subject": "Mandarine",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-pate-en-croute",
+          "subject": "Pâté en croûte",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-langres",
+          "subject": "Langres",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-gateau-basque",
+          "subject": "Gâteau basque",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-bleu-de-gex",
+          "subject": "Bleu de Gex",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-fourme-d-ambert",
+          "subject": "Fourme d'Ambert",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-magret-de-canard",
+          "subject": "Magret de canard",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "gastronomy-appenzeller",
+          "subject": "Appenzeller",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-flute-traversiere",
+          "subject": "Flûte traversière",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-vielle-a-roue",
+          "subject": "Vielle à roue",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-didgeridoo",
+          "subject": "Didgeridoo",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-harmonium",
+          "subject": "Harmonium",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-psalterion",
+          "subject": "Psaltérion",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-bouzouki",
+          "subject": "Bouzouki",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-dulcimer",
+          "subject": "Dulcimer",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-guzheng",
+          "subject": "Guzheng",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-nyckelharpa",
+          "subject": "Nyckelharpa",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-maracas",
+          "subject": "Maracas",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-cavaquinho",
+          "subject": "Cavaquinho",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-djembe",
+          "subject": "Djembé",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-tres",
+          "subject": "Tres",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-guitare-a-douze-cordes",
+          "subject": "Guitare à douze cordes",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-cor-des-alpes",
+          "subject": "Cor des Alpes",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-guitare-hawaienne",
+          "subject": "Guitare hawaïenne",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-tabla",
+          "subject": "Tabla",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-crecelle",
+          "subject": "Crécelle",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-clarinette-basse",
+          "subject": "Clarinette basse",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-cornemuse-ecossaise",
+          "subject": "Cornemuse écossaise",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-uilleann-pipes",
+          "subject": "Uilleann pipes",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "music-shakuhachi",
+          "subject": "Shakuhachi",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-bansuri",
+          "subject": "Bansuri",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-mellotron",
+          "subject": "Mellotron",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-piano-droit",
+          "subject": "Piano droit",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-piano-a-queue",
+          "subject": "Piano à queue",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-wood-block",
+          "subject": "Wood-block",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "music-darius-milhaud",
+          "subject": "Darius Milhaud",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "sports-planche-a-voile",
+          "subject": "Planche à voile",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "sports-boxe-anglaise",
+          "subject": "Boxe anglaise",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "sports-laure-manaudou",
+          "subject": "Laure Manaudou",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "sports-korfbal",
+          "subject": "Korfbal",
+          "label": "wikipedia",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "sports-martin-fourcade",
+          "subject": "Martin Fourcade",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "sports-marie-amelie-le-fur",
+          "subject": "Marie-Amélie Le Fur",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        },
+        {
+          "id": "sports-ski-alpinisme",
+          "subject": "Ski-alpinisme",
+          "label": "wikidata",
+          "article": "fallback-fr",
+          "optionFallbacks": 0
+        },
+        {
+          "id": "science-soufre-natif",
+          "subject": "Soufre natif",
+          "label": "fallback-fr",
+          "article": "fallback-fr",
+          "optionFallbacks": 1
+        }
+      ]
+    }
   },
   "imageLicenses": {
     "CC BY-SA 4.0": 441,

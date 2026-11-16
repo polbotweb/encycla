@@ -4,11 +4,27 @@ import {
   ALLOWED_IMAGE_LICENSE_PATTERN,
   CATEGORY_VALUES,
   MIN_QUESTIONS_PER_CATEGORY,
+  TRANSLATED_LANGUAGES,
   questionBankSchema,
   type QuestionBank,
   type QuestionCategory,
   type QuestionRecord,
+  type TranslatedLanguage,
 } from './schemas';
+
+/** How many answers/articles of a language are real translations and how many fall back. */
+export interface TranslationStats {
+  /** Questions whose answer label is the title of the article in that language. */
+  labelWikipedia: number;
+  /** Answer label taken from the Wikidata label (no article in that language). */
+  labelWikidata: number;
+  /** Answer label that falls back to French (nothing in that language). */
+  labelFallbackFr: number;
+  /** Article text taken from the article in that language. */
+  articleWikipedia: number;
+  /** Article text that falls back to the French article. */
+  articleFallbackFr: number;
+}
 
 export interface QuestionBankReport {
   errors: string[];
@@ -16,12 +32,25 @@ export interface QuestionBankReport {
   counts: Record<QuestionCategory, number>;
   total: number;
   shortArticles: number;
+  translations: Record<TranslatedLanguage, TranslationStats>;
 }
 
 export interface QuestionBankValidation {
   success: boolean;
   bank: QuestionBank | null;
   report: QuestionBankReport;
+}
+
+/**
+ * Whole-word, Unicode-aware search: "Pho" is not in "Photograph" and an Arabic noun is not found
+ * inside a longer word that merely shares its letters.
+ */
+export function containsWord(haystack: string, word: string): boolean {
+  const escaped = word.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (escaped === '') {
+    return false;
+  }
+  return new RegExp(`(?<![\\p{L}\\p{N}])${escaped}(?![\\p{L}\\p{N}])`, 'iu').test(haystack);
 }
 
 export function normalizeContent(value: string): string {
@@ -39,6 +68,17 @@ export function computeContentHash(
   ].join('|');
 
   return createHash('sha256').update(payload).digest('hex');
+}
+
+export function emptyTranslationStats(): Record<TranslatedLanguage, TranslationStats> {
+  const blank = (): TranslationStats => ({
+    labelWikipedia: 0,
+    labelWikidata: 0,
+    labelFallbackFr: 0,
+    articleWikipedia: 0,
+    articleFallbackFr: 0,
+  });
+  return { en: blank(), ar: blank() };
 }
 
 function emptyCounts(): Record<QuestionCategory, number> {
@@ -82,7 +122,55 @@ function provenanceIssues(question: QuestionRecord): string[] {
     issues.push(`${question.id}: image alt text reveals the answer`);
   }
 
+  for (const language of TRANSLATED_LANGUAGES) {
+    const translation = question.translations?.[language];
+    if (!translation) {
+      issues.push(`${question.id}: missing ${language} translation`);
+      continue;
+    }
+    const translatedAnswer = translation.options[question.correctIndex];
+    if (translation.subject !== translatedAnswer) {
+      issues.push(`${question.id}: ${language} subject is not the translated answer`);
+    }
+    if (containsWord(translation.imageAlt, translation.subject)) {
+      issues.push(`${question.id}: ${language} image alt text reveals the answer`);
+    }
+    if (
+      translation.provenance.article === 'wikipedia' &&
+      translation.source.language !== language
+    ) {
+      issues.push(`${question.id}: ${language} article text must cite a ${language} revision`);
+    }
+    if (translation.provenance.article === 'fallback-fr' && translation.source.language !== 'fr') {
+      issues.push(`${question.id}: ${language} fallback text must cite the French revision`);
+    }
+    if (translation.provenance.options[question.correctIndex] !== translation.provenance.label) {
+      issues.push(`${question.id}: ${language} label origin does not match the answer option`);
+    }
+  }
+
   return issues;
+}
+
+export function translationStats(
+  questions: readonly QuestionRecord[],
+): Record<TranslatedLanguage, TranslationStats> {
+  const stats = emptyTranslationStats();
+  for (const question of questions) {
+    for (const language of TRANSLATED_LANGUAGES) {
+      const translation = question.translations?.[language];
+      if (!translation) {
+        continue;
+      }
+      const entry = stats[language];
+      if (translation.provenance.label === 'wikipedia') entry.labelWikipedia += 1;
+      else if (translation.provenance.label === 'wikidata') entry.labelWikidata += 1;
+      else entry.labelFallbackFr += 1;
+      if (translation.provenance.article === 'wikipedia') entry.articleWikipedia += 1;
+      else entry.articleFallbackFr += 1;
+    }
+  }
+  return stats;
 }
 
 function formatIssues(bank: QuestionBank): string[] {
@@ -132,6 +220,7 @@ export function validateQuestionBank(input: unknown): QuestionBankValidation {
         counts,
         total: 0,
         shortArticles: 0,
+        translations: emptyTranslationStats(),
       },
     };
   }
@@ -179,6 +268,7 @@ export function validateQuestionBank(input: unknown): QuestionBankValidation {
       counts,
       total: bank.questions.length,
       shortArticles,
+      translations: translationStats(bank.questions),
     },
   };
 }
@@ -199,6 +289,7 @@ export async function loadQuestionBank(file: string): Promise<QuestionBankValida
         counts: emptyCounts(),
         total: 0,
         shortArticles: 0,
+        translations: emptyTranslationStats(),
       },
     };
   }

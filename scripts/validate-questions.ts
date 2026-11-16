@@ -14,6 +14,14 @@ async function main(): Promise<void> {
     console.log(`  ${category}: ${report.counts[category]}`);
   }
 
+  console.log('Translations (answer label / article origin):');
+  for (const [language, stats] of Object.entries(report.translations)) {
+    console.log(
+      `  ${language}: labels wikipedia=${stats.labelWikipedia} wikidata=${stats.labelWikidata} fallback-fr=${stats.labelFallbackFr}` +
+        ` | articles wikipedia=${stats.articleWikipedia} fallback-fr=${stats.articleFallbackFr}`,
+    );
+  }
+
   for (const warning of report.warnings) {
     console.log(`WARN  ${warning}`);
   }

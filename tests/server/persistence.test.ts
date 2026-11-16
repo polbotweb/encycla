@@ -30,24 +30,26 @@ afterEach(() => {
 describe('migrations', () => {
   it('loads the migrations from the default directory', () => {
     const migrations = loadMigrations(DEFAULT_MIGRATIONS_DIR);
-    expect(migrations).toHaveLength(2);
+    expect(migrations).toHaveLength(3);
     expect(migrations[0]).toMatchObject({ version: 1, name: 'init' });
     expect(migrations[0]?.sql).toContain('CREATE TABLE players');
     expect(migrations[1]).toMatchObject({ version: 2, name: 'question_sources' });
     expect(migrations[1]?.sql).toContain('source_revision');
+    expect(migrations[2]).toMatchObject({ version: 3, name: 'question_translations' });
+    expect(migrations[2]?.sql).toContain('translations_json');
   });
 
   it('applies migrations once and records the schema version', () => {
     const db = memoryDatabase();
 
-    expect(migrate(db, { now: 1_234 })).toBe(2);
+    expect(migrate(db, { now: 1_234 })).toBe(3);
     expect(migrate(db, { now: 1_234 })).toBe(0);
     expect(getMigrationStatus(db)).toEqual({
-      current: 2,
-      latest: 2,
-      applied: [1, 2],
+      current: 3,
+      latest: 3,
+      applied: [1, 2, 3],
     });
-    expect(db.pragma('user_version', { simple: true })).toBe(2);
+    expect(db.pragma('user_version', { simple: true })).toBe(3);
 
     const tables = db
       .prepare("SELECT name FROM sqlite_master WHERE type = 'table'")

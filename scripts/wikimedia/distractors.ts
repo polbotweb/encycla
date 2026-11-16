@@ -10,6 +10,11 @@ export interface Candidate {
   label: string;
   pageId: number;
   qid: string | undefined;
+  /**
+   * True when the item has a real label in every game language (Wikipedia or Wikidata). Items
+   * that would fall back to French are only used as distractors when nothing else is available.
+   */
+  complete?: boolean;
 }
 
 /** Deterministic PRNG (mulberry32) seeded from a string, so the generator is reproducible. */
@@ -95,7 +100,13 @@ export function pickDistractors(
 
   const picked: Candidate[] = [];
   for (const tier of tiers) {
-    for (const candidate of shuffle(tier, random)) {
+    const shuffled = shuffle(tier, random);
+    // Stable partition: fully translated items first (identical order when all are complete).
+    const ordered = [
+      ...shuffled.filter((candidate) => candidate.complete !== false),
+      ...shuffled.filter((candidate) => candidate.complete === false),
+    ];
+    for (const candidate of ordered) {
       if (picked.length === 3) {
         break;
       }

@@ -1,4 +1,12 @@
 import { z } from 'zod';
+import {
+  DEFAULT_LANGUAGE,
+  LANGUAGES,
+  TRANSLATED_LANGUAGES,
+  isLanguage,
+  type Language,
+  type TranslatedLanguage,
+} from './languages';
 
 export const CATEGORY_VALUES = [
   'Fauna',
@@ -28,6 +36,15 @@ export const MIN_QUESTIONS_PER_CATEGORY = 100;
 export const ALLOWED_IMAGE_LICENSE_PATTERN = /^(CC0 1\.0|Public domain|CC BY(?:-SA)? \d\.\d)$/;
 
 export const ALLOWED_IMAGE_HOSTS = ['upload.wikimedia.org', 'commons.wikimedia.org'] as const;
+
+export {
+  DEFAULT_LANGUAGE,
+  LANGUAGES,
+  TRANSLATED_LANGUAGES,
+  isLanguage,
+  type Language,
+  type TranslatedLanguage,
+};
 
 export const categorySchema = z.enum(CATEGORY_VALUES);
 
@@ -78,6 +95,34 @@ export const questionSourceSchema = z.object({
     .refine((value) => !Number.isNaN(Date.parse(value)), 'retrievedAt must be an ISO date'),
 });
 
+/**
+ * Where a translated label / text really comes from. Nothing is invented: when a language has no
+ * article for the item, the label falls back to the Wikidata label, then to the French one.
+ */
+export const TRANSLATION_ORIGINS = ['wikipedia', 'wikidata', 'fallback-fr'] as const;
+export type TranslationOrigin = (typeof TRANSLATION_ORIGINS)[number];
+
+/** The same question in another language: same item, same picture, same option order. */
+export const questionTranslationSchema = z.object({
+  subject: safeText(1, 80),
+  questionText: safeText(1, 300),
+  options: z.array(safeText(1, 120)).length(4),
+  explanation: safeText(1, 500),
+  articleTitle: safeText(1, 120),
+  articleBody: safeText(20, 5000),
+  imageAlt: safeText(5, 200),
+  imageCredit: safeText(1, 200),
+  /** Revision the text of this language comes from (the French one when the text is a fallback). */
+  source: questionSourceSchema,
+  provenance: z.object({
+    /** Origin of the answer label and of each option label (same order as `options`). */
+    label: z.enum(TRANSLATION_ORIGINS),
+    options: z.array(z.enum(TRANSLATION_ORIGINS)).length(4),
+    /** `wikipedia` when the article is in this language, `fallback-fr` when the French text is shown. */
+    article: z.enum(['wikipedia', 'fallback-fr']),
+  }),
+});
+
 export const questionSchema = z
   .object({
     id: z
@@ -95,6 +140,12 @@ export const questionSchema = z
     articleBody: safeText(20, 5000),
     image: questionImageSchema.optional(),
     source: questionSourceSchema.optional(),
+    translations: z
+      .object({
+        en: questionTranslationSchema.optional(),
+        ar: questionTranslationSchema.optional(),
+      })
+      .optional(),
   })
   .superRefine((question, context) => {
     const normalizedOptions = question.options.map((option) =>
@@ -108,6 +159,23 @@ export const questionSchema = z
         path: ['options'],
       });
     }
+
+    for (const language of TRANSLATED_LANGUAGES) {
+      const translation = question.translations?.[language];
+      if (!translation) {
+        continue;
+      }
+      const translated = translation.options.map((option) =>
+        option.normalize('NFKC').trim().toLowerCase().replace(/\s+/g, ' '),
+      );
+      if (new Set(translated).size !== translated.length) {
+        context.addIssue({
+          code: 'custom',
+          message: `${language} options must be distinct after normalization`,
+          path: ['translations', language, 'options'],
+        });
+      }
+    }
   });
 
 export const questionBankSchema = z.object({
@@ -119,6 +187,7 @@ export const questionBankSchema = z.object({
 });
 
 export type QuestionCategory = (typeof CATEGORY_VALUES)[number];
+export type QuestionTranslation = z.infer<typeof questionTranslationSchema>;
 export type QuestionSource = z.infer<typeof questionSourceSchema>;
 export type QuestionImage = z.infer<typeof questionImageSchema>;
 export type QuestionRecord = z.infer<typeof questionSchema>;
