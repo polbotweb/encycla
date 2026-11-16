@@ -29,7 +29,10 @@ export function parseRoute(search: string, hash: string): AppRoute {
     return { kind: 'player', screen: 'leaderboard', code: '' };
   }
   if (mode === 'join') {
-    const code = (query.get('code') ?? '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+    const code = (query.get('code') ?? '')
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, '')
+      .slice(0, 6);
     return { kind: 'player', screen: 'home', code };
   }
   return { kind: 'player', screen: 'home', code: '' };

@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { FakeTikTokAdapter } from '../../server/tiktok/fakeAdapter';
-import { BACKOFF_MAX_MS, TikTokConnector, backoffDelay, type Scheduler } from '../../server/tiktok/connector';
+import {
+  BACKOFF_MAX_MS,
+  TikTokConnector,
+  backoffDelay,
+  type Scheduler,
+} from '../../server/tiktok/connector';
 import { parseSessionCookie } from '../../server/tiktok/liveAdapter';
 import { type LogLevel } from '../../server/util/logger';
 
@@ -44,7 +49,8 @@ describe('TikTokConnector', () => {
     const adapters: FakeTikTokAdapter[] = [];
     const changes: boolean[] = [];
     const chats: string[] = [];
-    const logs: { level: LogLevel; event: string; data?: Record<string, unknown> | undefined }[] = [];
+    const logs: { level: LogLevel; event: string; data?: Record<string, unknown> | undefined }[] =
+      [];
     let remaining = failures;
     const connector = new TikTokConnector({
       factory: () => {

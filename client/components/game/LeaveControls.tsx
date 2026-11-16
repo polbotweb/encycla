@@ -13,7 +13,9 @@ export function LeaveModal({ started }: { started: boolean }) {
   return (
     <Modal title="Leave this room?" open={open} onClose={() => setOpen(false)}>
       <p className="mb-4 text-ink-2">
-        {started ? 'Your score will be kept, but you cannot return to the match.' : 'You can join again with the room code.'}
+        {started
+          ? 'Your score will be kept, but you cannot return to the match.'
+          : 'You can join again with the room code.'}
       </p>
       <div className="flex justify-end gap-2">
         <Button variant="ghost" onClick={() => setOpen(false)}>

@@ -30,7 +30,12 @@ interface RoleClient {
   emit<T = unknown>(event: string, payload?: unknown): Promise<Ack<T>>;
 }
 
-async function roleClient(h: Harness, role: 'overlay' | 'control', roomCode: string, token: string): Promise<RoleClient> {
+async function roleClient(
+  h: Harness,
+  role: 'overlay' | 'control',
+  roomCode: string,
+  token: string,
+): Promise<RoleClient> {
   const socket = connect(`${h.baseUrl}/game`, {
     auth: { role, roomCode, token },
     transports: ['websocket'],
@@ -109,7 +114,10 @@ describe('POST /api/tiktok/rooms', () => {
 
   it('answers TIKTOK_DISABLED when no connector is configured', async () => {
     harness = await startHarness();
-    const response = await harness.api('/api/tiktok/rooms', { token: ADMIN, body: { mode: 'CLASSIC' } });
+    const response = await harness.api('/api/tiktok/rooms', {
+      token: ADMIN,
+      body: { mode: 'CLASSIC' },
+    });
     expect(response.status).toBe(503);
     expect(response.body.error.code).toBe('TIKTOK_DISABLED');
   });
@@ -137,7 +145,9 @@ describe('TikTok room end to end', () => {
       const ack = await overlay.emit(event);
       expect(ack).toMatchObject({ ok: false, error: { code: 'FORBIDDEN' } });
     }
-    expect(await overlay.emit('HOST_MANUAL_ANSWER', { playerId: 'x', choiceIndex: 0 })).toMatchObject({ ok: false });
+    expect(
+      await overlay.emit('HOST_MANUAL_ANSWER', { playerId: 'x', choiceIndex: 0 }),
+    ).toMatchObject({ ok: false });
 
     // an overlay token cannot open the control role and vice versa
     const bad = connect(`${h.baseUrl}/game`, {
@@ -189,7 +199,9 @@ describe('TikTok room end to end', () => {
     await until(() => overlay.states.at(-1)?.phase === 'REVEAL');
     const reveal = overlay.states.at(-1)!;
     expect(reveal.players).toHaveLength(100);
-    const first = reveal.results!.find((result) => result.playerId === reveal.players.find((p) => p.displayName === 'Viewer 0')!.id)!;
+    const first = reveal.results!.find(
+      (result) => result.playerId === reveal.players.find((p) => p.displayName === 'Viewer 0')!.id,
+    )!;
     expect(first.choiceIndex).toBe(0);
     expect(Buffer.byteLength(JSON.stringify(reveal))).toBeLessThan(64 * 1024);
 
@@ -225,14 +237,20 @@ describe('TikTok room end to end', () => {
     h.clock.advance(8_000);
     h.server.manager.sweep();
     await until(() => h.server.manager.getState(code)!.phase === 'QUESTION');
-    const bobId = Object.values(h.server.manager.getState(code)!.players).find((p) => p.displayName === 'Bob')!.id;
+    const bobId = Object.values(h.server.manager.getState(code)!.players).find(
+      (p) => p.displayName === 'Bob',
+    )!.id;
     const ack = await control.emit('HOST_MANUAL_ANSWER', { playerId: bobId, choiceIndex: 1 });
     expect(ack).toMatchObject({ ok: true, data: { accepted: true } });
-    expect(await control.emit('HOST_MANUAL_ANSWER', { playerId: bobId, choiceIndex: 2 })).toMatchObject({
+    expect(
+      await control.emit('HOST_MANUAL_ANSWER', { playerId: bobId, choiceIndex: 2 }),
+    ).toMatchObject({
       ok: false,
       error: { code: 'ANSWER_ALREADY_SUBMITTED' },
     });
-    expect(await control.emit('HOST_MANUAL_ANSWER', { playerId: 'nobody', choiceIndex: 2 })).toMatchObject({
+    expect(
+      await control.emit('HOST_MANUAL_ANSWER', { playerId: 'nobody', choiceIndex: 2 }),
+    ).toMatchObject({
       ok: false,
       error: { code: 'PLAYER_NOT_FOUND' },
     });

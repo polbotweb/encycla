@@ -44,11 +44,16 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
 }
 
 /** Startup validation (DEPLOYMENT 6.1). Returns human-readable problems; empty means valid. */
-export function validateConfig(config: ServerConfig, env: NodeJS.ProcessEnv = process.env): string[] {
+export function validateConfig(
+  config: ServerConfig,
+  env: NodeJS.ProcessEnv = process.env,
+): string[] {
   const problems: string[] = [];
   if (env.NODE_ENV === 'production') {
     if (config.adminToken === null) {
-      problems.push('ADMIN_TOKEN (at least 16 characters, not "change-me") is required in production.');
+      problems.push(
+        'ADMIN_TOKEN (at least 16 characters, not "change-me") is required in production.',
+      );
     }
     if (config.publicOrigin === null) {
       problems.push('PUBLIC_ORIGIN is required in production.');

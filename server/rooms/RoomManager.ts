@@ -75,8 +75,7 @@ interface Room {
 }
 
 export type DispatchResult =
-  | { ok: true; state: GameState }
-  | { ok: false; code: ErrorCode; message: string };
+  { ok: true; state: GameState } | { ok: false; code: ErrorCode; message: string };
 
 const ENGINE_ERROR_MAP: Record<EngineErrorCode, ErrorCode> = {
   INVALID_PHASE: 'INVALID_PHASE',
@@ -219,7 +218,11 @@ export class RoomManager {
   }
 
   /** Solo: one-player room started immediately (COUNTDOWN). */
-  createSolo(params: Omit<CreateRoomParams, 'isSolo' | 'isPublic' | 'isTikTok' | 'host'> & { host: PlayerIdentity }): GameState {
+  createSolo(
+    params: Omit<CreateRoomParams, 'isSolo' | 'isPublic' | 'isTikTok' | 'host'> & {
+      host: PlayerIdentity;
+    },
+  ): GameState {
     const created = this.createRoom({ ...params, isSolo: true, maxPlayers: 1 });
     const started = this.dispatch(created.roomCode, {
       type: 'GAME_START',
@@ -466,7 +469,12 @@ export class RoomManager {
       this.syncTimer(room, this.now());
     }
     if (closedReason !== null || next.phase === 'CLOSED') {
-      this.removeRoom(room.state.roomCode, room, closedReason ?? next.closedReason ?? 'NO_PLAYERS', true);
+      this.removeRoom(
+        room.state.roomCode,
+        room,
+        closedReason ?? next.closedReason ?? 'NO_PLAYERS',
+        true,
+      );
     }
     return { ok: true, state: next };
   }

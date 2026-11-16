@@ -34,7 +34,14 @@ export function ConnectionBanner() {
 
   if (protocolMismatch) {
     return (
-      <Banner variant="error" action={<Button size="sm" onClick={() => window.location.reload()}>Reload</Button>}>
+      <Banner
+        variant="error"
+        action={
+          <Button size="sm" onClick={() => window.location.reload()}>
+            Reload
+          </Button>
+        }
+      >
         This page is out of date. Reload.
       </Banner>
     );
@@ -62,16 +69,21 @@ export function ConnectionBanner() {
   }
   if (replaced) {
     return (
-      <Banner variant="warning" action={<Button size="sm" onClick={() => window.location.reload()}>Use this tab</Button>}>
+      <Banner
+        variant="warning"
+        action={
+          <Button size="sm" onClick={() => window.location.reload()}>
+            Use this tab
+          </Button>
+        }
+      >
         This session is open in another tab or window.
       </Banner>
     );
   }
   if (hasSession && connection === 'reconnecting') {
     return (
-      <Banner variant="warning">
-        {lost ? 'Connection lost. Reconnecting…' : t.reconnecting}
-      </Banner>
+      <Banner variant="warning">{lost ? 'Connection lost. Reconnecting…' : t.reconnecting}</Banner>
     );
   }
   if (showConnected) {

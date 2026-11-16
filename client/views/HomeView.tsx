@@ -56,7 +56,9 @@ export function HomeView() {
     }
   }, [prefilledCode, setPrefilledCode]);
 
-  const classicAvailable = config ? config.categories.some((entry) => entry.questionCount > 0) : true;
+  const classicAvailable = config
+    ? config.categories.some((entry) => entry.questionCount > 0)
+    : true;
 
   /** Validates the pseudo, creates the session, waits for the socket, then runs the action. */
   async function withSession(action: () => Promise<void>): Promise<boolean> {
@@ -112,8 +114,8 @@ export function HomeView() {
         <p className="label">{t.tagline}</p>
         <ViewTitle>Encycla MindMaze</ViewTitle>
         <p className="max-w-prose text-lg text-ink-2">
-          Identify the subject, answer before the timer runs out, then read the story behind the image.
-          Play solo, challenge friends in a private room, or find a match online.
+          Identify the subject, answer before the timer runs out, then read the story behind the
+          image. Play solo, challenge friends in a private room, or find a match online.
         </p>
         <Panel className="hidden lg:block">
           <h2 className="mb-2 text-xl">How to play</h2>
@@ -134,12 +136,21 @@ export function HomeView() {
 
       <Panel className="space-y-4 self-start">
         {failed ? (
-          <Banner variant="error" action={<Button size="sm" variant="secondary" onClick={reload}>{t.retry}</Button>}>
+          <Banner
+            variant="error"
+            action={
+              <Button size="sm" variant="secondary" onClick={reload}>
+                {t.retry}
+              </Button>
+            }
+          >
             The server is not reachable. {ERROR_MESSAGES.INTERNAL_ERROR}
           </Banner>
         ) : null}
         {!loading && !failed && !classicAvailable ? (
-          <Banner variant="warning">No questions are available right now. Please contact the operator.</Banner>
+          <Banner variant="warning">
+            No questions are available right now. Please contact the operator.
+          </Banner>
         ) : null}
 
         <div>
@@ -294,7 +305,9 @@ export function HomeView() {
             autoComplete="off"
             autoCapitalize="characters"
             spellCheck={false}
-            onChange={(event) => setCode(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
+            onChange={(event) =>
+              setCode(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))
+            }
             className="min-h-[48px] w-full rounded-md border border-line-strong bg-bg px-3 text-center font-mono text-2xl tracking-[0.15em] text-ink"
           />
           {error ? (

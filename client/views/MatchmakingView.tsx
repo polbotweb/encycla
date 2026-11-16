@@ -44,7 +44,10 @@ export function MatchmakingView() {
         <p className="text-lg text-ink-2" role="status">
           Position {queue.position} · up to {queue.targetPlayers} players
         </p>
-        <p className="tabular font-mono text-5xl font-bold" aria-label={`Waiting for ${formatClock(waited)}`}>
+        <p
+          className="tabular font-mono text-5xl font-bold"
+          aria-label={`Waiting for ${formatClock(waited)}`}
+        >
           {formatClock(waited)}
         </p>
         {error ? (
@@ -57,11 +60,17 @@ export function MatchmakingView() {
         </Button>
       </Panel>
 
-      <Modal title="A smaller room is ready" open={Boolean(proposal)} onClose={() => void vote(false)} dismissible={!proposal?.voted}>
+      <Modal
+        title="A smaller room is ready"
+        open={Boolean(proposal)}
+        onClose={() => void vote(false)}
+        dismissible={!proposal?.voted}
+      >
         {proposal ? (
           <div className="space-y-4 text-left">
             <p className="text-ink-2">
-              {proposal.playerCount} players are waiting. Start now with 2-{Math.max(2, Math.min(3, proposal.playerCount))} players?
+              {proposal.playerCount} players are waiting. Start now with 2-
+              {Math.max(2, Math.min(3, proposal.playerCount))} players?
             </p>
             <p className="tabular font-mono text-3xl font-bold" role="timer" aria-live="off">
               {formatSeconds(proposalLeft)}s

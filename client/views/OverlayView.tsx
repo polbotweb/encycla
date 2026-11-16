@@ -7,13 +7,25 @@ import { OPTION_LETTERS, formatSeconds, truncate } from '../lib/format';
 import { useRemaining } from '../lib/useRemaining';
 import { useRoomFeed } from '../lib/useRoomFeed';
 
-function OverlayPanel({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function OverlayPanel({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   // Opaque (92%) panels with a safe fallback background: never transparent text on video.
-  return <section className={`rounded-lg border border-ink/10 bg-bg/90 p-6 ${className}`}>{children}</section>;
+  return (
+    <section className={`rounded-lg border border-ink/10 bg-bg/90 p-6 ${className}`}>
+      {children}
+    </section>
+  );
 }
 
 function Leaders({ room, limit }: { room: PublicRoomState; limit: number }) {
-  const rows = [...room.players].sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt).slice(0, limit);
+  const rows = [...room.players]
+    .sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt)
+    .slice(0, limit);
   return (
     <OverlayPanel>
       <h2 className="label mb-3 text-lg">Top {limit}</h2>
@@ -79,17 +91,25 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
   return (
     <main className="min-h-dvh space-y-6 p-12" aria-live="off">
       <div className="flex flex-wrap items-center gap-4">
-        <span className="font-serif text-3xl font-bold">ENCYCLA LIVE</span>
+        <span className="rounded-pill bg-bg/90 px-4 py-1 font-serif text-3xl font-bold">
+          ENCYCLA LIVE
+        </span>
         <span className="rounded-pill border border-ink/20 bg-bg/90 px-4 py-1 font-mono text-xl tracking-[0.15em]">
           {room.roomCode}
         </span>
         {room.phase === 'PAUSED' ? (
-          <span className="rounded-pill bg-warning px-3 py-1 text-sm font-bold text-on-accent">Paused</span>
+          <span className="rounded-pill bg-warning px-3 py-1 text-sm font-bold text-on-accent">
+            Paused
+          </span>
         ) : null}
         {!room.tiktokConnected ? (
-          <span className="rounded-pill bg-warning px-3 py-1 text-sm font-bold text-on-accent">Chat reconnecting…</span>
+          <span className="rounded-pill bg-warning px-3 py-1 text-sm font-bold text-on-accent">
+            Chat reconnecting…
+          </span>
         ) : null}
-        {full ? <span className="text-lg text-ink-2">Chat is full. New comments are ignored.</span> : null}
+        {full ? (
+          <span className="text-lg text-ink-2">Chat is full. New comments are ignored.</span>
+        ) : null}
       </div>
 
       {phase === 'LOBBY' ? (
@@ -104,7 +124,9 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
 
       {phase === 'COUNTDOWN' ? (
         <OverlayPanel className="text-center">
-          <p className="tabular font-mono text-[12rem] leading-none text-accent">{formatSeconds(remaining ?? 3000)}</p>
+          <p className="tabular font-mono text-[12rem] leading-none text-accent">
+            {formatSeconds(remaining ?? 3000)}
+          </p>
           <p className="text-3xl">Get ready</p>
         </OverlayPanel>
       ) : null}
@@ -116,13 +138,19 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
             <OverlayPanel className="space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <h1 className="text-4xl">{room.question.questionText}</h1>
-                <span className="tabular font-mono text-[4.5rem] font-bold leading-none text-accent" role="timer">
+                <span
+                  className="tabular font-mono text-[4.5rem] font-bold leading-none text-accent"
+                  role="timer"
+                >
                   {remaining === null ? '' : formatSeconds(remaining)}
                 </span>
               </div>
               <ol className="grid gap-3">
                 {room.question.options.map((option, index) => (
-                  <li key={index} className="flex items-center gap-4 rounded-md border border-line bg-surface px-4 py-3 text-3xl">
+                  <li
+                    key={index}
+                    className="flex items-center gap-4 rounded-md border border-line bg-surface px-4 py-3 text-3xl"
+                  >
                     <span className="flex h-12 w-12 items-center justify-center rounded-sm bg-accent text-2xl font-bold text-on-accent">
                       {OPTION_LETTERS[index]}
                     </span>
@@ -149,7 +177,9 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
                   <li
                     key={index}
                     className={`flex items-center gap-4 rounded-md border px-4 py-3 text-3xl ${
-                      correct ? 'border-success bg-success text-on-accent' : 'border-line bg-surface text-ink-2 opacity-70'
+                      correct
+                        ? 'border-success bg-success text-on-accent'
+                        : 'border-line bg-surface text-ink-2 opacity-70'
                     }`}
                   >
                     <span className="font-bold">{OPTION_LETTERS[index]}</span>

@@ -19,7 +19,12 @@ export interface QueueStatePayload {
   position: number;
   targetPlayers: number;
   queuedAt: number;
-  proposal: { proposalId: string; playerCount: number; expiresAt: number; serverNow: number } | null;
+  proposal: {
+    proposalId: string;
+    playerCount: number;
+    expiresAt: number;
+    serverNow: number;
+  } | null;
 }
 
 export interface SmallRoomProposalPayload {
@@ -132,12 +137,14 @@ export class QueueManager {
     this.logger.log('info', 'queue.joined', { key, size: this.queueFor(key).length });
     this.afterChange(key);
     // The entry may already have been consumed by an immediate match.
-    return this.stateFor(identity.id) ?? {
-      position: 0,
-      targetPlayers: targetFor(selection.mode),
-      queuedAt: now,
-      proposal: null,
-    };
+    return (
+      this.stateFor(identity.id) ?? {
+        position: 0,
+        targetPlayers: targetFor(selection.mode),
+        queuedAt: now,
+        proposal: null,
+      }
+    );
   }
 
   /** Idempotent. */
@@ -260,7 +267,10 @@ export class QueueManager {
       });
       const now = this.now();
       for (const entry of group) {
-        if (this.options.isConnected(entry.identity.id) && !this.options.manager.isInRoom(entry.identity.id)) {
+        if (
+          this.options.isConnected(entry.identity.id) &&
+          !this.options.manager.isInRoom(entry.identity.id)
+        ) {
           this.entries.set(entry.identity.id, { ...entry, waitingSince: now });
         }
       }

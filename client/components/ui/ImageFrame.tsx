@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import type { ImageView } from '../../../shared/types';
 
-export function ImageFrame({ image, className = '' }: { image: ImageView | null; className?: string }) {
+export function ImageFrame({
+  image,
+  className = '',
+}: {
+  image: ImageView | null;
+  className?: string;
+}) {
   const [failed, setFailed] = useState(false);
   const showImage = image !== null && !failed;
   return (
-    <figure className={`flex items-center justify-center overflow-hidden rounded-lg border border-line bg-surface ${className}`}>
+    <figure
+      className={`flex items-center justify-center overflow-hidden rounded-lg border border-line bg-surface ${className}`}
+    >
       {showImage ? (
         <img
           src={image.url}

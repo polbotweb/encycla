@@ -22,7 +22,8 @@ export function PlayerChip({
   showReady?: boolean;
 }) {
   const badges = badge(player, you);
-  const dim = player.status === 'DISCONNECTED' || player.status === 'FORFEITED' || player.status === 'LEFT';
+  const dim =
+    player.status === 'DISCONNECTED' || player.status === 'FORFEITED' || player.status === 'LEFT';
   const ready = showReady ? (player.isReady ? 'Ready' : 'Not ready') : null;
   const label = [player.displayName, ...badges, ready].filter(Boolean).join(', ');
   return (
@@ -33,7 +34,10 @@ export function PlayerChip({
       <Avatar emoji={player.avatar} />
       <span className="min-w-0 flex-1 truncate font-medium">{truncate(player.displayName)}</span>
       {badges.map((text) => (
-        <span key={text} className="rounded-pill border border-line-strong px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink-2">
+        <span
+          key={text}
+          className="rounded-pill border border-line-strong px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink-2"
+        >
           {text}
         </span>
       ))}

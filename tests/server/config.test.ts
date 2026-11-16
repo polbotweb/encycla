@@ -37,7 +37,9 @@ describe('validateConfig', () => {
   });
 
   it('requires ADMIN_TOKEN and PUBLIC_ORIGIN in production', () => {
-    const problems = validateConfig(loadConfig({ NODE_ENV: 'production' }), { NODE_ENV: 'production' });
+    const problems = validateConfig(loadConfig({ NODE_ENV: 'production' }), {
+      NODE_ENV: 'production',
+    });
     expect(problems).toHaveLength(2);
     expect(problems.join(' ')).toContain('ADMIN_TOKEN');
     expect(problems.join(' ')).toContain('PUBLIC_ORIGIN');
@@ -51,7 +53,11 @@ describe('validateConfig', () => {
 
   it('requires a username and a session cookie when TikTok is enabled', () => {
     expect(validateConfig(loadConfig({ TIKTOK_ENABLED: 'true' }), {})).toHaveLength(2);
-    const env = { TIKTOK_ENABLED: 'true', TIKTOK_USERNAME: 'game', TIKTOK_SESSION_COOKIE: 'sessionid=abc' };
+    const env = {
+      TIKTOK_ENABLED: 'true',
+      TIKTOK_USERNAME: 'game',
+      TIKTOK_SESSION_COOKIE: 'sessionid=abc',
+    };
     expect(validateConfig(loadConfig(env), {})).toEqual([]);
   });
 });

@@ -115,7 +115,9 @@ export function LobbyView() {
             )}
             {isHost && !allReady ? (
               <span className="text-sm text-ink-2">
-                {connected.length < 2 ? 'At least 2 players are required.' : 'Every player must be ready.'}
+                {connected.length < 2
+                  ? 'At least 2 players are required.'
+                  : 'Every player must be ready.'}
               </span>
             ) : null}
           </>

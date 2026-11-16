@@ -11,9 +11,17 @@ export function AppHeader() {
   const connection = useGameStore((state) => state.connection);
   const setScreen = useUiStore((state) => state.setScreen);
   const dot =
-    connection === 'connected' ? 'bg-success' : connection === 'offline' ? 'bg-line-strong' : 'bg-warning anim-pulse';
+    connection === 'connected'
+      ? 'bg-success'
+      : connection === 'offline'
+        ? 'bg-line-strong'
+        : 'bg-warning anim-pulse';
   const label =
-    connection === 'connected' ? 'Connected' : connection === 'offline' ? 'Offline' : t.reconnecting;
+    connection === 'connected'
+      ? 'Connected'
+      : connection === 'offline'
+        ? 'Offline'
+        : t.reconnecting;
   return (
     <header className="flex items-center justify-between gap-4 border-b border-line px-4 py-3">
       <button
@@ -47,7 +55,13 @@ export function AppHeader() {
 }
 
 export function Panel({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-lg border border-line bg-surface p-4 shadow-panel sm:p-6 ${className}`}>{children}</section>;
+  return (
+    <section
+      className={`rounded-lg border border-line bg-surface p-4 shadow-panel sm:p-6 ${className}`}
+    >
+      {children}
+    </section>
+  );
 }
 
 /** Heading that receives focus when a view mounts (UI-UX 3.6). */
@@ -57,12 +71,7 @@ export function ViewTitle({ children, id }: { children: ReactNode; id?: string }
     ref.current?.focus({ preventScroll: true });
   }, []);
   return (
-    <h1
-      id={id}
-      tabIndex={-1}
-      ref={ref}
-      className="text-3xl outline-none sm:text-4xl"
-    >
+    <h1 id={id} tabIndex={-1} ref={ref} className="text-3xl outline-none sm:text-4xl">
       {children}
     </h1>
   );

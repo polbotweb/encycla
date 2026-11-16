@@ -15,7 +15,13 @@ function tone(remainingMs: number): string {
   return 'text-accent';
 }
 
-export function Timer({ remainingMs, totalMs, paused = false, variant = 'ring', size = 72 }: TimerProps) {
+export function Timer({
+  remainingMs,
+  totalMs,
+  paused = false,
+  variant = 'ring',
+  size = 72,
+}: TimerProps) {
   if (remainingMs === null) return null;
   const fraction = totalMs > 0 ? Math.min(1, Math.max(0, remainingMs / totalMs)) : 0;
   const seconds = formatSeconds(remainingMs);
@@ -23,7 +29,12 @@ export function Timer({ remainingMs, totalMs, paused = false, variant = 'ring', 
 
   if (variant === 'bar') {
     return (
-      <div role="timer" aria-live="off" aria-label={`${seconds} seconds remaining`} className={color}>
+      <div
+        role="timer"
+        aria-live="off"
+        aria-label={`${seconds} seconds remaining`}
+        className={color}
+      >
         <progress
           className="h-2 w-full overflow-hidden rounded-pill [&::-moz-progress-bar]:bg-current [&::-webkit-progress-bar]:bg-line [&::-webkit-progress-value]:bg-current"
           max={100}

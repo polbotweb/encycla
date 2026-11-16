@@ -29,7 +29,9 @@ describe('public matchmaking', () => {
     const first = await queue(h, alice, { mode: 'CONTEST' });
     expect(first.status).toBe(202);
     expect(first.body).toMatchObject({ queued: true, position: 1, targetPlayers: 2 });
-    expect((await queue(h, alice, { mode: 'CONTEST' })).body.error.code).toBe('QUEUE_ALREADY_JOINED');
+    expect((await queue(h, alice, { mode: 'CONTEST' })).body.error.code).toBe(
+      'QUEUE_ALREADY_JOINED',
+    );
     expect((await queue(h, bob, { mode: 'CONTEST' })).status).toBe(202);
 
     const [a, b] = await Promise.all([aliceFound, bobFound]);
@@ -52,8 +54,8 @@ describe('public matchmaking', () => {
     const h = harness;
     const offline = await h.api('/api/sessions', { body: { pseudo: 'Ghost' } });
     expect(
-      (await h.api('/api/queue', { token: offline.body.token, body: { mode: 'CLASSIC' } })).body.error
-        .code,
+      (await h.api('/api/queue', { token: offline.body.token, body: { mode: 'CLASSIC' } })).body
+        .error.code,
     ).toBe('NOT_CONNECTED');
 
     const alice = await h.newPlayer('Alice');
@@ -106,13 +108,19 @@ describe('public matchmaking', () => {
     expect(proposal!.playerCount).toBe(3);
 
     const found = [a!, b!].map((p) => nextEvent<{ roomCode: string }>(p, 'MATCH_FOUND'));
-    expect(await a!.emit('SMALL_ROOM_VOTE', { proposalId: proposal!.proposalId, accept: true })).toMatchObject({ ok: true });
-    expect(await b!.emit('SMALL_ROOM_VOTE', { proposalId: proposal!.proposalId, accept: true })).toMatchObject({ ok: true });
+    expect(
+      await a!.emit('SMALL_ROOM_VOTE', { proposalId: proposal!.proposalId, accept: true }),
+    ).toMatchObject({ ok: true });
+    expect(
+      await b!.emit('SMALL_ROOM_VOTE', { proposalId: proposal!.proposalId, accept: true }),
+    ).toMatchObject({ ok: true });
     // Carol stays silent: counted as a refusal, 2 of 3 is a strict majority.
     h.clock.advance(SMALL_ROOM_VOTE_MS);
     h.server.queue.sweep();
     const [roomA] = await Promise.all(found);
-    const state = await a!.waitFor((s) => s.roomCode === roomA!.roomCode && s.phase === 'COUNTDOWN');
+    const state = await a!.waitFor(
+      (s) => s.roomCode === roomA!.roomCode && s.phase === 'COUNTDOWN',
+    );
     expect(state.players).toHaveLength(2);
     expect(h.server.queue.size()).toBe(1);
     expect(h.server.queue.isQueued(c!.playerId)).toBe(true);

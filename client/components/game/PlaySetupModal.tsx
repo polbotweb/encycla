@@ -43,7 +43,8 @@ export function PlaySetupModal({
   onClose,
   onConfirm,
 }: PlaySetupModalProps) {
-  const modes: GameMode[] = intent === 'solo' ? ['CLASSIC', 'SUBJECT'] : ['CLASSIC', 'SUBJECT', 'CONTEST'];
+  const modes: GameMode[] =
+    intent === 'solo' ? ['CLASSIC', 'SUBJECT'] : ['CLASSIC', 'SUBJECT', 'CONTEST'];
   const [mode, setMode] = useState<GameMode>(initialMode);
   const [category, setCategory] = useState<string>('');
   const [difficulty, setDifficulty] = useState<Difficulty>('Novice');
@@ -60,7 +61,10 @@ export function PlaySetupModal({
       effectiveMode === 'SUBJECT'
         ? { mode: 'SUBJECT', category, difficulty }
         : { mode: effectiveMode, category: null, difficulty: null };
-    onConfirm(selection, intent === 'private' && effectiveMode !== 'CONTEST' ? maxPlayers : undefined);
+    onConfirm(
+      selection,
+      intent === 'private' && effectiveMode !== 'CONTEST' ? maxPlayers : undefined,
+    );
   }
 
   return (
@@ -75,7 +79,10 @@ export function PlaySetupModal({
         <fieldset className="space-y-2">
           <legend className="label mb-1">Mode</legend>
           {modes.map((value) => (
-            <label key={value} className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-md border border-line px-3 py-2 has-[:checked]:border-accent">
+            <label
+              key={value}
+              className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-md border border-line px-3 py-2 has-[:checked]:border-accent"
+            >
               <input
                 type="radio"
                 name="mode"
@@ -119,7 +126,10 @@ export function PlaySetupModal({
               <legend className="label mb-1">Difficulty</legend>
               <div className="flex flex-wrap gap-2">
                 {DIFFICULTIES.map((value) => (
-                  <label key={value} className="flex min-h-[44px] cursor-pointer items-center gap-2 rounded-md border border-line px-3 has-[:checked]:border-accent">
+                  <label
+                    key={value}
+                    className="flex min-h-[44px] cursor-pointer items-center gap-2 rounded-md border border-line px-3 has-[:checked]:border-accent"
+                  >
                     <input
                       type="radio"
                       name="difficulty"
@@ -147,7 +157,9 @@ export function PlaySetupModal({
               min={2}
               max={8}
               value={maxPlayers}
-              onChange={(event) => setMaxPlayers(Math.min(8, Math.max(2, Number(event.target.value) || 2)))}
+              onChange={(event) =>
+                setMaxPlayers(Math.min(8, Math.max(2, Number(event.target.value) || 2)))
+              }
               className="min-h-[44px] w-24 rounded-md border border-line-strong bg-bg px-3 text-ink"
             />
           </div>

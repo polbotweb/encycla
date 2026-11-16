@@ -27,7 +27,10 @@ export interface Harness {
   baseUrl: string;
   close(): Promise<void>;
   newPlayer(pseudo: string): Promise<TestPlayer>;
-  api(path: string, init?: { method?: string; token?: string; body?: unknown }): Promise<{
+  api(
+    path: string,
+    init?: { method?: string; token?: string; body?: unknown },
+  ): Promise<{
     status: number;
     body: any;
   }>;
@@ -42,13 +45,14 @@ export interface TestPlayer {
   events: { name: string; payload: unknown }[];
   last(): PublicRoomState | undefined;
   emit<T = unknown>(event: string, payload?: unknown): Promise<Ack<T>>;
-  waitFor(predicate: (state: PublicRoomState) => boolean, timeoutMs?: number): Promise<PublicRoomState>;
+  waitFor(
+    predicate: (state: PublicRoomState) => boolean,
+    timeoutMs?: number,
+  ): Promise<PublicRoomState>;
   disconnect(): void;
 }
 
-export async function startHarness(
-  options: Partial<GameServerOptions> = {},
-): Promise<Harness> {
+export async function startHarness(options: Partial<GameServerOptions> = {}): Promise<Harness> {
   const clock = makeClock();
   const initialized = initializePersistence({
     databasePath: ':memory:',

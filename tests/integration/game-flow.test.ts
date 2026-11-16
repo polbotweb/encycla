@@ -38,7 +38,10 @@ describe('private CONTEST room end to end', () => {
     const code = created.body.roomCode as string;
 
     expect(await alice.emit('ROOM_JOIN', { code })).toMatchObject({ ok: true });
-    expect(await bob.emit('ROOM_JOIN', { code })).toMatchObject({ ok: true, data: { roomCode: code } });
+    expect(await bob.emit('ROOM_JOIN', { code })).toMatchObject({
+      ok: true,
+      data: { roomCode: code },
+    });
     expect((await alice.waitFor((s) => s.players.length === 2)).phase).toBe('LOBBY');
 
     expect(await alice.emit('GAME_START')).toMatchObject({
@@ -48,7 +51,10 @@ describe('private CONTEST room end to end', () => {
     expect(await bob.emit('GAME_START')).toMatchObject({ ok: false, error: { code: 'NOT_HOST' } });
     await alice.emit('LOBBY_READY', { ready: true });
     await bob.emit('LOBBY_READY', { ready: true });
-    expect(await alice.emit('GAME_START')).toMatchObject({ ok: true, data: { phase: 'COUNTDOWN' } });
+    expect(await alice.emit('GAME_START')).toMatchObject({
+      ok: true,
+      data: { phase: 'COUNTDOWN' },
+    });
 
     await advance(h, 3000);
     let state = await alice.waitFor((s) => s.phase === 'QUESTION');
@@ -179,8 +185,7 @@ describe('solo and HTTP contract', () => {
   it('validates room creation per mode and category size', async () => {
     harness = await startHarness();
     const alice = await harness.newPlayer('Alice');
-    const call = (body: unknown) =>
-      harness!.api('/api/rooms', { token: alice.token, body });
+    const call = (body: unknown) => harness!.api('/api/rooms', { token: alice.token, body });
 
     expect((await call({ mode: 'CLASSIC', category: 'Fauna' })).body.error.code).toBe(
       'VALIDATION_ERROR',
@@ -189,7 +194,12 @@ describe('solo and HTTP contract', () => {
     expect(
       (await call({ mode: 'SUBJECT', category: 'Music', difficulty: 'Novice' })).body.error.code,
     ).toBe('CATEGORY_INSUFFICIENT_QUESTIONS');
-    const ok = await call({ mode: 'SUBJECT', category: 'Fauna', difficulty: 'Wizard', maxPlayers: 4 });
+    const ok = await call({
+      mode: 'SUBJECT',
+      category: 'Fauna',
+      difficulty: 'Wizard',
+      maxPlayers: 4,
+    });
     expect(ok.status).toBe(201);
     expect(ok.body.roomCode).toMatch(/^[A-Z2-9]{6}$/);
   });
@@ -199,10 +209,14 @@ describe('solo and HTTP contract', () => {
     const h = harness;
     const config = await h.api('/api/config');
     expect(config.body.protocolVersion).toBe(1);
-    expect(config.body.categories.find((c: { value: string }) => c.value === 'Fauna')).toMatchObject({
+    expect(
+      config.body.categories.find((c: { value: string }) => c.value === 'Fauna'),
+    ).toMatchObject({
       subjectEnabled: true,
     });
-    expect(config.body.categories.find((c: { value: string }) => c.value === 'Music')).toMatchObject({
+    expect(
+      config.body.categories.find((c: { value: string }) => c.value === 'Music'),
+    ).toMatchObject({
       subjectEnabled: false,
     });
 
@@ -212,11 +226,16 @@ describe('solo and HTTP contract', () => {
 
     expect((await h.api(`/api/admin/rooms/${code}/close`, { method: 'POST' })).status).toBe(401);
     expect(
-      (await h.api(`/api/admin/rooms/${code}/close`, { method: 'POST', token: alice.token })).status,
+      (await h.api(`/api/admin/rooms/${code}/close`, { method: 'POST', token: alice.token }))
+        .status,
     ).toBe(403);
     expect(
-      (await h.api(`/api/admin/rooms/${code}/close`, { method: 'POST', token: 'admin-secret-for-tests' }))
-        .status,
+      (
+        await h.api(`/api/admin/rooms/${code}/close`, {
+          method: 'POST',
+          token: 'admin-secret-for-tests',
+        })
+      ).status,
     ).toBe(204);
     expect(h.server.manager.hasRoom(code)).toBe(false);
     expect((await h.api('/api/leaderboard?limit=0')).status).toBe(400);
@@ -236,7 +255,9 @@ describe('reconnection', () => {
     await alice.waitFor((s) => s.players.length === 2);
 
     bob.disconnect();
-    await alice.waitFor((s) => s.players.some((p) => p.id === bob.playerId && p.status === 'DISCONNECTED'));
+    await alice.waitFor((s) =>
+      s.players.some((p) => p.id === bob.playerId && p.status === 'DISCONNECTED'),
+    );
 
     const { io } = await import('socket.io-client');
     const again = io(`${h.baseUrl}/game`, {

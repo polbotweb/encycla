@@ -9,19 +9,20 @@ describe('HomeView', () => {
   beforeEach(() => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () =>
-        new Response(
-          JSON.stringify({
-            protocolVersion: 1,
-            categories: [],
-            questionCount: 244,
-            categoryCount: 18,
-            tiktokEnabled: false,
-            subjectEnabled: false,
-            limits: {},
-          }),
-          { status: 200, headers: { 'content-type': 'application/json' } },
-        ),
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              protocolVersion: 1,
+              categories: [],
+              questionCount: 244,
+              categoryCount: 18,
+              tiktokEnabled: false,
+              subjectEnabled: false,
+              limits: {},
+            }),
+            { status: 200, headers: { 'content-type': 'application/json' } },
+          ),
       ),
     );
     useGameStore.getState().reset();

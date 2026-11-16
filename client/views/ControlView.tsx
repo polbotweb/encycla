@@ -14,7 +14,15 @@ interface LogEntry {
   text: string;
 }
 
-export function ControlView({ roomCode, token, overlayToken }: { roomCode: string; token: string; overlayToken?: string }) {
+export function ControlView({
+  roomCode,
+  token,
+  overlayToken,
+}: {
+  roomCode: string;
+  token: string;
+  overlayToken?: string;
+}) {
   const { room, status, clockOffset, capabilities, emit } = useRoomFeed('control', roomCode, token);
   const remaining = useRemaining(room, clockOffset);
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -31,7 +39,9 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
     } catch (caught) {
       const message = errorMessage(caught instanceof ApiClientError ? caught.code : undefined);
       setError(message);
-      setLog((entries) => [{ at: Date.now(), text: `${label} failed: ${message}` }, ...entries].slice(0, 20));
+      setLog((entries) =>
+        [{ at: Date.now(), text: `${label} failed: ${message}` }, ...entries].slice(0, 20),
+      );
     }
   }
 
@@ -62,7 +72,11 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
     );
   }
   if (!room) {
-    return <main className="p-8 text-ink-2" aria-busy="true">Connecting…</main>;
+    return (
+      <main className="p-8 text-ink-2" aria-busy="true">
+        Connecting…
+      </main>
+    );
   }
 
   const phase = room.phase === 'PAUSED' ? room.pausedFrom : room.phase;
@@ -77,11 +91,18 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
     <main className="mx-auto grid w-full max-w-shell gap-4 p-4 lg:grid-cols-2 lg:p-8">
       <header className="flex flex-wrap items-center gap-3 lg:col-span-2">
         <h1 className="text-2xl">Control · {room.roomCode}</h1>
-        <span className="rounded-pill border border-line-strong px-3 py-1 text-sm">{room.mode}</span>
-        <span className="rounded-pill border border-line-strong px-3 py-1 text-sm" aria-label={`Phase ${room.phase}`}>
+        <span className="rounded-pill border border-line-strong px-3 py-1 text-sm">
+          {room.mode}
+        </span>
+        <span
+          className="rounded-pill border border-line-strong px-3 py-1 text-sm"
+          aria-label={`Phase ${room.phase}`}
+        >
           {room.phase}
         </span>
-        {remaining !== null ? <span className="tabular font-mono">{formatSeconds(remaining)}s</span> : null}
+        {remaining !== null ? (
+          <span className="tabular font-mono">{formatSeconds(remaining)}s</span>
+        ) : null}
         <span className="text-sm text-ink-2">
           {room.players.length}/{room.settings.maxPlayers} viewers
         </span>
@@ -92,13 +113,18 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
         >
           {room.tiktokConnected ? 'LIVE' : 'CHAT OFFLINE'}
         </span>
-        {status !== 'live' ? <span role="status" className="text-warning">Reconnecting…</span> : null}
+        {status !== 'live' ? (
+          <span role="status" className="text-warning">
+            Reconnecting…
+          </span>
+        ) : null}
       </header>
 
       <Panel className="space-y-3">
         <h2 className="text-xl">Match</h2>
         <p className="text-ink-2">
-          Level {room.level}/{room.totalLevels} · Question {room.questionIndex + 1}/{room.questionsPerLevel}
+          Level {room.level}/{room.totalLevels} · Question {room.questionIndex + 1}/
+          {room.questionsPerLevel}
         </p>
         {room.question ? <p className="font-medium">{room.question.questionText}</p> : null}
         <ol className="space-y-1">
@@ -138,7 +164,10 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
           ) : (
             <Button
               variant="secondary"
-              disabled={!can('pause') || !['QUESTION', 'REVEAL', 'ARTICLE', 'LEVEL_COMPLETE'].includes(room.phase)}
+              disabled={
+                !can('pause') ||
+                !['QUESTION', 'REVEAL', 'ARTICLE', 'LEVEL_COMPLETE'].includes(room.phase)
+              }
               onClick={() => void run('Pause', 'HOST_PAUSE')}
             >
               Pause
@@ -146,8 +175,12 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
           )}
           <Button
             variant="secondary"
-            disabled={!can('skip') || !['QUESTION', 'ARTICLE', 'LEVEL_COMPLETE'].includes(room.phase)}
-            onClick={() => (room.phase === 'QUESTION' ? setConfirm('skip') : void run('Skip', 'HOST_SKIP'))}
+            disabled={
+              !can('skip') || !['QUESTION', 'ARTICLE', 'LEVEL_COMPLETE'].includes(room.phase)
+            }
+            onClick={() =>
+              room.phase === 'QUESTION' ? setConfirm('skip') : void run('Skip', 'HOST_SKIP')
+            }
           >
             Skip
           </Button>
@@ -200,7 +233,9 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
             {log.length === 0 ? <li>No actions yet.</li> : null}
             {log.map((entry, index) => (
               <li key={`${entry.at}-${index}`}>
-                <time className="tabular mr-2 font-mono">{new Date(entry.at).toLocaleTimeString()}</time>
+                <time className="tabular mr-2 font-mono">
+                  {new Date(entry.at).toLocaleTimeString()}
+                </time>
                 {entry.text}
               </li>
             ))}
@@ -208,7 +243,11 @@ export function ControlView({ roomCode, token, overlayToken }: { roomCode: strin
         </div>
       </Panel>
 
-      <Modal title={confirm === 'close' ? 'Close the room?' : 'Skip this question?'} open={confirm !== null} onClose={() => setConfirm(null)}>
+      <Modal
+        title={confirm === 'close' ? 'Close the room?' : 'Skip this question?'}
+        open={confirm !== null}
+        onClose={() => setConfirm(null)}
+      >
         <p className="mb-4 text-ink-2">
           {confirm === 'close'
             ? 'The match is abandoned without a winner and the overlay shows the stream as ended.'

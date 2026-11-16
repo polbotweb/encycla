@@ -15,7 +15,11 @@ export interface RoomFeed {
 }
 
 /** Socket feed for the overlay (read-only) and the control console. Token comes from the URL fragment. */
-export function useRoomFeed(role: 'overlay' | 'control', roomCode: string, token: string): RoomFeed {
+export function useRoomFeed(
+  role: 'overlay' | 'control',
+  roomCode: string,
+  token: string,
+): RoomFeed {
   const [room, setRoom] = useState<PublicRoomState | null>(null);
   const [status, setStatus] = useState<FeedStatus>('connecting');
   const [clockOffset, setClockOffset] = useState(0);
@@ -50,14 +54,18 @@ export function useRoomFeed(role: 'overlay' | 'control', roomCode: string, token
         setStatus('reconnecting');
       }
     });
-    socket.on('disconnect', () => setStatus((current) => (current === 'ended' ? current : 'reconnecting')));
+    socket.on('disconnect', () =>
+      setStatus((current) => (current === 'ended' ? current : 'reconnecting')),
+    );
     socket.on('ROOM_STATE', (state: PublicRoomState) => {
       if (state.stateVersion <= versionRef.current) return;
       versionRef.current = state.stateVersion;
       setClockOffset(state.serverNow - Date.now());
       setRoom(state);
     });
-    socket.on('CONTROL_READY', (payload: { capabilities: string[] }) => setCapabilities(payload.capabilities));
+    socket.on('CONTROL_READY', (payload: { capabilities: string[] }) =>
+      setCapabilities(payload.capabilities),
+    );
     socket.on('ROOM_CLOSED', () => {
       setStatus('ended');
       socket.disconnect();
@@ -70,7 +78,7 @@ export function useRoomFeed(role: 'overlay' | 'control', roomCode: string, token
     };
   }, [role, roomCode, token]);
 
-  const emit = useCallback(<T,>(event: string, payload: unknown = {}): Promise<T> => {
+  const emit = useCallback(<T>(event: string, payload: unknown = {}): Promise<T> => {
     return new Promise<T>((resolve, reject) => {
       const socket = socketRef.current;
       if (!socket || !socket.connected) {
@@ -78,7 +86,8 @@ export function useRoomFeed(role: 'overlay' | 'control', roomCode: string, token
         return;
       }
       socket.timeout(8000).emit(event, payload, (timeoutError: Error | null, ack: Ack<T>) => {
-        if (timeoutError) reject(new ApiClientError('INTERNAL_ERROR', 'The server did not answer', 0));
+        if (timeoutError)
+          reject(new ApiClientError('INTERNAL_ERROR', 'The server did not answer', 0));
         else if (ack.ok) resolve(ack.data);
         else reject(new ApiClientError(ack.error.code, ack.error.message, 0, ack.error.requestId));
       });

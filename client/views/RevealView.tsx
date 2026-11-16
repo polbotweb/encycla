@@ -14,7 +14,9 @@ export function RevealView() {
   if (!room || !reveal) return null;
 
   const mine = room.results?.find((result) => result.playerId === playerId) ?? null;
-  const chosenIndex = mine?.choiceIndex ?? (lockedChoice?.questionId === reveal.questionId ? lockedChoice.index : null);
+  const chosenIndex =
+    mine?.choiceIndex ??
+    (lockedChoice?.questionId === reveal.questionId ? lockedChoice.index : null);
 
   let verdict: { text: string; tone: string; icon: 'check' | 'cross' } | null = null;
   if (mine) {
@@ -31,7 +33,10 @@ export function RevealView() {
         <ImageFrame image={reveal.image} className="h-60 sm:h-72 lg:h-[26rem]" />
         <div className="space-y-4">
           {verdict ? (
-            <div className={`flex items-center gap-2 rounded-md border-2 px-4 py-2 text-xl font-bold ${verdict.tone}`} role="status">
+            <div
+              className={`flex items-center gap-2 rounded-md border-2 px-4 py-2 text-xl font-bold ${verdict.tone}`}
+              role="status"
+            >
               {verdict.icon === 'check' ? <CheckIcon /> : <CrossIcon />}
               <ViewTitle>{verdict.text}</ViewTitle>
               {mine && mine.pointsAwarded > 0 ? (
@@ -47,7 +52,9 @@ export function RevealView() {
               let state: OptionState = 'muted';
               if (index === reveal.correctIndex) state = 'correct';
               else if (chosenIndex === index) state = 'incorrect';
-              return <OptionButton key={index} index={index} text={option} state={state} disabled />;
+              return (
+                <OptionButton key={index} index={index} text={option} state={state} disabled />
+              );
             })}
           </div>
           <p className="text-ink-2">{reveal.explanation}</p>

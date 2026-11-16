@@ -96,17 +96,23 @@ export function connectPlayerSocket(token: string): void {
     if (state.room && state.closedReason) state.leaveRoomLocal();
     state.setQueue(queue);
   });
-  next.on('SMALL_ROOM_PROPOSAL', (proposal: { proposalId: string; playerCount: number; expiresAt: number }) =>
-    useGameStore.getState().setProposal({ ...proposal, voted: false }),
+  next.on(
+    'SMALL_ROOM_PROPOSAL',
+    (proposal: { proposalId: string; playerCount: number; expiresAt: number }) =>
+      useGameStore.getState().setProposal({ ...proposal, voted: false }),
   );
   next.on('MATCH_FOUND', () => useGameStore.getState().setQueue(null));
-  next.on('ROOM_CLOSED', (payload: { reason: string }) => useGameStore.getState().setClosed(payload.reason));
+  next.on('ROOM_CLOSED', (payload: { reason: string }) =>
+    useGameStore.getState().setClosed(payload.reason),
+  );
   next.on('SESSION_REPLACED', () => {
     useGameStore.getState().setReplaced();
     useGameStore.getState().setConnection('offline');
     next.disconnect();
   });
-  next.on('ERROR', (payload: { error: ApiError }) => useGameStore.getState().setError(payload.error));
+  next.on('ERROR', (payload: { error: ApiError }) =>
+    useGameStore.getState().setError(payload.error),
+  );
 }
 
 export function disconnectPlayerSocket(): void {

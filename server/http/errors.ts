@@ -28,7 +28,11 @@ export function toApiError(error: AppError): ApiError {
 }
 
 export function internalApiError(): ApiError {
-  return { code: 'INTERNAL_ERROR', message: 'An unexpected error occurred.', requestId: randomUUID() };
+  return {
+    code: 'INTERNAL_ERROR',
+    message: 'An unexpected error occurred.',
+    requestId: randomUUID(),
+  };
 }
 
 export function sendError(

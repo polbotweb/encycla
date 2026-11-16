@@ -21,7 +21,9 @@ export function LevelCompleteView() {
 
   if (!room) return null;
   const waiting = continuedToken !== null && continuedToken === phaseToken;
-  const canContinue = Boolean(me && me.status === 'CONNECTED' && !room.isTikTok && !paused && phaseToken);
+  const canContinue = Boolean(
+    me && me.status === 'CONNECTED' && !room.isTikTok && !paused && phaseToken,
+  );
 
   async function send(): Promise<void> {
     if (!phaseToken) return;
@@ -37,7 +39,7 @@ export function LevelCompleteView() {
 
   return (
     <main className="mx-auto w-full max-w-xl p-4 lg:p-8">
-      <Panel className="space-y-4 text-center" >
+      <Panel className="space-y-4 text-center">
         <div aria-live="polite">
           <ViewTitle>
             {t.levelComplete}: level {room.level}
@@ -51,8 +53,14 @@ export function LevelCompleteView() {
         <p className="text-ink-2">
           {room.mode === 'CONTEST' ? '' : room.isSolo ? 'Lives restored.' : 'Lives carry over.'}
         </p>
-        {remaining !== null ? <p className="text-sm text-ink-2">Next level in {formatSeconds(remaining)}s</p> : null}
-        {error ? <p role="alert" className="text-sm text-danger">{error}</p> : null}
+        {remaining !== null ? (
+          <p className="text-sm text-ink-2">Next level in {formatSeconds(remaining)}s</p>
+        ) : null}
+        {error ? (
+          <p role="alert" className="text-sm text-danger">
+            {error}
+          </p>
+        ) : null}
         <div className="flex justify-center gap-3">
           {!room.isTikTok ? (
             <Button size="lg" disabled={!canContinue || waiting} onClick={() => void send()}>
@@ -60,7 +68,10 @@ export function LevelCompleteView() {
             </Button>
           ) : null}
           {canSkip ? (
-            <Button variant="secondary" onClick={() => void gameActions.skip().catch(() => undefined)}>
+            <Button
+              variant="secondary"
+              onClick={() => void gameActions.skip().catch(() => undefined)}
+            >
               Skip for everyone
             </Button>
           ) : null}

@@ -8,7 +8,10 @@ interface LiveConnection {
   connect(): Promise<unknown>;
   disconnect(): unknown;
 }
-type LiveConnectionCtor = new (uniqueId: string, options: Record<string, unknown>) => LiveConnection;
+type LiveConnectionCtor = new (
+  uniqueId: string,
+  options: Record<string, unknown>,
+) => LiveConnection;
 
 export interface LiveAdapterOptions {
   username: string;

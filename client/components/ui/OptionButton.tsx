@@ -25,7 +25,13 @@ export interface OptionButtonProps {
   onSelect?: (index: number) => void;
 }
 
-export function OptionButton({ index, text, state = 'default', disabled = false, onSelect }: OptionButtonProps) {
+export function OptionButton({
+  index,
+  text,
+  state = 'default',
+  disabled = false,
+  onSelect,
+}: OptionButtonProps) {
   const letter = OPTION_LETTERS[index] ?? String(index + 1);
   const suffix = STATE_LABEL[state];
   return (

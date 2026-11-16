@@ -119,7 +119,11 @@ export function createApp(options: AppOptions = {}): Express {
       questionsUsable,
       uptimeMs: now() - startedAt,
       version: VERSION,
-      tiktok: options.tiktok?.enabled ? (options.tiktok.isConnected() ? 'connected' : 'disconnected') : 'disabled',
+      tiktok: options.tiktok?.enabled
+        ? options.tiktok.isConnected()
+          ? 'connected'
+          : 'disconnected'
+        : 'disabled',
     });
     response.status(health.statusCode).json(health.body);
   });

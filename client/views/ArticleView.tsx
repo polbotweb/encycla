@@ -33,7 +33,11 @@ export function ArticleView() {
     function onKeyDown(event: KeyboardEvent): void {
       if (event.key !== 'Enter' || event.repeat) return;
       const target = event.target;
-      if (target instanceof HTMLElement && ['BUTTON', 'A', 'INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
+      if (
+        target instanceof HTMLElement &&
+        ['BUTTON', 'A', 'INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)
+      )
+        return;
       if (canContinue && phaseToken && continuedToken !== phaseToken) {
         void send(phaseToken);
       }
@@ -86,14 +90,21 @@ export function ArticleView() {
           </p>
         ) : (
           <>
-            <Button size="lg" disabled={!canContinue || waiting} onClick={() => phaseToken && void send(phaseToken)}>
+            <Button
+              size="lg"
+              disabled={!canContinue || waiting}
+              onClick={() => phaseToken && void send(phaseToken)}
+            >
               {waiting ? 'Waiting for other players…' : t.continue}
             </Button>
             <span className="text-sm text-ink-2">{connectedPlayers} connected</span>
           </>
         )}
         {canSkip ? (
-          <Button variant="secondary" onClick={() => void gameActions.skip().catch(() => undefined)}>
+          <Button
+            variant="secondary"
+            onClick={() => void gameActions.skip().catch(() => undefined)}
+          >
             Skip for everyone
           </Button>
         ) : null}

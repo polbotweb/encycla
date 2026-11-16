@@ -84,10 +84,16 @@ export function QuestionView() {
 
   const eliminated = me?.status === 'ELIMINATED';
   const forfeited = me?.status === 'FORFEITED' || me?.status === 'LEFT';
-  const answered = room.players.filter((player) => player.hasAnsweredQuestionId === question.id).length;
+  const answered = room.players.filter(
+    (player) => player.hasAnsweredQuestionId === question.id,
+  ).length;
   const showLives = room.mode !== 'CONTEST';
   const total = room.settings.timerMs;
-  const totalMs = room.settings.isTikTok ? total : (room.phaseStartedAt && room.phaseEndsAt ? room.phaseEndsAt - room.phaseStartedAt : total);
+  const totalMs = room.settings.isTikTok
+    ? total
+    : room.phaseStartedAt && room.phaseEndsAt
+      ? room.phaseEndsAt - room.phaseStartedAt
+      : total;
 
   return (
     <main className="mx-auto w-full max-w-shell p-4 lg:p-8">
@@ -103,7 +109,11 @@ export function QuestionView() {
         </div>
         <div className="flex items-center gap-5">
           {showLives && me ? (
-            <div className="flex items-center gap-1 text-danger" role="img" aria-label={`${me.lives} ${me.lives === 1 ? 'life' : 'lives'} remaining`}>
+            <div
+              className="flex items-center gap-1 text-danger"
+              role="img"
+              aria-label={`${me.lives} ${me.lives === 1 ? 'life' : 'lives'} remaining`}
+            >
               {Array.from({ length: 3 }, (_, i) => (
                 <HeartIcon key={i} className={i < me.lives ? '' : 'opacity-25'} />
               ))}
@@ -111,7 +121,10 @@ export function QuestionView() {
           ) : null}
           <Stat label="Score" value={me?.score ?? 0} />
           {me && me.streak > 1 ? (
-            <div className="flex items-center gap-1 text-warning" aria-label={`${me.streak} in a row`}>
+            <div
+              className="flex items-center gap-1 text-warning"
+              aria-label={`${me.streak} in a row`}
+            >
               <FlameIcon />
               <span className="tabular font-mono font-bold">{me.streak}</span>
             </div>
@@ -123,7 +136,11 @@ export function QuestionView() {
       <div className="grid gap-4 lg:grid-cols-[55fr_45fr]">
         <ImageFrame image={question.image} className="h-60 sm:h-72 lg:h-[26rem]" />
         <div className="space-y-4">
-          <h1 tabIndex={-1} id="question-title" className="text-xl outline-none sm:text-2xl lg:text-3xl">
+          <h1
+            tabIndex={-1}
+            id="question-title"
+            className="text-xl outline-none sm:text-2xl lg:text-3xl"
+          >
             {question.questionText}
           </h1>
           <div role="group" aria-labelledby="question-title" className="grid gap-3">

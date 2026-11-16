@@ -135,5 +135,7 @@ export class TikTokConnector {
 /** Error text may echo request details: keep only a short, credential-free summary. */
 function describe(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error);
-  return message.replace(/(sessionid|session_id|cookie)[=:]\s*\S+/gi, '$1=[redacted]').slice(0, 200);
+  return message
+    .replace(/(sessionid|session_id|cookie)[=:]\s*\S+/gi, '$1=[redacted]')
+    .slice(0, 200);
 }

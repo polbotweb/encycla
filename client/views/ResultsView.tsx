@@ -72,9 +72,13 @@ export function ResultsView() {
             {podium.map((row) => (
               <li key={row.player.id} className="flex w-28 flex-col items-center gap-1">
                 <Avatar emoji={row.player.avatar} size={64} />
-                <span className="max-w-full truncate font-semibold">{truncate(row.player.displayName, 14)}</span>
+                <span className="max-w-full truncate font-semibold">
+                  {truncate(row.player.displayName, 14)}
+                </span>
                 <span className="tabular font-mono text-ink-2">{row.player.score}</span>
-                <span className="rounded-md border border-line-strong px-3 py-1 text-lg font-bold">#{row.rank}</span>
+                <span className="rounded-md border border-line-strong px-3 py-1 text-lg font-bold">
+                  #{row.rank}
+                </span>
               </li>
             ))}
           </ol>
@@ -87,12 +91,24 @@ export function ResultsView() {
             <caption className="sr-only">Final ranking</caption>
             <thead>
               <tr className="label border-b border-line">
-                <th scope="col" className="py-2 pr-2">Rank</th>
-                <th scope="col" className="py-2 pr-2">Player</th>
-                <th scope="col" className="py-2 pr-2 text-right">Score</th>
-                <th scope="col" className="py-2 pr-2 text-right">Correct</th>
-                <th scope="col" className="py-2 pr-2 text-right">Errors</th>
-                <th scope="col" className="py-2 text-right">Time</th>
+                <th scope="col" className="py-2 pr-2">
+                  Rank
+                </th>
+                <th scope="col" className="py-2 pr-2">
+                  Player
+                </th>
+                <th scope="col" className="py-2 pr-2 text-right">
+                  Score
+                </th>
+                <th scope="col" className="py-2 pr-2 text-right">
+                  Correct
+                </th>
+                <th scope="col" className="py-2 pr-2 text-right">
+                  Errors
+                </th>
+                <th scope="col" className="py-2 text-right">
+                  Time
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -116,7 +132,9 @@ export function ResultsView() {
                       </span>
                     </td>
                     <td className="tabular py-2 pr-2 text-right font-mono">{row.player.score}</td>
-                    <td className="tabular py-2 pr-2 text-right font-mono">{row.player.correctCount}</td>
+                    <td className="tabular py-2 pr-2 text-right font-mono">
+                      {row.player.correctCount}
+                    </td>
                     <td className="tabular py-2 pr-2 text-right font-mono">
                       {row.player.wrongCount + row.player.timeoutCount}
                     </td>

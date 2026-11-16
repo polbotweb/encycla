@@ -79,8 +79,9 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     payload = null;
   }
   if (!response.ok) {
-    const error = (payload as { error?: { code?: ErrorCode; message?: string; requestId?: string } })
-      ?.error;
+    const error = (
+      payload as { error?: { code?: ErrorCode; message?: string; requestId?: string } }
+    )?.error;
     throw new ApiClientError(
       error?.code ?? 'INTERNAL_ERROR',
       error?.message ?? 'Request failed',
@@ -111,7 +112,11 @@ export const api = {
       { token, body: selection },
     ),
   leaveQueue: (token: string) => request<void>('/api/queue', { method: 'DELETE', token }),
-  leaderboard: (params: { mode?: GameMode | undefined; source?: 'web' | 'tiktok' | undefined; limit: number }) => {
+  leaderboard: (params: {
+    mode?: GameMode | undefined;
+    source?: 'web' | 'tiktok' | undefined;
+    limit: number;
+  }) => {
     const query = new URLSearchParams({ limit: String(params.limit) });
     if (params.mode) query.set('mode', params.mode);
     if (params.source) query.set('source', params.source);

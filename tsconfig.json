@@ -1,5 +1,11 @@
 {
   "extends": "./tsconfig.client.json",
-  "include": ["client/**/*.ts", "client/**/*.tsx", "shared/**/*.ts", "vite.config.ts", "tailwind.config.ts"],
+  "include": [
+    "client/**/*.ts",
+    "client/**/*.tsx",
+    "shared/**/*.ts",
+    "vite.config.ts",
+    "tailwind.config.ts"
+  ],
   "exclude": ["server", "tests", "dist", "node_modules"]
 }

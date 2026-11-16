@@ -14,7 +14,10 @@ import { TikTokService } from './tiktok/service';
 import type { TikTokAdapterFactory } from './tiktok/adapter';
 import { silentLogger, type Logger } from './util/logger';
 
-export interface GameServerOptions extends Omit<AppOptions, 'manager' | 'sessions' | 'presence' | 'queue' | 'tiktok'> {
+export interface GameServerOptions extends Omit<
+  AppOptions,
+  'manager' | 'sessions' | 'presence' | 'queue' | 'tiktok'
+> {
   questionList: readonly QuestionRecord[];
   logger?: Logger;
   random?: () => number;
@@ -96,13 +99,22 @@ export function createGameServer(options: GameServerOptions): GameServer {
     },
     emitter: {
       queueState: (playerId, state) => gateway?.emitToPlayer(playerId, 'QUEUE_STATE', state),
-      matchFound: (playerId, roomCode) => gateway?.emitToPlayer(playerId, 'MATCH_FOUND', { roomCode }),
+      matchFound: (playerId, roomCode) =>
+        gateway?.emitToPlayer(playerId, 'MATCH_FOUND', { roomCode }),
       smallRoomProposal: (playerId, proposal) =>
         gateway?.emitToPlayer(playerId, 'SMALL_ROOM_PROPOSAL', proposal),
     },
   });
   const matchmaking = queue;
-  const app = createApp({ ...options, persistence, sessions, manager, presence, queue: matchmaking, tiktok: tiktokService });
+  const app = createApp({
+    ...options,
+    persistence,
+    sessions,
+    manager,
+    presence,
+    queue: matchmaking,
+    tiktok: tiktokService,
+  });
   const httpServer = createServer(app);
   gateway = Gateway.attach(httpServer, {
     sessions,

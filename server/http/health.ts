@@ -27,7 +27,11 @@ export function buildHealth(input: HealthInput): { statusCode: number; body: Hea
   let status: HealthStatus = 'ok';
   if (!questionsUsable) {
     status = 'error';
-  } else if (db === 'disabled' || input.questions === 'degraded' || input.tiktok === 'disconnected') {
+  } else if (
+    db === 'disabled' ||
+    input.questions === 'degraded' ||
+    input.tiktok === 'disconnected'
+  ) {
     status = 'degraded';
   }
 

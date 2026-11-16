@@ -63,7 +63,9 @@ export class TikTokService implements TikTokPort {
   }
 
   activeRoomCode(): string | null {
-    return this.activeRoom !== null && this.options.manager.hasRoom(this.activeRoom) ? this.activeRoom : null;
+    return this.activeRoom !== null && this.options.manager.hasRoom(this.activeRoom)
+      ? this.activeRoom
+      : null;
   }
 
   start(): void {
@@ -74,7 +76,10 @@ export class TikTokService implements TikTokPort {
     this.connector?.stop();
   }
 
-  createRoom(selection: ModeSelection, timerMs: number = DEFAULT_TIKTOK_TIMER_MS): { roomCode: string } & IssuedRoomTokens {
+  createRoom(
+    selection: ModeSelection,
+    timerMs: number = DEFAULT_TIKTOK_TIMER_MS,
+  ): { roomCode: string } & IssuedRoomTokens {
     if (!this.enabled) {
       throw new AppError('TIKTOK_DISABLED', 'TikTok mode is disabled.');
     }
@@ -131,7 +136,8 @@ export class TikTokService implements TikTokPort {
     if (choiceIndex === null) {
       return;
     }
-    const uniqueId = typeof message.uniqueId === 'string' ? message.uniqueId.trim().toLowerCase() : '';
+    const uniqueId =
+      typeof message.uniqueId === 'string' ? message.uniqueId.trim().toLowerCase() : '';
     if (uniqueId === '' || uniqueId.length > MAX_UNIQUE_ID_LENGTH) {
       return;
     }
@@ -195,7 +201,9 @@ export function viewerPseudo(nickname: string | null, uniqueId: string): string 
     if (!candidate) {
       continue;
     }
-    const cleaned = normalizePseudo(candidate).replace(/[^\p{L}\p{M}\p{N} _-]/gu, '').trim();
+    const cleaned = normalizePseudo(candidate)
+      .replace(/[^\p{L}\p{M}\p{N} _-]/gu, '')
+      .trim();
     const chars = [...cleaned];
     if (chars.length >= 2) {
       return chars.slice(0, 24).join('');

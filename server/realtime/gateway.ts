@@ -173,7 +173,12 @@ export class Gateway implements RoomEmitter {
         next();
       } catch (error) {
         if (error instanceof SessionError) {
-          next(connectError(error.code === 'VALIDATION_ERROR' ? 'AUTH_INVALID' : error.code, error.message));
+          next(
+            connectError(
+              error.code === 'VALIDATION_ERROR' ? 'AUTH_INVALID' : error.code,
+              error.message,
+            ),
+          );
           return;
         }
         next(connectError('INTERNAL_ERROR', 'Authentication failed.'));
@@ -218,13 +223,10 @@ export class Gateway implements RoomEmitter {
     }
 
     const roomCode = this.options.manager.playerConnected(player.id);
-    socket.emit(
-      'SESSION_READY',
-      {
-        player: { id: player.id, pseudo: player.pseudo, avatar: player.avatar },
-        roomCode,
-      },
-    );
+    socket.emit('SESSION_READY', {
+      player: { id: player.id, pseudo: player.pseudo, avatar: player.avatar },
+      roomCode,
+    });
     if (roomCode) {
       this.sendState(socket, roomCode);
     }
@@ -318,7 +320,9 @@ export class Gateway implements RoomEmitter {
         phaseToken: payload.phaseToken,
       });
       const waitingFor = Object.values(state.players)
-        .filter((member) => member.status === 'CONNECTED' && !state.continueReady.includes(member.id))
+        .filter(
+          (member) => member.status === 'CONNECTED' && !state.continueReady.includes(member.id),
+        )
         .map((member) => member.id);
       return { ready: true, waitingFor };
     });

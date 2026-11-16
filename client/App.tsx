@@ -45,7 +45,13 @@ function RoomView({ phase }: { phase: RoomPhase | null }) {
   }
 }
 
-function PlayerApp({ initialScreen, initialCode }: { initialScreen: 'home' | 'leaderboard'; initialCode: string }) {
+function PlayerApp({
+  initialScreen,
+  initialCode,
+}: {
+  initialScreen: 'home' | 'leaderboard';
+  initialCode: string;
+}) {
   const session = useSessionStore((state) => state.session);
   const screen = useUiStore((state) => state.screen);
   const setScreen = useUiStore((state) => state.setScreen);
@@ -120,7 +126,13 @@ export default function App() {
     return <OverlayView roomCode={route.roomCode} token={route.token} />;
   }
   if (route.kind === 'control') {
-    return <ControlView roomCode={route.roomCode} token={route.token} {...(route.overlayToken ? { overlayToken: route.overlayToken } : {})} />;
+    return (
+      <ControlView
+        roomCode={route.roomCode}
+        token={route.token}
+        {...(route.overlayToken ? { overlayToken: route.overlayToken } : {})}
+      />
+    );
   }
   return <PlayerApp initialScreen={route.screen} initialCode={route.code} />;
 }

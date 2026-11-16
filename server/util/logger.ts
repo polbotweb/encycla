@@ -12,7 +12,10 @@ export function redact(data: Record<string, unknown> | undefined): Record<string
     return {};
   }
   return Object.fromEntries(
-    Object.entries(data).map(([key, value]) => [key, REDACTED_KEYS.test(key) ? '[redacted]' : value]),
+    Object.entries(data).map(([key, value]) => [
+      key,
+      REDACTED_KEYS.test(key) ? '[redacted]' : value,
+    ]),
   );
 }
 

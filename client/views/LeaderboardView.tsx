@@ -61,7 +61,9 @@ export function LeaderboardView() {
 
       <Panel className="flex flex-wrap gap-4">
         <div>
-          <label htmlFor="lb-mode" className="label mb-1 block">Mode</label>
+          <label htmlFor="lb-mode" className="label mb-1 block">
+            Mode
+          </label>
           <select
             id="lb-mode"
             value={mode}
@@ -76,7 +78,9 @@ export function LeaderboardView() {
           </select>
         </div>
         <div>
-          <label htmlFor="lb-source" className="label mb-1 block">Source</label>
+          <label htmlFor="lb-source" className="label mb-1 block">
+            Source
+          </label>
           <select
             id="lb-source"
             value={source}
@@ -91,14 +95,23 @@ export function LeaderboardView() {
       </Panel>
 
       {error ? (
-        <Banner variant="error" action={<Button size="sm" variant="secondary" onClick={() => setAttempt((n) => n + 1)}>{t.retry}</Button>}>
+        <Banner
+          variant="error"
+          action={
+            <Button size="sm" variant="secondary" onClick={() => setAttempt((n) => n + 1)}>
+              {t.retry}
+            </Button>
+          }
+        >
           {error}
         </Banner>
       ) : null}
 
       <Panel className="overflow-x-auto">
         {entries === null && !error ? (
-          <p className="text-ink-2" role="status">Loading…</p>
+          <p className="text-ink-2" role="status">
+            Loading…
+          </p>
         ) : null}
         {entries !== null && entries.length === 0 ? (
           <p className="text-ink-2">No matches yet. Be the first.</p>
@@ -108,17 +121,32 @@ export function LeaderboardView() {
             <caption className="sr-only">Leaderboard</caption>
             <thead>
               <tr className="label border-b border-line">
-                <th scope="col" className="py-2 pr-2">Rank</th>
-                <th scope="col" className="py-2 pr-2">Player</th>
-                <th scope="col" className="py-2 pr-2 text-right">Points</th>
-                <th scope="col" className="py-2 pr-2 text-right">Matches</th>
-                <th scope="col" className="py-2 pr-2 text-right">Best</th>
-                <th scope="col" className="py-2 text-right">Correct</th>
+                <th scope="col" className="py-2 pr-2">
+                  Rank
+                </th>
+                <th scope="col" className="py-2 pr-2">
+                  Player
+                </th>
+                <th scope="col" className="py-2 pr-2 text-right">
+                  Points
+                </th>
+                <th scope="col" className="py-2 pr-2 text-right">
+                  Matches
+                </th>
+                <th scope="col" className="py-2 pr-2 text-right">
+                  Best
+                </th>
+                <th scope="col" className="py-2 text-right">
+                  Correct
+                </th>
               </tr>
             </thead>
             <tbody>
               {entries.map((entry) => (
-                <tr key={entry.playerId} className={`border-b border-line/60 ${entry.playerId === playerId ? 'bg-raised font-semibold' : ''}`}>
+                <tr
+                  key={entry.playerId}
+                  className={`border-b border-line/60 ${entry.playerId === playerId ? 'bg-raised font-semibold' : ''}`}
+                >
                   <td className="tabular py-2 pr-2">{entry.rank}</td>
                   <td className="py-2 pr-2">
                     <span className="flex items-center gap-2">
@@ -128,7 +156,9 @@ export function LeaderboardView() {
                   </td>
                   <td className="tabular py-2 pr-2 text-right font-mono">{entry.totalPoints}</td>
                   <td className="tabular py-2 pr-2 text-right font-mono">{entry.matches}</td>
-                  <td className="tabular py-2 pr-2 text-right font-mono">{entry.bestMatchPoints}</td>
+                  <td className="tabular py-2 pr-2 text-right font-mono">
+                    {entry.bestMatchPoints}
+                  </td>
                   <td className="tabular py-2 text-right font-mono">{entry.correctCount}</td>
                 </tr>
               ))}
