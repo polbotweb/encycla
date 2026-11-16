@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import { loadQuestionBank, type QuestionBankValidation } from '../shared/question-bank';
 import { CATEGORY_VALUES } from '../shared/schemas';
-import { loadConfig } from './config';
+import { loadConfig, validateConfig } from './config';
+import { LiveTikTokAdapter } from './tiktok/liveAdapter';
 import { initializePersistence } from './persistence/db';
 import { createGameServer } from './server';
 import { createLogger, parseLogLevel } from './util/logger';
@@ -34,6 +35,10 @@ async function loadBank(path: string): Promise<QuestionBankValidation> {
 
 async function main(): Promise<void> {
   const config = loadConfig();
+  const problems = validateConfig(config);
+  if (problems.length > 0) {
+    throw new Error(`Invalid configuration:\n- ${problems.join('\n- ')}`);
+  }
   const bank = await loadBank('data/questions.json');
   const questions = bank.bank?.questions ?? [];
   const initialized = initializePersistence({
@@ -61,6 +66,14 @@ async function main(): Promise<void> {
     trustProxy: config.trustProxy,
     logger: createLogger(parseLogLevel(config.logLevel)),
     allowedOrigin: config.publicOrigin,
+    tiktokAdapterFactory:
+      config.tiktokEnabled && config.tiktokUsername && config.tiktokSessionCookie
+        ? () =>
+            new LiveTikTokAdapter({
+              username: config.tiktokUsername as string,
+              sessionCookie: config.tiktokSessionCookie as string,
+            })
+        : null,
   });
   game.httpServer.listen(config.port, () => {
     console.info(`Encycla server listening on http://localhost:${config.port}`);

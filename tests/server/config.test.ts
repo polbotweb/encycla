@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { loadConfig } from '../../server/config';
+import { loadConfig, validateConfig } from '../../server/config';
 
 describe('loadConfig', () => {
   it('uses documented defaults', () => {
@@ -11,6 +11,7 @@ describe('loadConfig', () => {
       adminToken: null,
       tiktokEnabled: false,
       tiktokUsername: null,
+      tiktokSessionCookie: null,
       trustProxy: false,
       staticDir: 'dist',
     });
@@ -27,5 +28,30 @@ describe('loadConfig', () => {
   it('rejects an invalid port', () => {
     expect(() => loadConfig({ PORT: '0' })).toThrow('Invalid PORT');
     expect(() => loadConfig({ PORT: 'not-a-port' })).toThrow('Invalid PORT');
+  });
+});
+
+describe('validateConfig', () => {
+  it('accepts development defaults', () => {
+    expect(validateConfig(loadConfig({}), {})).toEqual([]);
+  });
+
+  it('requires ADMIN_TOKEN and PUBLIC_ORIGIN in production', () => {
+    const problems = validateConfig(loadConfig({ NODE_ENV: 'production' }), { NODE_ENV: 'production' });
+    expect(problems).toHaveLength(2);
+    expect(problems.join(' ')).toContain('ADMIN_TOKEN');
+    expect(problems.join(' ')).toContain('PUBLIC_ORIGIN');
+    const env = {
+      NODE_ENV: 'production',
+      ADMIN_TOKEN: 'a-long-enough-admin-token',
+      PUBLIC_ORIGIN: 'https://encycla.example.com',
+    };
+    expect(validateConfig(loadConfig(env), env)).toEqual([]);
+  });
+
+  it('requires a username and a session cookie when TikTok is enabled', () => {
+    expect(validateConfig(loadConfig({ TIKTOK_ENABLED: 'true' }), {})).toHaveLength(2);
+    const env = { TIKTOK_ENABLED: 'true', TIKTOK_USERNAME: 'game', TIKTOK_SESSION_COOKIE: 'sessionid=abc' };
+    expect(validateConfig(loadConfig(env), {})).toEqual([]);
   });
 });

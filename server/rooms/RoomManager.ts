@@ -293,6 +293,23 @@ export class RoomManager {
     return this.joinInternal(code, player);
   }
 
+  /**
+   * TikTok viewers have no socket and no session: they are seated in the room only (never in
+   * `playerRooms`) and answer through the chat connector. Returns null when the room is full
+   * or closed.
+   */
+  joinViewer(code: string, viewer: PlayerIdentity): GameState | null {
+    const room = this.rooms.get(code);
+    if (!room || !room.state.isTikTok) {
+      return null;
+    }
+    const result = this.dispatch(code, {
+      type: 'PLAYER_JOIN',
+      player: { ...viewer, displayName: this.displayNameFor(room.state, viewer) },
+    });
+    return result.ok && result.state.players[viewer.id] ? result.state : null;
+  }
+
   private joinInternal(code: string, player: PlayerIdentity): GameState {
     const room = this.rooms.get(code);
     if (!room) {

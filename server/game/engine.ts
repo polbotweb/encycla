@@ -1020,7 +1020,10 @@ function handleAnswer(
   ];
 
   const connected = connectedActivePlayers(next);
+  // TikTok viewers join by answering, so "everyone seated has answered" is meaningless there:
+  // the question always runs to its timer (or an operator skip). See docs/DECISIONS.md D-79.
   const allAnswered =
+    !state.isTikTok &&
     connected.length > 0 &&
     connected.every((candidate) => candidate.answer?.questionId === questionId);
 
@@ -1081,7 +1084,10 @@ function handleManualAnswer(
   ];
 
   const connected = connectedActivePlayers(next);
+  // TikTok viewers join by answering, so "everyone seated has answered" is meaningless there:
+  // the question always runs to its timer (or an operator skip). See docs/DECISIONS.md D-79.
   const allAnswered =
+    !state.isTikTok &&
     connected.length > 0 &&
     connected.every((candidate) => candidate.answer?.questionId === questionId);
 

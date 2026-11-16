@@ -134,6 +134,7 @@ Ce fichier répond point par point aux ambiguïtés relevées dans le README v1 
 | D-76 | Où sont transmis les tokens overlay/control ? | Dans le fragment d'URL (`#token=...`), puis dans `handshake.auth.token`. | Le fragment n'est jamais envoyé au serveur HTTP ni loggué. | ADR-015, SECURITY |
 | D-77 | Que faire si SQLite est indisponible ? | Le serveur démarre en mode dégradé : sessions et scores en mémoire, questions depuis le JSON, leaderboard `PERSISTENCE_DISABLED`. | Le jeu reste jouable ; la persistance est sacrifiée, pas la disponibilité. | ADR-013, DATA-MODEL |
 | D-78 | Quelle est la longueur maximale d'un pseudo ? | 2 à 24 graphèmes après normalisation. | Aligné sur ADR-016 et lisible dans le lobby. | ADR-016, SECURITY |
+| D-79 | Une room TikTok se résout-elle dès que tous les viewers présents ont répondu ? | Non : une question TikTok va toujours jusqu'à son timer (ou `HOST_SKIP`). | Un viewer devient joueur en répondant ; « tous les actifs ont répondu » serait vrai dès le premier commentaire et terminerait la question en moins d'une seconde. | SPECIFICATION 14, PROTOCOL 6.2 |
 
 ## Points qui ne sont plus des questions ouvertes
 

@@ -8,6 +8,8 @@ export interface ServerConfig {
   adminToken: string | null;
   tiktokEnabled: boolean;
   tiktokUsername: string | null;
+  /** Secret. Never log, never expose through the API. */
+  tiktokSessionCookie: string | null;
   trustProxy: boolean;
   staticDir: string;
 }
@@ -35,7 +37,30 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     adminToken: parseAdminToken(env.ADMIN_TOKEN),
     tiktokEnabled: env.TIKTOK_ENABLED === 'true',
     tiktokUsername: env.TIKTOK_USERNAME?.trim() || null,
+    tiktokSessionCookie: env.TIKTOK_SESSION_COOKIE?.trim() || null,
     trustProxy: env.TRUST_PROXY === 'true',
     staticDir: env.STATIC_DIR ?? 'dist',
   };
+}
+
+/** Startup validation (DEPLOYMENT 6.1). Returns human-readable problems; empty means valid. */
+export function validateConfig(config: ServerConfig, env: NodeJS.ProcessEnv = process.env): string[] {
+  const problems: string[] = [];
+  if (env.NODE_ENV === 'production') {
+    if (config.adminToken === null) {
+      problems.push('ADMIN_TOKEN (at least 16 characters, not "change-me") is required in production.');
+    }
+    if (config.publicOrigin === null) {
+      problems.push('PUBLIC_ORIGIN is required in production.');
+    }
+  }
+  if (config.tiktokEnabled) {
+    if (config.tiktokUsername === null) {
+      problems.push('TIKTOK_USERNAME is required when TIKTOK_ENABLED=true.');
+    }
+    if (config.tiktokSessionCookie === null) {
+      problems.push('TIKTOK_SESSION_COOKIE is required when TIKTOK_ENABLED=true.');
+    }
+  }
+  return problems;
 }

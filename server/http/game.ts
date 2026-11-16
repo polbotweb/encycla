@@ -10,6 +10,7 @@ import { FixedWindowLimiter, httpRateLimit } from '../security/rateLimit';
 import type { QueueManager } from '../matchmaking/QueueManager';
 import { targetFor } from '../matchmaking/QueueManager';
 import type { SessionService } from '../services/session-service';
+import type { TikTokPort } from '../tiktok/service';
 import { adminAuth, getPlayer, playerAuth } from './auth';
 import { AppError, sendAppError, sendError } from './errors';
 import {
@@ -18,6 +19,7 @@ import {
   createRoomSchema,
   parseBody,
   resolveSelection,
+  tiktokRoomSchema,
 } from './modes';
 
 export interface PresencePort {
@@ -31,6 +33,7 @@ export interface GameRouterOptions {
   questions: readonly QuestionRecord[];
   presence: PresencePort;
   queue?: QueueManager | undefined;
+  tiktok?: TikTokPort | undefined;
   adminToken: string | null;
   now: () => number;
   rateLimit: boolean;
@@ -197,6 +200,21 @@ export function createGameRouter(options: GameRouterOptions): Router {
     options.queue?.leave(getPlayer(response).id);
     response.status(204).end();
   });
+
+  router.post(
+    '/tiktok/rooms',
+    adminAuth(options.adminToken),
+    guarded((request, response) => {
+      const tiktok = options.tiktok;
+      if (!tiktok || !tiktok.enabled) {
+        throw new AppError('TIKTOK_DISABLED', 'TikTok mode is disabled.');
+      }
+      const body = parseBody(tiktokRoomSchema, request.body);
+      const selection = resolveSelection(body, questions, { allowContest: false });
+      const created = tiktok.createRoom(selection, body.timerMs);
+      response.status(201).json(created);
+    }),
+  );
 
   router.post(
     '/admin/rooms/:code/close',

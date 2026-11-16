@@ -820,7 +820,7 @@ Si la condition d'annulation du `COUNTDOWN` est remplie, la room est fermée (`R
 2. Joueur → `ANSWER { questionId, choiceIndex }`.
 3. Serveur → ack `{ lockedIn: true }`.
 4. Serveur → broadcast `PLAYER_LOCKED`.
-5. S'il y a au moins un actif connecté et que tous les actifs connectés ont répondu, la question est résolue immédiatement. Si tous les actifs connectés n'ont pas répondu à `phaseEndsAt`, ou s'il n'y a aucun actif connecté, elle est résolue au timer. Une room TikTok avec 0 viewer attend le timer ; les déconnectés ne bloquent pas et sont résolus en timeout.
+5. S'il y a au moins un actif connecté et que tous les actifs connectés ont répondu, la question est résolue immédiatement. Si tous les actifs connectés n'ont pas répondu à `phaseEndsAt`, ou s'il n'y a aucun actif connecté, elle est résolue au timer. Une room TikTok n'est jamais résolue par anticipation (D-79) : elle attend le timer ou `HOST_SKIP`. Les déconnectés ne bloquent pas et sont résolus en timeout.
 6. Serveur → `ROOM_STATE` (REVEAL, `reveal`, `results`, scores à jour).
 7. Après 2,5 s → `ROOM_STATE` (ARTICLE), ou `MATCH_OVER` si fin anticipée web/solo.
 8. Chaque actif web connecté → `CONTINUE { phaseToken }` (si `ARTICLE`).

@@ -10,13 +10,17 @@ import { RoomTokenRegistry } from './security/roomTokens';
 import { SessionService } from './services/session-service';
 import { createMemoryPersistence } from './persistence/db';
 import type { Persistence } from './persistence/repositories';
+import { TikTokService } from './tiktok/service';
+import type { TikTokAdapterFactory } from './tiktok/adapter';
 import { silentLogger, type Logger } from './util/logger';
 
-export interface GameServerOptions extends Omit<AppOptions, 'manager' | 'sessions' | 'presence' | 'queue'> {
+export interface GameServerOptions extends Omit<AppOptions, 'manager' | 'sessions' | 'presence' | 'queue' | 'tiktok'> {
   questionList: readonly QuestionRecord[];
   logger?: Logger;
   random?: () => number;
   allowedOrigin?: string | null;
+  /** Chat connector factory; omit or null to disable TikTok (`TIKTOK_DISABLED`). */
+  tiktokAdapterFactory?: TikTokAdapterFactory | null;
 }
 
 export interface GameServer {
@@ -27,6 +31,7 @@ export interface GameServer {
   queue: QueueManager;
   persistence: Persistence;
   roomTokens: RoomTokenRegistry;
+  tiktok: TikTokService;
   close(): Promise<void>;
 }
 
@@ -48,8 +53,12 @@ export function createGameServer(options: GameServerOptions): GameServer {
     roomState: (code, state) => gateway?.roomState(code, state),
     playerLocked: (code, playerId, questionId) => gateway?.playerLocked(code, playerId, questionId),
     timerSync: (code, sync) => gateway?.timerSync(code, sync),
-    roomClosed: (code, reason) => gateway?.roomClosed(code, reason),
+    roomClosed: (code, reason) => {
+      gateway?.roomClosed(code, reason);
+      tiktok?.roomClosed(code);
+    },
   };
+  let tiktok: TikTokService | null = null;
 
   let queue: QueueManager | null = null;
   const manager = new RoomManager({
@@ -65,6 +74,15 @@ export function createGameServer(options: GameServerOptions): GameServer {
       questions: { getQuestions: () => options.questionList },
     },
   });
+
+  const tiktokService = new TikTokService({
+    adapterFactory: options.tiktokAdapterFactory ?? null,
+    manager,
+    persistence,
+    roomTokens,
+    logger,
+  });
+  tiktok = tiktokService;
 
   const presence = { isConnected: (playerId: string) => gateway?.isConnected(playerId) ?? false };
   queue = new QueueManager({
@@ -84,7 +102,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
     },
   });
   const matchmaking = queue;
-  const app = createApp({ ...options, persistence, sessions, manager, presence, queue: matchmaking });
+  const app = createApp({ ...options, persistence, sessions, manager, presence, queue: matchmaking, tiktok: tiktokService });
   const httpServer = createServer(app);
   gateway = Gateway.attach(httpServer, {
     sessions,
@@ -97,6 +115,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
   });
   manager.start();
   matchmaking.start();
+  tiktokService.start();
 
   return {
     app,
@@ -106,7 +125,9 @@ export function createGameServer(options: GameServerOptions): GameServer {
     queue: matchmaking,
     persistence,
     roomTokens,
+    tiktok: tiktokService,
     async close() {
+      tiktokService.stop();
       matchmaking.stop();
       manager.stop();
       await gateway?.close();

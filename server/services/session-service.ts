@@ -83,7 +83,7 @@ export function validatePseudo(value: unknown): string {
   return normalized;
 }
 
-function avatarFor(playerId: string): string {
+export function avatarFor(playerId: string): string {
   const total = [...playerId].reduce((sum, character) => sum + character.codePointAt(0)!, 0);
   return AVATARS[total % AVATARS.length] as string;
 }

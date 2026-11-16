@@ -239,7 +239,7 @@ Le classement final applique l'ordre de l'ADR-005. Le serveur l'expose à `MATCH
    - le snapshot est diffusé avec `QuestionView` (sans réponse).
 3. Les joueurs envoient `ANSWER { questionId, choiceIndex }`.
 4. Le serveur accepte la première réponse valide par joueur et par question.
-5. S'il y a au moins un actif connecté et que tous les actifs connectés ont répondu, ou à `phaseEndsAt`, la question est résolue. Une room TikTok avec 0 viewer attend donc le timer ; les déconnectés ne bloquent pas et sont résolus en timeout.
+5. S'il y a au moins un actif connecté et que tous les actifs connectés ont répondu, ou à `phaseEndsAt`, la question est résolue. Une room TikTok n'est jamais résolue par anticipation (D-79) : un viewer devient joueur en répondant, donc elle attend toujours le timer ou `HOST_SKIP`. Les déconnectés ne bloquent pas et sont résolus en timeout.
 6. À `REVEAL`, le serveur diffuse le snapshot avec :
    - `subject`, `questionText`, `options` et l'image (le snapshot `reveal` est autoportant) ;
    - `correctIndex` (index mélangé) ;

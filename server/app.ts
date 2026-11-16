@@ -11,6 +11,7 @@ import { createSessionsRouter } from './http/sessions';
 import { createMemoryPersistence } from './persistence/db';
 import type { Persistence } from './persistence/repositories';
 import type { QueueManager } from './matchmaking/QueueManager';
+import type { TikTokPort } from './tiktok/service';
 import { RoomManager } from './rooms/RoomManager';
 import { FixedWindowLimiter, httpRateLimit } from './security/rateLimit';
 import { SessionService } from './services/session-service';
@@ -25,6 +26,7 @@ export interface AppOptions {
   sessions?: SessionService;
   presence?: PresencePort;
   queue?: QueueManager;
+  tiktok?: TikTokPort;
   adminToken?: string | null;
   now?: () => number;
   startedAt?: number;
@@ -103,6 +105,7 @@ export function createApp(options: AppOptions = {}): Express {
       questions: questionList,
       presence: options.presence ?? NOT_CONNECTED,
       queue: options.queue,
+      tiktok: options.tiktok,
       adminToken: options.adminToken ?? null,
       now,
       rateLimit,
@@ -116,6 +119,7 @@ export function createApp(options: AppOptions = {}): Express {
       questionsUsable,
       uptimeMs: now() - startedAt,
       version: VERSION,
+      tiktok: options.tiktok?.enabled ? (options.tiktok.isConnected() ? 'connected' : 'disconnected') : 'disabled',
     });
     response.status(health.statusCode).json(health.body);
   });
