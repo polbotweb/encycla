@@ -1,5 +1,5 @@
-import { readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type Database from 'better-sqlite3';
 
@@ -21,7 +21,20 @@ export interface MigrationStatus {
   applied: number[];
 }
 
-export const DEFAULT_MIGRATIONS_DIR = fileURLToPath(new URL('./migrations', import.meta.url));
+/**
+ * Source tree (`server/db/migrations`), bundled build (`dist/server/db/migrations`) or a copy
+ * mounted at `<cwd>/server/db/migrations` (Docker runtime).
+ */
+function resolveMigrationsDir(): string {
+  const candidates = [
+    fileURLToPath(new URL('./migrations', import.meta.url)),
+    fileURLToPath(new URL('./db/migrations', import.meta.url)),
+    resolve(process.cwd(), 'server/db/migrations'),
+  ];
+  return candidates.find((candidate) => existsSync(candidate)) ?? (candidates[0] as string);
+}
+
+export const DEFAULT_MIGRATIONS_DIR = resolveMigrationsDir();
 
 export function loadMigrations(migrationsDir = DEFAULT_MIGRATIONS_DIR): Migration[] {
   const files = readdirSync(migrationsDir)

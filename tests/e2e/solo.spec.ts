@@ -28,6 +28,18 @@ test('solo classic: first question can be answered with the keyboard and an arti
   await page.getByRole('button', { name: /solo classic/i }).click();
   await page.getByRole('button', { name: /^start/i }).click();
   await expect(page.locator('#question-title')).toBeVisible({ timeout: 15_000 });
+  const questionScan = await new AxeBuilder({ page }).analyze();
+  expect(
+    questionScan.violations
+      .filter((v) => v.impact === 'serious' || v.impact === 'critical')
+      .map((v) => `${v.id}: ${v.help}`),
+  ).toEqual([]);
   await page.keyboard.press('KeyB');
   await expect(page.getByText(/Continue/)).toBeVisible({ timeout: 15_000 });
+  const articleScan = await new AxeBuilder({ page }).analyze();
+  expect(
+    articleScan.violations
+      .filter((v) => v.impact === 'serious' || v.impact === 'critical')
+      .map((v) => `${v.id}: ${v.help}`),
+  ).toEqual([]);
 });

@@ -57,6 +57,8 @@ export interface GatewayOptions {
   now?: () => number;
   queue?: QueueGatewayPort;
   allowedOrigin?: string | null;
+  /** Per-IP `ROOM_JOIN` limit (default true). Disabled only for load tests. */
+  rateLimit?: boolean;
 }
 
 type Role = 'player' | 'overlay' | 'control';
@@ -262,7 +264,7 @@ export class Gateway implements RoomEmitter {
     this.on(socket, 'ROOM_JOIN', roomJoinPayload, (payload, ctx) => {
       const player = ctx.requirePlayer();
       const ip = socket.handshake.address;
-      if (!this.joinLimiter.hit(ip)) {
+      if (this.options.rateLimit !== false && !this.joinLimiter.hit(ip)) {
         throw new AppError('RATE_LIMITED', 'Too many join attempts.');
       }
       const code = normalizeRoomCode(payload.code);

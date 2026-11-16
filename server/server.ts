@@ -123,6 +123,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
     logger,
     now,
     queue: matchmaking,
+    ...(options.rateLimit === undefined ? {} : { rateLimit: options.rateLimit }),
     ...(options.allowedOrigin === undefined ? {} : { allowedOrigin: options.allowedOrigin }),
   });
   manager.start();

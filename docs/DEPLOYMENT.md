@@ -76,7 +76,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
     "dev:client": "vite",
     "build": "pnpm run build:client && pnpm run build:server",
     "build:client": "vite build",
-    "build:server": "tsc -p tsconfig.server.json",
+    "build:server": "node scripts/build-server.mjs",
     "start": "node dist/server/index.js",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -146,8 +146,8 @@ pnpm run build
 Sorties :
 
 - `dist/client/` : assets statiques Vite.
-- `dist/server/` : JavaScript compilé du serveur.
-- `dist/shared/` : types et schémas partagés.
+- `dist/server/` : bundle esbuild du serveur (`index.js`) et copie des migrations ; les sources utilisent des imports sans extension, donc `tsc` seul ne produit pas un JavaScript exécutable par Node ESM.
+- `dist/scripts/` : `import-questions.js` et `db-migrate.js`.
 
 Le serveur Express sert `dist/client` en production. Les assets hashés ont un cache `immutable` d'un an ; `index.html` est `no-cache`.
 
@@ -296,7 +296,7 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     volumes:
-      - encycla-data:/app/data
+      - encycla-data:/app/data/db
     read_only: true
     tmpfs:
       - /tmp
@@ -314,7 +314,7 @@ volumes:
   encycla-data:
 ```
 
-- Le volume `encycla-data` contient SQLite.
+- Le volume `encycla-data` contient SQLite (`/app/data/db`) ; `data/questions.json` reste dans l'image pour ne pas être masqué par un volume périmé. Définir `DATABASE_PATH=/app/data/db/encycla.db`.
 - `read_only` est compatible avec le volume `data`.
 - Ne pas publier `3000` sur `0.0.0.0` si un reverse proxy local est utilisé.
 
@@ -323,7 +323,7 @@ volumes:
 Le serveur applique les migrations au démarrage. Pour un contrôle explicite :
 
 ```bash
-docker compose run --rm encycla node dist/server/db/migrate.js
+docker compose run --rm encycla node dist/scripts/db-migrate.js
 ```
 
 L'import manuel reste disponible, même si le serveur synchronise aussi `questions.json` au démarrage :

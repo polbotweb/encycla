@@ -358,7 +358,7 @@ CLASSIC · 2 / 4 players
 
 ### 10.4 Accessibilité
 
-- Chaque option : `aria-label="Option A: Lion"`.
+- Chaque option : nom accessible tiré du contenu (« A Lion »), sans `aria-label` (qui échouerait à la règle axe `label-content-name-mismatch`) ; l'état (« Your answer, locked », « Correct », « Incorrect ») est ajouté en texte masqué visuellement.
 - Groupe d'options avec `role="group"` et `aria-labelledby`.
 - Timer `role="timer"`, `aria-live="off"`, annonces à 10 s, 5 s, 0.
 - Après révélation : `aria-label` incluant « Correct » ou « Incorrect ».

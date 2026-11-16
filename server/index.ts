@@ -64,6 +64,7 @@ async function main(): Promise<void> {
     adminToken: config.adminToken,
     staticDir: config.staticDir,
     trustProxy: config.trustProxy,
+    rateLimit: config.rateLimit,
     logger: createLogger(parseLogLevel(config.logLevel)),
     allowedOrigin: config.publicOrigin,
     tiktokAdapterFactory:

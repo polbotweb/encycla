@@ -40,7 +40,6 @@ export function OptionButton({
       disabled={disabled}
       aria-disabled={disabled || undefined}
       aria-pressed={state === 'selected' || undefined}
-      aria-label={`Option ${letter}: ${text}${suffix ? `. ${suffix}` : ''}`}
       onClick={() => onSelect?.(index)}
       className={[
         'flex min-h-[56px] w-full items-center gap-3 rounded-md border px-3 py-2 text-left text-lg font-medium transition-colors duration-[120ms] lg:min-h-[64px]',
@@ -48,13 +47,11 @@ export function OptionButton({
         STATE_CLASSES[state],
       ].join(' ')}
     >
-      <span
-        aria-hidden="true"
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-current text-sm font-bold"
-      >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-current text-sm font-bold">
         {letter}
-      </span>
+      </span>{' '}
       <span className="min-w-0 flex-1 break-words">{text}</span>
+      {suffix ? <span className="sr-only">{`. ${suffix}`}</span> : null}
       {state === 'correct' ? <CheckIcon className="shrink-0" /> : null}
       {state === 'incorrect' ? <CrossIcon className="shrink-0" /> : null}
     </button>

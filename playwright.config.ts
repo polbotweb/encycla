@@ -21,7 +21,7 @@ export default defineConfig({
   ],
   // Production-like: Express serves the Vite build and the API on one origin.
   webServer: {
-    command: 'pnpm run build && tsx server/index.ts',
+    command: 'pnpm run build && node dist/server/index.js',
     url: `http://127.0.0.1:${PORT}/api/health`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

@@ -128,7 +128,7 @@ describe('TikTokConnector', () => {
       factory: () => {
         const adapter = new FakeTikTokAdapter();
         adapter.connect = async () => {
-          throw new Error('request failed: cookie: sessionid=SUPERSECRET123; path=/');
+          throw new Error('request failed: cookie: sessionid=FAKE-VALUE-FOR-TEST; path=/');
         };
         return adapter;
       },
@@ -139,7 +139,7 @@ describe('TikTokConnector', () => {
     });
     connector.start();
     await flush();
-    expect(logs.join('\n')).not.toContain('SUPERSECRET123');
+    expect(logs.join('\n')).not.toContain('FAKE-VALUE-FOR-TEST');
     connector.stop();
   });
 });

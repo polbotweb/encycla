@@ -2,13 +2,13 @@
 
 **The visual encyclopedia game.** Identify the subject, answer before the timer, and read the story behind the image.
 
-Encycla est un quiz visuel multijoueur en temps réel : solo, rooms privées, matchmaking public et live TikTok. La spécification est gelée et l'implémentation a démarré ; le dépôt contient encore le prototype client v1, qui ne doit pas être considéré comme l'implémentation cible.
+Encycla est un quiz visuel multijoueur en temps réel : solo, rooms privées, matchmaking public et live TikTok. La spécification est gelée ; l'implémentation des phases 0 à 9 est en place (voir [État du dépôt](#état-du-dépôt)). Restent le contenu SUBJECT, la validation manuelle sur un vrai live TikTok et la mise en production.
 
 - **Produit** : Encycla
 - **Jeu** : Encycla MindMaze
 - **Langue de l'UI** : anglais
 - **Langue de la documentation** : français
-- **Statut** : documentation d'architecture gelée, implémentation en cours (phases 0 à 3 en place : outillage, données, moteur de jeu)
+- **Statut** : documentation d'architecture gelée, implémentation des phases 0 à 9 en place ; contenu SUBJECT, live test TikTok et release restants
 - **Gel de la documentation** : 2026-10-23
 - **Version documentaire** : 2.0
 - **Date** : 2026-10-22
@@ -20,7 +20,7 @@ Encycla est un quiz visuel multijoueur en temps réel : solo, rooms privées, ma
 - [Architecture en un coup d'œil](#architecture-en-un-coup-dœil)
 - [Documentation](#documentation)
 - [État du dépôt](#état-du-dépôt)
-- [Démarrage cible](#démarrage-cible)
+- [Démarrage](#démarrage)
 - [Structure cible](#structure-cible)
 - [Configuration](#configuration)
 - [Qualité et sécurité](#qualité-et-sécurité)
@@ -98,6 +98,7 @@ La documentation est la référence d'implémentation. Aucune décision ouverte 
 | [docs/TESTING.md](docs/TESTING.md) | Pyramide, cas obligatoires, couverture, CI. |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Local, Docker, TLS, migrations, runbook. |
 | [docs/UI-UX.md](docs/UI-UX.md) | Écrans, tokens, accessibilité, overlay, control. |
+| [docs/TIKTOK.md](docs/TIKTOK.md) | État de l'implémentation TikTok, activation du connecteur, checklist de live. |
 | [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | Phases, dépendances, estimation, critères de sortie. |
 
 Ordre de lecture recommandé :
@@ -111,56 +112,57 @@ Ordre de lecture recommandé :
 
 ## État du dépôt
 
-La documentation est gelée ; les phases 0 à 3 sont en place côté outillage, données et moteur :
+Les phases 0 à 9 sont implémentées et vérifiées automatiquement :
 
-- `vite.config.ts` n'expose plus `GEMINI_API_KEY` et `@google/genai` a été retiré du runtime ;
-- Tailwind est compilé localement ; plus aucun CDN, importmap ni Google Fonts ;
-- pnpm est le gestionnaire de paquets du dépôt ; `pnpm-lock.yaml` est présent et à jour ;
-- `pnpm install --frozen-lockfile`, `pnpm run lint`, `pnpm run typecheck`, `pnpm test` et `pnpm run build` passent ;
-- la CI vérifie les secrets, le lint, les types, les données, les tests et le build ;
-- un serveur Express minimal expose `/api/health` et le proxy Vite est en place ;
-- `data/questions.json` contient 244 questions legacy uniques, validées par `pnpm run data:validate` ;
-- `scripts/extract-legacy-questions.ts`, `scripts/validate-questions.ts` et `scripts/import-questions.ts` sont en place ; l'import SQLite est atomique et testé ;
-- `server/game` fournit un moteur pur (reducer + tick, effets injectables), le scoring, la state machine et la sélection des questions ; `pnpm test` couvre 86 tests ;
+- **Outillage** : pnpm (lockfile gelé), TypeScript strict, ESLint, Prettier, Vitest, Playwright, CI (secrets, format, lint, types, données, tests, audit, build, e2e, build Docker).
+- **Données** : `data/questions.json` (244 questions legacy uniques, validées par `pnpm run data:validate`) et import SQLite atomique.
+- **Moteur** (`server/game`) : réducteur pur `reduce`/`tick`, scoring, state machine, effets sous forme de données.
+- **Serveur** : Express 5 + Socket.io (`/game`), `RoomManager`, sessions hachées, persistance SQLite avec repli mémoire, leaderboard, matchmaking public avec vote small room, reconnexion, fermeture admin, rate limiting HTTP et socket, CSP stricte, HSTS, Permissions-Policy.
+- **TikTok** (`server/tiktok`) : parsing strict, connecteur avec backoff, faux adaptateur, route `POST /api/tiktok/rooms`, viewers (capacité 100, déduplication), overlay en lecture seule et console control. Le connecteur réel n'est pas livré par défaut : voir [docs/TIKTOK.md](docs/TIKTOK.md).
+- **Client** (`client/`) : React 19 + Zustand, toutes les vues de `docs/UI-UX.md` (accueil, lobby, file publique, countdown, question, révélation, article, fin de niveau, résultats, leaderboard, overlay, control), tokens sombres AA, annonces `aria-live`, raccourcis clavier, sons synthétisés en WebAudio (aucun fichier audio).
+- **Livraison** : `Dockerfile` multi-stage non-root avec healthcheck, `docker-compose.yml` durci, bundle serveur `dist/server/index.js`.
+- **Tests** : unitaires, intégration Socket.io de bout en bout (CONTEST complet, solo, file publique, vote small room, reconnexion, room TikTok à 100 viewers), sécurité HTTP, jsdom + axe pour les vues, Playwright (solo, deux joueurs, axe avec contraste), test de charge `pnpm run test:load`.
+
+Ce qui reste, et qui ne peut pas être fait sans décision ou sans compte externe :
+
+- **SUBJECT** reste désactivé pour les 18 catégories (12 à 16 questions, seuil 20) : la rédaction éditoriale n'a pas été inventée (phase 10).
+- **Live TikTok** : le connecteur réel doit être validé sur un compte secondaire (1 h, 20 viewers) ; sa licence AGPL et son service de signature tiers imposent une décision explicite.
+- **Accessibilité manuelle** (NVDA, VoiceOver, contraste réel de l'overlay sur le flux OBS) et **déploiement TLS** ne sont pas automatisables.
 - 234 articles restent sous la cible éditoriale de 200 caractères et les licences d'images legacy restent à revoir.
+- La couverture client est inférieure à l'objectif de 70 % (voir `pnpm run test:coverage`) ; les seuils serveur (95 % branches `server/game`, 80 % `server`) sont atteints.
 
-Le dépôt contient encore le prototype v1 côté client :
+## Démarrage
 
-- `components/EncyclaGame.tsx` calcule le jeu côté client ;
-- `services/geminiService.ts` reste la source d'extraction legacy ;
-- `components/ArticleViewer.tsx` utilise `dangerouslySetInnerHTML` ;
-- le serveur Express et le harnais Vitest sont en place, mais la persistance SQLite, l'orchestration Socket.io et le client cible restent à écrire.
-
-Ces points sont traités dans les phases 4 à 6 de `IMPLEMENTATION-PLAN.md`. Tant que l'implémentation n'est pas terminée, le prototype ne doit pas être déployé publiquement.
-
-## Démarrage cible
-
-Prérequis : Node.js 22 et pnpm 10.28 (ou `corepack enable`). Après les phases 0 à 5 :
+Prérequis : Node.js 22 et pnpm 10.28 (ou `corepack enable`).
 
 ```bash
 git clone <repo>
 cd encycla
 pnpm install --frozen-lockfile
 cp .env.example .env
-pnpm run db:migrate
-pnpm run data:import
 pnpm run dev
 ```
 
 - Client : `http://localhost:5173`
 - Serveur : `http://localhost:3000`
 - Le client Vite proxy `/api` et `/socket.io` vers le serveur.
+- Les migrations et la synchronisation des questions sont appliquées au démarrage du serveur ; `pnpm run db:migrate` et `pnpm run data:import` restent disponibles.
 
-### Prototype actuel
-
-Le prototype se lance encore avec :
+Production locale :
 
 ```bash
-pnpm install --frozen-lockfile
-pnpm run dev
+pnpm run build   # dist/client (Vite) + dist/server (bundle esbuild)
+NODE_ENV=production ADMIN_TOKEN=<32+ caractères> PUBLIC_ORIGIN=https://exemple.test pnpm start
 ```
 
-Il ne représente pas l'architecture cible. Ne pas l'utiliser comme base de déploiement.
+Vérifications :
+
+```bash
+pnpm run lint && pnpm run typecheck && pnpm test && pnpm run build
+pnpm run test:e2e                        # Playwright, build de production
+RATE_LIMIT=off pnpm start &              # puis, dans un autre terminal :
+BASE_URL=http://localhost:3000 pnpm run test:load
+```
 
 ## Structure cible
 
@@ -190,6 +192,9 @@ Détail complet dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md).
 | `TIKTOK_SESSION_COOKIE` | — | Cookie de session TikTok. |
 | `GEMINI_API_KEY` | — | Scripts de contenu hors ligne uniquement. |
 | `LOG_LEVEL` | `info` | Verbosité des logs. |
+| `TRUST_PROXY` | `false` | `true` derrière un seul reverse proxy. |
+| `STATIC_DIR` | `dist/client` | Build Vite servi par Express. |
+| `RATE_LIMIT` | `on` | `off` pour les tests de charge ; refusé en production. |
 
 Règles :
 
@@ -263,20 +268,20 @@ Voir [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
 
 ## Feuille de route
 
-| Phase | Contenu |
-| --- | --- |
-| 0 | Assainissement, lockfile, secrets, CI minimale. |
-| 1 | TypeScript strict, lint, tests, build serveur/client. |
-| 2 | Extraction, validation et import des questions. |
-| 3 | Moteur pur, scoring, state machine, tests. |
-| 4 | SQLite, sessions, identité, persistance. |
-| 5 | HTTP, Socket.io, rooms, orchestration. |
-| 6 | Client joueur, vues, accessibilité, sons. |
-| 7 | Matchmaking public et small rooms. |
-| 8 | TikTok, overlay, control. |
-| 9 | Durcissement sécurité, charge, a11y. |
-| 10 | Extension du contenu SUBJECT. |
-| 11 | Release et live test. |
+| Phase | Contenu | Statut |
+| --- | --- | --- |
+| 0 | Assainissement, lockfile, secrets, CI minimale. | Fait |
+| 1 | TypeScript strict, lint, tests, build serveur/client. | Fait |
+| 2 | Extraction, validation et import des questions. | Fait |
+| 3 | Moteur pur, scoring, state machine, tests. | Fait |
+| 4 | SQLite, sessions, identité, persistance. | Fait |
+| 5 | HTTP, Socket.io, rooms, orchestration. | Fait |
+| 6 | Client joueur, vues, accessibilité, sons. | Fait |
+| 7 | Matchmaking public et small rooms. | Fait |
+| 8 | TikTok, overlay, control. | Fait (connecteur réel non validé) |
+| 9 | Durcissement sécurité, charge, a11y. | Fait (a11y manuelle, TLS restants) |
+| 10 | Extension du contenu SUBJECT. | À faire (contenu éditorial) |
+| 11 | Release et live test. | À faire (live test, déploiement) |
 
 Détail et estimation dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md).
 
@@ -298,4 +303,4 @@ Détail et estimation dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLA
 - Questions et articles : contenu original, à relire et créditer.
 - Images : Wikimedia Commons, crédit et licence affichés par question.
 - Polices : Merriweather et Inter, SIL Open Font License.
-- Sons : fichiers originaux ou CC0, crédités dans `client/assets/sounds/CREDITS.md`.
+- Sons : signaux synthétisés en WebAudio au runtime, aucun fichier audio embarqué.

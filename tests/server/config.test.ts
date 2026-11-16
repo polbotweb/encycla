@@ -13,7 +13,8 @@ describe('loadConfig', () => {
       tiktokUsername: null,
       tiktokSessionCookie: null,
       trustProxy: false,
-      staticDir: 'dist',
+      rateLimit: true,
+      staticDir: 'dist/client',
     });
   });
 
@@ -49,6 +50,17 @@ describe('validateConfig', () => {
       PUBLIC_ORIGIN: 'https://encycla.example.com',
     };
     expect(validateConfig(loadConfig(env), env)).toEqual([]);
+  });
+
+  it('refuses to disable rate limiting in production', () => {
+    const env = {
+      NODE_ENV: 'production',
+      ADMIN_TOKEN: 'a-long-enough-admin-token',
+      PUBLIC_ORIGIN: 'https://encycla.example.com',
+      RATE_LIMIT: 'off',
+    };
+    expect(validateConfig(loadConfig(env), env)).toHaveLength(1);
+    expect(validateConfig(loadConfig({ RATE_LIMIT: 'off' }), {})).toEqual([]);
   });
 
   it('requires a username and a session cookie when TikTok is enabled', () => {

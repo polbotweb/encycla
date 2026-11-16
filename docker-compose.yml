@@ -1,0 +1,33 @@
+services:
+  encycla:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: '3000'
+      DATABASE_PATH: /app/data/db/encycla.db
+    ports:
+      - '127.0.0.1:3000:3000'
+    volumes:
+      - encycla-data:/app/data/db
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  encycla-data:

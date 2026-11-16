@@ -88,6 +88,13 @@ export function createApp(options: AppOptions = {}): Express {
       },
     }),
   );
+  app.use((_request, response, next) => {
+    response.setHeader(
+      'Permissions-Policy',
+      'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()',
+    );
+    next();
+  });
   app.use(express.json({ limit: '16kb' }));
 
   if (rateLimit) {
@@ -134,8 +141,20 @@ export function createApp(options: AppOptions = {}): Express {
 
   const staticDir = options.staticDir ? resolve(options.staticDir) : null;
   if (staticDir && existsSync(staticDir)) {
-    app.use(express.static(staticDir, { index: false, maxAge: '1h' }));
+    app.use(
+      express.static(staticDir, {
+        index: false,
+        setHeaders: (response, filePath) => {
+          // Vite emits content-hashed files under /assets; everything else must revalidate.
+          response.setHeader(
+            'Cache-Control',
+            /[\\/]assets[\\/]/.test(filePath) ? 'public, max-age=31536000, immutable' : 'no-cache',
+          );
+        },
+      }),
+    );
     app.get(/^\/(?!api\/|socket\.io\/).*/, (_request, response) => {
+      response.setHeader('Cache-Control', 'no-cache');
       response.sendFile(resolve(staticDir, 'index.html'));
     });
   }

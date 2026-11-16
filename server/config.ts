@@ -11,6 +11,8 @@ export interface ServerConfig {
   /** Secret. Never log, never expose through the API. */
   tiktokSessionCookie: string | null;
   trustProxy: boolean;
+  /** `RATE_LIMIT=off`: load tests only, refused in production. */
+  rateLimit: boolean;
   staticDir: string;
 }
 
@@ -39,7 +41,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     tiktokUsername: env.TIKTOK_USERNAME?.trim() || null,
     tiktokSessionCookie: env.TIKTOK_SESSION_COOKIE?.trim() || null,
     trustProxy: env.TRUST_PROXY === 'true',
-    staticDir: env.STATIC_DIR ?? 'dist',
+    rateLimit: env.RATE_LIMIT !== 'off',
+    staticDir: env.STATIC_DIR ?? 'dist/client',
   };
 }
 
@@ -58,6 +61,9 @@ export function validateConfig(
     if (config.publicOrigin === null) {
       problems.push('PUBLIC_ORIGIN is required in production.');
     }
+  }
+  if (!config.rateLimit && env.NODE_ENV === 'production') {
+    problems.push('RATE_LIMIT=off is not allowed in production.');
   }
   if (config.tiktokEnabled) {
     if (config.tiktokUsername === null) {

@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { syncQuestions } from '../../../scripts/import-questions';
+import { syncQuestions } from '../sync-questions';
 import type { QuestionRecord } from '../../../shared/schemas';
 import type { PlayerStatus } from '../../../shared/types';
 import type { FinalResult, MatchRecord, ScoreRecord } from '../../game/types';
