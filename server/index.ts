@@ -1,9 +1,10 @@
 import 'dotenv/config';
 import { loadQuestionBank, type QuestionBankValidation } from '../shared/question-bank';
 import { CATEGORY_VALUES } from '../shared/schemas';
-import { createApp } from './app';
 import { loadConfig } from './config';
 import { initializePersistence } from './persistence/db';
+import { createGameServer } from './server';
+import { createLogger, parseLogLevel } from './util/logger';
 
 const SESSION_PURGE_INTERVAL_MS = 24 * 60 * 60 * 1000;
 
@@ -50,12 +51,18 @@ async function main(): Promise<void> {
     console.info(`Abandoned ${initialized.abandonedMatches} in-progress match(es) at startup.`);
   }
 
-  const app = createApp({
+  const game = createGameServer({
     persistence: initialized.persistence,
+    questionList: questions,
     questions: bank.success ? 'ok' : 'degraded',
     questionsUsable: questions.length > 0 && initialized.questionsError === null,
+    adminToken: config.adminToken,
+    staticDir: config.staticDir,
+    trustProxy: config.trustProxy,
+    logger: createLogger(parseLogLevel(config.logLevel)),
+    allowedOrigin: config.publicOrigin,
   });
-  const server = app.listen(config.port, () => {
+  game.httpServer.listen(config.port, () => {
     console.info(`Encycla server listening on http://localhost:${config.port}`);
   });
   const purgeTimer = setInterval(() => {
@@ -66,13 +73,13 @@ async function main(): Promise<void> {
   function shutdown(signal: string): void {
     console.info(`${signal} received, shutting down.`);
     clearInterval(purgeTimer);
-    server.close((error) => {
-      initialized.persistence.close();
-      if (error) {
+    void game
+      .close()
+      .catch((error: unknown) => {
         console.error(error);
         process.exitCode = 1;
-      }
-    });
+      })
+      .finally(() => initialized.persistence.close());
   }
 
   process.once('SIGINT', () => shutdown('SIGINT'));

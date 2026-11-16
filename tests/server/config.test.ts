@@ -8,7 +8,20 @@ describe('loadConfig', () => {
       publicOrigin: null,
       databasePath: 'data/encycla.db',
       logLevel: 'info',
+      adminToken: null,
+      tiktokEnabled: false,
+      tiktokUsername: null,
+      trustProxy: false,
+      staticDir: 'dist',
     });
+  });
+
+  it('never accepts the placeholder or a short admin token', () => {
+    expect(loadConfig({ ADMIN_TOKEN: 'change-me' }).adminToken).toBeNull();
+    expect(loadConfig({ ADMIN_TOKEN: 'short' }).adminToken).toBeNull();
+    expect(loadConfig({ ADMIN_TOKEN: 'a-long-enough-admin-token' }).adminToken).toBe(
+      'a-long-enough-admin-token',
+    );
   });
 
   it('rejects an invalid port', () => {
