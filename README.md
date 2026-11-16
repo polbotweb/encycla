@@ -115,7 +115,7 @@ Ordre de lecture recommandé :
 Les phases 0 à 9 sont implémentées et vérifiées automatiquement :
 
 - **Outillage** : pnpm (lockfile gelé), TypeScript strict, ESLint, Prettier, Vitest, Playwright, CI (secrets, format, lint, types, données, tests, audit, build, e2e, build Docker).
-- **Données** : `data/questions.json` (244 questions legacy uniques, validées par `pnpm run data:validate`) et import SQLite atomique.
+- **Données** : `data/questions.json` (2 496 questions en français générées depuis Wikipédia et Wikimedia Commons par `pnpm run data:wikipedia`, validées par `pnpm run data:validate`) et import SQLite atomique.
 - **Moteur** (`server/game`) : réducteur pur `reduce`/`tick`, scoring, state machine, effets sous forme de données.
 - **Serveur** : Express 5 + Socket.io (`/game`), `RoomManager`, sessions hachées, persistance SQLite avec repli mémoire, leaderboard, matchmaking public avec vote small room, reconnexion, fermeture admin, rate limiting HTTP et socket, CSP stricte, HSTS, Permissions-Policy.
 - **TikTok** (`server/tiktok`) : parsing strict, connecteur avec backoff, faux adaptateur, route `POST /api/tiktok/rooms`, viewers (capacité 100, déduplication), overlay en lecture seule et console control. Le connecteur réel n'est pas livré par défaut : voir [docs/TIKTOK.md](docs/TIKTOK.md).
@@ -242,12 +242,24 @@ Procédure complète dans [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Contenu
 
-- La banque actuelle contient **244 questions uniques**.
+- La banque actuelle contient **2 496 questions uniques** en français (100 à 150 par catégorie, 18 catégories), toutes de type « identifier cette image ».
 - CLASSIC nécessite **200 questions approuvées**.
-- SUBJECT nécessite **20 questions par catégorie** ; les catégories actuelles en contiennent 12 à 16.
-- En conséquence, SUBJECT est désactivé par catégorie tant que le seuil n'est pas atteint.
-- La bonne réponse est en position B dans 155 cas sur 257 : les options sont mélangées à chaque tirage.
+- SUBJECT nécessite **100 questions par catégorie** (`MIN_QUESTIONS_PER_CATEGORY`, une partie en tire 20) ; les 18 catégories atteignent ce seuil.
+- Les options sont mélangées à chaque tirage.
 - Les articles sont du texte brut, sans HTML.
+
+### Génération depuis Wikipédia et Wikimedia Commons
+
+`pnpm run data:wikipedia` (re)génère `data/questions.json`, `data/sources/report.json` et la section générée de `CREDITS.md` :
+
+- seuls les **titres d'articles** sont choisis à la main (`scripts/wikimedia/seeds/`) ; la réponse (nom de l'article en français), l'explication (première phrase de l'article), le texte de l'article, l'image, l'auteur, la licence et la révision viennent de l'API Wikipédia, de Wikimedia Commons et de Wikidata (P18 en repli) ;
+- chaque question garde `source` (permalien `oldid` de l'article, révision, langue, licence CC BY-SA 4.0) et `image.author` / `image.license` / `image.sourceUrl` (page du fichier sur Commons) ;
+- licences d'images acceptées : CC0, domaine public, CC BY, CC BY-SA ; tout le reste (NC, ND, GFDL seul, usage loyal, auteur inconnu pour une licence à attribution) est écarté ;
+- les distracteurs sont de vrais sujets du même type, de préférence du même groupe (même famille, même continent…), jamais la même entité Wikidata ni un libellé contenu dans l'autre ;
+- tout ce qui est douteux est écarté et listé dans `data/sources/report.json` (article introuvable, page d'homonymie, image non libre, réponse introuvable dans l'article…) ;
+- politesse API : User-Agent descriptif, requêtes séquentielles avec délai, `maxlag`, reprise sur 429/`Retry-After`, cache disque (`data/cache/`, ignoré par git). `--offline` rejoue la génération depuis le cache, de façon identique.
+
+Les images sont servies en vignettes de 960 px (Commons n'accepte que des largeurs standard) ; les anciennes URL en 640 px répondent en HTTP 400.
 - Les images sont des URLs Wikimedia créditées.
 - Aucune génération Gemini au runtime ; la génération est hors ligne, avec revue humaine.
 

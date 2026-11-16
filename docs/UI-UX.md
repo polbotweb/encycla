@@ -196,7 +196,7 @@ Permettre en moins de 15 secondes de : créer un pseudo, lancer un solo, créer/
 │                               │  [ Join with code        ]   │
 │                               │  [ Leaderboard           ]   │
 ├───────────────────────────────┴──────────────────────────────┤
-│ 244 questions · 18 categories · v1.0                         │
+│ 2496 questions · 18 categories · v1.0                        │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -205,7 +205,7 @@ Permettre en moins de 15 secondes de : créer un pseudo, lancer un solo, créer/
 - Le panneau de droite est une carte `--surface`.
 - Le pseudo est obligatoire pour jouer ; il est mémorisé localement.
 - « Solo SUBJECT » ouvre un modal catégorie + difficulté.
-- Les catégories sous 20 questions sont désactivées avec « Coming soon ».
+- Les catégories sous 100 questions sont désactivées avec « Coming soon ».
 - « Join with code » ouvre un champ 6 caractères, uppercase automatique.
 
 ### 6.3 Mobile
@@ -795,7 +795,7 @@ Un bouton disabled garde un contraste lisible et un `aria-disabled`.
 | `ANSWER_TOO_LATE` | Too late. |
 | `PLAYER_ELIMINATED` | You can no longer answer. |
 | `PLAYER_FORFEITED` | You can no longer answer. |
-| `CATEGORY_INSUFFICIENT_QUESTIONS` | This category needs at least 20 questions. Choose another category. |
+| `CATEGORY_INSUFFICIENT_QUESTIONS` | This category does not have enough questions yet. Choose another category. |
 | `TIKTOK_DISABLED` | TikTok mode is disabled. |
 | `TIKTOK_NOT_CONNECTED` | Chat is not connected. Start the connector. |
 | `RATE_LIMITED` | Too many attempts. Try again in a moment. |

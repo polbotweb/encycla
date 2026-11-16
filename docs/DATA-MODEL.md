@@ -409,7 +409,7 @@ WHERE match_id IN (SELECT id FROM matches WHERE status = 'abandoned')
 - `articleBody` : 200-5 000 caractères, texte brut, paragraphes séparés par `\n\n`.
 - `image.url` : HTTPS, domaine autorisé (`upload.wikimedia.org`, `commons.wikimedia.org`) pour la v1.
 - `image.alt` : obligatoire, 5-200 caractères.
-- `image.credit`, `image.license`, `image.sourceUrl` : obligatoires si l'image est présente.
+- `image.credit`, `image.license`, `image.sourceUrl` : obligatoires si l'image est présente ; `image.author` (texte brut) et `source` (`url` permalien `oldid`, `revisionId`, `language`, `license`, `retrievedAt`) sont renseignés par le générateur Wikipédia et exigés par la validation (colonnes `image_author`, `source_*` ajoutées par la migration 002).
 - Aucun HTML, aucun script, aucun `data:` URI.
 - La bonne réponse ne doit pas être déductible de la formulation (pas d'indice « all of the above »).
 
@@ -429,10 +429,10 @@ WHERE match_id IN (SELECT id FROM matches WHERE status = 'abandoned')
 10. Comptage par catégorie.
 11. Seuils :
     - CLASSIC : au moins 200 questions approuvées ;
-    - SUBJECT : au moins 20 questions par catégorie ;
+    - SUBJECT : au moins 100 questions par catégorie (`MIN_QUESTIONS_PER_CATEGORY`) ;
     - CONTEST : au moins 10 questions.
 
-Le script échoue avec un code non nul et un rapport lisible. Les articles legacy plus courts que 200 caractères et les catégories sous 20 questions produisent des avertissements non bloquants ; `--strict-editorial` rend les articles courts bloquants.
+Le script échoue avec un code non nul et un rapport lisible. Chaque question doit avoir un `source` (révision d'article Wikipédia) et une image Commons sous licence acceptée avec son auteur ; sinon la validation échoue. Les articles de moins de 200 caractères et les catégories sous 100 questions produisent des avertissements non bloquants ; `--strict-editorial` rend les articles courts bloquants.
 
 ### 6.4 Hash de contenu
 
@@ -473,7 +473,7 @@ Le prototype contient la banque dans `services/geminiService.ts`. L'extraction o
 7. Faire une revue humaine de la catégorie, des options et de la bonne réponse.
 8. Copier dans `data/questions.json` uniquement après validation.
 
-État connu : 244 questions uniques, 12 à 16 par catégorie, 155/257 bonnes réponses en position B. Le mélange runtime corrige le biais de position, mais la revue éditoriale reste obligatoire.
+Cette extraction legacy (244 questions) est historique : la banque courante est produite par `pnpm run data:wikipedia` (voir D-80 à D-83 et le README). `data/questions.extracted.json` n'est conservé que comme archive et n'est plus comparé à `data/questions.json`.
 
 ### 6.7 Pipeline Gemini hors ligne
 

@@ -288,7 +288,7 @@ Contraintes :
 - `CLASSIC` : `category = null`, `difficulty = null`.
 - `SUBJECT` : `category` requis, `difficulty` requis.
 - `CONTEST` : `category = null`, `difficulty = null`, `maxPlayers = 2`.
-- La catégorie SUBJECT doit avoir au moins 20 questions approuvées.
+- La catégorie SUBJECT doit avoir au moins 100 questions approuvées (`MIN_QUESTIONS_PER_CATEGORY`).
 
 Réponse `201` :
 
@@ -315,7 +315,7 @@ Auth joueur. Crée une room solo et la démarre immédiatement.
 Contraintes :
 
 - `CLASSIC` : `category = null`, `difficulty = null`.
-- `SUBJECT` : `category` et `difficulty` requis, catégorie avec ≥ 20 questions.
+- `SUBJECT` : `category` et `difficulty` requis, catégorie avec ≥ 100 questions.
 - `CONTEST` : refusé en solo (`VALIDATION_ERROR`).
 - Le socket du joueur doit être connecté (`NOT_CONNECTED`).
 - Un joueur déjà dans une room reçoit `ALREADY_IN_ROOM`.
@@ -358,7 +358,7 @@ Contraintes :
 - Le socket du joueur doit être connecté (`NOT_CONNECTED`) ; sinon `MATCH_FOUND` ne peut pas être délivré.
 - `CLASSIC`/`SUBJECT` : cible 4, small room possible.
 - `CLASSIC` : `category = null`, `difficulty = null`.
-- `SUBJECT` : `category` et `difficulty` requis, catégorie avec ≥ 20 questions approuvées.
+- `SUBJECT` : `category` et `difficulty` requis, catégorie avec ≥ 100 questions approuvées.
 - `CONTEST` : cible 2, `category` et `difficulty` doivent être nuls.
 - Un joueur déjà en room reçoit `ALREADY_IN_ROOM`.
 
@@ -473,7 +473,7 @@ Contraintes :
 - `mode` requis : `CLASSIC` ou `SUBJECT` uniquement ; `CONTEST` est refusé en TikTok.
 - `CLASSIC` refuse `category`/`difficulty`, `SUBJECT` les exige.
 - `timerMs` optionnel, entre 10 000 et 30 000 ms, défaut 15 000.
-- La catégorie SUBJECT doit avoir au moins 20 questions approuvées.
+- La catégorie SUBJECT doit avoir au moins 100 questions approuvées (`MIN_QUESTIONS_PER_CATEGORY`).
 - Les tokens overlay/control n'ont pas d'expiration propre ; ils restent valides jusqu'à la fermeture de la room et sont révoqués à ce moment.
 
 Erreurs : `AUTH_REQUIRED`, `AUTH_INVALID`, `FORBIDDEN`, `TIKTOK_DISABLED`, `TIKTOK_NOT_CONNECTED`, `VALIDATION_ERROR`, `CATEGORY_INSUFFICIENT_QUESTIONS`.
@@ -784,7 +784,7 @@ Utilisé pour les erreurs asynchrones ou les événements sans ack.
 | `QUEUE_NOT_JOINED` | 409 | — | Pas en file. |
 | `PROPOSAL_NOT_FOUND` | 404 | oui | Proposition inconnue. |
 | `PROPOSAL_EXPIRED` | 409 | oui | Vote terminé. |
-| `CATEGORY_INSUFFICIENT_QUESTIONS` | 409 | — | Catégorie < 20 questions. |
+| `CATEGORY_INSUFFICIENT_QUESTIONS` | 409 | — | Catégorie < 100 questions. |
 | `TIKTOK_DISABLED` | 503 | — | Mode TikTok désactivé. |
 | `TIKTOK_NOT_CONNECTED` | 503 | — | Connecteur non connecté. |
 | `PERSISTENCE_DISABLED` | 503 | — | SQLite indisponible. |

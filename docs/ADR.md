@@ -333,7 +333,7 @@ Les questions sont codées en dur dans `services/geminiService.ts`. Le README v1
 8. **Épuisement** : si le pool éligible est vide, le serveur recycle la plus ancienne question utilisée et loggue un avertissement. Ce cas ne doit pas arriver avec le pool CLASSIC validé, mais il ne doit jamais bloquer une partie.
 9. **Contenu** :
    - CLASSIC exige au moins 200 questions approuvées uniques.
-   - SUBJECT exige au moins 20 questions approuvées dans la catégorie. Tant que ce seuil n'est pas atteint, la catégorie est désactivée côté API/UI.
+   - SUBJECT exige au moins 100 questions approuvées dans la catégorie (relevé de 20 à 100 par D-83). Tant que ce seuil n'est pas atteint, la catégorie est désactivée côté API/UI.
    - Le pool actuel ne satisfait pas SUBJECT pour la plupart des catégories. C'est une dette de contenu explicite, pas un bug d'implémentation.
 10. Le champ `base64Image` est renommé `image.url`. Les images restent des URLs HTTPS ; aucune image n'est envoyée en base64 dans le protocole.
 11. Les articles sont du **texte brut** (sauts de ligne autorisés, HTML interdit). Le rendu ne doit jamais utiliser `dangerouslySetInnerHTML`.

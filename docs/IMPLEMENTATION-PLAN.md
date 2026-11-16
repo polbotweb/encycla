@@ -362,7 +362,7 @@ Critères de sortie :
 - `pnpm run data:validate` passe.
 - 200 questions CLASSIC minimum.
 - 10 questions CONTEST minimum.
-- Chaque catégorie SUBJECT activée a ≥ 20 questions.
+- Chaque catégorie SUBJECT activée a ≥ 100 questions.
 - Aucun HTML.
 - Aucune URL non autorisée.
 - Aucun doublon.
@@ -371,7 +371,7 @@ Critères de sortie :
 
 Risques :
 
-- Les 244 questions actuelles ne suffisent pas pour SUBJECT. Décision : désactiver SUBJECT par catégorie tant que le seuil n'est pas atteint.
+- Une catégorie sous le seuil SUBJECT (100) reste désactivée. La banque Wikipédia (2 496 questions) atteint le seuil dans les 18 catégories.
 - Les articles peuvent être courts ou incohérents. Revue humaine obligatoire.
 - Les images peuvent être retirées de Wikimedia. Prévoir un placeholder.
 
@@ -571,7 +571,7 @@ Critères de sortie :
 
 Tâches :
 
-1. Compléter les catégories à 20 questions minimum.
+1. Compléter les catégories à 100 questions minimum (`pnpm run data:wikipedia`).
 2. Revue éditoriale.
 3. Vérifier les licences d'images.
 4. Activer SUBJECT par catégorie.
@@ -580,7 +580,7 @@ Tâches :
 
 Critères de sortie :
 
-- Chaque catégorie activée a ≥ 20 questions.
+- Chaque catégorie activée a ≥ 100 questions.
 - Aucun doublon.
 - Aucun contenu fragile ou ambigu.
 - Les catégories non complètes restent désactivées.

@@ -135,6 +135,10 @@ Ce fichier répond point par point aux ambiguïtés relevées dans le README v1 
 | D-77 | Que faire si SQLite est indisponible ? | Le serveur démarre en mode dégradé : sessions et scores en mémoire, questions depuis le JSON, leaderboard `PERSISTENCE_DISABLED`. | Le jeu reste jouable ; la persistance est sacrifiée, pas la disponibilité. | ADR-013, DATA-MODEL |
 | D-78 | Quelle est la longueur maximale d'un pseudo ? | 2 à 24 graphèmes après normalisation. | Aligné sur ADR-016 et lisible dans le lobby. | ADR-016, SECURITY |
 | D-79 | Une room TikTok se résout-elle dès que tous les viewers présents ont répondu ? | Non : une question TikTok va toujours jusqu'à son timer (ou `HOST_SKIP`). | Un viewer devient joueur en répondant ; « tous les actifs ont répondu » serait vrai dès le premier commentaire et terminerait la question en moins d'une seconde. | SPECIFICATION 14, PROTOCOL 6.2 |
+| D-80 | D'où viennent les questions ? | De Wikipédia (fr) et Wikimedia Commons, par `pnpm run data:wikipedia`. Seuls les titres d'articles sont choisis à la main (`scripts/wikimedia/seeds/`) ; réponse, explication, article, image, auteur, licence et révision sont lus via l'API. Rien n'est inventé. | Contenu vérifiable, traçable (permalien `oldid`) et reproductible ; remplace la banque legacy. | DATA-MODEL §6 |
+| D-81 | Quelles images et quelles licences ? | Commons uniquement : CC0, domaine public, CC BY, CC BY-SA. Auteur obligatoire pour les licences à attribution. Auteur, licence et page du fichier sont stockés et listés dans `CREDITS.md`. Les vignettes sont en 960 px. | Respect des licences ; Commons refuse les largeurs non standard (640 px répond 400). | DATA-MODEL §6 |
+| D-82 | Comment sont construites les options ? | Un seul sujet par question ; les 3 distracteurs sont de vrais sujets du même type, du même groupe de préférence, jamais la même entité Wikidata ni un libellé contenant l'autre ; mélange déterministe par graine. | Distracteurs plausibles mais faux, génération reproductible. | DATA-MODEL §6 |
+| D-83 | Quel seuil SUBJECT ? | `MIN_QUESTIONS_PER_CATEGORY = 100` (au lieu de 20) ; une partie SUBJECT tire toujours 20 questions. | Évite qu'un joueur revoie les mêmes sujets ; 18 catégories sur 18 l'atteignent. | DATA-MODEL §6, PROTOCOL |
 
 ## Points qui ne sont plus des questions ouvertes
 
@@ -153,9 +157,9 @@ Les sujets suivants ont été explicitement fermés et ne doivent plus être red
 - l'inclusion du solo dans le leaderboard ;
 - le support multi-instance en v1.
 
-## Dette de contenu explicitement assumée
+## Contenu : la dette legacy est soldée
 
-Le pool actuel ne permet pas SUBJECT à 20 questions par catégorie. La décision est de **bloquer proprement** les catégories insuffisantes plutôt que de répéter des questions ou de changer silencieusement la longueur. La dette est traitée dans [DATA-MODEL.md](DATA-MODEL.md) et [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md).
+La banque legacy de 244 questions (anglais, licences « See source file », 12 à 16 par catégorie) a été remplacée par une banque de plus de 2 500 questions générées depuis Wikipédia et Wikimedia Commons (D-80 à D-83). Une catégorie sous le seuil SUBJECT reste **bloquée proprement** plutôt que de répéter des questions ou de changer silencieusement la longueur d'une partie.
 
 ## Dette d'exploitation explicitement assumée
 

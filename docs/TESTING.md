@@ -94,7 +94,7 @@ interface EngineDeps {
 ### 4.3 Fixtures
 
 - `tests/fixtures/questions.ts` génère 200 questions déterministes pour CLASSIC.
-- 20 questions par catégorie pour SUBJECT.
+- 100 questions par catégorie pour SUBJECT (Fauna et Flora seulement dans les fixtures).
 - 10 questions pour CONTEST.
 - Chaque question a un `correctIndex` varié, jamais toujours B.
 - Les articles contiennent des caractères accentués, des apostrophes et des paragraphes.

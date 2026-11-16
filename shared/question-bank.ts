@@ -1,7 +1,9 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import {
+  ALLOWED_IMAGE_LICENSE_PATTERN,
   CATEGORY_VALUES,
+  MIN_QUESTIONS_PER_CATEGORY,
   questionBankSchema,
   type QuestionBank,
   type QuestionCategory,
@@ -46,6 +48,43 @@ function emptyCounts(): Record<QuestionCategory, number> {
   >;
 }
 
+/**
+ * Provenance rules: every question must trace to a Wikipedia revision and carry a picture from
+ * Wikimedia Commons under an accepted free licence, with its author recorded.
+ */
+function provenanceIssues(question: QuestionRecord): string[] {
+  const issues: string[] = [];
+
+  if (!question.source) {
+    issues.push(`${question.id}: missing source (Wikipedia article revision)`);
+  }
+
+  if (!question.image) {
+    issues.push(`${question.id}: missing image`);
+  } else {
+    if (!ALLOWED_IMAGE_LICENSE_PATTERN.test(question.image.license)) {
+      issues.push(`${question.id}: image licence "${question.image.license}" is not accepted`);
+    }
+    if (!question.image.author) {
+      issues.push(`${question.id}: image author is missing`);
+    }
+    if (!question.image.sourceUrl.startsWith('https://commons.wikimedia.org/wiki/File:')) {
+      issues.push(`${question.id}: image sourceUrl must be a Wikimedia Commons file page`);
+    }
+  }
+
+  const answer = question.options[question.correctIndex];
+  if (
+    answer !== undefined &&
+    question.image &&
+    question.image.alt.toLowerCase().includes(answer.toLowerCase())
+  ) {
+    issues.push(`${question.id}: image alt text reveals the answer`);
+  }
+
+  return issues;
+}
+
 function formatIssues(bank: QuestionBank): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
@@ -69,6 +108,8 @@ function formatIssues(bank: QuestionBank): string[] {
       errors.push(`Duplicate subject: ${question.subject}`);
     }
     subjects.add(subject);
+
+    errors.push(...provenanceIssues(question));
   }
 
   return errors;
@@ -120,15 +161,12 @@ export function validateQuestionBank(input: unknown): QuestionBankValidation {
     );
   }
 
-  const missingImages = bank.questions.filter((question) => !question.image).length;
-  if (missingImages > 0) {
-    warnings.push(`${missingImages} question(s) have no image`);
-  }
-
-  const disabledCategories = CATEGORY_VALUES.filter((category) => counts[category] < 20);
+  const disabledCategories = CATEGORY_VALUES.filter(
+    (category) => counts[category] < MIN_QUESTIONS_PER_CATEGORY,
+  );
   if (disabledCategories.length > 0) {
     warnings.push(
-      `SUBJECT disabled for ${disabledCategories.length} categories below 20 questions: ${disabledCategories.join(', ')}`,
+      `SUBJECT disabled for ${disabledCategories.length} categories below ${MIN_QUESTIONS_PER_CATEGORY} questions: ${disabledCategories.join(', ')}`,
     );
   }
 

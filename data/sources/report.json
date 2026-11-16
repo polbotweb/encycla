@@ -1,0 +1,3804 @@
+{
+  "language": "fr",
+  "seedTitles": 3832,
+  "questions": 2496,
+  "perCategory": {
+    "Fauna": { "seedTitles": 261, "questions": 150, "dropped": 41 },
+    "Flora": { "seedTitles": 247, "questions": 144, "dropped": 103 },
+    "Flags": { "seedTitles": 192, "questions": 150, "dropped": 2 },
+    "Birds": { "seedTitles": 131, "questions": 128, "dropped": 3 },
+    "Trees": { "seedTitles": 194, "questions": 109, "dropped": 85 },
+    "Insects": { "seedTitles": 310, "questions": 150, "dropped": 141 },
+    "Mushrooms": { "seedTitles": 186, "questions": 103, "dropped": 83 },
+    "Architecture": { "seedTitles": 196, "questions": 150, "dropped": 39 },
+    "Inventions": { "seedTitles": 146, "questions": 118, "dropped": 28 },
+    "Arts & Literature": { "seedTitles": 198, "questions": 150, "dropped": 42 },
+    "Geography": { "seedTitles": 226, "questions": 150, "dropped": 30 },
+    "Space & Astronomy": { "seedTitles": 160, "questions": 108, "dropped": 52 },
+    "History": { "seedTitles": 170, "questions": 137, "dropped": 33 },
+    "Mythology": { "seedTitles": 228, "questions": 150, "dropped": 78 },
+    "Gastronomy": { "seedTitles": 364, "questions": 150, "dropped": 75 },
+    "Music": { "seedTitles": 185, "questions": 149, "dropped": 36 },
+    "Sports": { "seedTitles": 209, "questions": 150, "dropped": 32 },
+    "Science": { "seedTitles": 229, "questions": 150, "dropped": 43 }
+  },
+  "imageLicenses": {
+    "CC BY-SA 4.0": 441,
+    "CC BY 4.0": 75,
+    "CC BY 2.0": 149,
+    "CC BY-SA 2.0": 124,
+    "CC BY-SA 3.0": 520,
+    "Public domain": 928,
+    "CC BY 3.0": 82,
+    "CC BY-SA 2.5": 63,
+    "CC BY 2.5": 45,
+    "CC0 1.0": 68,
+    "CC BY-SA 1.0": 1
+  },
+  "dropReasons": {
+    "article not found": 135,
+    "duplicate of an earlier subject": 284,
+    "disambiguation page": 300,
+    "answer not found in the article introduction": 35,
+    "author unknown for an attribution licence": 32,
+    "image too small or extreme aspect ratio": 40,
+    "licence rejected: licence not in the allowlist": 37,
+    "article is about a place, not this kind of subject": 8,
+    "image is not a photograph of the subject": 30,
+    "article has no lead image": 24,
+    "same image already used by another subject": 8,
+    "unsupported image type application/ogg": 1,
+    "article is a homonymy/list-like page": 1,
+    "article does not look like a fungus": 2,
+    "image not on Wikimedia Commons": 2,
+    "unsupported image type image/gif": 2,
+    "label  already used or too long": 2,
+    "licence rejected: no licence metadata": 1,
+    "unsupported image type image/webp": 1,
+    "unsupported image type image/tiff": 1
+  },
+  "redirects": [
+    { "category": "Fauna", "seed": "Loup gris", "article": "Canis lupus" },
+    { "category": "Fauna", "seed": "Loutre d'Europe", "article": "Lutra lutra" },
+    { "category": "Fauna", "seed": "Putois d'Europe", "article": "Mustela putorius" },
+    { "category": "Fauna", "seed": "Belette d'Europe", "article": "Mustela nivalis" },
+    { "category": "Fauna", "seed": "Martre des pins", "article": "Martes martes" },
+    { "category": "Fauna", "seed": "Glouton", "article": "Gulo gulo" },
+    { "category": "Fauna", "seed": "Coati roux", "article": "Nasua nasua" },
+    { "category": "Fauna", "seed": "Mouffette rayée", "article": "Mephitis mephitis" },
+    { "category": "Fauna", "seed": "Mangouste rayée", "article": "Mungos mungo" },
+    { "category": "Fauna", "seed": "Ours polaire", "article": "Ours blanc" },
+    {
+      "category": "Fauna",
+      "seed": "Gorille des montagnes",
+      "article": "Gorilla beringei beringei"
+    },
+    { "category": "Fauna", "seed": "Chimpanzé commun", "article": "Pan troglodytes" },
+    { "category": "Fauna", "seed": "Mandrill", "article": "Mandrillus sphinx" },
+    { "category": "Fauna", "seed": "Maki catta", "article": "Lémur catta" },
+    { "category": "Fauna", "seed": "Ouistiti commun", "article": "Callithrix jacchus" },
+    { "category": "Fauna", "seed": "Hippopotame amphibie", "article": "Hippopotamus amphibius" },
+    { "category": "Fauna", "seed": "Tapir terrestre", "article": "Tapir du Brésil" },
+    { "category": "Fauna", "seed": "Oryctérope du Cap", "article": "Oryctérope" },
+    { "category": "Fauna", "seed": "Orignal", "article": "Alces americanus" },
+    { "category": "Fauna", "seed": "Renne", "article": "Rangifer tarandus" },
+    { "category": "Fauna", "seed": "Chevreuil européen", "article": "Chevreuil d'Europe" },
+    { "category": "Fauna", "seed": "Daim européen", "article": "Daim d’Europe" },
+    { "category": "Fauna", "seed": "Antilope saïga", "article": "Saïga" },
+    { "category": "Fauna", "seed": "Éland du Cap", "article": "Éland" },
+    { "category": "Fauna", "seed": "Nilgaut", "article": "Antilope nilgaut" },
+    { "category": "Fauna", "seed": "Chèvre domestique", "article": "Chèvre" },
+    { "category": "Fauna", "seed": "Hérisson d'Europe", "article": "Erinaceus europaeus" },
+    { "category": "Fauna", "seed": "Marmotte alpine", "article": "Marmota marmota" },
+    { "category": "Fauna", "seed": "Castor d'Europe", "article": "Castor fiber" },
+    { "category": "Fauna", "seed": "Capybara", "article": "Hydrochoerus hydrochaeris" },
+    { "category": "Fauna", "seed": "Cochon d'Inde", "article": "Cavia porcellus" },
+    { "category": "Fauna", "seed": "Lapin de garenne", "article": "Oryctolagus cuniculus" },
+    { "category": "Fauna", "seed": "Hamster d'Europe", "article": "Cricetus cricetus" },
+    { "category": "Fauna", "seed": "Loir gris", "article": "Glis glis" },
+    { "category": "Fauna", "seed": "Grand rhinolophe", "article": "Rhinolophus ferrumequinum" },
+    { "category": "Fauna", "seed": "Pipistrelle commune", "article": "Pipistrellus pipistrellus" },
+    { "category": "Fauna", "seed": "Tatou à neuf bandes", "article": "Dasypus novemcinctus" },
+    { "category": "Fauna", "seed": "Pangolin", "article": "Manidae" },
+    { "category": "Fauna", "seed": "Daman du Cap", "article": "Procavia capensis" },
+    { "category": "Fauna", "seed": "Wombat commun", "article": "Vombatus ursinus" },
+    { "category": "Fauna", "seed": "Wallaby de Bennett", "article": "Notamacropus rufogriseus" },
+    { "category": "Fauna", "seed": "Opossum de Virginie", "article": "Didelphis virginiana" },
+    { "category": "Fauna", "seed": "Cachalot", "article": "Physeteroidea" },
+    { "category": "Fauna", "seed": "Grand dauphin", "article": "Tursiops truncatus" },
+    { "category": "Fauna", "seed": "Dauphin commun", "article": "Delphinus" },
+    { "category": "Fauna", "seed": "Marsouin commun", "article": "Phocoena phocoena" },
+    { "category": "Fauna", "seed": "Lamantin des Caraïbes", "article": "Trichechus manatus" },
+    { "category": "Fauna", "seed": "Phoque commun", "article": "Phoca vitulina" },
+    { "category": "Fauna", "seed": "Otarie à fourrure", "article": "Arctocephalinae" },
+    { "category": "Fauna", "seed": "Lion de mer de Californie", "article": "Otarie de Californie" },
+    { "category": "Fauna", "seed": "Léopard de mer", "article": "Hydrurga leptonyx" },
+    { "category": "Fauna", "seed": "Alligator du Mississippi", "article": "Alligator d'Amérique" },
+    { "category": "Fauna", "seed": "Caméléon de Parson", "article": "Calumma parsonii" },
+    { "category": "Fauna", "seed": "Gecko tokay", "article": "Gekko gecko" },
+    { "category": "Fauna", "seed": "Cobra à lunettes", "article": "Cobra indien" },
+    { "category": "Fauna", "seed": "Serpent à sonnette", "article": "Crotalus" },
+    { "category": "Fauna", "seed": "Agame barbu", "article": "Pogona vitticeps" },
+    { "category": "Fauna", "seed": "Crapaud buffle", "article": "Rhinella marina" },
+    { "category": "Fauna", "seed": "Salamandre tachetée", "article": "Salamandra salamandra" },
+    { "category": "Fauna", "seed": "Grenouille de Darwin", "article": "Rhinoderma darwinii" },
+    { "category": "Fauna", "seed": "Requin blanc", "article": "Grand requin blanc" },
+    { "category": "Fauna", "seed": "Requin tigre", "article": "Requin-tigre" },
+    { "category": "Fauna", "seed": "Requin-taureau", "article": "Carcharias taurus" },
+    { "category": "Fauna", "seed": "Raie manta", "article": "Manta (genre)" },
+    { "category": "Fauna", "seed": "Raie pastenague", "article": "Dasyatis pastinaca" },
+    { "category": "Fauna", "seed": "Thon rouge de l'Atlantique", "article": "Thunnus thynnus" },
+    { "category": "Fauna", "seed": "Saumon atlantique", "article": "Salmo salar" },
+    { "category": "Fauna", "seed": "Truite arc-en-ciel", "article": "Oncorhynchus mykiss" },
+    { "category": "Fauna", "seed": "Truite commune", "article": "Salmo trutta" },
+    { "category": "Fauna", "seed": "Carpe commune", "article": "Cyprinus carpio" },
+    { "category": "Fauna", "seed": "Anguille européenne", "article": "Anguilla anguilla" },
+    { "category": "Fauna", "seed": "Hareng atlantique", "article": "Clupea harengus" },
+    { "category": "Fauna", "seed": "Poisson-scorpion", "article": "Pterois volitans" },
+    { "category": "Fauna", "seed": "Murène", "article": "Muraenidae" },
+    { "category": "Fauna", "seed": "Barracuda", "article": "Sphyraena" },
+    { "category": "Fauna", "seed": "Poisson-perroquet", "article": "Scaridae" },
+    { "category": "Fauna", "seed": "Poisson-chirurgien bleu", "article": "Acanthurus coeruleus" },
+    { "category": "Fauna", "seed": "Poisson-lanterne", "article": "Myctophidae" },
+    { "category": "Fauna", "seed": "Perche commune", "article": "Perca fluviatilis" },
+    { "category": "Fauna", "seed": "Poulpe commun", "article": "Pieuvre commune" },
+    {
+      "category": "Fauna",
+      "seed": "Pieuvre à anneaux bleus",
+      "article": "Pieuvre aux anneaux bleus"
+    },
+    { "category": "Fauna", "seed": "Oursin", "article": "Echinoidea" },
+    {
+      "category": "Fauna",
+      "seed": "Crabe royal du Kamchatka",
+      "article": "Crabe royal du Kamtchatka"
+    },
+    { "category": "Flora", "seed": "Jacinthe des bois", "article": "Hyacinthoides non-scripta" },
+    { "category": "Flora", "seed": "Digitale pourpre", "article": "Digitalis purpurea" },
+    { "category": "Flora", "seed": "Ortie dioïque", "article": "Grande ortie" },
+    { "category": "Flora", "seed": "Mauve sylvestre", "article": "Grande Mauve" },
+    { "category": "Flora", "seed": "Anémone des bois", "article": "Anémone sylvie" },
+    { "category": "Flora", "seed": "Ail des ours", "article": "Allium ursinum" },
+    { "category": "Flora", "seed": "Carotte sauvage", "article": "Daucus carota" },
+    { "category": "Flora", "seed": "Reine-des-prés", "article": "Filipendula ulmaria" },
+    { "category": "Flora", "seed": "Lis blanc", "article": "Lilium candidum" },
+    { "category": "Flora", "seed": "Hortensia", "article": "Hydrangea" },
+    { "category": "Flora", "seed": "Camélia", "article": "Camellia" },
+    { "category": "Flora", "seed": "Jasmin officinal", "article": "Jasminum officinale" },
+    { "category": "Flora", "seed": "Glycine de Chine", "article": "Wisteria sinensis" },
+    { "category": "Flora", "seed": "Lotus sacré", "article": "Nelumbo nucifera" },
+    { "category": "Flora", "seed": "Lavande vraie", "article": "Lavandula angustifolia" },
+    { "category": "Flora", "seed": "Thym", "article": "Thymus (genre végétal)" },
+    { "category": "Flora", "seed": "Avoine", "article": "Avoine cultivée" },
+    { "category": "Flora", "seed": "Sorgho", "article": "Sorgo commun" },
+    { "category": "Flora", "seed": "Fougère aigle", "article": "Pteridium aquilinum" },
+    { "category": "Flora", "seed": "Cactus", "article": "Cactaceae" },
+    { "category": "Flora", "seed": "Cerfeuil", "article": "Cerfeuil commun" },
+    { "category": "Flora", "seed": "Mélisse", "article": "Mélisse officinale" },
+    { "category": "Flora", "seed": "Tanaisie", "article": "Tanaisie commune" },
+    { "category": "Flora", "seed": "Chélidoine", "article": "Chelidonium majus" },
+    { "category": "Flora", "seed": "Ajonc d'Europe", "article": "Ulex europaeus" },
+    { "category": "Flora", "seed": "Lunaire annuelle", "article": "Lunaria annua" },
+    { "category": "Flora", "seed": "Sedum acre", "article": "Orpin âcre" },
+    { "category": "Flora", "seed": "Rudbeckie", "article": "Rudbeckia" },
+    { "category": "Flora", "seed": "Échinacée", "article": "Echinacea" },
+    { "category": "Flora", "seed": "Lobélie", "article": "Lobelia" },
+    {
+      "category": "Flags",
+      "seed": "Drapeau de la Suisse",
+      "article": "Drapeau et armoiries de la Suisse"
+    },
+    { "category": "Flags", "seed": "Drapeau d'Andorre", "article": "Drapeau de l'Andorre" },
+    {
+      "category": "Flags",
+      "seed": "Drapeau de la Chine",
+      "article": "Drapeau de la république populaire de Chine"
+    },
+    { "category": "Flags", "seed": "Drapeau du Viêt Nam", "article": "Drapeau du Vietnam" },
+    {
+      "category": "Flags",
+      "seed": "Drapeau de Taïwan",
+      "article": "Drapeau de la république de Chine"
+    },
+    { "category": "Flags", "seed": "Drapeau de Tuvalu", "article": "Drapeau des Tuvalu" },
+    { "category": "Birds", "seed": "Grand corbeau", "article": "Grand Corbeau" },
+    { "category": "Birds", "seed": "Chouette effraie", "article": "Effraie des clochers" },
+    { "category": "Birds", "seed": "Chouette harfang", "article": "Harfang des neiges" },
+    { "category": "Birds", "seed": "Pingouin torda", "article": "Petit Pingouin" },
+    { "category": "Birds", "seed": "Poule d'eau", "article": "Gallinule poule-d'eau" },
+    { "category": "Birds", "seed": "Bec-en-sabot", "article": "Bec-en-sabot du Nil" },
+    { "category": "Birds", "seed": "Perroquet gris du Gabon", "article": "Perroquet jaco" },
+    { "category": "Birds", "seed": "Vautour pape", "article": "Sarcoramphe roi" },
+    { "category": "Birds", "seed": "Coq bankiva", "article": "Coq doré" },
+    { "category": "Birds", "seed": "Gelinotte des bois", "article": "Gélinotte des bois" },
+    { "category": "Trees", "seed": "Chêne sessile", "article": "Quercus petraea" },
+    { "category": "Trees", "seed": "Peuplier blanc", "article": "Populus alba" },
+    { "category": "Trees", "seed": "Saule blanc", "article": "Salix alba" },
+    { "category": "Trees", "seed": "Aulne glutineux", "article": "Alnus glutinosa" },
+    { "category": "Trees", "seed": "Marronnier d'Inde", "article": "Aesculus hippocastanum" },
+    { "category": "Trees", "seed": "Robinier faux-acacia", "article": "Robinia pseudoacacia" },
+    { "category": "Trees", "seed": "Sorbier des oiseleurs", "article": "Sorbus aucuparia" },
+    { "category": "Trees", "seed": "Alisier blanc", "article": "Aria edulis" },
+    { "category": "Trees", "seed": "Merisier", "article": "Prunus avium" },
+    { "category": "Trees", "seed": "Aubépine monogyne", "article": "Crataegus monogyna" },
+    { "category": "Trees", "seed": "Buis commun", "article": "Buxus sempervirens" },
+    { "category": "Trees", "seed": "Sureau noir", "article": "Sambucus nigra" },
+    { "category": "Trees", "seed": "Pin maritime", "article": "Pinus pinaster" },
+    { "category": "Trees", "seed": "Pin cembro", "article": "Pinus cembra" },
+    { "category": "Trees", "seed": "Pin noir d'Autriche", "article": "Pinus nigra" },
+    { "category": "Trees", "seed": "Pin d'Alep", "article": "Pinus halepensis" },
+    { "category": "Trees", "seed": "Sapin blanc", "article": "Abies alba" },
+    { "category": "Trees", "seed": "Mélèze d'Europe", "article": "Larix decidua" },
+    { "category": "Trees", "seed": "Cèdre de l'Atlas", "article": "Cedrus atlantica" },
+    { "category": "Trees", "seed": "Cyprès de Provence", "article": "Cupressus sempervirens" },
+    { "category": "Trees", "seed": "Genévrier commun", "article": "Juniperus communis" },
+    { "category": "Trees", "seed": "Thuya géant", "article": "Thuja plicata" },
+    { "category": "Trees", "seed": "Séquoia à feuilles d'if", "article": "Sequoia sempervirens" },
+    { "category": "Trees", "seed": "Cyprès chauve", "article": "Taxodium distichum" },
+    { "category": "Trees", "seed": "Pin de Bristlecone", "article": "Pin Bristlecone" },
+    { "category": "Trees", "seed": "Metasequoia", "article": "Metasequoia glyptostroboides" },
+    { "category": "Trees", "seed": "Baobab", "article": "Adansonia" },
+    { "category": "Trees", "seed": "Palmier dattier", "article": "Phoenix dactylifera" },
+    { "category": "Trees", "seed": "Figuier commun", "article": "Ficus carica" },
+    { "category": "Trees", "seed": "Tulipier de Virginie", "article": "Liriodendron tulipifera" },
+    { "category": "Trees", "seed": "Baobab de Grandidier", "article": "Adansonia grandidieri" },
+    { "category": "Trees", "seed": "Sophora du Japon", "article": "Styphnolobium japonicum" },
+    { "category": "Trees", "seed": "Catalpa commun", "article": "Catalpa bignonioides" },
+    { "category": "Trees", "seed": "Laurier-sauce", "article": "Laurus nobilis" },
+    { "category": "Trees", "seed": "Tamaris", "article": "Tamarix" },
+    { "category": "Trees", "seed": "Kapokier", "article": "Ceiba pentandra" },
+    { "category": "Trees", "seed": "Pin des Canaries", "article": "Pinus canariensis" },
+    { "category": "Trees", "seed": "Palmier nain", "article": "Chamaerops humilis" },
+    { "category": "Trees", "seed": "Pistachier lentisque", "article": "Pistacia lentiscus" },
+    { "category": "Trees", "seed": "Cèdre de l'Himalaya", "article": "Cedrus deodara" },
+    { "category": "Trees", "seed": "Copalme d'Amérique", "article": "Liquidambar styraciflua" },
+    { "category": "Insects", "seed": "Azuré commun", "article": "Argus bleu" },
+    { "category": "Insects", "seed": "Morpho bleu", "article": "Morpho helenor" },
+    { "category": "Insects", "seed": "Grand Mars changeant", "article": "Grand mars changeant" },
+    { "category": "Insects", "seed": "Vanesse des chardons", "article": "Belle-Dame (papillon)" },
+    { "category": "Insects", "seed": "Écaille chinée", "article": "Euplagia quadripunctaria" },
+    {
+      "category": "Insects",
+      "seed": "Coccinelle à sept points",
+      "article": "Coccinella septempunctata"
+    },
+    {
+      "category": "Insects",
+      "seed": "Scarabée rhinocéros",
+      "article": "Scarabée rhinocéros européen"
+    },
+    { "category": "Insects", "seed": "Longicorne", "article": "Cerambycidae" },
+    { "category": "Insects", "seed": "Capricorne du chêne", "article": "Cerambyx cerdo" },
+    { "category": "Insects", "seed": "Scarabée sacré", "article": "Bousier sacré" },
+    { "category": "Insects", "seed": "Staphylin", "article": "Staphylinidae" },
+    { "category": "Insects", "seed": "Cantharide", "article": "Cantharide officinale" },
+    { "category": "Insects", "seed": "Abeille européenne", "article": "Apis mellifera" },
+    { "category": "Insects", "seed": "Guêpe commune", "article": "Vespula vulgaris" },
+    { "category": "Insects", "seed": "Frelon européen", "article": "Vespa crabro" },
+    { "category": "Insects", "seed": "Grillon champêtre", "article": "Gryllus campestris" },
+    { "category": "Insects", "seed": "Aeschne bleue", "article": "Æschne bleue" },
+    { "category": "Insects", "seed": "Perce-oreille", "article": "Dermaptera" },
+    { "category": "Insects", "seed": "Punaise verte", "article": "Palomena prasina" },
+    { "category": "Insects", "seed": "Notonecte", "article": "Notonectidae" },
+    { "category": "Insects", "seed": "Taon", "article": "Tabanidae" },
+    { "category": "Insects", "seed": "Syrphe", "article": "Syrphidae" },
+    { "category": "Insects", "seed": "Fourmilion", "article": "Myrmeleontidae" },
+    { "category": "Insects", "seed": "Puceron", "article": "Aphidoidea" },
+    { "category": "Insects", "seed": "Blatte", "article": "Blattaria" },
+    { "category": "Insects", "seed": "Courtilière", "article": "Gryllotalpa gryllotalpa" },
+    { "category": "Insects", "seed": "Xylocope violet", "article": "Xylocopa violacea" },
+    { "category": "Insects", "seed": "Mégachile", "article": "Megachile" },
+    { "category": "Insects", "seed": "Frelon asiatique", "article": "Vespa velutina" },
+    { "category": "Insects", "seed": "Tipule", "article": "Tipula" },
+    { "category": "Insects", "seed": "Abeille charpentière", "article": "Xylocopa" },
+    { "category": "Insects", "seed": "Criquet", "article": "Caelifera" },
+    { "category": "Insects", "seed": "Cigale grise", "article": "Cicada orni" },
+    { "category": "Insects", "seed": "Pyrrhocore", "article": "Gendarme (insecte)" },
+    { "category": "Insects", "seed": "Grande tortue", "article": "Nymphalis polychloros" },
+    { "category": "Insects", "seed": "Robert-le-diable", "article": "Polygonia c-album" },
+    { "category": "Insects", "seed": "Nacré de la ronce", "article": "Brenthis daphne" },
+    { "category": "Insects", "seed": "Bourdon des champs", "article": "Bombus pascuorum" },
+    { "category": "Insects", "seed": "Osmie rousse", "article": "Osmia bicornis" },
+    { "category": "Insects", "seed": "Andrène", "article": "Andrena" },
+    { "category": "Insects", "seed": "Halicte", "article": "Halictidae" },
+    {
+      "category": "Insects",
+      "seed": "Zygène de la filipendule",
+      "article": "Zygaena filipendulae"
+    },
+    { "category": "Insects", "seed": "Demi-deuil", "article": "Melanargia galathea" },
+    { "category": "Insects", "seed": "Mélitée du plantain", "article": "Melitaea cinxia" },
+    { "category": "Insects", "seed": "Damier de la succise", "article": "Euphydryas aurinia" },
+    { "category": "Insects", "seed": "Sphinx de la vigne", "article": "Grand sphinx de la vigne" },
+    {
+      "category": "Insects",
+      "seed": "Coccinelle à vingt-deux points",
+      "article": "Psyllobora vigintiduopunctata"
+    },
+    { "category": "Insects", "seed": "Altise", "article": "Alticinae" },
+    { "category": "Insects", "seed": "Chrysomèle", "article": "Chrysomelidae" },
+    { "category": "Insects", "seed": "Criocère du lis", "article": "Lilioceris lilii" },
+    { "category": "Insects", "seed": "Dermeste", "article": "Dermeste du lard" },
+    { "category": "Insects", "seed": "Scolyte", "article": "Scolytinae" },
+    { "category": "Insects", "seed": "Éphippigère des vignes", "article": "Ephippiger ephippiger" },
+    { "category": "Insects", "seed": "Caloptène italien", "article": "Criquet italien" },
+    { "category": "Insects", "seed": "Cicadelle verte", "article": "Cicadella viridis" },
+    { "category": "Insects", "seed": "Nèpe cendrée", "article": "Nèpe" },
+    { "category": "Insects", "seed": "Bourdon des pierres", "article": "Bombus lapidarius" },
+    { "category": "Insects", "seed": "Cordulie bronzée", "article": "Cordulia aenea" },
+    { "category": "Insects", "seed": "Caloptéryx éclatant", "article": "Calopteryx splendens" },
+    { "category": "Insects", "seed": "Leste vert", "article": "Chalcolestes viridis" },
+    { "category": "Insects", "seed": "Orthétrum réticulé", "article": "Orthetrum cancellatum" },
+    { "category": "Insects", "seed": "Puce du chat", "article": "Ctenocephalides felis" },
+    { "category": "Insects", "seed": "Hanneton foulon", "article": "Polyphylla fullo" },
+    { "category": "Insects", "seed": "Fourmi rousse des bois", "article": "Formica rufa" },
+    {
+      "category": "Insects",
+      "seed": "Grande sauterelle verte",
+      "article": "Tettigonia viridissima"
+    },
+    { "category": "Insects", "seed": "Fourmi de feu", "article": "Solenopsis invicta" },
+    { "category": "Insects", "seed": "Scarabée Goliath", "article": "Goliathus regius" },
+    { "category": "Insects", "seed": "Mante orchidée", "article": "Hymenopus coronatus" },
+    { "category": "Insects", "seed": "Phasme bâton", "article": "Carausius morosus" },
+    { "category": "Insects", "seed": "Phyllie", "article": "Phylliidae" },
+    { "category": "Insects", "seed": "Criquet marocain", "article": "Dociostaurus maroccanus" },
+    { "category": "Insects", "seed": "Cigale périodique", "article": "Magicicada" },
+    { "category": "Insects", "seed": "Teigne des vêtements", "article": "Mite des vêtements" },
+    { "category": "Insects", "seed": "Mite alimentaire", "article": "Mite" },
+    { "category": "Insects", "seed": "Fourmi d'Argentine", "article": "Linepithema humile" },
+    { "category": "Mushrooms", "seed": "Cèpe de Bordeaux", "article": "Boletus edulis" },
+    { "category": "Mushrooms", "seed": "Girolle", "article": "Cantharellus cibarius" },
+    { "category": "Mushrooms", "seed": "Morille commune", "article": "Morchella vulgaris" },
+    { "category": "Mushrooms", "seed": "Rosé des prés", "article": "Agaricus campestris" },
+    { "category": "Mushrooms", "seed": "Champignon de Paris", "article": "Agaricus bisporus" },
+    { "category": "Mushrooms", "seed": "Coulemelle", "article": "Macrolepiota procera" },
+    {
+      "category": "Mushrooms",
+      "seed": "Chanterelle en tube",
+      "article": "Craterellus tubaeformis"
+    },
+    { "category": "Mushrooms", "seed": "Pleurote en huître", "article": "Pleurotus ostreatus" },
+    { "category": "Mushrooms", "seed": "Truffe noire du Périgord", "article": "Truffe noire" },
+    { "category": "Mushrooms", "seed": "Hydne imbriqué", "article": "Sarcodon imbricatus" },
+    {
+      "category": "Mushrooms",
+      "seed": "Armillaire couleur de miel",
+      "article": "Armillaria mellea"
+    },
+    { "category": "Mushrooms", "seed": "Shiitake", "article": "Lentinula edodes" },
+    { "category": "Mushrooms", "seed": "Enokitake", "article": "Flammulina velutipes" },
+    { "category": "Mushrooms", "seed": "Marasme des oréades", "article": "Marasme des Oréades" },
+    { "category": "Mushrooms", "seed": "Cèpe d'été", "article": "Boletus reticulatus" },
+    { "category": "Mushrooms", "seed": "Amanite des Césars", "article": "Oronge" },
+    { "category": "Mushrooms", "seed": "Bolet granulé", "article": "Suillus granulatus" },
+    { "category": "Mushrooms", "seed": "Galère marginée", "article": "Galerina marginata" },
+    { "category": "Mushrooms", "seed": "Inocybe de Patouillard", "article": "Inocybe erubescens" },
+    { "category": "Mushrooms", "seed": "Bolet de Satan", "article": "Bolet Satan" },
+    { "category": "Mushrooms", "seed": "Hypholome en touffes", "article": "Hypholoma fasciculare" },
+    { "category": "Mushrooms", "seed": "Fausse morille", "article": "Gyromitra esculenta" },
+    { "category": "Mushrooms", "seed": "Scléroderme commun", "article": "Scleroderma citrinum" },
+    { "category": "Mushrooms", "seed": "Clathre rouge", "article": "Clathrus ruber" },
+    { "category": "Mushrooms", "seed": "Polypore versicolore", "article": "Trametes versicolor" },
+    { "category": "Mushrooms", "seed": "Pézize orangée", "article": "Aleuria aurantia" },
+    { "category": "Mushrooms", "seed": "Oreille de Judas", "article": "Oreille-de-Judas" },
+    { "category": "Mushrooms", "seed": "Coprin micacé", "article": "Coprinellus micaceus" },
+    { "category": "Mushrooms", "seed": "Bolet amer", "article": "Tylopilus felleus" },
+    { "category": "Mushrooms", "seed": "Chanterelle jaune", "article": "Craterellus lutescens" },
+    { "category": "Mushrooms", "seed": "Pleurote", "article": "Pleurotus" },
+    { "category": "Mushrooms", "seed": "Craterelle", "article": "Craterellus" },
+    { "category": "Mushrooms", "seed": "Bolet jaune", "article": "Suillus luteus" },
+    { "category": "Mushrooms", "seed": "Géastre", "article": "Geastrum" },
+    { "category": "Mushrooms", "seed": "Pézize veinée", "article": "Disciotis venosa" },
+    { "category": "Mushrooms", "seed": "Pézize écarlate", "article": "Sarcoscypha coccinea" },
+    { "category": "Mushrooms", "seed": "Grifola frondosa", "article": "Polypore en touffe" },
+    { "category": "Mushrooms", "seed": "Volvaire", "article": "Volvariella" },
+    { "category": "Mushrooms", "seed": "Mycène", "article": "Mycena" },
+    { "category": "Mushrooms", "seed": "Tricholome équestre", "article": "Tricholoma equestre" },
+    { "category": "Architecture", "seed": "Mont-Saint-Michel", "article": "Le Mont-Saint-Michel" },
+    { "category": "Architecture", "seed": "Panthéon de Paris", "article": "Panthéon (Paris)" },
+    {
+      "category": "Architecture",
+      "seed": "Centre Pompidou",
+      "article": "Centre national d'art et de culture Georges-Pompidou"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Grande Arche de la Défense",
+      "article": "Arche de la Défense"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Cathédrale d'Amiens",
+      "article": "Cathédrale Notre-Dame d'Amiens"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Palais idéal du facteur Cheval",
+      "article": "Palais idéal"
+    },
+    { "category": "Architecture", "seed": "Cité radieuse", "article": "Unité d'habitation" },
+    { "category": "Architecture", "seed": "Panthéon de Rome", "article": "Panthéon (Rome)" },
+    {
+      "category": "Architecture",
+      "seed": "Basilique Saint-Pierre de Rome",
+      "article": "Basilique Saint-Pierre"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Mezquita de Cordoue",
+      "article": "Mosquée-cathédrale de Cordoue"
+    },
+    { "category": "Architecture", "seed": "Alcázar de Ségovie", "article": "Alcazar de Ségovie" },
+    {
+      "category": "Architecture",
+      "seed": "Cathédrale Saint-Basile-le-Bienheureux",
+      "article": "Cathédrale Saint-Basile-le-Bienheureux de Moscou"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Parlement de Budapest",
+      "article": "Parlement hongrois"
+    },
+    { "category": "Architecture", "seed": "Château d'Edimbourg", "article": "Château d'Édimbourg" },
+    {
+      "category": "Architecture",
+      "seed": "Cathédrale de Cantorbéry",
+      "article": "Cathédrale de Canterbury"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Château de Malbork",
+      "article": "Forteresse teutonique de Marienbourg"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Grande Muraille de Chine",
+      "article": "Grande Muraille"
+    },
+    { "category": "Architecture", "seed": "Borobudur", "article": "Temple de Borobudur" },
+    { "category": "Architecture", "seed": "Prambanan", "article": "Temple de Prambanan" },
+    { "category": "Architecture", "seed": "Mosquée Al-Aqsa", "article": "Mosquée al-Aqsa" },
+    { "category": "Architecture", "seed": "Burj Al Arab", "article": "Burj al-Arab" },
+    { "category": "Architecture", "seed": "Qutb Minar", "article": "Qûtb Minâr" },
+    { "category": "Architecture", "seed": "Temple de Louxor", "article": "Temple d'Amon (Louxor)" },
+    {
+      "category": "Architecture",
+      "seed": "Grande Mosquée de Djenné",
+      "article": "Grande mosquée de Djenné"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Grande Mosquée de Kairouan",
+      "article": "Grande mosquée de Kairouan"
+    },
+    {
+      "category": "Architecture",
+      "seed": "Hagia Sophia",
+      "article": "Sainte-Sophie (Constantinople)"
+    },
+    { "category": "Architecture", "seed": "Golden Gate Bridge", "article": "Pont du Golden Gate" },
+    { "category": "Architecture", "seed": "Hoover Dam", "article": "Barrage Hoover" },
+    { "category": "Architecture", "seed": "Temple de Kukulcán", "article": "Pyramide de Kukulcán" },
+    { "category": "Architecture", "seed": "Sacsayhuamán", "article": "Saqsaywaman" },
+    { "category": "Architecture", "seed": "Teatro Colón", "article": "Théâtre Colón" },
+    { "category": "Inventions", "seed": "Télécopie", "article": "Télécopieur" },
+    { "category": "Inventions", "seed": "Télégraphe optique", "article": "Télégraphe Chappe" },
+    { "category": "Inventions", "seed": "Tourne-disque", "article": "Platine tourne-disques" },
+    { "category": "Inventions", "seed": "Motocyclette", "article": "Moto" },
+    { "category": "Inventions", "seed": "Bicyclette", "article": "Vélo" },
+    { "category": "Inventions", "seed": "Dirigeable", "article": "Ballon dirigeable" },
+    { "category": "Inventions", "seed": "Escalator", "article": "Escalier mécanique" },
+    { "category": "Inventions", "seed": "Cocotte-minute", "article": "Autocuiseur" },
+    { "category": "Inventions", "seed": "Fermeture à glissière", "article": "Fermeture éclair" },
+    { "category": "Inventions", "seed": "Épingle à nourrice", "article": "Épingle de sûreté" },
+    { "category": "Inventions", "seed": "Pile Volta", "article": "Pile voltaïque" },
+    {
+      "category": "Inventions",
+      "seed": "Moteur à explosion",
+      "article": "Moteur à combustion et explosion"
+    },
+    {
+      "category": "Arts & Literature",
+      "seed": "Guernica (tableau)",
+      "article": "Guernica (Picasso)"
+    },
+    {
+      "category": "Arts & Literature",
+      "seed": "La Création d'Adam",
+      "article": "La Création d'Adam (Michel-Ange)"
+    },
+    { "category": "Arts & Literature", "seed": "La Mort de Marat", "article": "Marat assassiné" },
+    { "category": "Arts & Literature", "seed": "Les Glaneuses", "article": "Des glaneuses" },
+    { "category": "Arts & Literature", "seed": "La Tour de Babel", "article": "Tour de Babel" },
+    {
+      "category": "Arts & Literature",
+      "seed": "Le Joueur de fifre",
+      "article": "Le Fifre (Manet)"
+    },
+    {
+      "category": "Arts & Literature",
+      "seed": "Portrait de Madame Récamier",
+      "article": "Portrait de madame Récamier"
+    },
+    {
+      "category": "Arts & Literature",
+      "seed": "Tête de Néfertiti",
+      "article": "Buste de Néfertiti"
+    },
+    { "category": "Arts & Literature", "seed": "Rabelais", "article": "François Rabelais" },
+    {
+      "category": "Arts & Literature",
+      "seed": "Pierre-Auguste Renoir",
+      "article": "Auguste Renoir"
+    },
+    {
+      "category": "Arts & Literature",
+      "seed": "Wassily Kandinsky",
+      "article": "Vassily Kandinsky"
+    },
+    { "category": "Arts & Literature", "seed": "Giotto", "article": "Giotto di Bondone" },
+    { "category": "Arts & Literature", "seed": "Katsushika Hokusai", "article": "Hokusai" },
+    { "category": "Geography", "seed": "Denali", "article": "Mont McKinley" },
+    { "category": "Geography", "seed": "Mont Cook", "article": "Aoraki/Mont Cook" },
+    { "category": "Geography", "seed": "Uluru", "article": "Uluru/Ayers Rock" },
+    { "category": "Geography", "seed": "Mont Saint-Elias", "article": "Mont Saint-Élie" },
+    { "category": "Geography", "seed": "Popocatépetl", "article": "Popocatepetl" },
+    { "category": "Geography", "seed": "Mont Vinson", "article": "Massif Vinson" },
+    { "category": "Geography", "seed": "Lac Léman", "article": "Léman" },
+    { "category": "Geography", "seed": "Yangzi Jiang", "article": "Yangtsé" },
+    { "category": "Geography", "seed": "Désert du Sahara", "article": "Sahara" },
+    { "category": "Geography", "seed": "Désert de Namib", "article": "Désert du Namib" },
+    { "category": "Geography", "seed": "Désert du Néguev", "article": "Néguev" },
+    { "category": "Geography", "seed": "Baie d'Ha Long", "article": "Baie d'Along" },
+    { "category": "Geography", "seed": "Falaises d'Étretat", "article": "Site d'Étretat" },
+    { "category": "Geography", "seed": "Calanques de Marseille", "article": "Calanques" },
+    { "category": "Geography", "seed": "Fjord de Geiranger", "article": "Geirangerfjord" },
+    { "category": "Geography", "seed": "Mumbai", "article": "Bombay" },
+    { "category": "Space & Astronomy", "seed": "Cérès (planète naine)", "article": "(1) Cérès" },
+    { "category": "Space & Astronomy", "seed": "Éris (planète naine)", "article": "(136199) Éris" },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Makémaké (planète naine)",
+      "article": "(136472) Makémaké"
+    },
+    { "category": "Space & Astronomy", "seed": "Vesta (astéroïde)", "article": "(4) Vesta" },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Itokawa (astéroïde)",
+      "article": "(25143) Itokawa"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Comète Hale-Bopp",
+      "article": "C/1995 O1 (Hale-Bopp)"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Comète Churyumov-Gerasimenko",
+      "article": "67P/Tchourioumov-Guérassimenko"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Comète Shoemaker-Levy 9",
+      "article": "Shoemaker-Levy 9"
+    },
+    { "category": "Space & Astronomy", "seed": "Tempel 1", "article": "9P/Tempel" },
+    { "category": "Space & Astronomy", "seed": "Comète Wild 2", "article": "81P/Wild" },
+    { "category": "Space & Astronomy", "seed": "Nébuleuse de l'Hélice", "article": "NGC 7293" },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Nébuleuse de la Tête de cheval",
+      "article": "Nébuleuse de la Tête de Cheval"
+    },
+    { "category": "Space & Astronomy", "seed": "Nébuleuse du Cœur", "article": "IC 1805" },
+    { "category": "Space & Astronomy", "seed": "Nébuleuse de la Bulle", "article": "NGC 7635" },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Nébuleuse de l'Œil de chat",
+      "article": "Nébuleuse de l'Œil de Chat"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Galaxie du Tourbillon",
+      "article": "M51 (galaxie)"
+    },
+    { "category": "Space & Astronomy", "seed": "Galaxie du Sombrero", "article": "M104 (galaxie)" },
+    { "category": "Space & Astronomy", "seed": "Galaxie du Cigare", "article": "M82 (galaxie)" },
+    { "category": "Space & Astronomy", "seed": "Galaxie du Moulinet", "article": "M101 (galaxie)" },
+    { "category": "Space & Astronomy", "seed": "Galaxie de Barnard", "article": "NGC 6822" },
+    { "category": "Space & Astronomy", "seed": "Messier 87", "article": "M87 (galaxie)" },
+    { "category": "Space & Astronomy", "seed": "Amas du Boulet", "article": "Amas de la Balle" },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Galaxie de l'Œil noir",
+      "article": "M64 (galaxie)"
+    },
+    { "category": "Space & Astronomy", "seed": "Galaxie de Bode", "article": "M81 (galaxie)" },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Télescope spatial Hubble",
+      "article": "Hubble (télescope spatial)"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Télescope spatial James-Webb",
+      "article": "James Webb (télescope spatial)"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Perseverance",
+      "article": "Mars 2020 (mission spatiale)"
+    },
+    { "category": "Space & Astronomy", "seed": "Philae", "article": "Philæ" },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Galileo (sonde)",
+      "article": "Galileo (sonde spatiale)"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Messenger (sonde spatiale)",
+      "article": "MESSENGER"
+    },
+    {
+      "category": "Space & Astronomy",
+      "seed": "Parker Solar Probe",
+      "article": "Parker (sonde spatiale)"
+    },
+    { "category": "Space & Astronomy", "seed": "Gaia", "article": "Gaïa" },
+    { "category": "History", "seed": "Robespierre", "article": "Maximilien de Robespierre" },
+    { "category": "History", "seed": "Georges Danton", "article": "Georges Jacques Danton" },
+    { "category": "History", "seed": "Léonidas Ier", "article": "Léonidas Ier de Sparte" },
+    {
+      "category": "History",
+      "seed": "Philippe II d'Espagne",
+      "article": "Philippe II (roi d'Espagne)"
+    },
+    {
+      "category": "History",
+      "seed": "Isabelle Ire de Castille",
+      "article": "Isabelle la Catholique"
+    },
+    {
+      "category": "History",
+      "seed": "Frédéric II de Prusse",
+      "article": "Frédéric II (roi de Prusse)"
+    },
+    { "category": "History", "seed": "Lénine", "article": "Vladimir Ilitch Lénine" },
+    { "category": "History", "seed": "John F. Kennedy", "article": "John Fitzgerald Kennedy" },
+    { "category": "History", "seed": "Philippe Auguste", "article": "Philippe II Auguste" },
+    { "category": "History", "seed": "Saint Louis", "article": "Louis IX" },
+    { "category": "History", "seed": "Mazarin", "article": "Jules Mazarin" },
+    { "category": "History", "seed": "Sacre de Napoléon", "article": "Sacre de Napoléon Ier" },
+    { "category": "History", "seed": "Voie appienne", "article": "Voie Appienne" },
+    {
+      "category": "History",
+      "seed": "Théâtre d'Épidaure",
+      "article": "Sanctuaire d'Asclépios et théâtre d'Épidaure"
+    },
+    {
+      "category": "History",
+      "seed": "Tombe de Toutânkhamon",
+      "article": "Tombeau de Toutânkhamon"
+    },
+    { "category": "History", "seed": "Alcatraz", "article": "Île d'Alcatraz" },
+    { "category": "History", "seed": "Knossos", "article": "Cnossos" },
+    { "category": "Mythology", "seed": "Nikê", "article": "Niké" },
+    { "category": "Mythology", "seed": "Junon (mythologie)", "article": "Junon" },
+    { "category": "Mythology", "seed": "Vesta (mythologie)", "article": "Vesta" },
+    { "category": "Mythology", "seed": "Médée", "article": "Médée (mythologie)" },
+    { "category": "Mythology", "seed": "Loup-garou", "article": "Lycanthrope" },
+    {
+      "category": "Mythology",
+      "seed": "Nain (mythologie)",
+      "article": "Nain (créature fantastique)"
+    },
+    { "category": "Mythology", "seed": "Kitsune", "article": "Renard dans la culture japonaise" },
+    { "category": "Mythology", "seed": "Simurgh", "article": "Simorgh (mythologie)" },
+    { "category": "Mythology", "seed": "Hanuman", "article": "Hanumān" },
+    { "category": "Mythology", "seed": "Durga", "article": "Dourga" },
+    { "category": "Mythology", "seed": "Raijin", "article": "Raiden (divinité)" },
+    { "category": "Mythology", "seed": "Lugh", "article": "Lug (dieu)" },
+    { "category": "Gastronomy", "seed": "Magret de canard", "article": "Magret" },
+    { "category": "Gastronomy", "seed": "Pan-bagnat", "article": "Pan bagnat" },
+    { "category": "Gastronomy", "seed": "Bouchées à la reine", "article": "Bouchée à la reine" },
+    { "category": "Gastronomy", "seed": "Île flottante (dessert)", "article": "Œufs à la neige" },
+    { "category": "Gastronomy", "seed": "Churros", "article": "Churro" },
+    { "category": "Gastronomy", "seed": "Ramen", "article": "Rāmen" },
+    { "category": "Gastronomy", "seed": "Pad thaï", "article": "Phat thai" },
+    { "category": "Gastronomy", "seed": "Dim sum", "article": "Dimsum" },
+    { "category": "Gastronomy", "seed": "Gumbo", "article": "Gombo (soupe)" },
+    { "category": "Gastronomy", "seed": "Satay", "article": "Sate" },
+    { "category": "Gastronomy", "seed": "Poulet yassa", "article": "Yassa (plat)" },
+    { "category": "Gastronomy", "seed": "Kibbeh", "article": "Kebbé" },
+    { "category": "Gastronomy", "seed": "Ossau-iraty", "article": "Ossau-Iraty" },
+    { "category": "Gastronomy", "seed": "Vacherin Mont-d'Or", "article": "Mont d'Or (fromage)" },
+    { "category": "Gastronomy", "seed": "Selles-sur-Cher (fromage)", "article": "Selles-sur-cher" },
+    { "category": "Gastronomy", "seed": "Bleu de Gex", "article": "Bleu de Gex Haut-Jura" },
+    { "category": "Gastronomy", "seed": "Idiazábal", "article": "Idiazabal" },
+    { "category": "Gastronomy", "seed": "Pamplemousse", "article": "Pamplemousse et pomélo" },
+    { "category": "Gastronomy", "seed": "Mangoustan", "article": "Mangoustanier" },
+    { "category": "Gastronomy", "seed": "Betterave rouge", "article": "Betterave potagère" },
+    { "category": "Gastronomy", "seed": "Courge butternut", "article": "Doubeurre" },
+    { "category": "Gastronomy", "seed": "Mâche", "article": "Valerianella locusta" },
+    { "category": "Music", "seed": "Orgue (instrument)", "article": "Orgue" },
+    { "category": "Music", "seed": "Flûte de pan", "article": "Flûte de Pan" },
+    { "category": "Music", "seed": "Didgeridoo", "article": "Didjeridoo" },
+    { "category": "Music", "seed": "Batterie (musique)", "article": "Batterie (instrument)" },
+    { "category": "Music", "seed": "Maracas", "article": "Maraca" },
+    { "category": "Music", "seed": "Steelpan", "article": "Pan (instrument)" },
+    { "category": "Music", "seed": "Sousaphone", "article": "Soubassophone" },
+    { "category": "Music", "seed": "Cornemuse écossaise", "article": "Great Highland bagpipe" },
+    { "category": "Music", "seed": "Bansuri", "article": "Bansurî" },
+    { "category": "Music", "seed": "Cloches tubulaires", "article": "Carillon tubulaire" },
+    { "category": "Music", "seed": "Johann Strauss (fils)", "article": "Johann Strauss II" },
+    { "category": "Sports", "seed": "Ski-alpinisme", "article": "Ski de randonnée" },
+    {
+      "category": "Sports",
+      "seed": "NASCAR",
+      "article": "National Association for Stock Car Auto Racing"
+    },
+    { "category": "Sports", "seed": "Nage synchronisée", "article": "Natation synchronisée" },
+    { "category": "Sports", "seed": "Muhammad Ali", "article": "Mohamed Ali" },
+    { "category": "Sports", "seed": "Johan Cruijff", "article": "Johan Cruyff" },
+    { "category": "Science", "seed": "Lord Kelvin", "article": "William Thomson (Lord Kelvin)" },
+    { "category": "Science", "seed": "Ignace Semmelweis", "article": "Ignace Philippe Semmelweis" },
+    { "category": "Science", "seed": "Jacques Cousteau", "article": "Jacques-Yves Cousteau" },
+    { "category": "Science", "seed": "Ptolémée", "article": "Claude Ptolémée" },
+    { "category": "Science", "seed": "Mercure (élément)", "article": "Mercure (chimie)" },
+    { "category": "Science", "seed": "Pierre ponce", "article": "Ponce" }
+  ],
+  "dropped": [
+    { "category": "Fauna", "title": "Chat-pêcheur", "reason": "article not found" },
+    {
+      "category": "Fauna",
+      "title": "Carcajou",
+      "reason": "duplicate of an earlier subject (Gulo gulo)"
+    },
+    { "category": "Fauna", "title": "Ours noir américain", "reason": "article not found" },
+    { "category": "Fauna", "title": "Nasique", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Zèbre de Burchell", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Lama", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Muscardin", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Fourmilier à quatre doigts", "reason": "article not found" },
+    { "category": "Fauna", "title": "Kangourou rouge", "reason": "article not found" },
+    { "category": "Fauna", "title": "Dingo", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Sarigue", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Béluga", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Morse", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Lézard vert", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Moloch épineux", "reason": "article not found" },
+    { "category": "Fauna", "title": "Grenouille verte", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Dendrobate bleu", "reason": "article not found" },
+    { "category": "Fauna", "title": "Hippocampe", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Marlin bleu de l'Atlantique", "reason": "article not found" },
+    { "category": "Fauna", "title": "Poisson-lune", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Nautile", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Méduse", "reason": "disambiguation page" },
+    { "category": "Fauna", "title": "Escargot de Bourgogne", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Bleuet", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Muguet", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Gui", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Narcisse", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Iris des jardins", "reason": "article not found" },
+    { "category": "Flora", "title": "Rose", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Géranium", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Soucis", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Cosmos", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Capucine", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Basilic", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Ciboulette", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Papyrus", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Orge", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Lin", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Caféier arabica", "reason": "article not found" },
+    { "category": "Flora", "title": "Safran", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Mousse", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Orpin", "reason": "disambiguation page" },
+    {
+      "category": "Flora",
+      "title": "Coquelicot",
+      "reason": "duplicate of an earlier subject (Coquelicot)"
+    },
+    {
+      "category": "Flora",
+      "title": "Bouton d'or",
+      "reason": "duplicate of an earlier subject (Renoncule)"
+    },
+    {
+      "category": "Flora",
+      "title": "Tournesol",
+      "reason": "duplicate of an earlier subject (Tournesol)"
+    },
+    {
+      "category": "Flora",
+      "title": "Tulipe",
+      "reason": "duplicate of an earlier subject (Tulipe)"
+    },
+    {
+      "category": "Flora",
+      "title": "Crocus",
+      "reason": "duplicate of an earlier subject (Crocus)"
+    },
+    { "category": "Flora", "title": "Jacinthe", "reason": "disambiguation page" },
+    {
+      "category": "Flora",
+      "title": "Lis blanc",
+      "reason": "duplicate of an earlier subject (Lilium candidum)"
+    },
+    {
+      "category": "Flora",
+      "title": "Pivoine",
+      "reason": "duplicate of an earlier subject (Pivoine)"
+    },
+    {
+      "category": "Flora",
+      "title": "Dahlia",
+      "reason": "duplicate of an earlier subject (Dahlia)"
+    },
+    {
+      "category": "Flora",
+      "title": "Zinnia",
+      "reason": "duplicate of an earlier subject (Zinnia)"
+    },
+    {
+      "category": "Flora",
+      "title": "Pétunia",
+      "reason": "duplicate of an earlier subject (Pétunia)"
+    },
+    {
+      "category": "Flora",
+      "title": "Pensée",
+      "reason": "duplicate of an earlier subject (Pensée)"
+    },
+    {
+      "category": "Flora",
+      "title": "Myosotis",
+      "reason": "duplicate of an earlier subject (Myosotis)"
+    },
+    { "category": "Flora", "title": "Lupin", "reason": "duplicate of an earlier subject (Lupin)" },
+    {
+      "category": "Flora",
+      "title": "Digitale pourpre",
+      "reason": "duplicate of an earlier subject (Digitalis purpurea)"
+    },
+    { "category": "Flora", "title": "Aconit", "reason": "disambiguation page" },
+    {
+      "category": "Flora",
+      "title": "Anémone des bois",
+      "reason": "duplicate of an earlier subject (Anémone sylvie)"
+    },
+    {
+      "category": "Flora",
+      "title": "Clématite",
+      "reason": "duplicate of an earlier subject (Clématite)"
+    },
+    {
+      "category": "Flora",
+      "title": "Chèvrefeuille",
+      "reason": "duplicate of an earlier subject (Chèvrefeuille)"
+    },
+    { "category": "Flora", "title": "Glycine", "reason": "disambiguation page" },
+    {
+      "category": "Flora",
+      "title": "Hortensia",
+      "reason": "duplicate of an earlier subject (Hydrangea)"
+    },
+    { "category": "Flora", "title": "Lilas", "reason": "disambiguation page" },
+    {
+      "category": "Flora",
+      "title": "Camélia",
+      "reason": "duplicate of an earlier subject (Camellia)"
+    },
+    {
+      "category": "Flora",
+      "title": "Rhododendron",
+      "reason": "duplicate of an earlier subject (Rhododendron)"
+    },
+    {
+      "category": "Flora",
+      "title": "Azalée",
+      "reason": "duplicate of an earlier subject (Rhododendron)"
+    },
+    {
+      "category": "Flora",
+      "title": "Hibiscus",
+      "reason": "duplicate of an earlier subject (Hibiscus)"
+    },
+    {
+      "category": "Flora",
+      "title": "Bougainvillier",
+      "reason": "duplicate of an earlier subject (Bougainvillea)"
+    },
+    {
+      "category": "Flora",
+      "title": "Edelweiss",
+      "reason": "duplicate of an earlier subject (Edelweiss)"
+    },
+    {
+      "category": "Flora",
+      "title": "Primevère",
+      "reason": "duplicate of an earlier subject (Primevère)"
+    },
+    {
+      "category": "Flora",
+      "title": "Thym",
+      "reason": "duplicate of an earlier subject (Thymus (genre végétal))"
+    },
+    {
+      "category": "Flora",
+      "title": "Romarin",
+      "reason": "duplicate of an earlier subject (Romarin)"
+    },
+    {
+      "category": "Flora",
+      "title": "Persil",
+      "reason": "duplicate of an earlier subject (Persil)"
+    },
+    { "category": "Flora", "title": "Aneth", "reason": "duplicate of an earlier subject (Aneth)" },
+    {
+      "category": "Flora",
+      "title": "Achillée millefeuille",
+      "reason": "duplicate of an earlier subject (Achillée millefeuille)"
+    },
+    { "category": "Flora", "title": "Plantain", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Mauve", "reason": "disambiguation page" },
+    {
+      "category": "Flora",
+      "title": "Lierre grimpant",
+      "reason": "duplicate of an earlier subject (Lierre grimpant)"
+    },
+    {
+      "category": "Flora",
+      "title": "Fougère aigle",
+      "reason": "duplicate of an earlier subject (Pteridium aquilinum)"
+    },
+    {
+      "category": "Flora",
+      "title": "Prêle des champs",
+      "reason": "duplicate of an earlier subject (Prêle des champs)"
+    },
+    {
+      "category": "Flora",
+      "title": "Lotus sacré",
+      "reason": "duplicate of an earlier subject (Nelumbo nucifera)"
+    },
+    {
+      "category": "Flora",
+      "title": "Nénuphar blanc",
+      "reason": "duplicate of an earlier subject (Nénuphar blanc)"
+    },
+    {
+      "category": "Flora",
+      "title": "Blé tendre",
+      "reason": "duplicate of an earlier subject (Blé tendre)"
+    },
+    { "category": "Flora", "title": "Riz", "reason": "duplicate of an earlier subject (Riz)" },
+    {
+      "category": "Flora",
+      "title": "Avoine",
+      "reason": "duplicate of an earlier subject (Avoine cultivée)"
+    },
+    {
+      "category": "Flora",
+      "title": "Seigle",
+      "reason": "duplicate of an earlier subject (Seigle)"
+    },
+    {
+      "category": "Flora",
+      "title": "Sorgho",
+      "reason": "duplicate of an earlier subject (Sorgo commun)"
+    },
+    {
+      "category": "Flora",
+      "title": "Canne à sucre",
+      "reason": "duplicate of an earlier subject (Canne à sucre)"
+    },
+    { "category": "Flora", "title": "Tabac", "reason": "duplicate of an earlier subject (Tabac)" },
+    {
+      "category": "Flora",
+      "title": "Cacaoyer",
+      "reason": "duplicate of an earlier subject (Cacaoyer)"
+    },
+    {
+      "category": "Flora",
+      "title": "Poivrier noir",
+      "reason": "duplicate of an earlier subject (Poivrier noir)"
+    },
+    {
+      "category": "Flora",
+      "title": "Cactus",
+      "reason": "duplicate of an earlier subject (Cactaceae)"
+    },
+    { "category": "Flora", "title": "Agave", "reason": "duplicate of an earlier subject (Agave)" },
+    {
+      "category": "Flora",
+      "title": "Aloe vera",
+      "reason": "duplicate of an earlier subject (Aloe vera)"
+    },
+    {
+      "category": "Flora",
+      "title": "Pissenlit",
+      "reason": "duplicate of an earlier subject (Pissenlit)"
+    },
+    {
+      "category": "Flora",
+      "title": "Marguerite commune",
+      "reason": "duplicate of an earlier subject (Marguerite commune)"
+    },
+    {
+      "category": "Flora",
+      "title": "Ail des ours",
+      "reason": "duplicate of an earlier subject (Allium ursinum)"
+    },
+    { "category": "Flora", "title": "Capucine", "reason": "disambiguation page" },
+    {
+      "category": "Flora",
+      "title": "Passiflore",
+      "reason": "duplicate of an earlier subject (Passiflore)"
+    },
+    { "category": "Flora", "title": "Orchidée sauvage", "reason": "article not found" },
+    {
+      "category": "Flora",
+      "title": "Sabot de Vénus",
+      "reason": "duplicate of an earlier subject (Sabot de Vénus)"
+    },
+    {
+      "category": "Flora",
+      "title": "Ophrys abeille",
+      "reason": "duplicate of an earlier subject (Ophrys abeille)"
+    },
+    {
+      "category": "Flora",
+      "title": "Gesse odorante",
+      "reason": "duplicate of an earlier subject (Pois de senteur)"
+    },
+    {
+      "category": "Flora",
+      "title": "Pois de senteur",
+      "reason": "duplicate of an earlier subject (Pois de senteur)"
+    },
+    { "category": "Flora", "title": "Sceau de Salomon", "reason": "disambiguation page" },
+    { "category": "Flora", "title": "Arum maculé", "reason": "article not found" },
+    {
+      "category": "Flora",
+      "title": "Bambou",
+      "reason": "duplicate of an earlier subject (Bambou)"
+    },
+    {
+      "category": "Flora",
+      "title": "Œillet",
+      "reason": "duplicate of an earlier subject (Œillet)"
+    },
+    { "category": "Flora", "title": "Giroflée", "reason": "disambiguation page" },
+    {
+      "category": "Flags",
+      "title": "Drapeau de la république centrafricaine",
+      "reason": "article not found"
+    },
+    { "category": "Birds", "title": "Secrétaire", "reason": "disambiguation page" },
+    { "category": "Birds", "title": "Kookaburra", "reason": "disambiguation page" },
+    { "category": "Trees", "title": "Houx", "reason": "duplicate of an earlier subject (Houx)" },
+    { "category": "Trees", "title": "Acacia", "reason": "disambiguation page" },
+    { "category": "Trees", "title": "Banian", "reason": "disambiguation page" },
+    { "category": "Trees", "title": "Bambou géant", "reason": "disambiguation page" },
+    { "category": "Trees", "title": "Mimosa", "reason": "disambiguation page" },
+    { "category": "Trees", "title": "Grenadier", "reason": "disambiguation page" },
+    {
+      "category": "Trees",
+      "title": "Chêne vert",
+      "reason": "duplicate of an earlier subject (Chêne vert)"
+    },
+    {
+      "category": "Trees",
+      "title": "Chêne pédonculé",
+      "reason": "duplicate of an earlier subject (Chêne pédonculé)"
+    },
+    {
+      "category": "Trees",
+      "title": "Chêne-liège",
+      "reason": "duplicate of an earlier subject (Chêne-liège)"
+    },
+    {
+      "category": "Trees",
+      "title": "Hêtre commun",
+      "reason": "duplicate of an earlier subject (Hêtre commun)"
+    },
+    {
+      "category": "Trees",
+      "title": "Charme commun",
+      "reason": "duplicate of an earlier subject (Charme commun)"
+    },
+    {
+      "category": "Trees",
+      "title": "Châtaignier",
+      "reason": "duplicate of an earlier subject (Castanea)"
+    },
+    {
+      "category": "Trees",
+      "title": "Noyer commun",
+      "reason": "duplicate of an earlier subject (Noyer commun)"
+    },
+    {
+      "category": "Trees",
+      "title": "Noisetier",
+      "reason": "duplicate of an earlier subject (Noisetier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Tilleul à grandes feuilles",
+      "reason": "duplicate of an earlier subject (Tilleul à grandes feuilles)"
+    },
+    {
+      "category": "Trees",
+      "title": "Orme champêtre",
+      "reason": "duplicate of an earlier subject (Orme champêtre)"
+    },
+    {
+      "category": "Trees",
+      "title": "Frêne élevé",
+      "reason": "duplicate of an earlier subject (Frêne élevé)"
+    },
+    {
+      "category": "Trees",
+      "title": "Érable sycomore",
+      "reason": "duplicate of an earlier subject (Érable sycomore)"
+    },
+    {
+      "category": "Trees",
+      "title": "Érable plane",
+      "reason": "duplicate of an earlier subject (Érable plane)"
+    },
+    {
+      "category": "Trees",
+      "title": "Érable champêtre",
+      "reason": "duplicate of an earlier subject (Érable champêtre)"
+    },
+    {
+      "category": "Trees",
+      "title": "Bouleau verruqueux",
+      "reason": "duplicate of an earlier subject (Bouleau verruqueux)"
+    },
+    {
+      "category": "Trees",
+      "title": "Saule pleureur",
+      "reason": "duplicate of an earlier subject (Saule pleureur)"
+    },
+    {
+      "category": "Trees",
+      "title": "Peuplier noir",
+      "reason": "duplicate of an earlier subject (Peuplier noir)"
+    },
+    {
+      "category": "Trees",
+      "title": "Peuplier blanc",
+      "reason": "duplicate of an earlier subject (Populus alba)"
+    },
+    {
+      "category": "Trees",
+      "title": "Aulne glutineux",
+      "reason": "duplicate of an earlier subject (Alnus glutinosa)"
+    },
+    {
+      "category": "Trees",
+      "title": "Platane commun",
+      "reason": "duplicate of an earlier subject (Platane commun)"
+    },
+    {
+      "category": "Trees",
+      "title": "Marronnier d'Inde",
+      "reason": "duplicate of an earlier subject (Aesculus hippocastanum)"
+    },
+    {
+      "category": "Trees",
+      "title": "Sorbier des oiseleurs",
+      "reason": "duplicate of an earlier subject (Sorbus aucuparia)"
+    },
+    {
+      "category": "Trees",
+      "title": "Alisier blanc",
+      "reason": "duplicate of an earlier subject (Aria edulis)"
+    },
+    {
+      "category": "Trees",
+      "title": "Aubépine monogyne",
+      "reason": "duplicate of an earlier subject (Crataegus monogyna)"
+    },
+    {
+      "category": "Trees",
+      "title": "Merisier",
+      "reason": "duplicate of an earlier subject (Prunus avium)"
+    },
+    {
+      "category": "Trees",
+      "title": "Pommier",
+      "reason": "duplicate of an earlier subject (Pommier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Poirier commun",
+      "reason": "duplicate of an earlier subject (Poirier commun)"
+    },
+    {
+      "category": "Trees",
+      "title": "Prunier",
+      "reason": "duplicate of an earlier subject (Prunier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Figuier",
+      "reason": "duplicate of an earlier subject (Ficus carica)"
+    },
+    {
+      "category": "Trees",
+      "title": "Olivier",
+      "reason": "duplicate of an earlier subject (Olivier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Amandier",
+      "reason": "duplicate of an earlier subject (Amandier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Oranger",
+      "reason": "duplicate of an earlier subject (Oranger)"
+    },
+    {
+      "category": "Trees",
+      "title": "Citronnier",
+      "reason": "duplicate of an earlier subject (Citronnier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Cyprès de Provence",
+      "reason": "duplicate of an earlier subject (Cupressus sempervirens)"
+    },
+    {
+      "category": "Trees",
+      "title": "Pin sylvestre",
+      "reason": "duplicate of an earlier subject (Pin sylvestre)"
+    },
+    {
+      "category": "Trees",
+      "title": "Pin parasol",
+      "reason": "duplicate of an earlier subject (Pin parasol)"
+    },
+    {
+      "category": "Trees",
+      "title": "Pin maritime",
+      "reason": "duplicate of an earlier subject (Pinus pinaster)"
+    },
+    {
+      "category": "Trees",
+      "title": "Pin noir d'Autriche",
+      "reason": "duplicate of an earlier subject (Pinus nigra)"
+    },
+    {
+      "category": "Trees",
+      "title": "Pin cembro",
+      "reason": "duplicate of an earlier subject (Pinus cembra)"
+    },
+    {
+      "category": "Trees",
+      "title": "Épicéa commun",
+      "reason": "duplicate of an earlier subject (Épicéa commun)"
+    },
+    {
+      "category": "Trees",
+      "title": "Sapin blanc",
+      "reason": "duplicate of an earlier subject (Abies alba)"
+    },
+    {
+      "category": "Trees",
+      "title": "Mélèze d'Europe",
+      "reason": "duplicate of an earlier subject (Larix decidua)"
+    },
+    {
+      "category": "Trees",
+      "title": "If commun",
+      "reason": "duplicate of an earlier subject (If commun)"
+    },
+    {
+      "category": "Trees",
+      "title": "Cèdre du Liban",
+      "reason": "duplicate of an earlier subject (Cèdre du Liban)"
+    },
+    {
+      "category": "Trees",
+      "title": "Cèdre de l'Atlas",
+      "reason": "duplicate of an earlier subject (Cedrus atlantica)"
+    },
+    {
+      "category": "Trees",
+      "title": "Douglas vert",
+      "reason": "duplicate of an earlier subject (Pseudotsuga menziesii)"
+    },
+    {
+      "category": "Trees",
+      "title": "Séquoia géant",
+      "reason": "duplicate of an earlier subject (Séquoia géant)"
+    },
+    {
+      "category": "Trees",
+      "title": "Séquoia à feuilles d'if",
+      "reason": "duplicate of an earlier subject (Sequoia sempervirens)"
+    },
+    {
+      "category": "Trees",
+      "title": "Ginkgo biloba",
+      "reason": "duplicate of an earlier subject (Ginkgo biloba)"
+    },
+    {
+      "category": "Trees",
+      "title": "Baobab",
+      "reason": "duplicate of an earlier subject (Adansonia)"
+    },
+    {
+      "category": "Trees",
+      "title": "Eucalyptus",
+      "reason": "duplicate of an earlier subject (Eucalyptus)"
+    },
+    {
+      "category": "Trees",
+      "title": "Acajou",
+      "reason": "duplicate of an earlier subject (Acajou)"
+    },
+    { "category": "Trees", "title": "Teck", "reason": "duplicate of an earlier subject (Teck)" },
+    { "category": "Trees", "title": "Ébène", "reason": "duplicate of an earlier subject (Ébène)" },
+    {
+      "category": "Trees",
+      "title": "Palmier dattier",
+      "reason": "duplicate of an earlier subject (Phoenix dactylifera)"
+    },
+    {
+      "category": "Trees",
+      "title": "Cocotier",
+      "reason": "duplicate of an earlier subject (Cocotier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Bananier",
+      "reason": "duplicate of an earlier subject (Bananier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Robinier faux-acacia",
+      "reason": "duplicate of an earlier subject (Robinia pseudoacacia)"
+    },
+    {
+      "category": "Trees",
+      "title": "Févier d'Amérique",
+      "reason": "duplicate of an earlier subject (Févier d'Amérique)"
+    },
+    {
+      "category": "Trees",
+      "title": "Tulipier de Virginie",
+      "reason": "duplicate of an earlier subject (Liriodendron tulipifera)"
+    },
+    {
+      "category": "Trees",
+      "title": "Arbre de Judée",
+      "reason": "duplicate of an earlier subject (Arbre de Judée)"
+    },
+    {
+      "category": "Trees",
+      "title": "Buis commun",
+      "reason": "duplicate of an earlier subject (Buxus sempervirens)"
+    },
+    {
+      "category": "Trees",
+      "title": "Sureau noir",
+      "reason": "duplicate of an earlier subject (Sambucus nigra)"
+    },
+    {
+      "category": "Trees",
+      "title": "Dragonnier",
+      "reason": "duplicate of an earlier subject (Dragonnier)"
+    },
+    {
+      "category": "Trees",
+      "title": "Araucaria du Chili",
+      "reason": "duplicate of an earlier subject (Araucaria du Chili)"
+    },
+    {
+      "category": "Trees",
+      "title": "Jacaranda",
+      "reason": "duplicate of an earlier subject (Jacaranda)"
+    },
+    {
+      "category": "Trees",
+      "title": "Flamboyant",
+      "reason": "duplicate of an earlier subject (Flamboyant)"
+    },
+    { "category": "Trees", "title": "Hévéa", "reason": "duplicate of an earlier subject (Hévéa)" },
+    {
+      "category": "Trees",
+      "title": "Sapin de Nordmann",
+      "reason": "duplicate of an earlier subject (Sapin de Nordmann)"
+    },
+    {
+      "category": "Trees",
+      "title": "Pin de Monterey",
+      "reason": "duplicate of an earlier subject (Pin de Monterey)"
+    },
+    {
+      "category": "Trees",
+      "title": "Sophora du Japon",
+      "reason": "duplicate of an earlier subject (Styphnolobium japonicum)"
+    },
+    {
+      "category": "Trees",
+      "title": "Cyprès chauve",
+      "reason": "duplicate of an earlier subject (Taxodium distichum)"
+    },
+    {
+      "category": "Trees",
+      "title": "Liquidambar",
+      "reason": "duplicate of an earlier subject (Liquidambar)"
+    },
+    { "category": "Trees", "title": "Hêtre pourpre", "reason": "article not found" },
+    {
+      "category": "Trees",
+      "title": "Tremble",
+      "reason": "duplicate of an earlier subject (Tremble)"
+    },
+    {
+      "category": "Trees",
+      "title": "Saule blanc",
+      "reason": "duplicate of an earlier subject (Salix alba)"
+    },
+    { "category": "Insects", "title": "Vulcain", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Belle-dame", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Machaon", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Petit Nacré", "reason": "article not found" },
+    { "category": "Insects", "title": "Papillon Atlas", "reason": "article not found" },
+    { "category": "Insects", "title": "Aurore", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Silène", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Thécla du bouleau", "reason": "article not found" },
+    { "category": "Insects", "title": "Isabelle", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Ornithoptère de la reine Alexandra",
+      "reason": "article not found"
+    },
+    { "category": "Insects", "title": "Procris", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Hanneton commun", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Scarabée Hercule", "reason": "article not found" },
+    { "category": "Insects", "title": "Coléoptère Goliath", "reason": "article not found" },
+    { "category": "Insects", "title": "Scarabée tigre", "reason": "article not found" },
+    {
+      "category": "Insects",
+      "title": "Ver luisant",
+      "reason": "duplicate of an earlier subject (Lampyre)"
+    },
+    { "category": "Insects", "title": "Méloé", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Fourmi rousse", "reason": "article not found" },
+    { "category": "Insects", "title": "Sauterelle verte", "reason": "article not found" },
+    { "category": "Insects", "title": "Demoiselle", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Éphémère", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Puce", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Cousin", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Hémérobe", "reason": "article not found" },
+    { "category": "Insects", "title": "Cochenille", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Abeille domestique",
+      "reason": "duplicate of an earlier subject (Apis mellifera)"
+    },
+    {
+      "category": "Insects",
+      "title": "Bourdon terrestre",
+      "reason": "duplicate of an earlier subject (Bourdon terrestre)"
+    },
+    {
+      "category": "Insects",
+      "title": "Guêpe commune",
+      "reason": "duplicate of an earlier subject (Vespula vulgaris)"
+    },
+    {
+      "category": "Insects",
+      "title": "Frelon européen",
+      "reason": "duplicate of an earlier subject (Vespa crabro)"
+    },
+    {
+      "category": "Insects",
+      "title": "Termite",
+      "reason": "duplicate of an earlier subject (Termite)"
+    },
+    {
+      "category": "Insects",
+      "title": "Mante religieuse",
+      "reason": "duplicate of an earlier subject (Mante religieuse)"
+    },
+    {
+      "category": "Insects",
+      "title": "Phasme",
+      "reason": "duplicate of an earlier subject (Phasme)"
+    },
+    {
+      "category": "Insects",
+      "title": "Criquet pèlerin",
+      "reason": "duplicate of an earlier subject (Criquet pèlerin)"
+    },
+    {
+      "category": "Insects",
+      "title": "Grillon champêtre",
+      "reason": "duplicate of an earlier subject (Gryllus campestris)"
+    },
+    {
+      "category": "Insects",
+      "title": "Courtilière commune",
+      "reason": "duplicate of an earlier subject (Gryllotalpa gryllotalpa)"
+    },
+    {
+      "category": "Insects",
+      "title": "Libellule déprimée",
+      "reason": "duplicate of an earlier subject (Libellule déprimée)"
+    },
+    {
+      "category": "Insects",
+      "title": "Perce-oreille",
+      "reason": "duplicate of an earlier subject (Dermaptera)"
+    },
+    {
+      "category": "Insects",
+      "title": "Punaise verte",
+      "reason": "duplicate of an earlier subject (Palomena prasina)"
+    },
+    {
+      "category": "Insects",
+      "title": "Puceron",
+      "reason": "duplicate of an earlier subject (Aphidoidea)"
+    },
+    {
+      "category": "Insects",
+      "title": "Coccinelle à sept points",
+      "reason": "duplicate of an earlier subject (Coccinella septempunctata)"
+    },
+    {
+      "category": "Insects",
+      "title": "Doryphore",
+      "reason": "duplicate of an earlier subject (Doryphore)"
+    },
+    {
+      "category": "Insects",
+      "title": "Cétoine dorée",
+      "reason": "duplicate of an earlier subject (Cétoine dorée)"
+    },
+    {
+      "category": "Insects",
+      "title": "Lucane cerf-volant",
+      "reason": "duplicate of an earlier subject (Lucanus cervus)"
+    },
+    { "category": "Insects", "title": "Capricorne", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Scarabée rhinocéros",
+      "reason": "duplicate of an earlier subject (Scarabée rhinocéros européen)"
+    },
+    {
+      "category": "Insects",
+      "title": "Charançon",
+      "reason": "duplicate of an earlier subject (Charançon)"
+    },
+    {
+      "category": "Insects",
+      "title": "Carabe doré",
+      "reason": "duplicate of an earlier subject (Carabe doré)"
+    },
+    { "category": "Insects", "title": "Luciole", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Taupin", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Paon-du-jour",
+      "reason": "duplicate of an earlier subject (Paon-du-jour)"
+    },
+    {
+      "category": "Insects",
+      "title": "Monarque",
+      "reason": "duplicate of an earlier subject (Monarque)"
+    },
+    {
+      "category": "Insects",
+      "title": "Morpho bleu",
+      "reason": "duplicate of an earlier subject (Morpho helenor)"
+    },
+    {
+      "category": "Insects",
+      "title": "Flambé",
+      "reason": "duplicate of an earlier subject (Flambé)"
+    },
+    {
+      "category": "Insects",
+      "title": "Piéride du chou",
+      "reason": "duplicate of an earlier subject (Piéride du chou)"
+    },
+    {
+      "category": "Insects",
+      "title": "Tircis",
+      "reason": "duplicate of an earlier subject (Tircis)"
+    },
+    {
+      "category": "Insects",
+      "title": "Myrtil",
+      "reason": "duplicate of an earlier subject (Myrtil)"
+    },
+    {
+      "category": "Insects",
+      "title": "Azuré commun",
+      "reason": "duplicate of an earlier subject (Argus bleu)"
+    },
+    {
+      "category": "Insects",
+      "title": "Moro-sphinx",
+      "reason": "duplicate of an earlier subject (Moro-sphinx)"
+    },
+    {
+      "category": "Insects",
+      "title": "Bombyx du mûrier",
+      "reason": "duplicate of an earlier subject (Bombyx du mûrier)"
+    },
+    {
+      "category": "Insects",
+      "title": "Grand paon de nuit",
+      "reason": "duplicate of an earlier subject (Grand paon de nuit)"
+    },
+    {
+      "category": "Insects",
+      "title": "Écaille chinée",
+      "reason": "duplicate of an earlier subject (Euplagia quadripunctaria)"
+    },
+    {
+      "category": "Insects",
+      "title": "Mouche domestique",
+      "reason": "duplicate of an earlier subject (Mouche domestique)"
+    },
+    {
+      "category": "Insects",
+      "title": "Moustique",
+      "reason": "duplicate of an earlier subject (Moustique)"
+    },
+    {
+      "category": "Insects",
+      "title": "Taon",
+      "reason": "duplicate of an earlier subject (Tabanidae)"
+    },
+    { "category": "Insects", "title": "Puce", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Cafard",
+      "reason": "duplicate of an earlier subject (Blattaria)"
+    },
+    { "category": "Insects", "title": "Fourmi noire", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Fourmilion",
+      "reason": "duplicate of an earlier subject (Myrmeleontidae)"
+    },
+    { "category": "Insects", "title": "Éphémère commune", "reason": "article not found" },
+    { "category": "Insects", "title": "Demoiselle", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Sauterelle", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Notonecte",
+      "reason": "duplicate of an earlier subject (Notonectidae)"
+    },
+    {
+      "category": "Insects",
+      "title": "Gerris",
+      "reason": "duplicate of an earlier subject (Gerris)"
+    },
+    {
+      "category": "Insects",
+      "title": "Bousier",
+      "reason": "duplicate of an earlier subject (Bousier)"
+    },
+    {
+      "category": "Insects",
+      "title": "Cantharide",
+      "reason": "duplicate of an earlier subject (Cantharide officinale)"
+    },
+    { "category": "Insects", "title": "Méloé", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Machaon", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Vulcain", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Belle-dame", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Grand mars changeant",
+      "reason": "duplicate of an earlier subject (Grand mars changeant)"
+    },
+    {
+      "category": "Insects",
+      "title": "Apollon",
+      "reason": "duplicate of an earlier subject (Apollon)"
+    },
+    {
+      "category": "Insects",
+      "title": "Argus bleu",
+      "reason": "duplicate of an earlier subject (Argus bleu)"
+    },
+    { "category": "Insects", "title": "Procris", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Thècle", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Sphinx tête de mort",
+      "reason": "duplicate of an earlier subject (Sphinx tête de mort)"
+    },
+    { "category": "Insects", "title": "Papillon Monarque", "reason": "article not found" },
+    {
+      "category": "Insects",
+      "title": "Xylocope",
+      "reason": "duplicate of an earlier subject (Xylocopa)"
+    },
+    {
+      "category": "Insects",
+      "title": "Mégachile",
+      "reason": "duplicate of an earlier subject (Megachile)"
+    },
+    { "category": "Insects", "title": "Ichneumon", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Mouche tsé-tsé",
+      "reason": "duplicate of an earlier subject (Mouche tsé-tsé)"
+    },
+    { "category": "Insects", "title": "Cousin", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Citron de Provence",
+      "reason": "duplicate of an earlier subject (Citron de Provence)"
+    },
+    { "category": "Insects", "title": "Soufré", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Amaryllis",
+      "reason": "duplicate of an earlier subject (Amaryllis)"
+    },
+    { "category": "Insects", "title": "Lepture", "reason": "article not found" },
+    { "category": "Insects", "title": "Calosome sycophante", "reason": "article not found" },
+    { "category": "Insects", "title": "Conocéphale", "reason": "article not found" },
+    { "category": "Insects", "title": "Truxale", "reason": "article not found" },
+    { "category": "Insects", "title": "Empuse", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Punaise rouge", "reason": "article not found" },
+    {
+      "category": "Insects",
+      "title": "Punaise arlequin",
+      "reason": "duplicate of an earlier subject (Graphosome rayé)"
+    },
+    { "category": "Insects", "title": "Ranatre", "reason": "article not found" },
+    { "category": "Insects", "title": "Éristale gluant", "reason": "article not found" },
+    { "category": "Insects", "title": "Fourmi charpentière", "reason": "article not found" },
+    {
+      "category": "Insects",
+      "title": "Fourmi coupeuse de feuilles",
+      "reason": "article not found"
+    },
+    { "category": "Insects", "title": "Eumène", "reason": "disambiguation page" },
+    { "category": "Insects", "title": "Lépisme argenté", "reason": "article not found" },
+    { "category": "Insects", "title": "Pou du corps", "reason": "article not found" },
+    { "category": "Insects", "title": "Hanneton de la Saint-Jean", "reason": "article not found" },
+    {
+      "category": "Insects",
+      "title": "Acherontia atropos",
+      "reason": "duplicate of an earlier subject (Sphinx tête de mort)"
+    },
+    {
+      "category": "Insects",
+      "title": "Cétoine dorée",
+      "reason": "duplicate of an earlier subject (Cétoine dorée)"
+    },
+    { "category": "Insects", "title": "Gazé", "reason": "duplicate of an earlier subject (Gazé)" },
+    {
+      "category": "Insects",
+      "title": "Piéride du chou",
+      "reason": "duplicate of an earlier subject (Piéride du chou)"
+    },
+    { "category": "Insects", "title": "Fourmi des bois", "reason": "article not found" },
+    { "category": "Insects", "title": "Sauterelle verte", "reason": "article not found" },
+    { "category": "Insects", "title": "Éphémère", "reason": "disambiguation page" },
+    {
+      "category": "Insects",
+      "title": "Lampyre",
+      "reason": "duplicate of an earlier subject (Lampyre)"
+    },
+    {
+      "category": "Insects",
+      "title": "Ver luisant",
+      "reason": "duplicate of an earlier subject (Lampyre)"
+    },
+    { "category": "Insects", "title": "Scarabée du fumier", "reason": "article not found" },
+    { "category": "Insects", "title": "Termite de Saintonge", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Clavaire", "reason": "disambiguation page" },
+    { "category": "Mushrooms", "title": "Langue-de-bœuf", "reason": "article not found" },
+    {
+      "category": "Mushrooms",
+      "title": "Collybie à pied velouté",
+      "reason": "duplicate of an earlier subject (Flammulina velutipes)"
+    },
+    { "category": "Mushrooms", "title": "Clitocybe de l'olivier", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Lépiote brune", "reason": "disambiguation page" },
+    { "category": "Mushrooms", "title": "Panthérine", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Volvaire soyeuse", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Langue de bœuf", "reason": "disambiguation page" },
+    { "category": "Mushrooms", "title": "Cèpe de Satan", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Tremelle mésentérique", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Étoile de terre", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Clathre grillagé", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Langue de chat", "reason": "disambiguation page" },
+    {
+      "category": "Mushrooms",
+      "title": "Champignon de couche",
+      "reason": "duplicate of an earlier subject (Agaricus bisporus)"
+    },
+    { "category": "Mushrooms", "title": "Mycène rose", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Marasme", "reason": "disambiguation page" },
+    {
+      "category": "Mushrooms",
+      "title": "Cèpe de Bordeaux",
+      "reason": "duplicate of an earlier subject (Boletus edulis)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Girolle",
+      "reason": "duplicate of an earlier subject (Cantharellus cibarius)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Trompette de la mort",
+      "reason": "duplicate of an earlier subject (Trompette de la mort)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Morille commune",
+      "reason": "duplicate of an earlier subject (Morchella vulgaris)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Truffe noire du Périgord",
+      "reason": "duplicate of an earlier subject (Truffe noire)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Amanite tue-mouches",
+      "reason": "duplicate of an earlier subject (Amanite tue-mouches)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Amanite phalloïde",
+      "reason": "duplicate of an earlier subject (Amanite phalloïde)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Amanite des Césars",
+      "reason": "duplicate of an earlier subject (Oronge)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Amanite panthère",
+      "reason": "duplicate of an earlier subject (Amanite panthère)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Amanite vireuse",
+      "reason": "duplicate of an earlier subject (Amanite vireuse)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Coprin chevelu",
+      "reason": "duplicate of an earlier subject (Coprin chevelu)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Coprin noir d'encre",
+      "reason": "duplicate of an earlier subject (Coprin noir d'encre)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Lactaire délicieux",
+      "reason": "duplicate of an earlier subject (Lactaire délicieux)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Russule charbonnière",
+      "reason": "duplicate of an earlier subject (Russule charbonnière)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Russule émétique",
+      "reason": "duplicate of an earlier subject (Russule émétique)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Pied-de-mouton",
+      "reason": "duplicate of an earlier subject (Pied-de-mouton)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Bolet bai",
+      "reason": "duplicate of an earlier subject (Bolet bai)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Bolet à pied rouge",
+      "reason": "duplicate of an earlier subject (Bolet à pied rouge)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Tricholome de la Saint-Georges",
+      "reason": "duplicate of an earlier subject (Tricholome de la Saint-Georges)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Rosé des prés",
+      "reason": "duplicate of an earlier subject (Agaricus campestris)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Lépiote élevée",
+      "reason": "duplicate of an earlier subject (Macrolepiota procera)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Armillaire couleur de miel",
+      "reason": "duplicate of an earlier subject (Armillaria mellea)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Pleurote en huître",
+      "reason": "duplicate of an earlier subject (Pleurotus ostreatus)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Shiitake",
+      "reason": "duplicate of an earlier subject (Lentinula edodes)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Collybie à pied velouté",
+      "reason": "duplicate of an earlier subject (Flammulina velutipes)"
+    },
+    { "category": "Mushrooms", "title": "Tramète versicolore", "reason": "article not found" },
+    {
+      "category": "Mushrooms",
+      "title": "Vesse-de-loup perlée",
+      "reason": "duplicate of an earlier subject (Vesse-de-loup perlée)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Clathre rouge",
+      "reason": "duplicate of an earlier subject (Clathrus ruber)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Satyre puant",
+      "reason": "duplicate of an earlier subject (Satyre puant)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Hypholome en touffes",
+      "reason": "duplicate of an earlier subject (Hypholoma fasciculare)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Galère marginée",
+      "reason": "duplicate of an earlier subject (Galerina marginata)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Entolome livide",
+      "reason": "duplicate of an earlier subject (Entolome livide)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Marasme des Oréades",
+      "reason": "duplicate of an earlier subject (Marasme des Oréades)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Pézize orangée",
+      "reason": "duplicate of an earlier subject (Aleuria aurantia)"
+    },
+    { "category": "Mushrooms", "title": "Tremelle foliacée", "reason": "article not found" },
+    {
+      "category": "Mushrooms",
+      "title": "Oreille de Judas",
+      "reason": "duplicate of an earlier subject (Oreille-de-Judas)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Xylaire du bois",
+      "reason": "duplicate of an earlier subject (Xylaire du bois)"
+    },
+    { "category": "Mushrooms", "title": "Lactaire à toison", "reason": "article not found" },
+    {
+      "category": "Mushrooms",
+      "title": "Chanterelle en tube",
+      "reason": "duplicate of an earlier subject (Craterellus tubaeformis)"
+    },
+    { "category": "Mushrooms", "title": "Morille", "reason": "disambiguation page" },
+    {
+      "category": "Mushrooms",
+      "title": "Pleurote",
+      "reason": "duplicate of an earlier subject (Pleurotus)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Lycoperdon",
+      "reason": "duplicate of an earlier subject (Lycoperdon)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Psilocybe",
+      "reason": "duplicate of an earlier subject (Psilocybe)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Amanite citrine",
+      "reason": "duplicate of an earlier subject (Amanite citrine)"
+    },
+    { "category": "Mushrooms", "title": "Amanite à volve", "reason": "article not found" },
+    {
+      "category": "Mushrooms",
+      "title": "Agaric champêtre",
+      "reason": "duplicate of an earlier subject (Agaricus campestris)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Cèpe d'été",
+      "reason": "duplicate of an earlier subject (Boletus reticulatus)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Bolet orangé",
+      "reason": "duplicate of an earlier subject (Bolet orangé)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Bolet de Satan",
+      "reason": "duplicate of an earlier subject (Bolet Satan)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Hydne imbriqué",
+      "reason": "duplicate of an earlier subject (Sarcodon imbricatus)"
+    },
+    { "category": "Mushrooms", "title": "Hydne ombiliqué", "reason": "article not found" },
+    {
+      "category": "Mushrooms",
+      "title": "Craterelle",
+      "reason": "duplicate of an earlier subject (Craterellus)"
+    },
+    { "category": "Mushrooms", "title": "Auriculaire", "reason": "disambiguation page" },
+    { "category": "Mushrooms", "title": "Clavaire jaune", "reason": "article not found" },
+    {
+      "category": "Mushrooms",
+      "title": "Amadouvier",
+      "reason": "duplicate of an earlier subject (Amadouvier)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Polypore soufré",
+      "reason": "duplicate of an earlier subject (Polypore soufré)"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Paxille enroulé",
+      "reason": "duplicate of an earlier subject (Paxille enroulé)"
+    },
+    { "category": "Mushrooms", "title": "Cuphophyllus", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Mycène rose", "reason": "article not found" },
+    { "category": "Mushrooms", "title": "Tricholome soufré", "reason": "article not found" },
+    { "category": "Architecture", "title": "Grand Palais", "reason": "disambiguation page" },
+    { "category": "Architecture", "title": "Palais des papes", "reason": "disambiguation page" },
+    {
+      "category": "Architecture",
+      "title": "Palais Garnier",
+      "reason": "duplicate of an earlier subject (Opéra Garnier)"
+    },
+    {
+      "category": "Architecture",
+      "title": "Tour de Pise",
+      "reason": "duplicate of an earlier subject (Tour de Pise)"
+    },
+    { "category": "Architecture", "title": "Alhambra", "reason": "disambiguation page" },
+    { "category": "Architecture", "title": "Reichstag", "reason": "disambiguation page" },
+    { "category": "Architecture", "title": "Sainte-Sophie", "reason": "disambiguation page" },
+    {
+      "category": "Architecture",
+      "title": "Palais de la Culture et de la Science",
+      "reason": "disambiguation page"
+    },
+    { "category": "Architecture", "title": "Schloss Schönbrunn", "reason": "article not found" },
+    { "category": "Architecture", "title": "Tour penchée de Pise", "reason": "article not found" },
+    { "category": "Architecture", "title": "Moulin de Kinderdijk", "reason": "article not found" },
+    {
+      "category": "Architecture",
+      "title": "Palais du Parlement de Bucarest",
+      "reason": "article not found"
+    },
+    {
+      "category": "Architecture",
+      "title": "Sagrada Familia",
+      "reason": "duplicate of an earlier subject (Sagrada Família)"
+    },
+    {
+      "category": "Architecture",
+      "title": "Grand Palais de Bangkok",
+      "reason": "article not found"
+    },
+    {
+      "category": "Architecture",
+      "title": "Grand sanctuaire d'Itsukushima",
+      "reason": "article not found"
+    },
+    {
+      "category": "Architecture",
+      "title": "Temple d'or d'Amritsar",
+      "reason": "article not found"
+    },
+    { "category": "Architecture", "title": "Fort Rouge", "reason": "disambiguation page" },
+    { "category": "Architecture", "title": "Gateway of India", "reason": "article not found" },
+    {
+      "category": "Architecture",
+      "title": "Temple d'Abou Simbel",
+      "reason": "disambiguation page"
+    },
+    { "category": "Architecture", "title": "Temples de Karnak", "reason": "article not found" },
+    { "category": "Architecture", "title": "Tour Oriental Pearl", "reason": "article not found" },
+    { "category": "Architecture", "title": "Tour de Canton", "reason": "article not found" },
+    {
+      "category": "Architecture",
+      "title": "Pont de Hong Kong-Zhuhai-Macao",
+      "reason": "article not found"
+    },
+    { "category": "Architecture", "title": "Temple Shwedagon", "reason": "article not found" },
+    { "category": "Architecture", "title": "Temple de Bagan", "reason": "article not found" },
+    { "category": "Architecture", "title": "Temple d'Angkor Bayon", "reason": "article not found" },
+    {
+      "category": "Architecture",
+      "title": "Mosquée du Chah à Ispahan",
+      "reason": "article not found"
+    },
+    { "category": "Architecture", "title": "Christ Rédempteur", "reason": "disambiguation page" },
+    { "category": "Architecture", "title": "Palais de l'Alvorada", "reason": "article not found" },
+    {
+      "category": "Architecture",
+      "title": "Capitole de Washington",
+      "reason": "duplicate of an earlier subject (Capitole des États-Unis)"
+    },
+    {
+      "category": "Architecture",
+      "title": "Brooklyn Bridge",
+      "reason": "duplicate of an earlier subject (Pont de Brooklyn)"
+    },
+    {
+      "category": "Architecture",
+      "title": "Palacio de Bellas Artes",
+      "reason": "duplicate of an earlier subject (Palais des beaux-arts de Mexico)"
+    },
+    { "category": "Inventions", "title": "Radio", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Antenne", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Galère", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Fusée", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Lanterne", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Rouet", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Montre", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Balance", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Compas", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Panneau solaire", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Levier", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Faux", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Arc", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Canon", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Fusil", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Bouclier", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Armure", "reason": "disambiguation page" },
+    {
+      "category": "Arts & Literature",
+      "title": "La Nuit étoilée",
+      "reason": "disambiguation page"
+    },
+    { "category": "Arts & Literature", "title": "Olympia", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "Le Baiser", "reason": "disambiguation page" },
+    {
+      "category": "Arts & Literature",
+      "title": "La Naissance de Vénus",
+      "reason": "disambiguation page"
+    },
+    { "category": "Arts & Literature", "title": "Le Printemps", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "La Cène", "reason": "disambiguation page" },
+    {
+      "category": "Arts & Literature",
+      "title": "Le Fils de l'homme",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "American Gothic",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "La Vénus d'Urbino",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Les Noces de Cana",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Les Joueurs de cartes",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Bal du moulin de la Galette",
+      "reason": "disambiguation page"
+    },
+    { "category": "Arts & Literature", "title": "La Danse", "reason": "disambiguation page" },
+    {
+      "category": "Arts & Literature",
+      "title": "La Sainte Famille",
+      "reason": "disambiguation page"
+    },
+    { "category": "Arts & Literature", "title": "Le Songe", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "Le Bain turc", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "David", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "La Pietà", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "Le Moïse", "reason": "article not found" },
+    {
+      "category": "Arts & Literature",
+      "title": "Laocoon et ses fils",
+      "reason": "article not found"
+    },
+    { "category": "Arts & Literature", "title": "Le Discobole", "reason": "article not found" },
+    {
+      "category": "Arts & Literature",
+      "title": "L'Enlèvement de Proserpine",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Persée avec la tête de Méduse",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Masque de Toutânkhamon",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Guerriers de terre cuite",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Le David de Donatello",
+      "reason": "article not found"
+    },
+    { "category": "Arts & Literature", "title": "Éros et Psyché", "reason": "article not found" },
+    { "category": "Arts & Literature", "title": "Le Manneken-Pis", "reason": "article not found" },
+    {
+      "category": "Arts & Literature",
+      "title": "Le Lion de Lucerne",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "L'Homme qui marche",
+      "reason": "disambiguation page"
+    },
+    { "category": "Arts & Literature", "title": "Le Grand Sphinx", "reason": "article not found" },
+    {
+      "category": "Arts & Literature",
+      "title": "Le Génie de la Bastille",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Victor Hugo",
+      "reason": "duplicate of an earlier subject (Victor Hugo)"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Molière",
+      "reason": "duplicate of an earlier subject (Molière)"
+    },
+    { "category": "Arts & Literature", "title": "Caravage", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Chimborazo", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Matterhorn", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Meije", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Mont Pelé", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Angel Falls", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Lac Louise", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Lac Annecy", "reason": "article not found" },
+    { "category": "Geography", "title": "Amazone", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Mississippi", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Congo", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Yellowstone", "reason": "disambiguation page" },
+    {
+      "category": "Geography",
+      "title": "Ayers Rock",
+      "reason": "duplicate of an earlier subject (Uluru/Ayers Rock)"
+    },
+    {
+      "category": "Geography",
+      "title": "Mont-Saint-Michel",
+      "reason": "duplicate of an earlier subject (Le Mont-Saint-Michel)"
+    },
+    { "category": "Geography", "title": "Vienne", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Washington", "reason": "disambiguation page" },
+    { "category": "Geography", "title": "Dubaï", "reason": "disambiguation page" },
+    {
+      "category": "Geography",
+      "title": "Venise",
+      "reason": "duplicate of an earlier subject (Venise)"
+    },
+    {
+      "category": "Geography",
+      "title": "Santorin",
+      "reason": "duplicate of an earlier subject (Santorin)"
+    },
+    { "category": "Geography", "title": "Grenade", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Éros (astéroïde)", "reason": "article not found" },
+    {
+      "category": "Space & Astronomy",
+      "title": "Bennu (astéroïde)",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Arrokoth (objet transneptunien)",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Comète Hyakutake",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Comète McNaught",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Comète 17P/Holmes",
+      "reason": "article not found"
+    },
+    { "category": "Space & Astronomy", "title": "Comète NEOWISE", "reason": "disambiguation page" },
+    {
+      "category": "Space & Astronomy",
+      "title": "Nébuleuse de l'Âme",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Nébuleuse de l'Anneau",
+      "reason": "duplicate of an earlier subject (Nébuleuse de la Lyre)"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Nébuleuse du Papillon",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Nébuleuse du Sac à charbon",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Galaxie des Antennes",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Galaxie du Tourbillon",
+      "reason": "duplicate of an earlier subject (M51 (galaxie))"
+    },
+    { "category": "Space & Astronomy", "title": "Pléiades", "reason": "disambiguation page" },
+    {
+      "category": "Space & Astronomy",
+      "title": "Amas globulaire d'Hercule",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Amas de la Boîte à bijoux",
+      "reason": "article not found"
+    },
+    { "category": "Space & Astronomy", "title": "Quasar 3C 273", "reason": "article not found" },
+    {
+      "category": "Space & Astronomy",
+      "title": "Galaxie Naine du Sagittaire",
+      "reason": "article not found"
+    },
+    { "category": "Space & Astronomy", "title": "Galaxie NGC 1300", "reason": "article not found" },
+    {
+      "category": "Space & Astronomy",
+      "title": "Galaxie des Chiens de chasse",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Galaxie spirale M74",
+      "reason": "article not found"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Galaxie du Fuseau",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Galaxie du Cigare",
+      "reason": "duplicate of an earlier subject (M82 (galaxie))"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Navette spatiale américaine",
+      "reason": "duplicate of an earlier subject (Navette spatiale américaine)"
+    },
+    { "category": "Space & Astronomy", "title": "Challenger", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Columbia", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Discovery", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Atlantis", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Curiosity", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Spirit", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Mir", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Rosetta", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Magellan (sonde)", "reason": "article not found" },
+    { "category": "Space & Astronomy", "title": "Dawn", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Hayabusa", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Starship", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Tchang'e 4", "reason": "article not found" },
+    { "category": "Space & Astronomy", "title": "Sojourner", "reason": "article not found" },
+    { "category": "Space & Astronomy", "title": "Herschel", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Planck", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Kepler", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Chandra", "reason": "disambiguation page" },
+    { "category": "Space & Astronomy", "title": "Spitzer", "reason": "disambiguation page" },
+    { "category": "History", "title": "Marie-Antoinette", "reason": "disambiguation page" },
+    { "category": "History", "title": "Henri IV", "reason": "disambiguation page" },
+    { "category": "History", "title": "François Ier", "reason": "disambiguation page" },
+    { "category": "History", "title": "Constantin Ier", "reason": "disambiguation page" },
+    { "category": "History", "title": "Élisabeth Ire", "reason": "disambiguation page" },
+    { "category": "History", "title": "Victoria", "reason": "disambiguation page" },
+    { "category": "History", "title": "Pierre le Grand", "reason": "disambiguation page" },
+    {
+      "category": "History",
+      "title": "Napoléon Bonaparte",
+      "reason": "duplicate of an earlier subject (Napoléon Ier)"
+    },
+    { "category": "History", "title": "Léopold II", "reason": "disambiguation page" },
+    { "category": "History", "title": "Marie-Thérèse d'Autriche", "reason": "disambiguation page" },
+    { "category": "History", "title": "Richelieu", "reason": "disambiguation page" },
+    { "category": "History", "title": "Colbert", "reason": "disambiguation page" },
+    { "category": "History", "title": "Cortés", "reason": "disambiguation page" },
+    {
+      "category": "History",
+      "title": "Bombardement atomique de Hiroshima",
+      "reason": "article not found"
+    },
+    { "category": "History", "title": "Siège de Troie", "reason": "article not found" },
+    {
+      "category": "History",
+      "title": "Tour de Londres",
+      "reason": "duplicate of an earlier subject (Tour de Londres)"
+    },
+    { "category": "History", "title": "Cité de Pétra", "reason": "article not found" },
+    {
+      "category": "History",
+      "title": "Grande Pyramide",
+      "reason": "duplicate of an earlier subject (Pyramide de Khéops)"
+    },
+    {
+      "category": "History",
+      "title": "Mur des Lamentations",
+      "reason": "duplicate of an earlier subject (Mur des Lamentations)"
+    },
+    { "category": "History", "title": "Santa Maria (navire)", "reason": "article not found" },
+    { "category": "History", "title": "Bounty", "reason": "disambiguation page" },
+    { "category": "History", "title": "Victory (navire)", "reason": "article not found" },
+    { "category": "History", "title": "Cité de Troie", "reason": "article not found" },
+    {
+      "category": "History",
+      "title": "Épidaure",
+      "reason": "duplicate of an earlier subject (Sanctuaire d'Asclépios et théâtre d'Épidaure)"
+    },
+    { "category": "History", "title": "Volubilis", "reason": "disambiguation page" },
+    {
+      "category": "History",
+      "title": "Persépolis",
+      "reason": "duplicate of an earlier subject (Persépolis)"
+    },
+    { "category": "History", "title": "Ur", "reason": "disambiguation page" },
+    { "category": "History", "title": "Lascaux", "reason": "disambiguation page" },
+    {
+      "category": "History",
+      "title": "Stonehenge",
+      "reason": "duplicate of an earlier subject (Stonehenge)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Apollon",
+      "reason": "duplicate of an earlier subject (Apollon)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Gaïa",
+      "reason": "duplicate of an earlier subject (Gaïa)"
+    },
+    { "category": "Mythology", "title": "Minerve", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Janus", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Fortuna", "reason": "disambiguation page" },
+    {
+      "category": "Mythology",
+      "title": "Ulysse",
+      "reason": "duplicate of an earlier subject (Ulysse)"
+    },
+    { "category": "Mythology", "title": "Narcisse", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Antigone", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Ariane", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Hélène de Troie", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Tantale", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Ganymède (mythologie)", "reason": "article not found" },
+    { "category": "Mythology", "title": "Adonis", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Psyché", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Ajax", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Léda", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Europe (mythologie)", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Andromède", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Daphné", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Arthur", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Siegfried", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Sigurd", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Méduse", "reason": "disambiguation page" },
+    {
+      "category": "Mythology",
+      "title": "Sphinx",
+      "reason": "duplicate of an earlier subject (Sphinx)"
+    },
+    { "category": "Mythology", "title": "Sirène (mythologie)", "reason": "article not found" },
+    { "category": "Mythology", "title": "Chimère", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Griffon", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Harpie", "reason": "disambiguation page" },
+    {
+      "category": "Mythology",
+      "title": "Satyre",
+      "reason": "duplicate of an earlier subject (Satyre)"
+    },
+    { "category": "Mythology", "title": "Sylphe", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Salamandre (mythologie)", "reason": "article not found" },
+    { "category": "Mythology", "title": "Tengu", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Naga", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Roc (mythologie)", "reason": "article not found" },
+    { "category": "Mythology", "title": "Charybde et Scylla", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Argos (mythologie)", "reason": "article not found" },
+    { "category": "Mythology", "title": "Hel (mythologie)", "reason": "article not found" },
+    { "category": "Mythology", "title": "Ra", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Quetzalcoatl", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Sarasvatî", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Rama", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Fūjin", "reason": "article not found" },
+    {
+      "category": "Mythology",
+      "title": "Gilgamesh",
+      "reason": "duplicate of an earlier subject (Gilgamesh)"
+    },
+    { "category": "Mythology", "title": "Dagon", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Taranis", "reason": "disambiguation page" },
+    { "category": "Mythology", "title": "Perun", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Galette bretonne", "reason": "disambiguation page" },
+    {
+      "category": "Gastronomy",
+      "title": "Pot-au-feu",
+      "reason": "duplicate of an earlier subject (Pot-au-feu)"
+    },
+    { "category": "Gastronomy", "title": "Escargot de Bourgogne", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Saucisson sec", "reason": "article not found" },
+    { "category": "Gastronomy", "title": "Œufs mayonnaise", "reason": "article not found" },
+    { "category": "Gastronomy", "title": "Navarin", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Baguette", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Croissant", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Éclair", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Paris-Brest", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Saint-honoré", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Madeleine", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Scone", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Tarte aux fraises", "reason": "article not found" },
+    {
+      "category": "Gastronomy",
+      "title": "Millefeuille",
+      "reason": "duplicate of an earlier subject (Mille-feuille)"
+    },
+    { "category": "Gastronomy", "title": "Pavlova", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Glace (aliment)", "reason": "article not found" },
+    {
+      "category": "Gastronomy",
+      "title": "Spaghetti alla carbonara",
+      "reason": "article not found"
+    },
+    { "category": "Gastronomy", "title": "Poutine", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Gazpacho", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Nem", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Thieboudiène", "reason": "article not found" },
+    { "category": "Gastronomy", "title": "Dolma", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Pita", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Pide", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Roquefort", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Comté", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Gruyère", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Gorgonzola", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Edam", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Munster", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Cantal", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Maroilles", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Morbier", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Beaufort", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Chaource", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Boursin", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Pecorino", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Stilton", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Brillat-Savarin", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Abondance", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Banon", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Neufchâtel", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Coulommiers", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Laguiole", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Salers", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Provolone", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Limburger", "reason": "article not found" },
+    { "category": "Gastronomy", "title": "Camembert", "reason": "disambiguation page" },
+    {
+      "category": "Gastronomy",
+      "title": "Citron",
+      "reason": "duplicate of an earlier subject (Citron)"
+    },
+    { "category": "Gastronomy", "title": "Melon", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Mûre", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Cassis", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Carambole", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Ail", "reason": "disambiguation page" },
+    {
+      "category": "Gastronomy",
+      "title": "Maïs",
+      "reason": "duplicate of an earlier subject (Maïs)"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Champignon de Paris",
+      "reason": "duplicate of an earlier subject (Agaricus bisporus)"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Gingembre",
+      "reason": "duplicate of an earlier subject (Gingembre)"
+    },
+    { "category": "Gastronomy", "title": "Avocat", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Taro", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Salsifis", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Roquette", "reason": "disambiguation page" },
+    { "category": "Gastronomy", "title": "Cresson", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Alto (instrument)", "reason": "article not found" },
+    { "category": "Music", "title": "Pipa", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Biwa", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Cuatro", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Piccolo", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Trombone", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Tuba", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Timbales", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Tambour", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Tambourin", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Bongo (instrument)", "reason": "article not found" },
+    { "category": "Music", "title": "Gong", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Guimbarde", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Serpent (instrument)", "reason": "article not found" },
+    { "category": "Music", "title": "Ney", "reason": "disambiguation page" },
+    { "category": "Music", "title": "Glass harmonica", "reason": "article not found" },
+    { "category": "Music", "title": "Charleston (instrument)", "reason": "article not found" },
+    { "category": "Music", "title": "Léoš Janáček", "reason": "article not found" },
+    {
+      "category": "Music",
+      "title": "Claude Debussy",
+      "reason": "duplicate of an earlier subject (Claude Debussy)"
+    },
+    { "category": "Music", "title": "John Williams", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Ultimate", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Aviron", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Luge", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Trampoline", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Marathon", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "VTT", "reason": "disambiguation page" },
+    {
+      "category": "Sports",
+      "title": "Skateboard",
+      "reason": "duplicate of an earlier subject (Skateboard)"
+    },
+    { "category": "Sports", "title": "Roller", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Rallye", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Dressage", "reason": "disambiguation page" },
+    { "category": "Sports", "title": "Course de dragsters", "reason": "article not found" },
+    { "category": "Sports", "title": "Savate", "reason": "disambiguation page" },
+    {
+      "category": "Sports",
+      "title": "Carl Lewis",
+      "reason": "duplicate of an earlier subject (Carl Lewis)"
+    },
+    {
+      "category": "Science",
+      "title": "Marie Curie",
+      "reason": "duplicate of an earlier subject (Marie Curie)"
+    },
+    { "category": "Science", "title": "Hipparque", "reason": "disambiguation page" },
+    { "category": "Science", "title": "Tantale", "reason": "disambiguation page" },
+    { "category": "Science", "title": "Quartz", "reason": "disambiguation page" },
+    { "category": "Science", "title": "Topaze", "reason": "disambiguation page" },
+    { "category": "Science", "title": "Azurite", "reason": "disambiguation page" },
+    { "category": "Science", "title": "Grès", "reason": "disambiguation page" },
+    { "category": "Science", "title": "Tuf", "reason": "disambiguation page" },
+    { "category": "Science", "title": "Onyx", "reason": "disambiguation page" },
+    {
+      "category": "Science",
+      "title": "Sel gemme",
+      "reason": "duplicate of an earlier subject (Halite)"
+    },
+    { "category": "Science", "title": "Stibine", "reason": "disambiguation page" },
+    {
+      "category": "Fauna",
+      "title": "Chat de Pallas",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Fauna",
+      "title": "Panda roux",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Fauna",
+      "title": "Singe-araignée",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Fauna",
+      "title": "Gnou bleu",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Fauna",
+      "title": "Renard volant",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Fauna",
+      "title": "Phalanger volant",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Fauna",
+      "title": "Iguane vert",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Fauna",
+      "title": "Iguane marin",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Fauna",
+      "title": "Anaconda vert",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Fauna",
+      "title": "Mamba noir",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Fauna",
+      "title": "Vipère péliade",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Fauna",
+      "title": "Orvet fragile",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Fauna",
+      "title": "Basilic vert",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Fauna",
+      "title": "Dendrobate à tapirer",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Fauna",
+      "title": "Cécilie",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Fauna",
+      "title": "Truite arc-en-ciel",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    {
+      "category": "Fauna",
+      "title": "Brochet",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    { "category": "Fauna", "title": "Esturgeon", "reason": "article has no lead image" },
+    {
+      "category": "Flora",
+      "title": "Gentiane",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Flora",
+      "title": "Perce-neige",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Flora",
+      "title": "Bouton d'or",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Flora",
+      "title": "Gesse odorante",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Flora",
+      "title": "Bougainvillier",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Flora",
+      "title": "Chrysanthème",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Flora",
+      "title": "Œillet d'Inde",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Flora",
+      "title": "Orchidée",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Flora",
+      "title": "Cotonnier",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Flora",
+      "title": "Chanvre",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Flora",
+      "title": "Nopal",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Flora",
+      "title": "Violette",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Flora",
+      "title": "Bourrache",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Flora",
+      "title": "Vanillier",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Flora",
+      "title": "Joubarbe des toits",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Flora",
+      "title": "Gaillarde",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Flags",
+      "title": "Drapeau d'Oman",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Birds",
+      "title": "Oiseau-lyre",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Trees",
+      "title": "Châtaignier",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Trees",
+      "title": "Douglas vert",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Trees",
+      "title": "Cerisier du Japon",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Lucane cerf-volant",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Bupreste",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Mouche domestique",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Insects",
+      "title": "Cicadelle",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Insects",
+      "title": "Chrysope",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Hydrophile",
+      "reason": "unsupported image type application/ogg"
+    },
+    {
+      "category": "Insects",
+      "title": "Géotrupe",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Bombyx",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Insects",
+      "title": "Vespula germanica",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Insects",
+      "title": "Grand nègre des bois",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Insects",
+      "title": "Coccinelle à deux points",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Insects",
+      "title": "Hylobe",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Insects",
+      "title": "Œdipode turquoise",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Cercope",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Réduve",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Stomoxe",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Insects",
+      "title": "Mutille",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Gomphe",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Thrips",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Insects",
+      "title": "Fulgore",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Insects",
+      "title": "Membracide",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Tricholome tigré",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Gyromitre",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Cèpe des pins",
+      "reason": "article is a homonymy/list-like page"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Nid d'oiseau",
+      "reason": "article does not look like a fungus"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Agaric",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Omphale",
+      "reason": "article does not look like a fungus"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Tricholome terreux",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Architecture",
+      "title": "Château de Chenonceau",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Architecture",
+      "title": "Villa Savoye",
+      "reason": "image not on Wikimedia Commons"
+    },
+    {
+      "category": "Architecture",
+      "title": "Mur des Lamentations",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Architecture",
+      "title": "Mosquée Sheikh Zayed",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Architecture",
+      "title": "Chrysler Building",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "Architecture",
+      "title": "Temple de Kukulcán",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Architecture",
+      "title": "Parlement du Canada",
+      "reason": "image not on Wikimedia Commons"
+    },
+    { "category": "Inventions", "title": "Magnétoscope", "reason": "article has no lead image" },
+    {
+      "category": "Inventions",
+      "title": "Cassette audio",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Inventions",
+      "title": "Disque compact",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Inventions",
+      "title": "Patin à roulettes",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Inventions",
+      "title": "Réfrigérateur",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    { "category": "Inventions", "title": "Velcro", "reason": "article has no lead image" },
+    {
+      "category": "Inventions",
+      "title": "Pascaline",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Inventions",
+      "title": "Baromètre",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Inventions",
+      "title": "Vis d'Archimède",
+      "reason": "unsupported image type image/gif"
+    },
+    {
+      "category": "Inventions",
+      "title": "Catapulte",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Inventions",
+      "title": "Imprimante 3D",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Les Trois Grâces",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Les Demoiselles d'Avignon",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Le Chat du Rabbin",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Apollon du Belvédère",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Dante Alighieri",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Anton Tchekhov",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    { "category": "Arts & Literature", "title": "Raphaël", "reason": "article has no lead image" },
+    {
+      "category": "Geography",
+      "title": "Colorado",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Islande",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Lyon",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Amsterdam",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Florence",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Istanbul",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Chicago",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Québec",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Shanghai",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Geography",
+      "title": "Singapour",
+      "reason": "label \"Singapour\" already used or too long"
+    },
+    {
+      "category": "Geography",
+      "title": "Delhi",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Ryugu (astéroïde)",
+      "reason": "unsupported image type image/gif"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Nébuleuse de l'Aigle",
+      "reason": "licence rejected: no licence metadata"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Nébuleuse Trifide",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Nébuleuse de la Tarentule",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Ingenuity",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Philae",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    { "category": "Space & Astronomy", "title": "Vostok 1", "reason": "article has no lead image" },
+    {
+      "category": "Space & Astronomy",
+      "title": "Chandrayaan-3",
+      "reason": "unsupported image type image/webp"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Compton Gamma Ray Observatory",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "History",
+      "title": "Ramsès II",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "History",
+      "title": "Akhenaton",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "History",
+      "title": "Georges Clemenceau",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "History",
+      "title": "Révolution française",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Mythology",
+      "title": "Aphrodite",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Mythology",
+      "title": "Pan",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Mythology",
+      "title": "Asclépios",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Mythology",
+      "title": "Vénus (mythologie)",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Mythology",
+      "title": "Diane (mythologie)",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Mythology",
+      "title": "Pâris",
+      "reason": "label \"Pâris\" already used or too long"
+    },
+    {
+      "category": "Mythology",
+      "title": "Romulus et Rémus",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Mythology",
+      "title": "Bellérophon",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Mythology",
+      "title": "Roland",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Mythology",
+      "title": "Kraken",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Mythology",
+      "title": "Leprechaun",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Mythology",
+      "title": "Kappa",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Typhon",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Mythology",
+      "title": "Freyr",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Mythology",
+      "title": "Valkyrie",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Mythology",
+      "title": "Horus",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Seth",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Thot",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Bastet",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    { "category": "Mythology", "title": "Sekhmet", "reason": "article has no lead image" },
+    {
+      "category": "Mythology",
+      "title": "Ptah",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    { "category": "Mythology", "title": "Amon", "reason": "article has no lead image" },
+    { "category": "Mythology", "title": "Hathor", "reason": "article has no lead image" },
+    {
+      "category": "Mythology",
+      "title": "Geb",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    { "category": "Mythology", "title": "Sobek", "reason": "article has no lead image" },
+    {
+      "category": "Mythology",
+      "title": "Khnoum",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Maât",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Aton",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Tlaloc",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Inti",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Mythology",
+      "title": "Ahura Mazda",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    { "category": "Mythology", "title": "Dagda", "reason": "article has no lead image" },
+    {
+      "category": "Gastronomy",
+      "title": "Fricassée",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    { "category": "Gastronomy", "title": "Financier", "reason": "article has no lead image" },
+    {
+      "category": "Gastronomy",
+      "title": "Succès (pâtisserie)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Chantilly",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Rouleau de printemps",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Rendang",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Shakshouka",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Rocamadour (fromage)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Taleggio",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Cabrales",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Idiazábal",
+      "reason": "article is about a place, not this kind of subject"
+    },
+    {
+      "category": "Gastronomy",
+      "title": "Nectarine",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    { "category": "Music", "title": "Banjo", "reason": "article has no lead image" },
+    { "category": "Music", "title": "Ukulélé", "reason": "article has no lead image" },
+    { "category": "Music", "title": "Erhu", "reason": "image too small or extreme aspect ratio" },
+    { "category": "Music", "title": "Sarod", "reason": "article has no lead image" },
+    { "category": "Music", "title": "Tanpura", "reason": "article has no lead image" },
+    {
+      "category": "Music",
+      "title": "Trompette",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Music",
+      "title": "Célesta",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Music",
+      "title": "Contrebasson",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    { "category": "Music", "title": "Duduk", "reason": "article has no lead image" },
+    { "category": "Music", "title": "Zurna", "reason": "image too small or extreme aspect ratio" },
+    { "category": "Music", "title": "Sheng", "reason": "article has no lead image" },
+    {
+      "category": "Music",
+      "title": "George Gershwin",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    { "category": "Music", "title": "Johann Pachelbel", "reason": "article has no lead image" },
+    {
+      "category": "Music",
+      "title": "Georg Philipp Telemann",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Music",
+      "title": "Francis Poulenc",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Music",
+      "title": "Ralph Vaughan Williams",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Sports",
+      "title": "Netball",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Sports",
+      "title": "Cyclisme sur piste",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Sports",
+      "title": "Triathlon",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Sports",
+      "title": "Rafting",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Sports",
+      "title": "Ski nautique",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Sports",
+      "title": "Motocyclisme",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Sports",
+      "title": "Kung-fu",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Sports",
+      "title": "Spéléologie",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Sports",
+      "title": "Canyoning",
+      "reason": "author unknown for an attribution licence"
+    },
+    { "category": "Sports", "title": "Pelé", "reason": "image too small or extreme aspect ratio" },
+    {
+      "category": "Sports",
+      "title": "Diego Maradona",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Sports",
+      "title": "Michel Platini",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Sports",
+      "title": "Eddy Merckx",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Sports",
+      "title": "Lev Iachine",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Sports",
+      "title": "Justine Henin",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Sports",
+      "title": "Jacques Anquetil",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Sports",
+      "title": "Jonah Lomu",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Sports",
+      "title": "Emil Zátopek",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Sports",
+      "title": "Paavo Nurmi",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Science",
+      "title": "Stephen Hawking",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Science",
+      "title": "Max Planck",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Science",
+      "title": "Werner Heisenberg",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Science",
+      "title": "Carl Sagan",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Science",
+      "title": "Tycho Brahe",
+      "reason": "unsupported image type image/tiff"
+    },
+    {
+      "category": "Science",
+      "title": "Robert Hooke",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Joseph Lister",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Science",
+      "title": "Aluminium",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Science",
+      "title": "Chlore",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Fer",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Zinc",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Plomb",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Tungstène",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Cobalt",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Chrome",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Manganèse",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Bismuth",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Science",
+      "title": "Strontium",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Zirconium",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Molybdène",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Osmium",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Cadmium",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Niobium",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Scandium",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Yttrium",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Science",
+      "title": "Lanthane",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Science",
+      "title": "Erbium",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Science",
+      "title": "Corindon",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Science",
+      "title": "Mica",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Science",
+      "title": "Cristal de roche",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Science",
+      "title": "Labradorite",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Science",
+      "title": "Bauxite",
+      "reason": "image too small or extreme aspect ratio"
+    }
+  ]
+}
