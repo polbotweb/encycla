@@ -4,7 +4,7 @@ import { Panel, ViewTitle } from '../components/game/Shell';
 import { Avatar } from '../components/ui/Avatar';
 import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
-import { errorMessage, t } from '../i18n/en';
+import { errorMessage, labelFor, translate, useTranslation } from '../i18n';
 import { ApiClientError, api, type LeaderboardEntryView } from '../lib/api';
 import { truncate } from '../lib/format';
 import { useSessionStore } from '../store/sessionStore';
@@ -14,6 +14,7 @@ const MODES: (GameMode | 'ALL')[] = ['ALL', 'CLASSIC', 'SUBJECT', 'CONTEST'];
 type Source = 'all' | 'web' | 'tiktok';
 
 export function LeaderboardView() {
+  const { t, language } = useTranslation();
   const setScreen = useUiStore((state) => state.setScreen);
   const playerId = useSessionStore((state) => state.session?.playerId ?? null);
   const [mode, setMode] = useState<GameMode | 'ALL'>('ALL');
@@ -40,29 +41,29 @@ export function LeaderboardView() {
         if (!cancelled) {
           setError(
             caught instanceof ApiClientError && caught.code === 'PERSISTENCE_DISABLED'
-              ? errorMessage('PERSISTENCE_DISABLED')
-              : 'Leaderboard unavailable.',
+              ? errorMessage('PERSISTENCE_DISABLED', language)
+              : translate('leaderboard.unavailable', undefined, language),
           );
         }
       });
     return () => {
       cancelled = true;
     };
-  }, [mode, source, limit, attempt]);
+  }, [mode, source, limit, attempt, language]);
 
   return (
     <main className="mx-auto w-full max-w-shell space-y-4 p-4 lg:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <ViewTitle>{t.leaderboard}</ViewTitle>
+        <ViewTitle>{t('leaderboard.title')}</ViewTitle>
         <Button variant="secondary" onClick={() => setScreen('home')}>
-          {t.backHome}
+          {t('common.backHome')}
         </Button>
       </div>
 
       <Panel className="flex flex-wrap gap-4">
         <div>
           <label htmlFor="lb-mode" className="label mb-1 block">
-            Mode
+            {t('leaderboard.mode')}
           </label>
           <select
             id="lb-mode"
@@ -72,14 +73,14 @@ export function LeaderboardView() {
           >
             {MODES.map((value) => (
               <option key={value} value={value}>
-                {value === 'ALL' ? 'All' : value}
+                {value === 'ALL' ? t('leaderboard.all') : labelFor('mode', value)}
               </option>
             ))}
           </select>
         </div>
         <div>
           <label htmlFor="lb-source" className="label mb-1 block">
-            Source
+            {t('leaderboard.source')}
           </label>
           <select
             id="lb-source"
@@ -87,9 +88,9 @@ export function LeaderboardView() {
             onChange={(event) => setSource(event.target.value as Source)}
             className="min-h-[44px] rounded-md border border-line-strong bg-bg px-3 text-ink"
           >
-            <option value="all">All</option>
-            <option value="web">Web</option>
-            <option value="tiktok">TikTok</option>
+            <option value="all">{t('leaderboard.all')}</option>
+            <option value="web">{t('leaderboard.web')}</option>
+            <option value="tiktok">{t('leaderboard.tiktok')}</option>
           </select>
         </div>
       </Panel>
@@ -99,7 +100,7 @@ export function LeaderboardView() {
           variant="error"
           action={
             <Button size="sm" variant="secondary" onClick={() => setAttempt((n) => n + 1)}>
-              {t.retry}
+              {t('common.retry')}
             </Button>
           }
         >
@@ -110,34 +111,34 @@ export function LeaderboardView() {
       <Panel className="overflow-x-auto">
         {entries === null && !error ? (
           <p className="text-ink-2" role="status">
-            Loading…
+            {t('common.loading')}
           </p>
         ) : null}
         {entries !== null && entries.length === 0 ? (
-          <p className="text-ink-2">No matches yet. Be the first.</p>
+          <p className="text-ink-2">{t('leaderboard.empty')}</p>
         ) : null}
         {entries !== null && entries.length > 0 ? (
-          <table className="w-full min-w-[32rem] text-left">
-            <caption className="sr-only">Leaderboard</caption>
+          <table className="w-full min-w-[32rem] text-start">
+            <caption className="sr-only">{t('leaderboard.title')}</caption>
             <thead>
               <tr className="label border-b border-line">
-                <th scope="col" className="py-2 pr-2">
-                  Rank
+                <th scope="col" className="py-2 pe-2">
+                  {t('results.rank')}
                 </th>
-                <th scope="col" className="py-2 pr-2">
-                  Player
+                <th scope="col" className="py-2 pe-2">
+                  {t('results.player')}
                 </th>
-                <th scope="col" className="py-2 pr-2 text-right">
-                  Points
+                <th scope="col" className="py-2 pe-2 text-end">
+                  {t('leaderboard.points')}
                 </th>
-                <th scope="col" className="py-2 pr-2 text-right">
-                  Matches
+                <th scope="col" className="py-2 pe-2 text-end">
+                  {t('leaderboard.matches')}
                 </th>
-                <th scope="col" className="py-2 pr-2 text-right">
-                  Best
+                <th scope="col" className="py-2 pe-2 text-end">
+                  {t('leaderboard.best')}
                 </th>
-                <th scope="col" className="py-2 text-right">
-                  Correct
+                <th scope="col" className="py-2 text-end">
+                  {t('leaderboard.correct')}
                 </th>
               </tr>
             </thead>
@@ -147,19 +148,17 @@ export function LeaderboardView() {
                   key={entry.playerId}
                   className={`border-b border-line/60 ${entry.playerId === playerId ? 'bg-raised font-semibold' : ''}`}
                 >
-                  <td className="tabular py-2 pr-2">{entry.rank}</td>
-                  <td className="py-2 pr-2">
+                  <td className="tabular py-2 pe-2">{entry.rank}</td>
+                  <td className="py-2 pe-2">
                     <span className="flex items-center gap-2">
                       <Avatar emoji={entry.avatar} size={24} />
-                      {truncate(entry.pseudo)}
+                      <bdi>{truncate(entry.pseudo)}</bdi>
                     </span>
                   </td>
-                  <td className="tabular py-2 pr-2 text-right font-mono">{entry.totalPoints}</td>
-                  <td className="tabular py-2 pr-2 text-right font-mono">{entry.matches}</td>
-                  <td className="tabular py-2 pr-2 text-right font-mono">
-                    {entry.bestMatchPoints}
-                  </td>
-                  <td className="tabular py-2 text-right font-mono">{entry.correctCount}</td>
+                  <td className="tabular py-2 pe-2 text-end font-mono">{entry.totalPoints}</td>
+                  <td className="tabular py-2 pe-2 text-end font-mono">{entry.matches}</td>
+                  <td className="tabular py-2 pe-2 text-end font-mono">{entry.bestMatchPoints}</td>
+                  <td className="tabular py-2 text-end font-mono">{entry.correctCount}</td>
                 </tr>
               ))}
             </tbody>
@@ -168,7 +167,7 @@ export function LeaderboardView() {
         {entries !== null && entries.length >= limit && limit < 100 ? (
           <div className="mt-4">
             <Button variant="secondary" onClick={() => setLimit(100)}>
-              Load more
+              {t('leaderboard.loadMore')}
             </Button>
           </div>
         ) : null}

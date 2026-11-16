@@ -3,7 +3,7 @@ import { Panel } from '../components/game/Shell';
 import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
-import { errorMessage } from '../i18n/en';
+import { contentAttributes, errorMessage, labelFor, useTranslation } from '../i18n';
 import { ApiClientError } from '../lib/api';
 import { OPTION_LETTERS, formatSeconds, truncate } from '../lib/format';
 import { useRemaining } from '../lib/useRemaining';
@@ -23,6 +23,7 @@ export function ControlView({
   token: string;
   overlayToken?: string;
 }) {
+  const { t } = useTranslation();
   const { room, status, clockOffset, capabilities, emit } = useRoomFeed('control', roomCode, token);
   const remaining = useRemaining(room, clockOffset);
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -40,7 +41,10 @@ export function ControlView({
       const message = errorMessage(caught instanceof ApiClientError ? caught.code : undefined);
       setError(message);
       setLog((entries) =>
-        [{ at: Date.now(), text: `${label} failed: ${message}` }, ...entries].slice(0, 20),
+        [
+          { at: Date.now(), text: t('control.logFailed', { action: label, message }) },
+          ...entries,
+        ].slice(0, 20),
       );
     }
   }
@@ -53,28 +57,28 @@ export function ControlView({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setError('Copy failed.');
+      setError(t('common.copyFailed'));
     }
   }
 
   if (status === 'unavailable') {
     return (
       <main className="mx-auto max-w-xl p-8">
-        <Banner variant="error">Control unavailable. Check the link and token.</Banner>
+        <Banner variant="error">{t('control.unavailable')}</Banner>
       </main>
     );
   }
   if (status === 'ended') {
     return (
       <main className="mx-auto max-w-xl p-8">
-        <Banner variant="info">The room has ended.</Banner>
+        <Banner variant="info">{t('control.ended')}</Banner>
       </main>
     );
   }
   if (!room) {
     return (
       <main className="p-8 text-ink-2" aria-busy="true">
-        Connecting…
+        {t('control.connecting')}
       </main>
     );
   }
@@ -90,13 +94,18 @@ export function ControlView({
   return (
     <main className="mx-auto grid w-full max-w-shell gap-4 p-4 lg:grid-cols-2 lg:p-8">
       <header className="flex flex-wrap items-center gap-3 lg:col-span-2">
-        <h1 className="text-2xl">Control · {room.roomCode}</h1>
+        <h1 className="text-2xl">
+          {t('control.title')} ·{' '}
+          <span dir="ltr" className="font-mono">
+            {room.roomCode}
+          </span>
+        </h1>
         <span className="rounded-pill border border-line-strong px-3 py-1 text-sm">
-          {room.mode}
+          {labelFor('mode', room.mode)}
         </span>
         <span
           className="rounded-pill border border-line-strong px-3 py-1 text-sm"
-          aria-label={`Phase ${room.phase}`}
+          aria-label={t('control.phase', { phase: room.phase })}
         >
           {room.phase}
         </span>
@@ -104,62 +113,73 @@ export function ControlView({
           <span className="tabular font-mono">{formatSeconds(remaining)}s</span>
         ) : null}
         <span className="text-sm text-ink-2">
-          {room.players.length}/{room.settings.maxPlayers} viewers
+          {t('control.viewers', { count: room.players.length, max: room.settings.maxPlayers })}
         </span>
         <span
           className={`rounded-pill px-3 py-1 text-sm font-bold ${
             room.tiktokConnected ? 'bg-success text-on-accent' : 'bg-warning text-on-accent'
           }`}
         >
-          {room.tiktokConnected ? 'LIVE' : 'CHAT OFFLINE'}
+          {room.tiktokConnected ? t('control.live') : t('control.chatOffline')}
         </span>
         {status !== 'live' ? (
           <span role="status" className="text-warning">
-            Reconnecting…
+            {t('connection.reconnecting')}
           </span>
         ) : null}
       </header>
 
       <Panel className="space-y-3">
-        <h2 className="text-xl">Match</h2>
+        <h2 className="text-xl">{t('control.match')}</h2>
         <p className="text-ink-2">
-          Level {room.level}/{room.totalLevels} · Question {room.questionIndex + 1}/
-          {room.questionsPerLevel}
+          {t('control.progress', {
+            level: room.level,
+            total: room.totalLevels,
+            index: room.questionIndex + 1,
+            perLevel: room.questionsPerLevel,
+          })}
         </p>
-        {room.question ? <p className="font-medium">{room.question.questionText}</p> : null}
+        {room.question ? (
+          <p className="font-medium" {...contentAttributes(room.language)}>
+            {room.question.questionText}
+          </p>
+        ) : null}
         <ol className="space-y-1">
           {[...room.players]
             .sort((a, b) => b.score - a.score)
             .slice(0, 10)
             .map((player, index) => (
               <li key={player.id} className="flex gap-2">
-                <span className="tabular w-6 text-right text-ink-2">{index + 1}.</span>
-                <span className="flex-1 truncate">{truncate(player.displayName)}</span>
+                <span className="tabular w-6 text-end text-ink-2">{index + 1}.</span>
+                <bdi className="flex-1 truncate">{truncate(player.displayName)}</bdi>
                 <span className="tabular font-mono">{player.score}</span>
               </li>
             ))}
         </ol>
         {overlayToken ? (
           <Button variant="secondary" size="sm" onClick={() => void copyOverlayLink()}>
-            {copied ? 'Copied' : 'Copy overlay link'}
+            {copied ? t('common.copied') : t('control.copyOverlay')}
           </Button>
         ) : null}
       </Panel>
 
       <Panel className="space-y-4">
-        <h2 className="text-xl">Actions</h2>
+        <h2 className="text-xl">{t('control.actions')}</h2>
         {error ? <Banner variant="error">{error}</Banner> : null}
         <div className="flex flex-wrap gap-2">
           <Button
             variant="success"
             disabled={phase !== 'LOBBY' || !room.tiktokConnected || !can('start')}
-            onClick={() => void run('Start game', 'GAME_START')}
+            onClick={() => void run(t('control.logStart'), 'GAME_START')}
           >
-            Start
+            {t('control.start')}
           </Button>
           {paused ? (
-            <Button disabled={!can('resume')} onClick={() => void run('Resume', 'HOST_RESUME')}>
-              Resume
+            <Button
+              disabled={!can('resume')}
+              onClick={() => void run(t('control.logResume'), 'HOST_RESUME')}
+            >
+              {t('common.resume')}
             </Button>
           ) : (
             <Button
@@ -168,9 +188,9 @@ export function ControlView({
                 !can('pause') ||
                 !['QUESTION', 'REVEAL', 'ARTICLE', 'LEVEL_COMPLETE'].includes(room.phase)
               }
-              onClick={() => void run('Pause', 'HOST_PAUSE')}
+              onClick={() => void run(t('control.logPause'), 'HOST_PAUSE')}
             >
-              Pause
+              {t('common.pause')}
             </Button>
           )}
           <Button
@@ -179,44 +199,50 @@ export function ControlView({
               !can('skip') || !['QUESTION', 'ARTICLE', 'LEVEL_COMPLETE'].includes(room.phase)
             }
             onClick={() =>
-              room.phase === 'QUESTION' ? setConfirm('skip') : void run('Skip', 'HOST_SKIP')
+              room.phase === 'QUESTION'
+                ? setConfirm('skip')
+                : void run(t('control.logSkip'), 'HOST_SKIP')
             }
           >
-            Skip
+            {t('control.skip')}
           </Button>
           <Button variant="danger" disabled={!can('close')} onClick={() => setConfirm('close')}>
-            Close
+            {t('control.close')}
           </Button>
         </div>
 
         <div>
-          <h3 className="label mb-2">Manual answer</h3>
+          <h3 className="label mb-2">{t('control.manualAnswer')}</h3>
           <label htmlFor="player-search" className="sr-only">
-            Search player
+            {t('control.searchPlayer')}
           </label>
           <input
             id="player-search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search player"
+            placeholder={t('control.searchPlayer')}
             className="mb-2 min-h-[44px] w-full rounded-md border border-line-strong bg-bg px-3 text-ink"
           />
           <ul className="max-h-48 space-y-1 overflow-y-auto">
             {players.slice(0, 20).map((player) => (
               <li key={player.id} className="flex items-center gap-2">
-                <span className="min-w-0 flex-1 truncate">{truncate(player.displayName)}</span>
+                <bdi className="min-w-0 flex-1 truncate">{truncate(player.displayName)}</bdi>
                 {OPTION_LETTERS.map((letter, index) => (
                   <Button
                     key={letter}
                     size="sm"
                     variant="secondary"
                     disabled={!canManual}
-                    aria-label={`Answer ${letter} for ${player.displayName}`}
+                    aria-label={t('control.answerFor', { letter, name: player.displayName })}
                     onClick={() =>
-                      void run(`Manual ${letter} for ${player.displayName}`, 'HOST_MANUAL_ANSWER', {
-                        playerId: player.id,
-                        choiceIndex: index,
-                      })
+                      void run(
+                        t('control.logManual', { letter, name: player.displayName }),
+                        'HOST_MANUAL_ANSWER',
+                        {
+                          playerId: player.id,
+                          choiceIndex: index,
+                        },
+                      )
                     }
                   >
                     {letter}
@@ -228,12 +254,12 @@ export function ControlView({
         </div>
 
         <div>
-          <h3 className="label mb-2">Latest actions</h3>
+          <h3 className="label mb-2">{t('control.latest')}</h3>
           <ol className="max-h-40 space-y-1 overflow-y-auto text-sm text-ink-2">
-            {log.length === 0 ? <li>No actions yet.</li> : null}
+            {log.length === 0 ? <li>{t('control.noActions')}</li> : null}
             {log.map((entry, index) => (
               <li key={`${entry.at}-${index}`}>
-                <time className="tabular mr-2 font-mono">
+                <time className="tabular me-2 font-mono">
                   {new Date(entry.at).toLocaleTimeString()}
                 </time>
                 {entry.text}
@@ -244,29 +270,27 @@ export function ControlView({
       </Panel>
 
       <Modal
-        title={confirm === 'close' ? 'Close the room?' : 'Skip this question?'}
+        title={confirm === 'close' ? t('control.closeTitle') : t('control.skipTitle')}
         open={confirm !== null}
         onClose={() => setConfirm(null)}
       >
         <p className="mb-4 text-ink-2">
-          {confirm === 'close'
-            ? 'The match is abandoned without a winner and the overlay shows the stream as ended.'
-            : 'Unanswered players are marked as timed out.'}
+          {confirm === 'close' ? t('control.closeBody') : t('control.skipBody')}
         </p>
         <div className="flex justify-end gap-2">
           <Button variant="ghost" onClick={() => setConfirm(null)}>
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button
             variant="danger"
             onClick={() => {
               const action = confirm;
               setConfirm(null);
-              if (action === 'close') void run('Close room', 'HOST_CLOSE');
-              else void run('Skip question', 'HOST_SKIP');
+              if (action === 'close') void run(t('control.logClose'), 'HOST_CLOSE');
+              else void run(t('control.logSkip'), 'HOST_SKIP');
             }}
           >
-            Confirm
+            {t('common.confirm')}
           </Button>
         </div>
       </Modal>

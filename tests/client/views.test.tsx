@@ -6,6 +6,9 @@ import App from '../../client/App';
 import { useGameStore } from '../../client/store/gameStore';
 import { useUiStore } from '../../client/store/uiStore';
 import type { PublicPlayer, PublicRoomState, RoomPhase } from '../../shared/types';
+import { pinLanguage } from './language';
+
+pinLanguage('en');
 
 const ME = 'p-me';
 
@@ -42,6 +45,7 @@ function room(phase: RoomPhase, overrides: Partial<PublicRoomState> = {}): Publi
     mode: 'CLASSIC',
     difficulty: null,
     category: null,
+    language: 'en',
     isPublic: false,
     isTikTok: false,
     isSolo: false,
@@ -96,6 +100,7 @@ const REVEAL = {
   explanation: 'A ring of standing stones in Wiltshire.',
   articleTitle: 'Stonehenge',
   articleBody: 'Stonehenge is a prehistoric monument.\n\nIt was built in stages.',
+  textLanguage: 'en' as const,
   image: QUESTION.image,
 };
 

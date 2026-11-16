@@ -36,7 +36,34 @@
   }
 
   .article-body p:first-of-type::first-letter {
-    @apply float-left pr-2 font-serif text-5xl font-bold leading-none text-accent;
+    @apply float-start pe-2 font-serif text-5xl font-bold leading-none text-accent;
+  }
+
+  /* Arabic letters join: a drop cap would break the word, so no initial there. */
+  .article-body[lang='ar'] p:first-of-type::first-letter {
+    @apply float-none p-0 font-[inherit] text-[length:inherit] font-normal leading-[inherit] text-[color:inherit];
+  }
+
+  /* Arabic: a naskh face for reading, the sans face for the interface. */
+  :lang(ar) {
+    font-family: 'Noto Sans Arabic', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
+  }
+
+  :lang(ar) h1,
+  :lang(ar) h2,
+  :lang(ar) .article-body {
+    font-family: 'Noto Naskh Arabic', 'Noto Sans Arabic', 'Times New Roman', serif;
+  }
+
+  /* The timer ring drains the other way round in right-to-left languages. */
+  [dir='rtl'] .timer-ring {
+    transform: scaleX(-1);
+  }
+
+  /* Letters of arabic words must not be spaced out. */
+  :lang(ar) .label {
+    letter-spacing: 0;
+    text-transform: none;
   }
 
   .article-body p {

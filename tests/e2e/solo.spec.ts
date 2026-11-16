@@ -10,7 +10,7 @@ test('home page loads without console errors and has no serious a11y violations'
       errors.push(message.text());
     }
   });
-  await page.goto('/');
+  await page.goto('/?lang=en');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   const results = await new AxeBuilder({ page }).analyze();
   const serious = results.violations.filter(
@@ -23,8 +23,8 @@ test('home page loads without console errors and has no serious a11y violations'
 test('solo classic: first question can be answered with the keyboard and an article follows', async ({
   page,
 }) => {
-  await page.goto('/');
-  await page.getByLabel(/pseudo/i).fill('Alice');
+  await page.goto('/?lang=en');
+  await page.getByLabel(/nickname/i).fill('Alice');
   await page.getByRole('button', { name: /solo classic/i }).click();
   await page.getByRole('button', { name: /^start/i }).click();
   await expect(page.locator('#question-title')).toBeVisible({ timeout: 15_000 });

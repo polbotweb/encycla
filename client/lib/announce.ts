@@ -1,4 +1,5 @@
 import type { PublicRoomState } from '../../shared/types';
+import { translate } from '../i18n';
 import { OPTION_LETTERS } from './format';
 
 /** Screen-reader announcements derived from snapshots (UI-UX 21.2). Pure and testable. */
@@ -12,10 +13,14 @@ export function announcementFor(
   }
   switch (next.phase) {
     case 'COUNTDOWN':
-      return 'Match starting.';
+      return translate('announce.matchStarting');
     case 'QUESTION':
       return next.question
-        ? `Question ${next.questionIndex + 1} of ${next.questionsPerLevel}. ${next.question.questionText}`
+        ? translate('announce.question', {
+            index: next.questionIndex + 1,
+            total: next.questionsPerLevel,
+            text: next.question.questionText,
+          })
         : null;
     case 'REVEAL': {
       const reveal = next.reveal;
@@ -25,32 +30,36 @@ export function announcementFor(
       let outcome = '';
       if (mine) {
         if (mine.timedOut) {
-          outcome = " Time's up.";
+          outcome = ` ${translate('announce.timeUp')}`;
         } else {
           const chosen = mine.choiceIndex === null ? '' : (reveal.options[mine.choiceIndex] ?? '');
-          outcome = ` You answered ${chosen}. ${mine.correct ? 'Correct.' : 'Incorrect.'}`;
+          outcome = ` ${translate('announce.youAnswered', { text: chosen })} ${translate(
+            mine.correct ? 'announce.right' : 'announce.wrong',
+          )}`;
         }
       }
       const letter = OPTION_LETTERS[reveal.correctIndex] ?? '';
-      return `Correct answer: ${letter}, ${correctText}.${outcome}`;
+      return `${translate('announce.correctAnswer', { letter, text: correctText })}${outcome}`;
     }
     case 'ARTICLE':
-      return next.reveal ? `Article: ${next.reveal.articleTitle}.` : 'Article.';
+      return next.reveal
+        ? translate('announce.article', { title: next.reveal.articleTitle })
+        : translate('announce.articleOnly');
     case 'LEVEL_COMPLETE':
-      return `Level ${next.level} complete.`;
+      return translate('announce.levelComplete', { level: next.level });
     case 'MATCH_OVER': {
       const entry = next.finalRanking?.find((candidate) => candidate.playerId === playerId);
       if (!next.finalRanking || next.finalRanking.length === 0) {
-        return 'Match abandoned.';
+        return translate('announce.matchAbandoned');
       }
       return entry
-        ? `Match complete. You finished ${entry.rank} of ${next.finalRanking.length}.`
-        : 'Match complete.';
+        ? translate('announce.finished', { rank: entry.rank, total: next.finalRanking.length })
+        : translate('announce.matchComplete');
     }
     case 'PAUSED':
-      return 'Paused.';
+      return translate('announce.paused');
     case 'CLOSED':
-      return 'Room closed.';
+      return translate('announce.closed');
     default:
       return null;
   }

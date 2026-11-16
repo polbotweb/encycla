@@ -1,4 +1,5 @@
 import type { ConfigResponse, ErrorCode } from '../../shared/protocol';
+import type { Language } from '../../shared/languages';
 import type { Difficulty, GameMode } from '../../shared/types';
 
 export class ApiClientError extends Error {
@@ -43,6 +44,8 @@ export interface Selection {
   mode: GameMode;
   category: string | null;
   difficulty: Difficulty | null;
+  /** Language of the questions of the room; French when omitted. */
+  language?: Language;
 }
 
 interface RequestOptions {

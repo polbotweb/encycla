@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Panel, Stat, ViewTitle } from '../components/game/Shell';
 import { Button } from '../components/ui/Button';
-import { errorMessage, t } from '../i18n/en';
+import { errorMessage, useTranslation } from '../i18n';
 import { ApiClientError } from '../lib/api';
 import { formatSeconds } from '../lib/format';
 import { gameActions } from '../lib/realtime';
@@ -10,6 +10,7 @@ import { useRemaining } from '../lib/useRemaining';
 import { useGameStore } from '../store/gameStore';
 
 export function LevelCompleteView() {
+  const { t } = useTranslation();
   const { room, me, canSkip, paused } = useMe();
   const clockOffset = useGameStore((state) => state.clockOffset);
   const remaining = useRemaining(room, clockOffset);
@@ -41,20 +42,27 @@ export function LevelCompleteView() {
     <main className="mx-auto w-full max-w-xl p-4 lg:p-8">
       <Panel className="space-y-4 text-center">
         <div aria-live="polite">
-          <ViewTitle>
-            {t.levelComplete}: level {room.level}
-          </ViewTitle>
+          <ViewTitle>{t('level.complete', { level: room.level })}</ViewTitle>
         </div>
         <div className="flex justify-center gap-8">
-          <Stat label="Score" value={me?.score ?? 0} />
-          <Stat label="Lives" value={room.mode === 'CONTEST' ? '—' : (me?.lives ?? 0)} />
-          <Stat label="Streak" value={me?.streak ?? 0} />
+          <Stat label={t('common.score')} value={me?.score ?? 0} />
+          <Stat
+            label={t('common.lives')}
+            value={room.mode === 'CONTEST' ? '—' : (me?.lives ?? 0)}
+          />
+          <Stat label={t('common.streak')} value={me?.streak ?? 0} />
         </div>
         <p className="text-ink-2">
-          {room.mode === 'CONTEST' ? '' : room.isSolo ? 'Lives restored.' : 'Lives carry over.'}
+          {room.mode === 'CONTEST'
+            ? ''
+            : room.isSolo
+              ? t('level.livesRestored')
+              : t('level.livesCarry')}
         </p>
         {remaining !== null ? (
-          <p className="text-sm text-ink-2">Next level in {formatSeconds(remaining)}s</p>
+          <p className="text-sm text-ink-2">
+            {t('level.next', { seconds: formatSeconds(remaining) })}
+          </p>
         ) : null}
         {error ? (
           <p role="alert" className="text-sm text-danger">
@@ -64,7 +72,7 @@ export function LevelCompleteView() {
         <div className="flex justify-center gap-3">
           {!room.isTikTok ? (
             <Button size="lg" disabled={!canContinue || waiting} onClick={() => void send()}>
-              {waiting ? 'Waiting for other players…' : t.continue}
+              {waiting ? t('common.waitingOthers') : t('common.continue')}
             </Button>
           ) : null}
           {canSkip ? (
@@ -72,7 +80,7 @@ export function LevelCompleteView() {
               variant="secondary"
               onClick={() => void gameActions.skip().catch(() => undefined)}
             >
-              Skip for everyone
+              {t('common.skipForEveryone')}
             </Button>
           ) : null}
         </div>

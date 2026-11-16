@@ -1,3 +1,4 @@
+import { useTranslation } from '../../i18n';
 import { formatSeconds } from '../../lib/format';
 
 export interface TimerProps {
@@ -22,7 +23,9 @@ export function Timer({
   variant = 'ring',
   size = 72,
 }: TimerProps) {
+  const { t } = useTranslation();
   if (remainingMs === null) return null;
+  const secondsLeft = Math.max(0, Math.ceil(remainingMs / 1000));
   const fraction = totalMs > 0 ? Math.min(1, Math.max(0, remainingMs / totalMs)) : 0;
   const seconds = formatSeconds(remainingMs);
   const color = tone(remainingMs);
@@ -32,7 +35,7 @@ export function Timer({
       <div
         role="timer"
         aria-live="off"
-        aria-label={`${seconds} seconds remaining`}
+        aria-label={t('timer.remaining', { count: secondsLeft })}
         className={color}
       >
         <progress
@@ -52,11 +55,18 @@ export function Timer({
     <div
       role="timer"
       aria-live="off"
-      aria-label={`${seconds} seconds remaining${paused ? ', paused' : ''}`}
+      aria-label={`${t('timer.remaining', { count: secondsLeft })}${paused ? t('timer.pausedSuffix') : ''}`}
       className={`relative inline-flex items-center justify-center ${color}`}
       data-testid="timer"
     >
-      <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true" focusable="false">
+      <svg
+        viewBox="0 0 100 100"
+        width={size}
+        height={size}
+        aria-hidden="true"
+        focusable="false"
+        className="timer-ring"
+      >
         <circle cx="50" cy="50" r={radius} fill="none" className="stroke-line" strokeWidth="8" />
         <circle
           cx="50"

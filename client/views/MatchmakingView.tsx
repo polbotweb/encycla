@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Panel, ViewTitle } from '../components/game/Shell';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
-import { errorMessage } from '../i18n/en';
+import { errorMessage, useTranslation } from '../i18n';
 import { formatClock, formatSeconds } from '../lib/format';
 import { ApiClientError } from '../lib/api';
 import { gameActions } from '../lib/realtime';
@@ -18,6 +18,7 @@ function useNow(intervalMs = 500): number {
 }
 
 export function MatchmakingView() {
+  const { t } = useTranslation();
   const queue = useGameStore((state) => state.queue);
   const proposal = useGameStore((state) => state.proposal);
   const clockOffset = useGameStore((state) => state.clockOffset);
@@ -40,13 +41,14 @@ export function MatchmakingView() {
   return (
     <main className="mx-auto w-full max-w-xl space-y-4 p-4 text-center lg:p-8">
       <Panel className="space-y-3">
-        <ViewTitle>Searching for players…</ViewTitle>
+        <ViewTitle>{t('queue.searching')}</ViewTitle>
         <p className="text-lg text-ink-2" role="status">
-          Position {queue.position} · up to {queue.targetPlayers} players
+          {t('queue.position', { position: queue.position })} ·{' '}
+          {t('queue.upTo', { count: queue.targetPlayers })}
         </p>
         <p
           className="tabular font-mono text-5xl font-bold"
-          aria-label={`Waiting for ${formatClock(waited)}`}
+          aria-label={t('queue.waitedAria', { time: formatClock(waited) })}
         >
           {formatClock(waited)}
         </p>
@@ -56,33 +58,35 @@ export function MatchmakingView() {
           </p>
         ) : null}
         <Button variant="secondary" onClick={() => void gameActions.leaveQueue()}>
-          Cancel
+          {t('common.cancel')}
         </Button>
       </Panel>
 
       <Modal
-        title="A smaller room is ready"
+        title={t('queue.smallRoomTitle')}
         open={Boolean(proposal)}
         onClose={() => void vote(false)}
         dismissible={!proposal?.voted}
       >
         {proposal ? (
-          <div className="space-y-4 text-left">
+          <div className="space-y-4 text-start">
             <p className="text-ink-2">
-              {proposal.playerCount} players are waiting. Start now with 2-
-              {Math.max(2, Math.min(3, proposal.playerCount))} players?
+              {t('queue.smallRoomBody', {
+                count: proposal.playerCount,
+                max: Math.max(2, Math.min(3, proposal.playerCount)),
+              })}
             </p>
             <p className="tabular font-mono text-3xl font-bold" role="timer" aria-live="off">
-              {formatSeconds(proposalLeft)}s
+              {t('common.seconds', { seconds: formatSeconds(proposalLeft) })}
             </p>
             {proposal.voted ? (
-              <p role="status">Waiting for other players…</p>
+              <p role="status">{t('common.waitingOthers')}</p>
             ) : (
               <div className="flex justify-end gap-2">
                 <Button variant="ghost" onClick={() => void vote(false)}>
-                  Keep waiting
+                  {t('queue.keepWaiting')}
                 </Button>
-                <Button onClick={() => void vote(true)}>Start with 2-3</Button>
+                <Button onClick={() => void vote(true)}>{t('queue.startSmall')}</Button>
               </div>
             )}
           </div>

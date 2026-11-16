@@ -5,7 +5,7 @@ import { FlameIcon, HeartIcon } from '../components/ui/Icons';
 import { ImageFrame } from '../components/ui/ImageFrame';
 import { OptionButton, type OptionState } from '../components/ui/OptionButton';
 import { Timer } from '../components/ui/Timer';
-import { errorMessage } from '../i18n/en';
+import { contentAttributes, errorMessage, useTranslation } from '../i18n';
 import { ApiClientError } from '../lib/api';
 import { gameActions } from '../lib/realtime';
 import { useMe } from '../lib/useMe';
@@ -42,6 +42,7 @@ export function isTypingTarget(target: EventTarget | null): boolean {
 }
 
 export function QuestionView() {
+  const { t } = useTranslation();
   const { room, me, paused } = useMe();
   const clockOffset = useGameStore((state) => state.clockOffset);
   const lockedChoice = useGameStore((state) => state.lockedChoice);
@@ -100,11 +101,19 @@ export function QuestionView() {
       <div className="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-line bg-surface px-4 py-3">
         <div>
           <p className="label">
-            {room.mode === 'CLASSIC' ? `Level ${room.level}/${room.totalLevels} · ` : ''}
-            Question {room.questionIndex + 1} of {room.questionsPerLevel}
+            {room.mode === 'CLASSIC'
+              ? `${t('question.level', { level: room.level, total: room.totalLevels })} · `
+              : ''}
+            {t('question.counter', {
+              index: room.questionIndex + 1,
+              total: room.questionsPerLevel,
+            })}
           </p>
           <p className="text-sm text-ink-2" aria-live="off">
-            {answered} of {room.players.filter((p) => p.status === 'CONNECTED').length} answered
+            {t('question.answered', {
+              answered,
+              total: room.players.filter((p) => p.status === 'CONNECTED').length,
+            })}
           </p>
         </div>
         <div className="flex items-center gap-5">
@@ -112,18 +121,18 @@ export function QuestionView() {
             <div
               className="flex items-center gap-1 text-danger"
               role="img"
-              aria-label={`${me.lives} ${me.lives === 1 ? 'life' : 'lives'} remaining`}
+              aria-label={t('question.livesAria', { count: me.lives })}
             >
               {Array.from({ length: 3 }, (_, i) => (
                 <HeartIcon key={i} className={i < me.lives ? '' : 'opacity-25'} />
               ))}
             </div>
           ) : null}
-          <Stat label="Score" value={me?.score ?? 0} />
+          <Stat label={t('common.score')} value={me?.score ?? 0} />
           {me && me.streak > 1 ? (
             <div
               className="flex items-center gap-1 text-warning"
-              aria-label={`${me.streak} in a row`}
+              aria-label={t('question.streakAria', { count: me.streak })}
             >
               <FlameIcon />
               <span className="tabular font-mono font-bold">{me.streak}</span>
@@ -134,12 +143,17 @@ export function QuestionView() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[55fr_45fr]">
-        <ImageFrame image={question.image} className="h-60 sm:h-72 lg:h-[26rem]" />
+        <ImageFrame
+          image={question.image}
+          language={room.language}
+          className="h-60 sm:h-72 lg:h-[26rem]"
+        />
         <div className="space-y-4">
           <h1
             tabIndex={-1}
             id="question-title"
             className="text-xl outline-none sm:text-2xl lg:text-3xl"
+            {...contentAttributes(room.language)}
           >
             {question.questionText}
           </h1>
@@ -158,6 +172,7 @@ export function QuestionView() {
                   text={option}
                   state={state}
                   disabled={!canAnswer}
+                  language={room.language}
                   onSelect={(chosen) => void choose(chosen)}
                 />
               );
@@ -165,12 +180,12 @@ export function QuestionView() {
           </div>
           <p className="text-ink-2" role="status">
             {eliminated || forfeited
-              ? 'You can no longer answer. You are watching.'
+              ? t('question.watching')
               : locked
-                ? 'Answer locked'
+                ? t('question.locked')
                 : paused
-                  ? 'Paused'
-                  : 'Choose an answer'}
+                  ? t('question.paused')
+                  : t('question.chooseAnswer')}
           </p>
           {error ? <Banner variant="error">{error}</Banner> : null}
         </div>

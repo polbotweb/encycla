@@ -21,7 +21,7 @@ export function Banner({
   return (
     <div
       role={variant === 'error' ? 'alert' : 'status'}
-      className={`flex flex-wrap items-center justify-between gap-3 rounded-md border-l-4 bg-surface px-4 py-3 text-sm ${CLASSES[variant]}`}
+      className={`flex flex-wrap items-center justify-between gap-3 rounded-md border-s-4 bg-surface px-4 py-3 text-sm ${CLASSES[variant]}`}
     >
       <span>{children}</span>
       {action}

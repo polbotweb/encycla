@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import type { ConfigResponse } from '../../../shared/protocol';
+import { LANGUAGES, LANGUAGE_NAMES, isLanguage, type Language } from '../../../shared/languages';
 import type { Difficulty, GameMode } from '../../../shared/types';
+import { labelFor, useTranslation, type MessageKey } from '../../i18n';
 import type { Selection } from '../../lib/api';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 
 export type PlayIntent = 'solo' | 'queue' | 'private';
-
-const MODE_LABEL: Record<GameMode, string> = {
-  CLASSIC: 'CLASSIC — 10 levels, all categories',
-  SUBJECT: 'SUBJECT — one category, one level',
-  CONTEST: 'CONTEST — head-to-head duel',
-};
 
 const DIFFICULTIES: Difficulty[] = ['Novice', 'Adventurer', 'Wizard'];
 
@@ -27,10 +23,16 @@ export interface PlaySetupModalProps {
   onConfirm: (selection: Selection, maxPlayers?: number) => void;
 }
 
-const TITLES: Record<PlayIntent, string> = {
-  solo: 'Play solo',
-  queue: 'Play online',
-  private: 'Create a private room',
+const TITLES: Record<PlayIntent, MessageKey> = {
+  solo: 'setup.solo',
+  queue: 'setup.queue',
+  private: 'setup.private',
+};
+
+const CONFIRM_LABELS: Record<PlayIntent, MessageKey> = {
+  solo: 'setup.startSolo',
+  queue: 'setup.startQueue',
+  private: 'setup.startPrivate',
 };
 
 export function PlaySetupModal({
@@ -43,12 +45,15 @@ export function PlaySetupModal({
   onClose,
   onConfirm,
 }: PlaySetupModalProps) {
+  const { t, language: interfaceLanguage } = useTranslation();
   const modes: GameMode[] =
     intent === 'solo' ? ['CLASSIC', 'SUBJECT'] : ['CLASSIC', 'SUBJECT', 'CONTEST'];
   const [mode, setMode] = useState<GameMode>(initialMode);
   const [category, setCategory] = useState<string>('');
   const [difficulty, setDifficulty] = useState<Difficulty>('Novice');
   const [maxPlayers, setMaxPlayers] = useState(8);
+  // Questions are shown in the language of the room; it starts as the interface language.
+  const [questionLanguage, setQuestionLanguage] = useState<Language>(interfaceLanguage);
 
   const effectiveMode = modes.includes(mode) ? mode : 'CLASSIC';
   const categories = config?.categories ?? [];
@@ -59,8 +64,8 @@ export function PlaySetupModal({
   function submit(): void {
     const selection: Selection =
       effectiveMode === 'SUBJECT'
-        ? { mode: 'SUBJECT', category, difficulty }
-        : { mode: effectiveMode, category: null, difficulty: null };
+        ? { mode: 'SUBJECT', category, difficulty, language: questionLanguage }
+        : { mode: effectiveMode, category: null, difficulty: null, language: questionLanguage };
     onConfirm(
       selection,
       intent === 'private' && effectiveMode !== 'CONTEST' ? maxPlayers : undefined,
@@ -68,7 +73,7 @@ export function PlaySetupModal({
   }
 
   return (
-    <Modal title={TITLES[intent]} open={open} onClose={onClose}>
+    <Modal title={t(TITLES[intent])} open={open} onClose={onClose}>
       <form
         className="space-y-4"
         onSubmit={(event) => {
@@ -77,7 +82,7 @@ export function PlaySetupModal({
         }}
       >
         <fieldset className="space-y-2">
-          <legend className="label mb-1">Mode</legend>
+          <legend className="label mb-1">{t('setup.mode')}</legend>
           {modes.map((value) => (
             <label
               key={value}
@@ -91,16 +96,36 @@ export function PlaySetupModal({
                 onChange={() => setMode(value)}
                 className="h-4 w-4 accent-[var(--accent)]"
               />
-              <span>{MODE_LABEL[value]}</span>
+              <span>{t(`mode.${value}.desc` as MessageKey)}</span>
             </label>
           ))}
         </fieldset>
+
+        <div>
+          <label htmlFor="question-language" className="label mb-1 block">
+            {t('setup.questionLanguage')}
+          </label>
+          <select
+            id="question-language"
+            value={questionLanguage}
+            onChange={(event) => {
+              if (isLanguage(event.target.value)) setQuestionLanguage(event.target.value);
+            }}
+            className="min-h-[44px] w-full rounded-md border border-line-strong bg-bg px-3 text-ink"
+          >
+            {LANGUAGES.map((code) => (
+              <option key={code} value={code} lang={code}>
+                {LANGUAGE_NAMES[code]}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {effectiveMode === 'SUBJECT' ? (
           <div className="space-y-3">
             <div>
               <label htmlFor="category" className="label mb-1 block">
-                Category
+                {t('setup.category')}
               </label>
               <select
                 id="category"
@@ -108,22 +133,20 @@ export function PlaySetupModal({
                 onChange={(event) => setCategory(event.target.value)}
                 className="min-h-[44px] w-full rounded-md border border-line-strong bg-bg px-3 text-ink"
               >
-                <option value="">Choose a category</option>
+                <option value="">{t('setup.chooseCategory')}</option>
                 {categories.map((entry) => (
                   <option key={entry.value} value={entry.value} disabled={!entry.subjectEnabled}>
-                    {entry.value}
-                    {entry.subjectEnabled ? '' : ' — Coming soon'}
+                    {labelFor('category', entry.value)}
+                    {entry.subjectEnabled ? '' : ` — ${t('common.comingSoon')}`}
                   </option>
                 ))}
               </select>
               {!anySubject ? (
-                <p className="mt-2 text-sm text-ink-2">
-                  SUBJECT is not available yet: no category has enough questions.
-                </p>
+                <p className="mt-2 text-sm text-ink-2">{t('setup.noSubject')}</p>
               ) : null}
             </div>
             <fieldset>
-              <legend className="label mb-1">Difficulty</legend>
+              <legend className="label mb-1">{t('setup.difficulty')}</legend>
               <div className="flex flex-wrap gap-2">
                 {DIFFICULTIES.map((value) => (
                   <label
@@ -138,7 +161,7 @@ export function PlaySetupModal({
                       onChange={() => setDifficulty(value)}
                       className="h-4 w-4 accent-[var(--accent)]"
                     />
-                    {value}
+                    {labelFor('difficulty', value)}
                   </label>
                 ))}
               </div>
@@ -149,7 +172,7 @@ export function PlaySetupModal({
         {intent === 'private' && effectiveMode !== 'CONTEST' ? (
           <div>
             <label htmlFor="maxPlayers" className="label mb-1 block">
-              Maximum players
+              {t('setup.maxPlayers')}
             </label>
             <input
               id="maxPlayers"
@@ -173,10 +196,10 @@ export function PlaySetupModal({
 
         <div className="flex justify-end gap-2 pt-2">
           <Button variant="ghost" onClick={onClose}>
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button type="submit" loading={busy} disabled={!canConfirm}>
-            {intent === 'solo' ? 'Start' : intent === 'queue' ? 'Find a match' : 'Create room'}
+            {t(CONFIRM_LABELS[intent])}
           </Button>
         </div>
       </form>

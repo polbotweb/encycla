@@ -4,6 +4,9 @@ import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { HomeView } from '../../client/views/HomeView';
 import { useGameStore } from '../../client/store/gameStore';
+import { pinLanguage } from './language';
+
+pinLanguage('en');
 
 describe('HomeView', () => {
   beforeEach(() => {
@@ -35,7 +38,7 @@ describe('HomeView', () => {
   it('renders the play actions with an accessible pseudo field', async () => {
     render(<HomeView />);
     expect(screen.getByRole('heading', { level: 1 })).toBeTruthy();
-    expect(screen.getByLabelText(/pseudo/i)).toBeTruthy();
+    expect(screen.getByLabelText(/nickname/i)).toBeTruthy();
     expect(screen.getByRole('button', { name: /solo classic/i })).toBeTruthy();
   });
 

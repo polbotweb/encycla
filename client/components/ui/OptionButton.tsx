@@ -1,3 +1,5 @@
+import type { Language } from '../../../shared/languages';
+import { contentAttributes, useTranslation, type MessageKey } from '../../i18n';
 import { OPTION_LETTERS } from '../../lib/format';
 import { CheckIcon, CrossIcon } from './Icons';
 
@@ -11,10 +13,10 @@ const STATE_CLASSES: Record<OptionState, string> = {
   muted: 'bg-surface text-ink-2 border-line opacity-70',
 };
 
-const STATE_LABEL: Partial<Record<OptionState, string>> = {
-  selected: 'Your answer, locked',
-  correct: 'Correct',
-  incorrect: 'Incorrect',
+const STATE_LABEL: Partial<Record<OptionState, MessageKey>> = {
+  selected: 'option.lockedAnswer',
+  correct: 'option.correct',
+  incorrect: 'option.incorrect',
 };
 
 export interface OptionButtonProps {
@@ -23,6 +25,8 @@ export interface OptionButtonProps {
   state?: OptionState;
   disabled?: boolean;
   onSelect?: (index: number) => void;
+  /** Language of the option text (the language of the questions). */
+  language?: Language;
 }
 
 export function OptionButton({
@@ -31,9 +35,12 @@ export function OptionButton({
   state = 'default',
   disabled = false,
   onSelect,
+  language,
 }: OptionButtonProps) {
+  const { t } = useTranslation();
   const letter = OPTION_LETTERS[index] ?? String(index + 1);
-  const suffix = STATE_LABEL[state];
+  const labelKey = STATE_LABEL[state];
+  const suffix = labelKey ? t(labelKey) : undefined;
   return (
     <button
       type="button"
@@ -42,15 +49,23 @@ export function OptionButton({
       aria-pressed={state === 'selected' || undefined}
       onClick={() => onSelect?.(index)}
       className={[
-        'flex min-h-[56px] w-full items-center gap-3 rounded-md border px-3 py-2 text-left text-lg font-medium transition-colors duration-[120ms] lg:min-h-[64px]',
+        'flex min-h-[56px] w-full items-center gap-3 rounded-md border px-3 py-2 text-start text-lg font-medium transition-colors duration-[120ms] lg:min-h-[64px]',
         'disabled:cursor-default',
         STATE_CLASSES[state],
       ].join(' ')}
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-current text-sm font-bold">
+      <span
+        dir="ltr"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-current text-sm font-bold"
+      >
         {letter}
       </span>{' '}
-      <span className="min-w-0 flex-1 break-words">{text}</span>
+      <span
+        className="min-w-0 flex-1 break-words"
+        {...(language ? contentAttributes(language) : {})}
+      >
+        {text}
+      </span>
       {suffix ? <span className="sr-only">{`. ${suffix}`}</span> : null}
       {state === 'correct' ? <CheckIcon className="shrink-0" /> : null}
       {state === 'incorrect' ? <CrossIcon className="shrink-0" /> : null}

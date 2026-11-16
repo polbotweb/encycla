@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { announcementFor } from '../../client/lib/announce';
-import { formatClock, formatResponseTime, plural, truncate } from '../../client/lib/format';
+import { formatClock, formatResponseTime, truncate } from '../../client/lib/format';
 import { parseRoute } from '../../client/lib/route';
 import { validatePseudoInput } from '../../client/views/HomeView';
 import type { PublicRoomState } from '../../shared/types';
+import { pinLanguage } from './language';
+
+pinLanguage('en');
 
 function room(overrides: Partial<PublicRoomState> = {}): PublicRoomState {
   return {
@@ -13,6 +16,7 @@ function room(overrides: Partial<PublicRoomState> = {}): PublicRoomState {
     mode: 'CLASSIC',
     difficulty: null,
     category: null,
+    language: 'en',
     isPublic: false,
     isTikTok: false,
     isSolo: true,
@@ -84,11 +88,9 @@ describe('format helpers', () => {
     expect(formatResponseTime(2_345)).toBe('2.3s');
   });
 
-  it('truncates by code point and pluralizes', () => {
+  it('truncates by code point', () => {
     expect(truncate('abcdef', 4)).toBe('abc…');
     expect(truncate('ok', 4)).toBe('ok');
-    expect(plural(1, 'player')).toBe('1 player');
-    expect(plural(2, 'player')).toBe('2 players');
   });
 });
 

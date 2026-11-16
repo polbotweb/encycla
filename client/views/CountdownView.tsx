@@ -1,9 +1,11 @@
 import { ViewTitle } from '../components/game/Shell';
+import { labelFor, useTranslation } from '../i18n';
 import { useGameStore } from '../store/gameStore';
 import { useMe } from '../lib/useMe';
 import { useRemaining } from '../lib/useRemaining';
 
 export function CountdownView() {
+  const { t } = useTranslation();
   const { room } = useMe();
   const clockOffset = useGameStore((state) => state.clockOffset);
   const remaining = useRemaining(room, clockOffset, 100);
@@ -12,7 +14,7 @@ export function CountdownView() {
   return (
     <main className="mx-auto flex min-h-[70dvh] w-full max-w-shell flex-col items-center justify-center gap-4 p-4 text-center">
       <p className="label">
-        Level {room.level} / {room.totalLevels}
+        {t('countdown.level', { level: room.level, total: room.totalLevels })}
       </p>
       <p
         aria-live="assertive"
@@ -21,11 +23,11 @@ export function CountdownView() {
       >
         {seconds}
       </p>
-      <ViewTitle>Get ready</ViewTitle>
+      <ViewTitle>{t('countdown.getReady')}</ViewTitle>
       <p className="text-lg text-ink-2">
-        {room.mode}
-        {room.category ? ` · ${room.category}` : ''}
-        {room.difficulty ? ` · ${room.difficulty}` : ''}
+        {labelFor('mode', room.mode)}
+        {room.category ? ` · ${labelFor('category', room.category)}` : ''}
+        {room.difficulty ? ` · ${labelFor('difficulty', room.difficulty)}` : ''}
       </p>
     </main>
   );

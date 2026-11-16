@@ -6,16 +6,16 @@ test('two players meet in a private room and see each other in the lobby', async
   const host = await hostContext.newPage();
   const guest = await guestContext.newPage();
 
-  await host.goto('/');
-  await host.getByLabel(/pseudo/i).fill('Hostess');
+  await host.goto('/?lang=en');
+  await host.getByLabel(/nickname/i).fill('Hostess');
   await host.getByRole('button', { name: /create a private room/i }).click();
   await host.getByRole('button', { name: /^create room$/i }).click();
   const code = (await host.getByTestId('room-code').textContent())?.trim() ?? '';
   expect(code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
 
-  await guest.goto(`/?mode=join&code=${code}`);
+  await guest.goto(`/?mode=join&code=${code}&lang=en`);
   const dialog = guest.getByRole('dialog');
-  await dialog.getByLabel(/pseudo/i).fill('Guesty');
+  await dialog.getByLabel(/nickname/i).fill('Guesty');
   await expect(dialog.getByLabel(/room code/i)).toHaveValue(code);
   await dialog.getByRole('button', { name: /^join$/i }).click();
 

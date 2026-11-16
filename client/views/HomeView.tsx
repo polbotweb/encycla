@@ -4,7 +4,7 @@ import { PlaySetupModal, type PlayIntent } from '../components/game/PlaySetupMod
 import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
-import { ERROR_MESSAGES, errorMessage, t } from '../i18n/en';
+import { errorMessage, translate, useTranslation } from '../i18n';
 import { unlockAudio } from '../lib/audio';
 import { ApiClientError, type Selection } from '../lib/api';
 import { ensureSession, gameActions, waitForConnected } from '../lib/realtime';
@@ -19,8 +19,8 @@ const PSEUDO_PATTERN = /^[\p{L}\p{M}\p{N} _-]+$/u;
 export function validatePseudoInput(value: string): string | null {
   const trimmed = value.normalize('NFKC').trim().replace(/\s+/g, ' ');
   const length = [...trimmed].length;
-  if (length < 2 || length > 24) return 'Pseudo must contain between 2 and 24 characters.';
-  if (!PSEUDO_PATTERN.test(trimmed)) return 'Pseudo contains unsupported characters.';
+  if (length < 2 || length > 24) return translate('pseudo.length');
+  if (!PSEUDO_PATTERN.test(trimmed)) return translate('pseudo.chars');
   return null;
 }
 
@@ -30,6 +30,7 @@ interface PendingAction {
 }
 
 export function HomeView() {
+  const { t } = useTranslation();
   const savedPseudo = useSessionStore((state) => state.savedPseudo);
   const setPseudoStored = useSessionStore((state) => state.setPseudo);
   const connection = useGameStore((state) => state.connection);
@@ -82,7 +83,7 @@ export function HomeView() {
     } catch (caught) {
       const codeValue = caught instanceof ApiClientError ? caught.code : 'INTERNAL_ERROR';
       setError(
-        codeValue === 'NETWORK_ERROR' ? ERROR_MESSAGES.INTERNAL_ERROR : errorMessage(codeValue),
+        codeValue === 'NETWORK_ERROR' ? errorMessage('INTERNAL_ERROR') : errorMessage(codeValue),
       );
       return false;
     } finally {
@@ -111,25 +112,28 @@ export function HomeView() {
   return (
     <main className="mx-auto grid w-full max-w-shell gap-6 p-4 lg:grid-cols-[55fr_45fr] lg:p-8">
       <div className="space-y-4">
-        <p className="label">{t.tagline}</p>
-        <ViewTitle>Encycla MindMaze</ViewTitle>
-        <p className="max-w-prose text-lg text-ink-2">
-          Identify the subject, answer before the timer runs out, then read the story behind the
-          image. Play solo, challenge friends in a private room, or find a match online.
-        </p>
+        <p className="label">{t('app.tagline')}</p>
+        <ViewTitle>
+          <span lang="en" dir="ltr">
+            {t('app.title')}
+          </span>
+        </ViewTitle>
+        <p className="max-w-prose text-lg text-ink-2">{t('home.intro')}</p>
         <Panel className="hidden lg:block">
-          <h2 className="mb-2 text-xl">How to play</h2>
-          <ul className="list-disc space-y-1 pl-5 text-ink-2">
-            <li>Pick the right option before the clock hits zero.</li>
-            <li>Faster answers and streaks earn bonus points.</li>
-            <li>Wrong answers cost a life; lose all three and you are out.</li>
-            <li>After every question, read the article behind the picture.</li>
+          <h2 className="mb-2 text-xl">{t('home.howTitle')}</h2>
+          <ul className="list-disc space-y-1 ps-5 text-ink-2">
+            <li>{t('home.how1')}</li>
+            <li>{t('home.how2')}</li>
+            <li>{t('home.how3')}</li>
+            <li>{t('home.how4')}</li>
           </ul>
         </Panel>
         {config ? (
           <p className="text-sm text-ink-2">
-            {config.categories.reduce((sum, entry) => sum + entry.questionCount, 0)} questions ·{' '}
-            {config.categories.length} categories
+            {t('home.questionsCount', {
+              count: config.categories.reduce((sum, entry) => sum + entry.questionCount, 0),
+            })}{' '}
+            · {t('home.categoriesCount', { count: config.categories.length })}
           </p>
         ) : null}
       </div>
@@ -140,28 +144,27 @@ export function HomeView() {
             variant="error"
             action={
               <Button size="sm" variant="secondary" onClick={reload}>
-                {t.retry}
+                {t('common.retry')}
               </Button>
             }
           >
-            The server is not reachable. {ERROR_MESSAGES.INTERNAL_ERROR}
+            {t('home.serverUnreachable', { detail: errorMessage('INTERNAL_ERROR') })}
           </Banner>
         ) : null}
         {!loading && !failed && !classicAvailable ? (
-          <Banner variant="warning">
-            No questions are available right now. Please contact the operator.
-          </Banner>
+          <Banner variant="warning">{t('home.noQuestions')}</Banner>
         ) : null}
 
         <div>
           <label htmlFor="pseudo" className="label mb-1 block">
-            Pseudo
+            {t('home.pseudo')}
           </label>
           <input
             id="pseudo"
             ref={pseudoRef}
             value={pseudo}
             maxLength={40}
+            dir="auto"
             autoComplete="nickname"
             onChange={(event) => {
               setPseudo(event.target.value);
@@ -194,7 +197,7 @@ export function HomeView() {
               setPending({ intent: 'solo', mode: 'CLASSIC' });
             }}
           >
-            {sessionPreparing ? t.preparing : t.soloClassic}
+            {sessionPreparing ? t('common.preparing') : t('home.soloClassic')}
           </Button>
           <Button
             size="lg"
@@ -206,7 +209,7 @@ export function HomeView() {
               setPending({ intent: 'solo', mode: 'SUBJECT' });
             }}
           >
-            {t.soloSubject}
+            {t('home.soloSubject')}
           </Button>
           <Button
             size="lg"
@@ -218,7 +221,7 @@ export function HomeView() {
               setPending({ intent: 'queue', mode: 'CLASSIC' });
             }}
           >
-            {t.playOnline}
+            {t('home.playOnline')}
           </Button>
           <Button
             size="lg"
@@ -230,7 +233,7 @@ export function HomeView() {
               setPending({ intent: 'private', mode: 'CLASSIC' });
             }}
           >
-            {t.createPrivate}
+            {t('home.createPrivate')}
           </Button>
           <Button
             size="lg"
@@ -242,10 +245,10 @@ export function HomeView() {
               setJoinOpen(true);
             }}
           >
-            {t.joinWithCode}
+            {t('home.joinWithCode')}
           </Button>
           <Button size="lg" variant="ghost" block onClick={() => setScreen('leaderboard')}>
-            {t.leaderboard}
+            {t('home.leaderboard')}
           </Button>
         </div>
       </Panel>
@@ -267,7 +270,7 @@ export function HomeView() {
         />
       ) : null}
 
-      <Modal title={t.joinWithCode} open={joinOpen} onClose={() => setJoinOpen(false)}>
+      <Modal title={t('home.joinWithCode')} open={joinOpen} onClose={() => setJoinOpen(false)}>
         <form
           className="space-y-3"
           onSubmit={(event) => {
@@ -276,7 +279,7 @@ export function HomeView() {
           }}
         >
           <label htmlFor="join-pseudo" className="label block">
-            Pseudo
+            {t('home.pseudo')}
           </label>
           <input
             id="join-pseudo"
@@ -296,7 +299,7 @@ export function HomeView() {
             </p>
           ) : null}
           <label htmlFor="room-code" className="label block">
-            Room code
+            {t('home.roomCode')}
           </label>
           <input
             id="room-code"
@@ -308,6 +311,7 @@ export function HomeView() {
             onChange={(event) =>
               setCode(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))
             }
+            dir="ltr"
             className="min-h-[48px] w-full rounded-md border border-line-strong bg-bg px-3 text-center font-mono text-2xl tracking-[0.15em] text-ink"
           />
           {error ? (
@@ -317,10 +321,10 @@ export function HomeView() {
           ) : null}
           <div className="flex justify-end gap-2">
             <Button variant="ghost" onClick={() => setJoinOpen(false)}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button type="submit" loading={busy} disabled={code.length !== 6}>
-              Join
+              {t('home.join')}
             </Button>
           </div>
         </form>

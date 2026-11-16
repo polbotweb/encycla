@@ -1,11 +1,13 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { t } from '../../i18n/en';
+import { LanguageSwitcher } from '../../i18n/LanguageSwitcher';
+import { useTranslation } from '../../i18n';
 import { useGameStore } from '../../store/gameStore';
 import { useUiStore } from '../../store/uiStore';
 import { unlockAudio } from '../../lib/audio';
 import { SoundOffIcon, SoundOnIcon } from '../ui/Icons';
 
 export function AppHeader() {
+  const { t } = useTranslation();
   const muted = useUiStore((state) => state.muted);
   const toggleMuted = useUiStore((state) => state.toggleMuted);
   const connection = useGameStore((state) => state.connection);
@@ -18,21 +20,24 @@ export function AppHeader() {
         : 'bg-warning anim-pulse';
   const label =
     connection === 'connected'
-      ? 'Connected'
+      ? t('connection.connected')
       : connection === 'offline'
-        ? 'Offline'
-        : t.reconnecting;
+        ? t('connection.offline')
+        : t('connection.reconnecting');
   return (
-    <header className="flex items-center justify-between gap-4 border-b border-line px-4 py-3">
+    <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-line px-4 py-3">
       <button
         type="button"
         onClick={() => setScreen('home')}
         className="min-h-[44px] font-serif text-3xl font-bold tracking-tight"
-        aria-label="Encycla home"
+        aria-label={t('app.homeAria')}
+        lang="en"
+        dir="ltr"
       >
-        {t.wordmark}
+        {t('app.wordmark')}
       </button>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <LanguageSwitcher />
         <button
           type="button"
           onClick={() => {
@@ -40,7 +45,7 @@ export function AppHeader() {
             toggleMuted();
           }}
           aria-pressed={muted}
-          aria-label={muted ? 'Sound off. Turn sound on' : 'Sound on. Turn sound off'}
+          aria-label={muted ? t('audio.off') : t('audio.on')}
           className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md text-ink-2 hover:bg-raised hover:text-ink"
         >
           {muted ? <SoundOffIcon /> : <SoundOnIcon />}

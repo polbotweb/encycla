@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { t } from '../../i18n/en';
+import { useTranslation, type MessageKey } from '../../i18n';
 import { gameActions } from '../../lib/realtime';
 import { useMe } from '../../lib/useMe';
 import { useGameStore } from '../../store/gameStore';
@@ -8,6 +8,7 @@ import { Banner } from '../ui/Banner';
 import { Button } from '../ui/Button';
 
 export function ConnectionBanner() {
+  const { t } = useTranslation();
   const connection = useGameStore((state) => state.connection);
   const replaced = useGameStore((state) => state.replaced);
   const protocolMismatch = useGameStore((state) => state.protocolMismatch);
@@ -38,11 +39,11 @@ export function ConnectionBanner() {
         variant="error"
         action={
           <Button size="sm" onClick={() => window.location.reload()}>
-            Reload
+            {t('banner.reload')}
           </Button>
         }
       >
-        This page is out of date. Reload.
+        {t('banner.outdated')}
       </Banner>
     );
   }
@@ -59,11 +60,11 @@ export function ConnectionBanner() {
               window.location.reload();
             }}
           >
-            New session
+            {t('banner.newSession')}
           </Button>
         }
       >
-        Your session expired. Start a new one.
+        {t('banner.sessionExpired')}
       </Banner>
     );
   }
@@ -73,26 +74,29 @@ export function ConnectionBanner() {
         variant="warning"
         action={
           <Button size="sm" onClick={() => window.location.reload()}>
-            Use this tab
+            {t('banner.useThisTab')}
           </Button>
         }
       >
-        This session is open in another tab or window.
+        {t('banner.otherTab')}
       </Banner>
     );
   }
   if (hasSession && connection === 'reconnecting') {
     return (
-      <Banner variant="warning">{lost ? 'Connection lost. Reconnecting…' : t.reconnecting}</Banner>
+      <Banner variant="warning">
+        {lost ? t('connection.lost') : t('connection.reconnecting')}
+      </Banner>
     );
   }
   if (showConnected) {
-    return <Banner variant="success">Connected</Banner>;
+    return <Banner variant="success">{t('connection.connected')}</Banner>;
   }
   return null;
 }
 
 export function PausedBanner() {
+  const { t } = useTranslation();
   const { room, paused, canPause } = useMe();
   if (!room || !paused) return null;
   return (
@@ -101,38 +105,40 @@ export function PausedBanner() {
       action={
         canPause ? (
           <Button size="sm" onClick={() => void gameActions.resume().catch(() => undefined)}>
-            {t.resume}
+            {t('common.resume')}
           </Button>
         ) : undefined
       }
     >
-      {t.paused}
-      {canPause && !room.isTikTok ? ' · Auto-resume in 120 s' : ''}
+      {t('banner.paused')}
+      {canPause && !room.isTikTok ? ` · ${t('banner.autoResume', { seconds: 120 })}` : ''}
     </Banner>
   );
 }
 
 export function ClosedView() {
+  const { t } = useTranslation();
   const reason = useGameStore((state) => state.closedReason);
   const leaveLocal = useGameStore((state) => state.leaveRoomLocal);
-  const messages: Record<string, string> = {
-    HOST_CLOSED: 'The host closed the room.',
-    ADMIN_CLOSED: 'An administrator closed the room.',
-    MATCH_CANCELLED: 'The match was cancelled.',
-    NO_PLAYERS: 'The room closed because nobody is left.',
-    SERVER_RESTART: 'The server restarted. Your match was ended.',
-    MATCH_OVER_TIMEOUT: 'The room has closed.',
-  };
+  const reasonKey = `closed.${reason ?? ''}` as MessageKey;
+  const known = [
+    'HOST_CLOSED',
+    'ADMIN_CLOSED',
+    'MATCH_CANCELLED',
+    'NO_PLAYERS',
+    'SERVER_RESTART',
+    'MATCH_OVER_TIMEOUT',
+  ];
   return (
     <main className="mx-auto flex min-h-[60dvh] w-full max-w-xl flex-col items-center justify-center gap-4 p-4 text-center">
       <h1 tabIndex={-1} className="text-3xl outline-none">
-        {t.roomClosed}
+        {t('closed.title')}
       </h1>
       <p className="text-ink-2" role="status">
-        {messages[reason ?? ''] ?? 'This room is closed.'}
+        {reason && known.includes(reason) ? t(reasonKey) : t('closed.default')}
       </p>
       <Button size="lg" onClick={leaveLocal}>
-        {t.backHome}
+        {t('common.backHome')}
       </Button>
     </main>
   );

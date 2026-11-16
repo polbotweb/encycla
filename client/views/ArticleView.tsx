@@ -4,7 +4,8 @@ import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
 import { ImageCredit, ImageFrame } from '../components/ui/ImageFrame';
 import { LeaveButton } from '../components/game/LeaveControls';
-import { errorMessage, t } from '../i18n/en';
+import { LANGUAGE_NAMES } from '../../shared/languages';
+import { errorMessage, useTranslation } from '../i18n';
 import { ApiClientError } from '../lib/api';
 import { formatSeconds } from '../lib/format';
 import { gameActions } from '../lib/realtime';
@@ -13,6 +14,7 @@ import { useRemaining } from '../lib/useRemaining';
 import { useGameStore } from '../store/gameStore';
 
 export function ArticleView() {
+  const { t } = useTranslation();
   const { room, me, canSkip, paused } = useMe();
   const clockOffset = useGameStore((state) => state.clockOffset);
   const remaining = useRemaining(room, clockOffset);
@@ -69,24 +71,39 @@ export function ArticleView() {
     <main className="mx-auto w-full max-w-shell space-y-4 p-4 lg:p-8">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="label" aria-live="polite">
-          {t.article} · {remaining === null ? '' : `${formatSeconds(remaining)} s remaining`}
+          {t('article.title')}
+          {remaining === null
+            ? ''
+            : ` · ${t('article.remaining', { seconds: formatSeconds(remaining) })}`}
         </p>
         <LeaveButton />
       </div>
       <div className="grid gap-6 md:grid-cols-[2fr_3fr]">
         <div className="space-y-2">
-          <ImageFrame image={reveal.image} className="h-56 md:h-80" />
-          <ImageCredit image={reveal.image} />
+          <ImageFrame image={reveal.image} language={room.language} className="h-56 md:h-80" />
+          <ImageCredit image={reveal.image} language={room.language} />
         </div>
-        <div className="max-h-[60dvh] overflow-y-auto pr-2">
-          <ArticleBody ref={articleRef} title={reveal.articleTitle} body={reveal.articleBody} />
+        <div className="max-h-[60dvh] overflow-y-auto pe-2">
+          <ArticleBody
+            ref={articleRef}
+            title={reveal.articleTitle}
+            body={reveal.articleBody}
+            language={reveal.textLanguage}
+          />
+          {reveal.textLanguage !== room.language ? (
+            <p className="mt-3 text-sm text-ink-2" data-testid="article-fallback-notice">
+              {t('article.fallbackNotice', { language: LANGUAGE_NAMES[reveal.textLanguage] })}
+            </p>
+          ) : null}
         </div>
       </div>
       {error ? <Banner variant="error">{error}</Banner> : null}
       <div className="flex flex-wrap items-center gap-3 border-t border-line pt-4">
         {room.isTikTok ? (
           <p className="text-ink-2" role="status">
-            Auto-continue in {remaining === null ? 8 : formatSeconds(remaining)}s
+            {t('article.autoContinue', {
+              seconds: remaining === null ? 8 : formatSeconds(remaining),
+            })}
           </p>
         ) : (
           <>
@@ -95,9 +112,11 @@ export function ArticleView() {
               disabled={!canContinue || waiting}
               onClick={() => phaseToken && void send(phaseToken)}
             >
-              {waiting ? 'Waiting for other players…' : t.continue}
+              {waiting ? t('common.waitingOthers') : t('common.continue')}
             </Button>
-            <span className="text-sm text-ink-2">{connectedPlayers} connected</span>
+            <span className="text-sm text-ink-2">
+              {t('article.connected', { count: connectedPlayers })}
+            </span>
           </>
         )}
         {canSkip ? (
@@ -105,7 +124,7 @@ export function ArticleView() {
             variant="secondary"
             onClick={() => void gameActions.skip().catch(() => undefined)}
           >
-            Skip for everyone
+            {t('common.skipForEveryone')}
           </Button>
         ) : null}
       </div>

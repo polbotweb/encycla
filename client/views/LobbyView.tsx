@@ -4,12 +4,14 @@ import { Panel, ViewTitle } from '../components/game/Shell';
 import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
 import { PlayerChip } from '../components/ui/PlayerChip';
-import { errorMessage, t } from '../i18n/en';
+import { LANGUAGE_NAMES } from '../../shared/languages';
+import { errorMessage, labelFor, useTranslation } from '../i18n';
 import { ApiClientError } from '../lib/api';
 import { gameActions } from '../lib/realtime';
 import { useMe } from '../lib/useMe';
 
 export function LobbyView() {
+  const { t } = useTranslation();
   const { room, me, isHost, playerId } = useMe();
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -38,17 +40,18 @@ export function LobbyView() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setError('Copy failed. Select the code and copy it manually.');
+      setError(t('common.copyFailed'));
     }
   }
 
   const modeLine = [
-    room.mode,
-    room.category,
-    room.difficulty,
-    `${room.totalLevels} ${room.totalLevels === 1 ? 'level' : 'levels'}`,
-    `${room.questionsPerLevel} questions per level`,
-    `${total} total`,
+    labelFor('mode', room.mode),
+    room.category ? labelFor('category', room.category) : null,
+    room.difficulty ? labelFor('difficulty', room.difficulty) : null,
+    t('lobby.levels', { count: room.totalLevels }),
+    t('lobby.perLevel', { count: room.questionsPerLevel }),
+    t('lobby.total', { count: total }),
+    t('lobby.language', { language: LANGUAGE_NAMES[room.language] }),
   ]
     .filter(Boolean)
     .join(' · ');
@@ -56,24 +59,28 @@ export function LobbyView() {
   return (
     <main className="mx-auto w-full max-w-shell space-y-4 p-4 lg:p-8">
       <Panel className="space-y-2">
-        <p className="label">{room.isPublic ? 'Public match' : 'Private room'}</p>
+        <p className="label">{room.isPublic ? t('lobby.public') : t('lobby.private')}</p>
         <ViewTitle>
-          Room{' '}
-          <span className="select-all font-mono tracking-[0.15em]" data-testid="room-code">
+          {t('lobby.room')}{' '}
+          <span
+            className="select-all font-mono tracking-[0.15em]"
+            data-testid="room-code"
+            dir="ltr"
+          >
             {room.roomCode}
           </span>
         </ViewTitle>
         <p className="text-ink-2">{modeLine}</p>
         {!room.isPublic ? (
           <Button variant="secondary" size="sm" onClick={() => void copy()}>
-            {copied ? t.copied : t.copyCode}
+            {copied ? t('common.copied') : t('common.copyCode')}
           </Button>
         ) : null}
       </Panel>
 
       <Panel>
         <h2 className="mb-3 text-xl">
-          Players ({room.players.length}/{room.settings.maxPlayers})
+          {t('lobby.players', { count: room.players.length, max: room.settings.maxPlayers })}
         </h2>
         <ul className="grid gap-2 md:grid-cols-2">
           {room.players.map((player) => (
@@ -87,7 +94,7 @@ export function LobbyView() {
       <Panel className="flex flex-wrap items-center gap-3">
         {room.isPublic ? (
           <p className="flex-1 text-ink-2" role="status">
-            {room.players.length < 2 ? t.waiting : t.startingAuto}
+            {room.players.length < 2 ? t('lobby.waiting') : t('lobby.startingAuto')}
           </p>
         ) : (
           <>
@@ -97,7 +104,7 @@ export function LobbyView() {
               onClick={() => void run(() => gameActions.setReady(!me?.isReady))}
               aria-pressed={me?.isReady ?? false}
             >
-              {me?.isReady ? t.notReady : t.ready}
+              {me?.isReady ? t('lobby.notReady') : t('lobby.ready')}
             </Button>
             {isHost ? (
               <Button
@@ -106,23 +113,21 @@ export function LobbyView() {
                 loading={busy}
                 onClick={() => void run(() => gameActions.start())}
               >
-                {t.start}
+                {t('lobby.start')}
               </Button>
             ) : (
               <span className="text-ink-2" role="status">
-                {t.waitingForHost}
+                {t('lobby.waitingForHost')}
               </span>
             )}
             {isHost && !allReady ? (
               <span className="text-sm text-ink-2">
-                {connected.length < 2
-                  ? 'At least 2 players are required.'
-                  : 'Every player must be ready.'}
+                {connected.length < 2 ? t('lobby.needTwo') : t('lobby.needReady')}
               </span>
             ) : null}
           </>
         )}
-        <span className="ml-auto">
+        <span className="ms-auto">
           <LeaveButton />
         </span>
       </Panel>
