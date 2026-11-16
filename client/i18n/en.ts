@@ -74,7 +74,7 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   PROPOSAL_NOT_FOUND: 'That proposal is no longer available.',
   PROPOSAL_EXPIRED: 'The vote is over.',
   CATEGORY_INSUFFICIENT_QUESTIONS:
-    'This category needs at least 20 questions. Choose another category.',
+    'This category does not have enough questions yet. Choose another category.',
   TIKTOK_DISABLED: 'TikTok mode is disabled.',
   TIKTOK_NOT_CONNECTED: 'Chat is not connected. Start the connector.',
   PERSISTENCE_DISABLED: 'Leaderboard is temporarily unavailable.',

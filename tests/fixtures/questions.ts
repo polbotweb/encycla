@@ -1,12 +1,18 @@
-import { CATEGORY_VALUES, type QuestionCategory, type QuestionRecord } from '../../shared/schemas';
+import {
+  CATEGORY_VALUES,
+  MIN_QUESTIONS_PER_CATEGORY,
+  type QuestionCategory,
+  type QuestionRecord,
+} from '../../shared/schemas';
 import type { QuestionProvider } from '../../server/game/types';
 
 const CATEGORY_COUNTS: Record<QuestionCategory, number> = Object.fromEntries(
   CATEGORY_VALUES.map((category) => [category, 10]),
 ) as Record<QuestionCategory, number>;
 
-CATEGORY_COUNTS.Fauna = 20;
-CATEGORY_COUNTS.Flora = 20;
+// Exactly enough for SUBJECT in Fauna and Flora; every other category stays below the threshold.
+CATEGORY_COUNTS.Fauna = MIN_QUESTIONS_PER_CATEGORY;
+CATEGORY_COUNTS.Flora = MIN_QUESTIONS_PER_CATEGORY;
 
 function slug(value: string): string {
   return value

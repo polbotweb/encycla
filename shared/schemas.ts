@@ -21,6 +21,12 @@ export const CATEGORY_VALUES = [
   'Science',
 ] as const;
 
+/** SUBJECT mode is only offered for a category with at least this many approved questions. */
+export const MIN_QUESTIONS_PER_CATEGORY = 100;
+
+/** Image licences accepted for questions (normalised names, see scripts/wikimedia/licenses.ts). */
+export const ALLOWED_IMAGE_LICENSE_PATTERN = /^(CC0 1\.0|Public domain|CC BY(?:-SA)? \d\.\d)$/;
+
 export const ALLOWED_IMAGE_HOSTS = ['upload.wikimedia.org', 'commons.wikimedia.org'] as const;
 
 export const categorySchema = z.enum(CATEGORY_VALUES);
@@ -55,6 +61,21 @@ export const questionImageSchema = z.object({
   credit: safeText(1, 200),
   license: safeText(1, 200),
   sourceUrl: httpsUrl,
+  /** Plain-text author of the image, as required by CC BY / CC BY-SA attribution. */
+  author: safeText(1, 200).optional(),
+});
+
+/** Where the question content comes from: a precise revision of a Wikipedia article. */
+export const questionSourceSchema = z.object({
+  /** Permalink of the article revision (…/w/index.php?title=…&oldid=…). */
+  url: httpsUrl,
+  revisionId: z.number().int().positive(),
+  language: z.string().regex(/^[a-z]{2,3}$/),
+  /** Licence of the article text (Wikipedia text is CC BY-SA). */
+  license: safeText(1, 60),
+  retrievedAt: z
+    .string()
+    .refine((value) => !Number.isNaN(Date.parse(value)), 'retrievedAt must be an ISO date'),
 });
 
 export const questionSchema = z
@@ -73,6 +94,7 @@ export const questionSchema = z
     articleTitle: safeText(1, 120),
     articleBody: safeText(20, 5000),
     image: questionImageSchema.optional(),
+    source: questionSourceSchema.optional(),
   })
   .superRefine((question, context) => {
     const normalizedOptions = question.options.map((option) =>
@@ -97,6 +119,7 @@ export const questionBankSchema = z.object({
 });
 
 export type QuestionCategory = (typeof CATEGORY_VALUES)[number];
+export type QuestionSource = z.infer<typeof questionSourceSchema>;
 export type QuestionImage = z.infer<typeof questionImageSchema>;
 export type QuestionRecord = z.infer<typeof questionSchema>;
 export type QuestionBank = z.infer<typeof questionBankSchema>;

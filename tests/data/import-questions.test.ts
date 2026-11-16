@@ -20,6 +20,12 @@ const QUESTION_TABLE_SQL = `
     image_credit     TEXT,
     image_license    TEXT,
     image_source_url TEXT,
+    image_author     TEXT,
+    source_url       TEXT,
+    source_revision  INTEGER,
+    source_language  TEXT,
+    source_license   TEXT,
+    source_retrieved_at TEXT,
     content_hash     TEXT NOT NULL UNIQUE,
     imported_at      INTEGER NOT NULL,
     updated_at       INTEGER NOT NULL
@@ -40,8 +46,16 @@ const question = (id: string, subject: string): QuestionRecord => ({
     url: 'https://upload.wikimedia.org/example.jpg',
     alt: `${subject} image`,
     credit: 'Wikimedia Commons',
-    license: 'See source file',
-    sourceUrl: 'https://upload.wikimedia.org/example.jpg',
+    license: 'CC BY-SA 4.0',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Example.jpg',
+    author: 'Example Author',
+  },
+  source: {
+    url: `https://fr.wikipedia.org/w/index.php?title=${subject}&oldid=1`,
+    revisionId: 1,
+    language: 'fr',
+    license: 'CC BY-SA 4.0',
+    retrievedAt: '2026-11-16T09:00:00.000Z',
   },
 });
 
@@ -92,5 +106,27 @@ describe('syncQuestions', () => {
     expect(() => syncQuestions(db, [first, duplicate], 2_000)).toThrow();
 
     expect(db.prepare('SELECT COUNT(*) AS count FROM questions').get()).toEqual({ count: 1 });
+  });
+});
+
+describe('syncQuestions provenance', () => {
+  it('stores the Wikipedia revision and the image author', () => {
+    const db = new Database(':memory:');
+    db.exec(QUESTION_TABLE_SQL);
+    syncQuestions(db, [question('fauna-lion-01', 'Lion')], 1_000);
+
+    expect(
+      db
+        .prepare(
+          'SELECT image_author, source_revision, source_language, source_license FROM questions',
+        )
+        .get(),
+    ).toEqual({
+      image_author: 'Example Author',
+      source_revision: 1,
+      source_language: 'fr',
+      source_license: 'CC BY-SA 4.0',
+    });
+    db.close();
   });
 });

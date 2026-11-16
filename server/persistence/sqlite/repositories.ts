@@ -53,6 +53,12 @@ interface QuestionRow {
   image_credit: string | null;
   image_license: string | null;
   image_source_url: string | null;
+  image_author: string | null;
+  source_url: string | null;
+  source_revision: number | null;
+  source_language: string | null;
+  source_license: string | null;
+  source_retrieved_at: string | null;
 }
 
 function mapPlayer(row: PlayerRow): PlayerRecord {
@@ -128,6 +134,22 @@ function mapQuestion(row: QuestionRow): QuestionRecord {
       credit: row.image_credit ?? '',
       license: row.image_license ?? '',
       sourceUrl: row.image_source_url ?? row.image_url,
+      ...(row.image_author !== null ? { author: row.image_author } : {}),
+    };
+  }
+
+  if (
+    row.source_url !== null &&
+    row.source_revision !== null &&
+    row.source_language !== null &&
+    row.source_retrieved_at !== null
+  ) {
+    question.source = {
+      url: row.source_url,
+      revisionId: row.source_revision,
+      language: row.source_language,
+      license: row.source_license ?? 'CC BY-SA 4.0',
+      retrievedAt: row.source_retrieved_at,
     };
   }
 

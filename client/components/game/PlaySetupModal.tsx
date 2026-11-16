@@ -118,7 +118,7 @@ export function PlaySetupModal({
               </select>
               {!anySubject ? (
                 <p className="mt-2 text-sm text-ink-2">
-                  SUBJECT is not available yet: no category has the 20 questions it needs.
+                  SUBJECT is not available yet: no category has enough questions.
                 </p>
               ) : null}
             </div>

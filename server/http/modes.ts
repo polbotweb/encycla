@@ -1,9 +1,13 @@
 import { z } from 'zod';
-import { CATEGORY_VALUES, type QuestionRecord } from '../../shared/schemas';
+import {
+  CATEGORY_VALUES,
+  MIN_QUESTIONS_PER_CATEGORY,
+  type QuestionRecord,
+} from '../../shared/schemas';
 import type { Difficulty, GameMode } from '../../shared/types';
 import { AppError } from './errors';
 
-export const MIN_QUESTIONS_PER_CATEGORY = 20;
+export { MIN_QUESTIONS_PER_CATEGORY };
 
 const modeSchema = z.enum(['CLASSIC', 'SUBJECT', 'CONTEST']);
 const difficultySchema = z.enum(['Novice', 'Adventurer', 'Wizard']);
