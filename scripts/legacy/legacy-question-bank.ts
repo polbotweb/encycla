@@ -1,5 +1,5 @@
 
-import { Category, Difficulty, QuestionData } from "../types";
+import { Category, Difficulty, QuestionData } from "./legacy-types";
 
 // --- IMAGES RÉELLES (PHOTOS) STOCKÉES COMME CONSTANTES ---
 // Ces URLs pointent vers Wikimedia Commons (haute fiabilité).

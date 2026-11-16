@@ -2,10 +2,10 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as prettier from 'prettier';
-import { GENERAL_POOL, TRIVIA_DATABASE } from '../services/geminiService';
+import { GENERAL_POOL, TRIVIA_DATABASE } from './legacy/legacy-question-bank';
 import { CATEGORY_VALUES, type QuestionCategory, type QuestionRecord } from '../shared/schemas';
 import { computeContentHash, normalizeContent } from '../shared/question-bank';
-import type { QuestionData } from '../types';
+import type { QuestionData } from './legacy/legacy-types';
 
 const OUTPUT_PATH = resolve('data/questions.extracted.json');
 

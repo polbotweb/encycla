@@ -1,0 +1,61 @@
+@keyframes encycla-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes encycla-shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes encycla-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.anim-fade {
+  animation: encycla-fade var(--motion-base) var(--ease) both;
+}
+
+.anim-shake {
+  animation: encycla-shake 0.4s var(--ease) both;
+}
+
+.anim-pulse {
+  animation: encycla-pulse 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade,
+  .anim-shake,
+  .anim-pulse {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

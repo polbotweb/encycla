@@ -1,0 +1,27 @@
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-raised: #263449;
+  --border: #334155;
+  --border-strong: #475569;
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --accent: #60a5fa;
+  --success: #34d399;
+  --danger: #fb7185;
+  --warning: #fbbf24;
+  --on-accent: #0f172a;
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --motion-slow: 240ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: #94a3b8;
+    --border-strong: #f8fafc;
+    --surface-raised: #1e293b;
+  }
+}

@@ -67,7 +67,25 @@ export function createApp(options: AppOptions = {}): Express {
   if (options.trustProxy !== undefined) {
     app.set('trust proxy', options.trustProxy);
   }
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'default-src': ["'self'"],
+          'script-src': ["'self'"],
+          'style-src': ["'self'"],
+          'font-src': ["'self'"],
+          'img-src': ["'self'", 'https://upload.wikimedia.org', 'https://commons.wikimedia.org'],
+          'connect-src': ["'self'"],
+          'object-src': ["'none'"],
+          'base-uri': ["'self'"],
+          'frame-ancestors': ["'none'"],
+          'form-action': ["'self'"],
+        },
+      },
+    }),
+  );
   app.use(express.json({ limit: '16kb' }));
 
   if (rateLimit) {
