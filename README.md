@@ -90,7 +90,7 @@ La documentation est la référence d'implémentation. Aucune décision ouverte 
 | Document | Contenu |
 | --- | --- |
 | [docs/ADR.md](docs/ADR.md) | 18 décisions d'architecture binding. |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | 109 décisions explicites et dettes assumées. |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | 110 décisions explicites et dettes assumées. |
 | [docs/SPECIFICATION.md](docs/SPECIFICATION.md) | Règles, modes, phases, scores, matchmaking, TikTok. |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Contrat HTTP, Socket.io, payloads, erreurs. |
 | [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Schéma SQLite, JSON des questions, leaderboard. |
@@ -280,7 +280,7 @@ Voir [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
 - Choix : sélecteur dans l'en-tête, mémorisé dans `localStorage` (`encycla.lang.v1`) et dans l'URL (`?lang=ar`) ; le paramètre d'URL l'emporte. La langue du navigateur n'est pas utilisée.
 - Les questions sont affichées dans la **langue de la room** (« Langue des questions » à la création, par défaut la langue de l'interface). Le matchmaking public apparie les joueurs de la même langue. Chaque joueur garde son interface dans sa langue.
 - Traductions des questions (D-108) : le nom de l'article Wikipédia ou le libellé Wikidata de la langue ; sinon, pour un être vivant, son **nom scientifique** (italique, de gauche à droite) ; sinon le **nom d'origine** de l'élément ; sinon la question n'est pas proposée dans cette langue. Jamais de français par défaut, **toujours signalé** (`translations.<langue>.provenance`). Rien n'est inventé ; `pnpm run data:validate` affiche le nombre de réponses par origine.
-- Banque actuelle : anglais 2 596 questions (9 non proposées), arabe 2 554 (51 non proposées ; réponses : 138 noms scientifiques, 82 noms d'origine ; 438 articles d'une autre Wikipédia, surtout l'anglais). Un nom d'origine trop long dans une autre écriture est remplacé par une forme réelle plus courte (D-109).
+- Banque actuelle : anglais 2 596 questions (9 non proposées), arabe 2 553 (52 non proposées ; réponses : 138 noms scientifiques, 81 noms d'origine ; 437 articles d'une autre Wikipédia, surtout l'anglais). Un nom d'origine trop long dans une autre écriture est remplacé par une forme réelle plus courte (D-109).
 - TikTok : les spectateurs répondent toujours par A, B, C ou D, quelle que soit la langue.
 - Décisions : [D-84 à D-95](docs/DECISIONS.md). Interface et RTL : [docs/UI-UX.md §20](docs/UI-UX.md).
 

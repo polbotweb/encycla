@@ -119,6 +119,17 @@ describe('question bank', () => {
           expect(label, question.id).toMatch(/^[\p{Script=Latin}\p{N}\p{P}\p{Zs}\p{M}]+$/u);
       });
     }
+    // D-110: no class designation as an original name (the transverse flute has no Arabic name).
+    const flute = (await loadQuestions()).find(
+      (question) => question.id === 'music-flute-traversiere',
+    );
+    expect(flute?.translations?.ar).toBeUndefined();
+    expect(flute?.unavailable?.ar).toBeDefined();
+    for (const question of await loadQuestions()) {
+      expect(question.translations?.ar?.options ?? [], question.id).not.toContain(
+        'Side-blown flutes',
+      );
+    }
     const watArun = (await loadQuestions()).find(
       (question) => question.id === 'architecture-wat-arun',
     );

@@ -9,6 +9,7 @@ import {
   nativeChoice,
   resolveOptions,
   scientificChoice,
+  trustedNativeNames,
   type LabelChoice,
   type NameForms,
   type OptionInput,
@@ -133,6 +134,45 @@ describe('long original names (D-109)', () => {
     // English rooms never get the English label as an "original" name.
     const long = forms({ nativeNames: [{ text: thai, lang: 'th' }], englishLabel: 'Wat Arun' });
     expect(nativeChoice(long, 'en')?.lang).toBe('th');
+  });
+});
+
+describe('native-name guard (D-110)', () => {
+  it('ignores class designations given as official names of a kind of thing', () => {
+    const flute = forms({
+      isClass: true,
+      nativeNames: [
+        { text: 'Side-blown flutes', lang: 'en', property: 'P1448' },
+        { text: 'Flauti traversi', lang: 'it', property: 'P1448' },
+      ],
+    });
+    expect(trustedNativeNames(flute)).toEqual([]);
+    expect(nativeChoice(flute, 'ar')).toBeNull();
+    const bouzouki = forms({
+      isClass: true,
+      nativeNames: [{ text: 'Μπουζούκι', lang: 'el', property: 'P1705' }],
+    });
+    expect(nativeChoice(bouzouki, 'ar')).toEqual({
+      label: 'Μπουζούκι',
+      origin: 'native-name',
+      lang: 'el',
+    });
+  });
+
+  it('keeps only names in the original languages, and never a plural of the own label', () => {
+    const basilica = forms({
+      originLanguages: ['fr'],
+      originLabels: { fr: 'basilique Saint-Sernin de Toulouse' },
+      nativeNames: [{ text: 'Basilica de Sant Sarnin', lang: 'oc', property: 'P1705' }],
+    });
+    expect(nativeChoice(basilica, 'ar')?.label).toBe('Basilique Saint-Sernin de Toulouse');
+    const plural = forms({
+      originLanguages: ['de'],
+      originLabels: { de: 'Flöte' },
+      nativeNames: [{ text: 'Flötes', lang: 'de', property: 'P1705' }],
+    });
+    expect(trustedNativeNames(plural)).toEqual([]);
+    expect(nativeChoice(plural, 'ar')?.label).toBe('Flöte');
   });
 });
 
