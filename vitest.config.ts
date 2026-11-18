@@ -10,7 +10,13 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'lcov'],
       include: ['server/**/*.ts', 'shared/**/*.ts', 'client/**/*.{ts,tsx}'],
-      exclude: ['server/index.ts'],
+      exclude: ['server/index.ts', 'client/main.tsx'],
+      // Blocking thresholds from docs/TESTING.md §13.
+      thresholds: {
+        'server/game/**': { branches: 95, lines: 95, functions: 95 },
+        'server/**': { branches: 80, lines: 80, functions: 80 },
+        'client/**': { branches: 70, lines: 70, functions: 70 },
+      },
     },
   },
 });
