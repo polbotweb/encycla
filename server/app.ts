@@ -16,6 +16,7 @@ import type { TikTokPort } from './tiktok/service';
 import { RoomManager } from './rooms/RoomManager';
 import { FixedWindowLimiter, httpRateLimit } from './security/rateLimit';
 import { SessionService } from './services/session-service';
+import { ImageService } from './images/service';
 
 export interface AppOptions {
   persistence?: Persistence;
@@ -35,6 +36,8 @@ export interface AppOptions {
   staticDir?: string | null;
   rateLimit?: boolean;
   trustProxy?: boolean | number | string;
+  /** Same-origin image proxy (D-107); also the `publicView` of the default room manager. */
+  images?: ImageService;
 }
 
 const NOT_CONNECTED: PresencePort = { isConnected: () => false };
@@ -53,10 +56,14 @@ export function createApp(options: AppOptions = {}): Express {
       persistence,
       ...(options.now === undefined ? {} : { now: options.now }),
     });
+  const rateLimit = options.rateLimit ?? true;
+  const images =
+    options.images ?? new ImageService({ now, rateLimitPerMinute: rateLimit ? 300 : null });
   const manager =
     options.manager ??
     new RoomManager({
       persistence,
+      publicView: images.publicView,
       deps: {
         now,
         random: Math.random,
@@ -64,7 +71,6 @@ export function createApp(options: AppOptions = {}): Express {
         questions: { getQuestions: () => questionList },
       },
     });
-  const rateLimit = options.rateLimit ?? true;
 
   app.disable('x-powered-by');
   if (options.trustProxy !== undefined) {
@@ -79,7 +85,7 @@ export function createApp(options: AppOptions = {}): Express {
           'script-src': ["'self'"],
           'style-src': ["'self'"],
           'font-src': ["'self'"],
-          'img-src': ["'self'", 'https://upload.wikimedia.org', 'https://commons.wikimedia.org'],
+          'img-src': ["'self'"],
           'connect-src': ["'self'"],
           'object-src': ["'none'"],
           'base-uri': ["'self'"],
@@ -103,6 +109,7 @@ export function createApp(options: AppOptions = {}): Express {
     app.post('/api/sessions', httpRateLimit(new FixedWindowLimiter(10, 60_000, now)));
   }
 
+  app.use(images.router());
   app.use('/api', createSessionsRouter(sessions));
   app.use(
     '/api',

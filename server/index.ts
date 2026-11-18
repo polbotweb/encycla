@@ -79,6 +79,8 @@ async function main(): Promise<void> {
     staticDir: config.staticDir,
     trustProxy: config.trustProxy,
     rateLimit: config.rateLimit,
+    imageCacheDir: config.imageCacheDir,
+    imageCacheMaxBytes: config.imageCacheMaxBytes,
     logger: createLogger(parseLogLevel(config.logLevel)),
     allowedOrigin: config.publicOrigin,
     tiktokAdapterFactory:

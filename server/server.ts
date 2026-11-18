@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import type { Express } from 'express';
 import type { QuestionRecord } from '../shared/schemas';
 import { createApp, type AppOptions } from './app';
+import { ImageService } from './images/service';
 import { QueueManager } from './matchmaking/QueueManager';
 import { Gateway } from './realtime/gateway';
 import { RoomManager, type RoomEmitter } from './rooms/RoomManager';
@@ -18,6 +19,9 @@ export interface GameServerOptions extends Omit<
   AppOptions,
   'manager' | 'sessions' | 'presence' | 'queue' | 'tiktok'
 > {
+  /** Disk cache of proxied images (`IMAGE_CACHE_DIR`); null keeps them in memory only. */
+  imageCacheDir?: string | null;
+  imageCacheMaxBytes?: number;
   questionList: readonly QuestionRecord[];
   logger?: Logger;
   random?: () => number;
@@ -35,6 +39,7 @@ export interface GameServer {
   persistence: Persistence;
   roomTokens: RoomTokenRegistry;
   tiktok: TikTokService;
+  images: ImageService;
   close(): Promise<void>;
 }
 
@@ -48,6 +53,16 @@ export function createGameServer(options: GameServerOptions): GameServer {
     ...(options.now === undefined ? {} : { now: options.now }),
   });
   const roomTokens = new RoomTokenRegistry();
+  const images =
+    options.images ??
+    new ImageService({
+      now,
+      cacheDir: options.imageCacheDir ?? null,
+      rateLimitPerMinute: options.rateLimit === false ? null : 300,
+      ...(options.imageCacheMaxBytes === undefined
+        ? {}
+        : { maxDiskBytes: options.imageCacheMaxBytes }),
+    });
 
   let gateway: Gateway | null = null;
   const emitter: RoomEmitter = {
@@ -69,6 +84,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
     emitter,
     logger,
     now,
+    publicView: images.publicView,
     onRequeue: (playerIds, _code, selection) => queue?.requeue(playerIds, selection),
     deps: {
       now,
@@ -114,6 +130,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
     presence,
     queue: matchmaking,
     tiktok: tiktokService,
+    images,
   });
   const httpServer = createServer(app);
   gateway = Gateway.attach(httpServer, {
@@ -139,6 +156,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
     persistence,
     roomTokens,
     tiktok: tiktokService,
+    images,
     async close() {
       tiktokService.stop();
       matchmaking.stop();

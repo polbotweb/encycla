@@ -33,9 +33,8 @@ describe('HTTP hardening', () => {
     expect(csp).toContain("script-src 'self'");
     expect(csp).toContain("style-src 'self'");
     expect(csp).toContain("frame-ancestors 'none'");
-    expect(csp).toContain(
-      "img-src 'self' https://upload.wikimedia.org https://commons.wikimedia.org",
-    );
+    expect(csp).toContain("img-src 'self';");
+    expect(csp).not.toContain('wikimedia');
     expect(csp).not.toMatch(/unsafe-(inline|eval)/);
     expect(csp).not.toContain('data:');
     expect(response.headers.get('strict-transport-security')).toContain('max-age=');

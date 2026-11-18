@@ -19,6 +19,8 @@ describe('loadConfig', () => {
       trustProxy: false,
       rateLimit: true,
       staticDir: 'dist/client',
+      imageCacheDir: 'data/image-cache',
+      imageCacheMaxBytes: 512 * 1024 * 1024,
     });
   });
 

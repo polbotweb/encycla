@@ -48,6 +48,8 @@ export interface RoomManagerOptions {
   logger?: Logger;
   now?: () => number;
   codeFactory?: () => string;
+  /** Last projection of every snapshot before it leaves the server (image proxy, D-107). */
+  publicView?: (state: PublicRoomState) => PublicRoomState;
   /** Called when a public room is cancelled and its connected players must go back to the queue. */
   onRequeue?: (
     playerIds: string[],
@@ -125,6 +127,7 @@ export class RoomManager {
   private readonly persistence: Persistence;
   private readonly codeFactory: () => string;
   private readonly onRequeue: RoomManagerOptions['onRequeue'];
+  private readonly publicView: (state: PublicRoomState) => PublicRoomState;
   private sweeper: ReturnType<typeof setInterval> | null = null;
 
   constructor(options: RoomManagerOptions) {
@@ -135,6 +138,7 @@ export class RoomManager {
     this.engineDeps = { ...options.deps, now: this.now };
     this.codeFactory = options.codeFactory ?? (() => generateRoomCode());
     this.onRequeue = options.onRequeue;
+    this.publicView = options.publicView ?? ((state) => state);
   }
 
   // ---- lifecycle -------------------------------------------------------
@@ -172,7 +176,7 @@ export class RoomManager {
 
   getPublicState(code: string): PublicRoomState | null {
     const room = this.rooms.get(code);
-    return room ? toPublicState(room.state, this.now()) : null;
+    return room ? this.publicView(toPublicState(room.state, this.now())) : null;
   }
 
   roomCodeOf(playerId: string): string | null {
@@ -555,7 +559,10 @@ export class RoomManager {
   }
 
   private broadcast(room: Room): void {
-    this.emitter.roomState(room.state.roomCode, toPublicState(room.state, this.now()));
+    this.emitter.roomState(
+      room.state.roomCode,
+      this.publicView(toPublicState(room.state, this.now())),
+    );
   }
 
   private rearm(room: Room): void {

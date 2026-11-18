@@ -17,6 +17,9 @@ export interface ServerConfig {
   /** `RATE_LIMIT=off`: load tests only, refused in production. */
   rateLimit: boolean;
   staticDir: string;
+  /** Disk cache of proxied Commons images (D-107); empty `IMAGE_CACHE_DIR` = memory only. */
+  imageCacheDir: string | null;
+  imageCacheMaxBytes: number;
 }
 
 function parsePort(value: string | undefined): number {
@@ -25,6 +28,14 @@ function parsePort(value: string | undefined): number {
     throw new Error(`Invalid PORT: ${value}`);
   }
   return port;
+}
+
+function parseCacheMegabytes(value: string | undefined): number {
+  const megabytes = Number(value?.trim() || '512');
+  if (!Number.isInteger(megabytes) || megabytes < 1 || megabytes > 100_000) {
+    throw new Error(`Invalid IMAGE_CACHE_MAX_MB: ${value}`);
+  }
+  return megabytes;
 }
 
 /**
@@ -97,6 +108,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     trustProxy: parseTrustProxy(env.TRUST_PROXY),
     rateLimit: env.RATE_LIMIT !== 'off',
     staticDir: env.STATIC_DIR ?? 'dist/client',
+    imageCacheDir:
+      env.IMAGE_CACHE_DIR === undefined ? 'data/image-cache' : env.IMAGE_CACHE_DIR.trim() || null,
+    imageCacheMaxBytes: parseCacheMegabytes(env.IMAGE_CACHE_MAX_MB) * 1024 * 1024,
   };
 }
 

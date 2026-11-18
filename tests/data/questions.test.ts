@@ -1,3 +1,4 @@
+import { isProxyableImage } from '../../server/images/upstream';
 import { readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 import { loadQuestionBank } from '../../shared/question-bank';
@@ -47,6 +48,8 @@ describe('question bank', () => {
         /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/,
       );
       expect(question.image?.url, question.id).toMatch(/^https:\/\/upload\.wikimedia\.org\//);
+      // Served through the same-origin proxy (D-107): it must accept every bank file.
+      expect(isProxyableImage(question.image?.url ?? ''), question.id).toBe(true);
     }
   });
 
