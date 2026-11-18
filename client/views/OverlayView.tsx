@@ -3,6 +3,7 @@ import type { PublicRoomState } from '../../shared/types';
 import { Avatar } from '../components/ui/Avatar';
 import { CheckIcon } from '../components/ui/Icons';
 import { ImageFrame } from '../components/ui/ImageFrame';
+import { Logo } from '../components/ui/Logo';
 import { Term, TextWithTerm } from '../components/ui/Term';
 import { contentAttributes, translate, useTranslation } from '../i18n';
 import { OPTION_LETTERS, formatSeconds, truncate } from '../lib/format';
@@ -95,8 +96,10 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
   return (
     <main className="min-h-dvh space-y-6 p-12" aria-live="off">
       <div className="flex flex-wrap items-center gap-4">
-        <span className="rounded-pill bg-bg/90 px-4 py-1 font-serif text-3xl font-bold">
-          {t('overlay.title')}
+        <span className="inline-flex items-center gap-3 rounded-pill bg-bg/90 py-1 pe-4 ps-2 text-ink">
+          <Logo height={44} tagline={false} />
+          <span className="font-serif text-2xl font-bold">{t('overlay.live')}</span>
+          <span className="sr-only">{t('overlay.title')}</span>
         </span>
         <span
           dir="ltr"

@@ -344,6 +344,7 @@ export const ar: Record<MessageKey, Message> = {
 
   // ---- stream overlay
   'overlay.title': 'ENCYCLA مباشر',
+  'overlay.live': 'مباشر',
   'overlay.unavailable': 'طبقة البث غير متاحة',
   'overlay.ended': 'انتهى البث',
   'overlay.paused': 'متوقفة مؤقتًا',

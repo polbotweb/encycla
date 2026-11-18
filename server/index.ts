@@ -77,6 +77,7 @@ async function main(): Promise<void> {
     questionsUsable: questions.length > 0 && initialized.questionsError === null,
     adminToken: config.adminToken,
     staticDir: config.staticDir,
+    publicOrigin: config.publicOrigin,
     trustProxy: config.trustProxy,
     rateLimit: config.rateLimit,
     imageCacheDir: config.imageCacheDir,

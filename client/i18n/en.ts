@@ -279,6 +279,7 @@ export const en: Record<MessageKey, Message> = {
 
   // ---- stream overlay
   'overlay.title': 'ENCYCLA LIVE',
+  'overlay.live': 'LIVE',
   'overlay.unavailable': 'Overlay unavailable',
   'overlay.ended': 'Stream ended',
   'overlay.paused': 'Paused',

@@ -40,10 +40,18 @@ test('the web manifest, icon and social meta are served', async ({ page, request
   expect(body.name).toBe('Encycla MindMaze');
   const icon = await request.get(body.icons[0]?.src ?? '');
   expect(icon.headers()['content-type']).toContain('image/svg+xml');
+  for (const entry of body.icons) expect((await request.get(entry.src)).ok(), entry.src).toBe(true);
+  const preview = await request.get('/og/encycla-fr.png');
+  expect(preview.headers()['content-type']).toContain('image/png');
   expect((await request.get('/robots.txt')).ok()).toBe(true);
   await page.goto('/');
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
     'content',
     'Encycla MindMaze',
   );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /\/og\/encycla-fr\.png$/,
+  );
+  await expect(page.getByTestId('logo-wordmark')).toBeVisible();
 });

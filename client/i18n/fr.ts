@@ -287,6 +287,7 @@ export const fr = {
 
   // ---- stream overlay
   'overlay.title': 'ENCYCLA EN DIRECT',
+  'overlay.live': 'EN DIRECT',
   'overlay.unavailable': 'Overlay indisponible',
   'overlay.ended': 'Le direct est terminé',
   'overlay.paused': 'En pause',

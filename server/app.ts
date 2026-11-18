@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import express, { type ErrorRequestHandler, type Express } from 'express';
 import helmet from 'helmet';
@@ -8,6 +8,7 @@ import { createGameRouter, type PresencePort } from './http/game';
 import { buildHealth, type QuestionsHealth } from './http/health';
 import { sendError } from './http/errors';
 import { precompressedAssets } from './http/precompressed';
+import { socialIndex } from './http/social';
 import { createSessionsRouter } from './http/sessions';
 import { createMemoryPersistence } from './persistence/db';
 import type { Persistence } from './persistence/repositories';
@@ -38,6 +39,8 @@ export interface AppOptions {
   trustProxy?: boolean | number | string;
   /** Same-origin image proxy (D-107); also the `publicView` of the default room manager. */
   images?: ImageService;
+  /** `PUBLIC_ORIGIN`: makes the social preview image URLs absolute (D-111). */
+  publicOrigin?: string | null;
 }
 
 const NOT_CONNECTED: PresencePort = { isConnected: () => false };
@@ -162,9 +165,16 @@ export function createApp(options: AppOptions = {}): Express {
         },
       }),
     );
-    app.get(/^\/(?!api\/|socket\.io\/).*/, (_request, response) => {
+    const indexFile = resolve(staticDir, 'index.html');
+    const indexHtml = existsSync(indexFile) ? readFileSync(indexFile, 'utf8') : null;
+    const publicOrigin = options.publicOrigin ?? null;
+    app.get(/^\/(?!api\/|socket\.io\/).*/, (request, response) => {
       response.setHeader('Cache-Control', 'no-cache');
-      response.sendFile(resolve(staticDir, 'index.html'));
+      if (indexHtml === null) {
+        response.sendFile(indexFile);
+        return;
+      }
+      response.type('html').send(socialIndex(indexHtml, publicOrigin, request.query.lang));
     });
   }
 

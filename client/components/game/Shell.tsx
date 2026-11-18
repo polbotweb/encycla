@@ -5,6 +5,7 @@ import { useGameStore } from '../../store/gameStore';
 import { useUiStore } from '../../store/uiStore';
 import { unlockAudio } from '../../lib/audio';
 import { SoundOffIcon, SoundOnIcon } from '../ui/Icons';
+import { Logo } from '../ui/Logo';
 
 export function AppHeader() {
   const { t } = useTranslation();
@@ -29,12 +30,12 @@ export function AppHeader() {
       <button
         type="button"
         onClick={() => setScreen('home')}
-        className="min-h-[44px] font-serif text-3xl font-bold tracking-tight"
+        className="inline-flex min-h-[44px] items-center rounded-md text-ink"
         aria-label={t('app.homeAria')}
         lang="en"
         dir="ltr"
       >
-        {t('app.wordmark')}
+        <Logo height={36} tagline={false} />
       </button>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
         <LanguageSwitcher />

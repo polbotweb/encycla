@@ -164,3 +164,25 @@ describe('Modal', () => {
     expect(screen.getByRole('dialog')).toBeTruthy();
   });
 });
+
+describe('logo (D-111)', () => {
+  it('draws the mark and the wordmark in currentColor, hidden from assistive technology', async () => {
+    const { Logo } = await import('../../client/components/ui/Logo');
+    const { container } = render(
+      <button type="button" aria-label="Encycla home">
+        <Logo height={40} />
+      </button>,
+    );
+    const mark = container.querySelector('img');
+    expect(mark?.getAttribute('src')).toBe('/brand/encycla-mark.svg');
+    expect(mark?.getAttribute('alt')).toBe('');
+    const wordmark = screen.getByTestId('logo-wordmark');
+    expect(wordmark.querySelector('path')?.getAttribute('fill')).toBe('currentColor');
+    expect(wordmark.querySelectorAll('path')).toHaveLength(2);
+    expect(wordmark.closest('[aria-hidden="true"]')).not.toBeNull();
+    expect(screen.getByRole('button', { name: 'Encycla home' })).toBeTruthy();
+    cleanup();
+    render(<Logo tagline={false} />);
+    expect(screen.getByTestId('logo-wordmark').querySelectorAll('path')).toHaveLength(1);
+  });
+});
