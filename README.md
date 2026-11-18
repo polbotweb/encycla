@@ -90,7 +90,7 @@ La documentation est la référence d'implémentation. Aucune décision ouverte 
 | Document | Contenu |
 | --- | --- |
 | [docs/ADR.md](docs/ADR.md) | 18 décisions d'architecture binding. |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | 110 décisions explicites et dettes assumées. |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | 112 décisions explicites et dettes assumées. |
 | [docs/SPECIFICATION.md](docs/SPECIFICATION.md) | Règles, modes, phases, scores, matchmaking, TikTok. |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Contrat HTTP, Socket.io, payloads, erreurs. |
 | [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Schéma SQLite, JSON des questions, leaderboard. |
