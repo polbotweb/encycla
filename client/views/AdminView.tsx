@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { LANGUAGES, LANGUAGE_NAMES, isLanguage, type Language } from '../../shared/languages';
 import type { Difficulty } from '../../shared/types';
+import { VoiceSettingsPanel } from '../components/game/Voice';
 import { Panel } from '../components/game/Shell';
 import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
@@ -28,7 +29,7 @@ export function roomLinks(
 ): { overlay: string; control: string } {
   const code = encodeURIComponent(room.roomCode);
   return {
-    overlay: `${origin}/?mode=overlay&room=${code}#token=${room.overlayToken}`,
+    overlay: `${origin}/?mode=overlay&room=${code}&voice=1#token=${room.overlayToken}`,
     control: `${origin}/?mode=control&room=${code}#token=${room.controlToken}&overlay=${room.overlayToken}`,
   };
 }
@@ -414,6 +415,15 @@ export function AdminView() {
           ) : null}
         </Panel>
       ) : null}
+
+      <Panel>
+        <details data-testid="voice-details">
+          <summary className="cursor-pointer text-xl font-bold">{t('voice.title')}</summary>
+          <div className="mt-3">
+            <VoiceSettingsPanel language={questionLanguage} hint={t('voice.consoleHint')} />
+          </div>
+        </details>
+      </Panel>
     </main>
   );
 }

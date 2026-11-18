@@ -9,6 +9,7 @@ import { contentAttributes, translate, useTranslation } from '../i18n';
 import { OPTION_LETTERS, formatSeconds, truncate } from '../lib/format';
 import { useRemaining } from '../lib/useRemaining';
 import { useRoomFeed } from '../lib/useRoomFeed';
+import { Narrator, VoiceNotice, VoiceStatus } from '../components/game/Voice';
 
 function OverlayPanel({
   children,
@@ -118,7 +119,10 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
           </span>
         ) : null}
         {full ? <span className="text-lg text-ink-2">{t('overlay.chatFull')}</span> : null}
+        <VoiceNotice language={room.language} overlay />
+        {phase === 'LOBBY' ? <VoiceStatus language={room.language} /> : null}
       </div>
+      <Narrator room={room} clockOffset={clockOffset} />
 
       {phase === 'LOBBY' ? (
         <div className="grid gap-6 lg:grid-cols-2">

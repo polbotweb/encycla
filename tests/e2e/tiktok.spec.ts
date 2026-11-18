@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { translate, type MessageKey } from '../../client/i18n';
 import type { Language } from '../../shared/languages';
 import { E2E_ADMIN_TOKEN } from '../../playwright.config';
+import { installFakeSpeech, spoken } from './fakeSpeech';
 
 /**
  * TikTok mode against the built server with the simulated chat (`TIKTOK_ADAPTER=fake`): the
@@ -40,6 +41,7 @@ test('streamer console, OBS overlay, control and A/B/C/D chat answers through to
   const t = (key: MessageKey, params: Record<string, string | number> = {}) =>
     translate(key, params, 'fr');
   const context = await browser.newContext();
+  await installFakeSpeech(context);
   const admin = await context.newPage();
   const problems = watch(admin);
 
@@ -61,7 +63,7 @@ test('streamer console, OBS overlay, control and A/B/C/D chat answers through to
   expect(code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
   const overlayUrl = await admin.getByLabel(t('admin.overlayLink')).inputValue();
   const controlUrl = await admin.getByLabel(t('admin.controlLink')).inputValue();
-  expect(overlayUrl).toMatch(new RegExp(`/\\?mode=overlay&room=${code}#token=`));
+  expect(overlayUrl).toMatch(new RegExp(`/\\?mode=overlay&room=${code}&voice=1#token=`));
   expect(controlUrl).toMatch(new RegExp(`/\\?mode=control&room=${code}#token=.+&overlay=`));
   await expect(admin.getByTestId('tiktok-status')).toContainText('@un.autre_live');
 
@@ -80,6 +82,10 @@ test('streamer console, OBS overlay, control and A/B/C/D chat answers through to
   await control.getByRole('button', { name: t('control.start') }).click();
   await expect(overlay.getByRole('timer')).toBeVisible({ timeout: 10_000 });
   await expect(overlay.locator('ol li')).toHaveCount(4);
+  // The voice is on by default on the overlay (OBS captures it): question and A/B/C/D read in French.
+  await expect
+    .poll(async () => (await spoken(overlay)).map((entry) => entry.text).join('\n'))
+    .toMatch(/^Question 1 sur \d+\. [\s\S]*\nA : [\s\S]*\nD : /);
 
   // Viewers comment in the chat (simulated): A, B, C, D; chatter that is not an answer is ignored.
   // [TikTok handle, comment, name shown on stream (dots are dropped from handles)]

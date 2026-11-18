@@ -8,6 +8,7 @@ import { ApiClientError } from '../lib/api';
 import { OPTION_LETTERS, formatSeconds, truncate } from '../lib/format';
 import { useRemaining } from '../lib/useRemaining';
 import { useRoomFeed } from '../lib/useRoomFeed';
+import { Narrator, VoiceSettingsPanel } from '../components/game/Voice';
 
 interface LogEntry {
   at: number;
@@ -51,7 +52,7 @@ export function ControlView({
 
   async function copyOverlayLink(): Promise<void> {
     if (!overlayToken) return;
-    const url = `${window.location.origin}/?mode=overlay&room=${roomCode}#token=${overlayToken}`;
+    const url = `${window.location.origin}/?mode=overlay&room=${roomCode}&voice=1#token=${overlayToken}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -268,6 +269,12 @@ export function ControlView({
           </ol>
         </div>
       </Panel>
+
+      <Panel className="space-y-3 lg:col-span-2">
+        <h2 className="text-xl">{t('voice.title')}</h2>
+        <VoiceSettingsPanel language={room.language} hint={t('voice.consoleHint')} />
+      </Panel>
+      <Narrator room={room} clockOffset={clockOffset} />
 
       <Modal
         title={confirm === 'close' ? t('control.closeTitle') : t('control.skipTitle')}

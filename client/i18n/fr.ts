@@ -356,6 +356,44 @@ export const fr = {
   'announce.paused': 'En pause.',
   'announce.closed': 'Salon fermé.',
 
+  // ---- automatic voice (speech synthesis, D-115)
+  'speech.question': 'Question {index} sur {total}. {text}',
+  'speech.option': '{letter} : {text}.',
+  'speech.optionLetter': '{letter} :',
+  'speech.correct': 'Bonne réponse : {letter}, {text}.',
+  'speech.correctLetter': 'Bonne réponse : {letter}.',
+  'speech.seconds': { one: '{count} seconde', other: '{count} secondes' },
+  'speech.enabled': 'Voix activée.',
+  'speech.sample': 'Bonjour ! C’est cette voix qui lira les questions.',
+  'voice.title': 'Voix automatique',
+  'voice.description':
+    'Lit à voix haute la question, les quatre réponses avec leur lettre, le temps restant puis la bonne réponse, dans la langue des questions. Utilise les voix de votre navigateur et de votre système, sans service payant.',
+  'voice.screenReaderHint':
+    'Vous utilisez un lecteur d’écran ? Laissez la voix coupée : les annonces de l’écran restent actives.',
+  'voice.toggle': 'Lire les questions à voix haute',
+  'voice.on': 'Voix automatique activée. Couper la voix',
+  'voice.off': 'Voix automatique coupée. Activer la voix',
+  'voice.enable': 'Activer la voix',
+  'voice.voice': 'Voix ({language})',
+  'voice.auto': 'Automatique (voix par défaut)',
+  'voice.rate': 'Vitesse',
+  'voice.volume': 'Volume',
+  'voice.readArticle': 'Lire aussi le début de l’article',
+  'voice.test': 'Tester la voix',
+  'voice.missing':
+    'Aucune voix {language} sur cet appareil : la voix reste muette pour ces questions plutôt que de les lire dans une autre langue. Ajoutez une voix {language} dans les réglages de synthèse vocale du système.',
+  'voice.unsupported': 'Ce navigateur ne propose aucune voix de synthèse vocale.',
+  'voice.blocked': 'Le navigateur attend un clic avant de parler.',
+  'voice.suggestTitle': 'Entendre les questions ?',
+  'voice.suggest':
+    'La voix automatique lit chaque question et ses réponses. Utile si l’écran est difficile à lire.',
+  'voice.dismiss': 'Non merci',
+  'voice.settings': 'Réglages de la voix',
+  'voice.consoleHint':
+    'Si OBS capture déjà la voix de l’overlay, coupez-la ici pour ne pas l’entendre deux fois.',
+  'voice.statusReady': 'Voix : {name}',
+  'voice.statusNone': 'Aucune voix dans ce navigateur',
+
   // ---- error messages (one per API error code)
   'error.VALIDATION_ERROR': 'Vérifiez ce que vous avez saisi et réessayez.',
   'error.AUTH_REQUIRED': 'Votre session a expiré. Démarrez-en une nouvelle.',

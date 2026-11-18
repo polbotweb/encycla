@@ -26,6 +26,7 @@ Encycla MindMaze is a real-time multiplayer picture quiz. Each question shows a 
 - **French (default), English and Arabic** (right-to-left).
 - **Without TikTok**: solo, private rooms, public matchmaking, on desktop and mobile.
 - **With TikTok Live**: viewers of **any live** answer `A`, `B`, `C` or `D` in the chat; OBS overlay and streamer consoles.
+- **Automatic voice**: the browser's own speech synthesis reads the question, A/B/C/D, the time left and the correct answer in the question language. On by default on the TikTok overlay and console, off by default for players (header button). No voice for the language on the device: a notice, never another language's voice. OBS setup: [docs/TIKTOK.md](docs/TIKTOK.md#voix-automatique-et-obs-d-115).
 - **Server-authoritative**: scores, timing and lives are computed on the server; the correct answer is never sent before the reveal.
 
 ## Game modes

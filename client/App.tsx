@@ -1,10 +1,12 @@
-import { Suspense, lazy, useEffect, useMemo } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { Announcer, ClosedView, ConnectionBanner, PausedBanner } from './components/game/Banners';
 import { LeaveModal } from './components/game/LeaveControls';
 import { AppHeader } from './components/game/Shell';
 import { connectPlayerSocket, disconnectPlayerSocket } from './lib/realtime';
 import { parseRoute } from './lib/route';
 import { unlockAudio } from './lib/audio';
+import { useVoiceStore, watchVoices, type VoiceScope } from './lib/speech';
+import { Narrator, VoiceNotice } from './components/game/Voice';
 import { isTypingTarget } from './views/QuestionView';
 import { useGameStore } from './store/gameStore';
 import { useSessionStore } from './store/sessionStore';
@@ -69,7 +71,17 @@ function PlayerApp({
   const setLeaveModal = useUiStore((state) => state.setLeaveModal);
   const queue = useGameStore((state) => state.queue);
   const closedReason = useGameStore((state) => state.closedReason);
-  const { room, phase } = useMe();
+  const { room, phase, me } = useMe();
+  const clockOffset = useGameStore((state) => state.clockOffset);
+  const lockedChoice = useGameStore((state) => state.lockedChoice);
+  const muted = useUiStore((state) => state.muted);
+  const questionId = room?.question?.id ?? null;
+  // Time marks only while this player still has to answer (D-100).
+  const awaiting =
+    questionId !== null &&
+    me?.status === 'CONNECTED' &&
+    me.hasAnsweredQuestionId !== questionId &&
+    lockedChoice?.questionId !== questionId;
 
   useEffect(() => {
     setScreen(initialScreen);
@@ -121,16 +133,25 @@ function PlayerApp({
       <div className="space-y-2 px-4 pt-3 empty:hidden">
         <ConnectionBanner />
         <PausedBanner />
+        {room ? <VoiceNotice language={room.language} /> : null}
       </div>
       {content}
       <LeaveModal started={room !== null && room.phase !== 'LOBBY'} />
       <Announcer />
+      <Narrator room={room} clockOffset={clockOffset} timeCues={awaiting} silenced={muted} />
     </div>
   );
 }
 
 export default function App() {
-  const route = useMemo(() => parseRoute(window.location.search, window.location.hash), []);
+  const [route] = useState(() => {
+    const parsed = parseRoute(window.location.search, window.location.hash);
+    const scope: VoiceScope =
+      parsed.kind === 'overlay' ? 'overlay' : parsed.kind === 'player' ? 'player' : 'console';
+    useVoiceStore.getState().init(scope);
+    return parsed;
+  });
+  useEffect(() => watchVoices(), []);
   if (route.kind === 'overlay') {
     return (
       <Suspense fallback={<main className="min-h-dvh" aria-busy="true" />}>

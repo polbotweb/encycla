@@ -73,7 +73,9 @@ describe('AdminView (streamer console)', () => {
       overlayToken: 'ovl_x',
       controlToken: 'ctl_y',
     });
-    expect(links.overlay).toBe('https://encycla.example/?mode=overlay&room=ABC234#token=ovl_x');
+    expect(links.overlay).toBe(
+      'https://encycla.example/?mode=overlay&room=ABC234&voice=1#token=ovl_x',
+    );
     expect(links.control).toBe(
       'https://encycla.example/?mode=control&room=ABC234#token=ctl_y&overlay=ovl_x',
     );
@@ -109,7 +111,7 @@ describe('AdminView (streamer console)', () => {
       liveUsername: '@Any.Live',
     });
     const overlay = screen.getByLabelText('Overlay link (OBS)') as HTMLInputElement;
-    expect(overlay.value).toContain('/?mode=overlay&room=ABC234#token=ovl_x');
+    expect(overlay.value).toContain('/?mode=overlay&room=ABC234&voice=1#token=ovl_x');
 
     fireEvent.click(screen.getByRole('button', { name: 'Comment B' }));
     expect(await screen.findByText('viewer_1 commented B.')).toBeTruthy();

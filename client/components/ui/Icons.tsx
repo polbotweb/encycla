@@ -66,3 +66,19 @@ export const ClockIcon = (props: IconProps) => (
     <path d="M12 7v5l3 2" />
   </Base>
 );
+
+export const VoiceOnIcon = (props: IconProps) => (
+  <Base {...props}>
+    <path d="M9 4a4 4 0 110 8 4 4 0 010-8z" />
+    <path d="M3 20a6 6 0 0112 0" />
+    <path d="M17.5 7.5a4 4 0 010 5M20 5a7.5 7.5 0 010 10" />
+  </Base>
+);
+
+export const VoiceOffIcon = (props: IconProps) => (
+  <Base {...props}>
+    <path d="M9 4a4 4 0 110 8 4 4 0 010-8z" />
+    <path d="M3 20a6 6 0 0112 0" />
+    <path d="M17 8l4 4M21 8l-4 4" />
+  </Base>
+);

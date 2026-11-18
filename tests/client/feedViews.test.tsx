@@ -209,7 +209,9 @@ describe('ControlView', () => {
     const socket = open('ovl-token');
     push(socket, room('LOBBY', { players: [player('p-2', 'Bob')] }));
     await act(async () => fireEvent.click(screen.getByText(translate('control.copyOverlay'))));
-    expect(writeText.mock.calls[0]?.[0]).toContain('mode=overlay&room=ABCDEF#token=ovl-token');
+    expect(writeText.mock.calls[0]?.[0]).toContain(
+      'mode=overlay&room=ABCDEF&voice=1#token=ovl-token',
+    );
     expect(screen.getByText(translate('common.copied'))).toBeTruthy();
     cleanup();
     const second = open('ovl-token');

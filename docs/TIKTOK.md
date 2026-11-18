@@ -38,10 +38,20 @@ Comportement :
 1. Ouvrir `https://<domaine>/?mode=admin`, coller `ADMIN_TOKEN`, **Déverrouiller**. Le jeton reste dans la page (jamais stocké).
 2. Vérifier l'état : `EN DIRECT` (chat connecté) ou `CHAT HORS LIGNE`, et le live suivi.
 3. Saisir le `@` du live (ou laisser vide pour le live par défaut), choisir CLASSIC ou SUBJECT (catégorie, difficulté), la langue des questions et le temps par question (10–30 s), puis **Créer le salon**.
-4. **OBS** : Sources → `+` → **Navigateur** → coller le « Lien de l'overlay », largeur/hauteur 1080 × 1920 (live vertical) ou 1920 × 1080 ; cocher « Actualiser le navigateur quand la scène devient active ». L'overlay n'a aucun contrôle.
+4. **OBS** : Sources → `+` → **Navigateur** → coller le « Lien de l'overlay », largeur/hauteur 1080 × 1920 (live vertical) ou 1920 × 1080 ; cocher « Actualiser le navigateur quand la scène devient active » et « Contrôler l'audio via OBS » (voix, voir ci-dessous). L'overlay n'a aucun contrôle.
 5. Ouvrir le « Lien de la console » sur le téléphone ou un second écran : **Démarrer**, **Pause/Reprendre**, **Passer**, réponse manuelle pour un spectateur, **Fermer**.
 6. Les spectateurs commentent `A`, `B`, `C` ou `D` (minuscules, `@mention` en tête et texte autour d'une seule lettre acceptés ; voir le parseur). Le premier commentaire valide les inscrit et compte comme réponse ; les suivants sur la même question sont ignorés.
 7. Après chaque question : réponse, top 10, article ; à la fin, classement final. **Fermer le salon** (console streamer ou console de jeu) libère la place pour le live suivant.
+
+## Voix automatique et OBS (D-115)
+
+La voix lit la question, les réponses A/B/C/D, « 10 secondes », « 5 secondes », « Temps écoulé » puis la bonne réponse, dans la langue des questions. C'est la synthèse vocale du navigateur (`speechSynthesis`) : gratuite, sans clé, mais **les voix disponibles sont celles de l'ordinateur qui affiche la page**. Elle est activée par défaut sur l'overlay (le lien contient `&voice=1`) et sur la console.
+
+**Option A, voix depuis l'overlay dans OBS.** Dans les propriétés de la source Navigateur, cocher **« Contrôler l'audio via OBS »** : le son de la page apparaît alors comme une piste dans le mixeur audio d'OBS (sinon il part sur la sortie du bureau). Dans le lobby, l'overlay affiche l'état de la voix : « Voix : <nom> » ou « Aucune voix dans ce navigateur ». Limites connues : la source Navigateur d'OBS (CEF) n'expose souvent **aucune voix** (`speechSynthesis.getVoices()` vide) et la synthèse vocale est jouée par le moteur vocal du système, pas toujours par le flux audio de la page ; dans ces cas l'overlay reste muet, sans avertissement à l'écran pendant la partie.
+
+**Option B (fiable), voix depuis la console.** Ouvrir le lien de la console dans Chrome ou Edge sur l'ordinateur du stream, régler la voix dans le panneau « Voix automatique » (voix, vitesse, volume, « Tester la voix »), puis ajouter dans OBS une source **« Capture audio d'application »** (Windows 10 2004+, OBS 28+) sur ce navigateur, ou laisser OBS capturer l'audio du bureau. Ajouter `&voice=0` à l'URL de l'overlay si OBS y trouve aussi une voix, pour ne pas l'entendre deux fois.
+
+Réglages par URL de l'overlay (jamais enregistrés côté serveur) : `voice=0|1`, `rate=0.5` à `2`, `volume=0` à `1`, `article=1` (lire aussi la première phrase de l'article). Sans voix pour la langue des questions (par exemple pas de voix arabe installée), **rien n'est lu dans une autre langue** : l'overlay et la console affichent « Aucune voix arabe sur cet appareil » ; installer une voix arabe dans les réglages de synthèse vocale du système puis recharger. Si le navigateur exige un clic avant de parler, un bouton « Activer la voix » apparaît (dans OBS : clic droit sur la source → **Interagir**).
 
 ## Mode démo et tests : `TIKTOK_ADAPTER=fake`
 
@@ -91,7 +101,8 @@ Tests : `tests/tiktok/connector.test.ts` vérifie que `tiktokSetup` câble bien 
 - [ ] `ADMIN_TOKEN` et `TIKTOK_SESSION_COOKIE` stockés comme secrets, jamais dans le dépôt.
 - [ ] `GET /api/health` retourne `ok` (connecteur connecté).
 - [ ] Création de room depuis `/?mode=admin` (ou `curl -X POST /api/tiktok/rooms` avec le bearer admin et `{"mode":"CLASSIC","liveUsername":"@live"}`).
-- [ ] Overlay OBS : URL `/?mode=overlay&room=CODE#token=OVERLAY_TOKEN`, affichage sans contrôle.
+- [ ] Overlay OBS : URL `/?mode=overlay&room=CODE&voice=1#token=OVERLAY_TOKEN`, affichage sans contrôle.
+- [ ] Voix : l'état « Voix : <nom> » dans le lobby de l'overlay, ou la console comme voix (option B) ; « Tester la voix » entendu dans OBS.
 - [ ] Console : URL `/?mode=control&room=CODE#token=CONTROL_TOKEN`, badge `LIVE`.
 - [ ] 20 viewers de test répondent ; vérifier dédup, élimination, top 10.
 - [ ] Couper le réseau du serveur : badge `CHAT OFFLINE`, room en pause, reprise manuelle.

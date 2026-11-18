@@ -411,6 +411,51 @@ export const ar: Record<MessageKey, Message> = {
   'announce.paused': 'متوقفة مؤقتًا.',
   'announce.closed': 'أُغلقت الغرفة.',
 
+  // ---- automatic voice (speech synthesis, D-115)
+  'speech.question': 'السؤال {index} من {total}. {text}',
+  'speech.option': '{letter}: {text}.',
+  'speech.optionLetter': '{letter}:',
+  'speech.correct': 'الإجابة الصحيحة: {letter}، {text}.',
+  'speech.correctLetter': 'الإجابة الصحيحة: {letter}.',
+  'speech.seconds': {
+    zero: 'لا ثوانٍ',
+    one: 'ثانية واحدة',
+    two: 'ثانيتان',
+    few: '{count} ثوانٍ',
+    many: '{count} ثانية',
+    other: '{count} ثانية',
+  },
+  'speech.enabled': 'تم تفعيل القراءة الصوتية.',
+  'speech.sample': 'مرحبًا! هذا هو الصوت الذي سيقرأ الأسئلة.',
+  'voice.title': 'القراءة الصوتية التلقائية',
+  'voice.description':
+    'تقرأ بصوت عالٍ السؤال والإجابات الأربع مع حروفها والوقت المتبقي ثم الإجابة الصحيحة، بلغة الأسئلة. تستخدم أصوات المتصفح والنظام، دون أي خدمة مدفوعة.',
+  'voice.screenReaderHint':
+    'هل تستخدم قارئ شاشة؟ اترك القراءة الصوتية متوقفة، فإعلانات الشاشة تبقى مفعّلة.',
+  'voice.toggle': 'قراءة الأسئلة بصوت عالٍ',
+  'voice.on': 'القراءة الصوتية مفعّلة. إيقافها',
+  'voice.off': 'القراءة الصوتية متوقفة. تشغيلها',
+  'voice.enable': 'تشغيل القراءة الصوتية',
+  'voice.voice': 'الصوت ({language})',
+  'voice.auto': 'تلقائي (الصوت الافتراضي)',
+  'voice.rate': 'السرعة',
+  'voice.volume': 'مستوى الصوت',
+  'voice.readArticle': 'قراءة بداية المقالة أيضًا',
+  'voice.test': 'تجربة الصوت',
+  'voice.missing':
+    'لا يوجد صوت باللغة {language} على هذا الجهاز: تبقى القراءة الصوتية صامتة لهذه الأسئلة بدلًا من قراءتها بلغة أخرى. أضف صوتًا باللغة {language} من إعدادات تحويل النص إلى كلام في النظام.',
+  'voice.unsupported': 'لا يوفّر هذا المتصفح أي صوت لتحويل النص إلى كلام.',
+  'voice.blocked': 'ينتظر المتصفح نقرة قبل أن يتكلم.',
+  'voice.suggestTitle': 'هل تريد سماع الأسئلة؟',
+  'voice.suggest':
+    'تقرأ القراءة الصوتية التلقائية كل سؤال وإجاباته. مفيدة عندما تصعب قراءة الشاشة.',
+  'voice.dismiss': 'لا، شكرًا',
+  'voice.settings': 'إعدادات الصوت',
+  'voice.consoleHint':
+    'إذا كان OBS يلتقط صوت الواجهة بالفعل، أوقف القراءة الصوتية هنا حتى لا تُسمع مرتين.',
+  'voice.statusReady': 'الصوت: {name}',
+  'voice.statusNone': 'لا يوجد صوت في هذا المتصفح',
+
   // ---- error messages (one per API error code)
   'error.VALIDATION_ERROR': 'تحقق مما أدخلته وحاول مرة أخرى.',
   'error.AUTH_REQUIRED': 'انتهت جلستك. ابدأ جلسة جديدة.',

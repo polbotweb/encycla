@@ -345,6 +345,44 @@ export const en: Record<MessageKey, Message> = {
   'announce.paused': 'Paused.',
   'announce.closed': 'Room closed.',
 
+  // ---- automatic voice (speech synthesis, D-115)
+  'speech.question': 'Question {index} of {total}. {text}',
+  'speech.option': '{letter}: {text}.',
+  'speech.optionLetter': '{letter}:',
+  'speech.correct': 'The answer is {letter}, {text}.',
+  'speech.correctLetter': 'The answer is {letter}.',
+  'speech.seconds': { one: '{count} second', other: '{count} seconds' },
+  'speech.enabled': 'Voice on.',
+  'speech.sample': 'Hello! This voice will read the questions.',
+  'voice.title': 'Automatic voice',
+  'voice.description':
+    'Reads aloud the question, the four answers with their letter, the time left and then the correct answer, in the language of the questions. Uses the voices of your browser and system, no paid service.',
+  'voice.screenReaderHint':
+    'Using a screen reader? Keep the voice off: the screen announcements stay on.',
+  'voice.toggle': 'Read the questions aloud',
+  'voice.on': 'Automatic voice on. Turn the voice off',
+  'voice.off': 'Automatic voice off. Turn the voice on',
+  'voice.enable': 'Turn the voice on',
+  'voice.voice': 'Voice ({language})',
+  'voice.auto': 'Automatic (default voice)',
+  'voice.rate': 'Speed',
+  'voice.volume': 'Volume',
+  'voice.readArticle': 'Also read the start of the article',
+  'voice.test': 'Test the voice',
+  'voice.missing':
+    'No {language} voice on this device: the voice stays silent for these questions rather than reading them in another language. Add a {language} voice in your system’s text-to-speech settings.',
+  'voice.unsupported': 'This browser offers no speech synthesis voice.',
+  'voice.blocked': 'The browser needs a click before it can speak.',
+  'voice.suggestTitle': 'Hear the questions?',
+  'voice.suggest':
+    'The automatic voice reads each question and its answers. Useful when the screen is hard to read.',
+  'voice.dismiss': 'No thanks',
+  'voice.settings': 'Voice settings',
+  'voice.consoleHint':
+    'If OBS already captures the overlay voice, turn it off here so it is not heard twice.',
+  'voice.statusReady': 'Voice: {name}',
+  'voice.statusNone': 'No voice in this browser',
+
   // ---- error messages (one per API error code)
   'error.VALIDATION_ERROR': 'Please check what you entered and try again.',
   'error.AUTH_REQUIRED': 'Your session expired. Start a new one.',

@@ -6,6 +6,7 @@ import { useUiStore } from '../../store/uiStore';
 import { unlockAudio } from '../../lib/audio';
 import { SoundOffIcon, SoundOnIcon } from '../ui/Icons';
 import { Logo } from '../ui/Logo';
+import { VoiceToggleButton } from './Voice';
 
 export function AppHeader() {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ export function AppHeader() {
         >
           {muted ? <SoundOffIcon /> : <SoundOnIcon />}
         </button>
+        <VoiceToggleButton />
         <span className="flex items-center gap-2 text-sm text-ink-2" role="status">
           <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-pill ${dot}`} />
           {label}

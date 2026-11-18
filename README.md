@@ -68,7 +68,7 @@ Principes d'architecture :
 | TikTok | Room TikTok pour n'importe quel live, jusqu'à 100 spectateurs, parseur strict des commentaires, overlay OBS en lecture seule, console de jeu, console streamer `/?mode=admin`, chat simulé pour les démos. |
 | Classement | Classement global (multijoueur et TikTok ; le solo n'est pas classé), filtres par mode et par source. |
 | Contenu | Banque Wikipédia/Commons/Wikidata, crédits par image, licences libres uniquement, traductions réelles ou question retirée de la langue. |
-| Interface | React 19, thème sombre AA, clavier (`A`–`D`, `1`–`4`, `M` pour le son, `Échap` pour quitter), annonces lecteur d'écran, sons synthétisés, PWA (manifeste, icônes *maskable*). |
+| Interface | React 19, thème sombre AA, clavier (`A`–`D`, `1`–`4`, `M` pour le son, `Échap` pour quitter), annonces lecteur d'écran, voix automatique (synthèse vocale du navigateur, fr/en/ar), sons synthétisés, PWA (manifeste, icônes *maskable*). |
 | Images | Proxy same-origin `/img` : aucun nom de fichier ni crédit avant la révélation, métadonnées retirées, cache disque plafonné. |
 | Exploitation | Docker non-root, Caddy HTTPS, SQLite avec repli mémoire, validation de configuration *fail-fast*, healthcheck, sauvegardes `VACUUM INTO`. |
 | Qualité | TypeScript strict, 429 tests Vitest, 47 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok), test de charge, CI complète. |
@@ -144,7 +144,9 @@ Les deux modes sont vérifiés de bout en bout par Playwright contre le serveur 
 
 **Score** (CLASSIC et SUBJECT) : `points = base + vitesse + série` si la réponse est juste, où `base = 100 × difficulté (1 ; 1,25 ; 1,5) × niveau`, `vitesse` vaut 50 jusqu'à 3 s puis décroît jusqu'à 0 à 13 s, et `série = min(série, 10) × 20`. Une erreur ou l'absence de réponse coûte une vie. **CONTEST** : 1 000 points par bonne réponse, +200 au plus rapide quand les deux ont juste. Détail : [docs/SPECIFICATION.md §7](docs/SPECIFICATION.md).
 
-**Raccourcis** : `A`–`D` ou `1`–`4` pour répondre, `M` pour couper le son, `Échap` pour quitter le salon.
+**Raccourcis** : `A`–`D` ou `1`–`4` pour répondre, `M` pour couper le son (et la voix), `Échap` pour quitter le salon.
+
+**Voix automatique** (accessibilité) : le bouton « voix » de l'en-tête (à côté du son) fait lire à voix haute la question, les quatre réponses avec leur lettre, « 10 secondes », « 5 secondes », puis la bonne réponse, dans la langue des questions. Coupée par défaut ; l'accueil la propose une fois, et « Réglages de la voix » permet de choisir la voix, la vitesse, le volume et la lecture du début de l'article (réglages gardés dans le navigateur). Ce sont les voix de votre navigateur et de votre système, sans service payant : s'il n'y a pas de voix arabe sur l'appareil, un avis le dit et rien n'est lu avec une voix d'une autre langue. Avec un lecteur d'écran, laissez-la coupée : les annonces d'écran restent actives.
 
 ## 5. Guide du streamer TikTok
 
@@ -166,8 +168,9 @@ Prérequis côté serveur : `TIKTOK_ENABLED=true` et un `ADMIN_TOKEN` (voir [§8
 1. OBS → **Sources** → `+` → **Navigateur**.
 2. Coller le lien de l'overlay (`/?mode=overlay&room=CODE#token=…`). Le jeton est dans le fragment `#` : il n'est jamais envoyé au serveur HTTP ni écrit dans ses logs.
 3. Largeur × hauteur : **1080 × 1920** pour un live vertical, **1920 × 1080** pour un live horizontal.
-4. Cocher « Actualiser le navigateur quand la scène devient active ».
+4. Cocher « Actualiser le navigateur quand la scène devient active » et **« Contrôler l'audio via OBS »** (la voix arrive alors dans le mixeur d'OBS).
 5. L'overlay n'a aucun contrôle : il affiche la question, le chronomètre, le top 10, la réponse et l'article.
+6. **Voix automatique** : activée par défaut (le lien contient `&voice=1`), elle lit la question, A/B/C/D, le temps restant et la bonne réponse dans la langue des questions. Dans le lobby, l'overlay affiche « Voix : <nom> » ou « Aucune voix dans ce navigateur » : la source Navigateur d'OBS n'a souvent aucune voix. Dans ce cas, laissez la **console** (§5.3, dans Chrome ou Edge) parler et capturez-la avec une source « Capture audio d'application ». Réglages par URL : `voice=0` ou `voice=1`, `rate=0.5` à `2`, `volume=0` à `1`, `article=1`. Détails : [docs/TIKTOK.md](docs/TIKTOK.md#voix-automatique-et-obs-d-115).
 
 ![Overlay pendant la révélation](docs/screenshots/desktop-fr-tiktok-overlay-reveal.png)
 
@@ -177,7 +180,8 @@ Ouvrir le lien de la console sur un téléphone ou un second écran :
 
 - **Démarrer**, **Pause** / **Reprendre**, **Passer** (question ou article), **Fermer** ;
 - **Réponse manuelle** : rechercher un spectateur et répondre `A`–`D` à sa place (si le chat a raté un message) ;
-- badge `EN DIRECT` / `CHAT HORS LIGNE` : si le chat se coupe, la room se met en pause au prochain moment sûr ; on reprend à la main.
+- badge `EN DIRECT` / `CHAT HORS LIGNE` : si le chat se coupe, la room se met en pause au prochain moment sûr ; on reprend à la main ;
+- panneau **Voix automatique** (activée par défaut) : voix de la langue des questions, vitesse, volume, « Tester la voix ». Coupez-la ici si OBS capture déjà la voix de l'overlay, pour ne pas l'entendre deux fois.
 
 ### 5.4 Ce que font les spectateurs
 

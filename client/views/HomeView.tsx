@@ -3,6 +3,7 @@ import { Panel, ViewTitle } from '../components/game/Shell';
 import { PlaySetupModal, type PlayIntent } from '../components/game/PlaySetupModal';
 import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
+import { VoiceSettingsPanel, VoiceSuggestion } from '../components/game/Voice';
 import { Modal } from '../components/ui/Modal';
 import { errorMessage, translate, useTranslation } from '../i18n';
 import { unlockAudio } from '../lib/audio';
@@ -30,7 +31,7 @@ interface PendingAction {
 }
 
 export function HomeView() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const savedPseudo = useSessionStore((state) => state.savedPseudo);
   const setPseudoStored = useSessionStore((state) => state.setPseudo);
   const connection = useGameStore((state) => state.connection);
@@ -128,6 +129,16 @@ export function HomeView() {
             <li>{t('home.how4')}</li>
           </ul>
         </Panel>
+        <VoiceSuggestion />
+        <details
+          className="rounded-md border border-line bg-surface p-4"
+          data-testid="voice-details"
+        >
+          <summary className="cursor-pointer text-lg font-bold">{t('voice.settings')}</summary>
+          <div className="mt-3">
+            <VoiceSettingsPanel language={language} />
+          </div>
+        </details>
         {config ? (
           <p className="text-sm text-ink-2">
             {t('home.questionsCount', {

@@ -720,6 +720,32 @@ Un bouton disabled garde un contraste lisible et un `aria-disabled`.
 - `KeyboardEvent.code` est utilisé, pas `key`.
 - Un raccourci ne déclenche jamais deux actions.
 
+### 21.4 Voix automatique (synthèse vocale, D-115)
+
+Lecture à voix haute par la synthèse vocale du navigateur (`speechSynthesis`), en plus des annonces `aria-live` (qui ne changent pas).
+
+| Moment | Lu (langue des questions) |
+| --- | --- |
+| Nouvelle question | « Question 3 sur 20. Quel est cet animal ? A : Lion. B : Tigre. C : Caracal. D : Panthère des neiges. » |
+| 10 s, 5 s, 0 s | « 10 secondes », « 5 secondes », « Temps écoulé » (seulement si rien d'autre n'est lu ; pour un joueur, seulement tant qu'il n'a pas répondu) |
+| Révélation | « Bonne réponse : B, Tigre. » |
+| Article (option) | Première phrase de l'article, dans la langue de l'article |
+| Niveau, fin | « Niveau 3 terminé. », « Partie terminée. » |
+| Pause, fermeture, lobby | La lecture en cours s'arrête |
+
+| Lieu | Par défaut | Réglages |
+| --- | --- | --- |
+| Joueur | Coupée | Bouton « voix » dans l'en-tête (`aria-pressed`), panneau « Réglages de la voix » sur l'accueil, proposition unique sur l'accueil |
+| Overlay TikTok | Activée (`&voice=1` dans le lien) | URL : `voice=0` ou `voice=1`, `rate=0.5–2`, `volume=0–1`, `article=1` ; état de la voix affiché dans le lobby |
+| Console de jeu, console streamer | Activée | Panneau « Voix automatique » |
+
+- Voix choisie par langue, sinon la voix par défaut de la langue, sinon une voix locale. **Jamais une voix d'une autre langue** : sans voix pour la langue des questions, un avis « Aucune voix arabe sur cet appareil » s'affiche (joueur, console, overlay) et rien n'est lu.
+- Nom scientifique (`lang: "la"`) : voix latine, sinon la voix française ou anglaise de la room (écriture latine), sinon seul « A : » est lu. Nom d'origine dans une autre écriture : voix de cette langue ou rien.
+- Navigateur sans aucune voix (souvent la source navigateur d'OBS) : rien sur l'overlay pendant la partie, « Aucune voix dans ce navigateur » dans le lobby ; ailleurs un avis.
+- Lecture bloquée avant un geste (politique d'autoplay) : avis « Le navigateur attend un clic avant de parler » et bouton « Activer la voix ».
+- `M` (son coupé) coupe aussi la voix des joueurs.
+- Lecteur d'écran : laisser la voix coupée ; le texte le rappelle dans les réglages.
+
 ## 22. Sons
 
 | Fichier | Moment | Volume |
@@ -732,7 +758,7 @@ Un bouton disabled garde un contraste lisible et un `aria-disabled`.
 
 - Préchargement après la première interaction.
 - Mute persistant `encycla.audio.v1`.
-- L'overlay est muet par défaut.
+- L'overlay est muet par défaut pour ces sons (la voix automatique, elle, y est activée : 21.4).
 - Aucun son avant la révélation.
 - Les fichiers sont locaux, licenciés, < 100 Ko chacun.
 - Si un fichier manque : silence, pas d'erreur bloquante.
