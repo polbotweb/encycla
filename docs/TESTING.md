@@ -630,3 +630,50 @@ Une fonctionnalité est terminée si :
 - le comportement est identique en production et en test ;
 - les cas d'erreur ont un code et un message ;
 - le code est reviewé.
+
+
+## Vérification des deux modes (D-114)
+
+### Projets Playwright
+
+| Projet | Appareil | Serveur | Parcours |
+| --- | --- | --- | --- |
+| `chromium` | Desktop Chrome | web, TikTok désactivé (port 3100) | specs existants + `play-modes.spec.ts` |
+| `mobile-pixel` | Pixel 7 (tactile) | idem | `play-modes.spec.ts` |
+| `mobile-iphone` | iPhone 14 (tactile, rendu Chromium) | idem | `play-modes.spec.ts` |
+| `tiktok` | Desktop Chrome | `TIKTOK_ENABLED=true TIKTOK_ADAPTER=fake` (port 3101) | `tiktok.spec.ts` |
+
+`play-modes.spec.ts`, en fr/en/ar : solo CLASSIC jusqu'au classement final, salon privé (code, lien, prêt, question, article, question suivante), matchmaking public (duel CONTEST), et TikTok désactivé : aucun point d'entrée TikTok, tous les liens répondent, overlay/console expliquent au lieu de casser, `POST /api/tiktok/rooms` refusé. Aucune erreur console ni réponse 4xx/5xx de l'application.
+
+`tiktok.spec.ts` : console streamer (jeton admin, n'importe quel live) → liens overlay/console → overlay 1920×1080 + console → 4 spectateurs `A`/`B`/`C`/`D` via le chat simulé (un bavardage ignoré) → révélation avec leurs pseudos → 20 questions passées depuis la console → classement final → fermeture ; console en en/ar (RTL, axe) ; jeton refusé.
+
+L'adaptateur réel est testé sans réseau dans `tests/tiktok/connector.test.ts` : `tiktokSetup` câble `LiveTikTokAdapter` sur le live nommé par la room, avec un `tiktok-live-connector` simulé (options, conversion des messages, déconnexions).
+
+Les deux serveurs de test tournent avec `RATE_LIMIT=off` : tous les navigateurs partagent `127.0.0.1` et la limite de 100 requêtes/min/IP. CI : job `e2e` (`pnpm test:e2e:desktop`) et job `e2e-mobile` (`pnpm test:e2e:mobile`).
+
+### Passe « production » locale
+
+Serveur construit, `NODE_ENV=production`, origine `https://`, rate limiting actif :
+
+```bash
+pnpm build
+openssl req -x509 -newkey rsa:2048 -nodes -keyout /tmp/key.pem -out /tmp/cert.pem -days 2 \
+  -subj "/CN=127.0.0.1" -addext "subjectAltName=IP:127.0.0.1"
+export ADMIN_TOKEN=$(openssl rand -hex 32)
+NODE_ENV=production TRUST_PROXY=true PORT=3200 PUBLIC_ORIGIN=https://127.0.0.1:3443 \
+  DATABASE_PATH=/tmp/web.db TIKTOK_ENABLED=false node dist/server/index.js &
+NODE_ENV=production TRUST_PROXY=true PORT=3201 PUBLIC_ORIGIN=https://127.0.0.1:3444 \
+  DATABASE_PATH=/tmp/tiktok.db TIKTOK_ENABLED=true TIKTOK_ADAPTER=fake TIKTOK_USERNAME=encycla_demo \
+  node dist/server/index.js &
+node scripts/e2e/tls-proxy.mjs 3443 3200 /tmp/cert.pem /tmp/key.pem &
+node scripts/e2e/tls-proxy.mjs 3444 3201 /tmp/cert.pem /tmp/key.pem &
+E2E_BASE_URL=https://127.0.0.1:3443 E2E_TIKTOK_BASE_URL=https://127.0.0.1:3444 E2E_ADMIN_TOKEN=$ADMIN_TOKEN \
+  pnpm exec playwright test --project=chromium --project=mobile-iphone --project=tiktok \
+  tests/e2e/play-modes.spec.ts tests/e2e/tiktok.spec.ts
+```
+
+Résultat au 2026-11-18 : 23/24 parcours verts au premier passage (bureau, iPhone, TikTok) ; le 24e a atteint la limite de production de 100 requêtes/min/IP (`429`, tous les navigateurs partagent `127.0.0.1`) et passe à la relance une minute plus tard. C'est la protection attendue, pas un défaut. Le serveur refuse aussi de démarrer en production avec `TIKTOK_ENABLED=true` sans cookie (adaptateur réel) ou avec un `TIKTOK_ADAPTER` inconnu.
+
+### Captures du README
+
+`pnpm docs:screenshots` reconstruit l'application, lance deux serveurs dédiés (ports 3110/3111, base neuve) et capture les écrans réels dans `docs/screenshots/` ; une capture échoue si une image visible n'a pas chargé. Les images Commons passent par le proxy `/img` et restent dans `data/image-cache` pour les relances.

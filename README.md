@@ -1,348 +1,544 @@
-# Encycla
+<p align="center">
+  <img src="public/brand/encycla-logo-on-light.png" alt="Encycla MindMaze" width="420">
+</p>
 
-**The visual encyclopedia game.** Identify the subject, answer before the timer, and read the story behind the image.
+<p align="center">
+  <strong>Le jeu de l'encyclopédie visuelle.</strong> Identifiez le sujet de la photo, répondez avant la fin du temps, puis lisez l'histoire derrière l'image.
+</p>
 
-Encycla est un quiz visuel multijoueur en temps réel : solo, rooms privées, matchmaking public et live TikTok. La spécification est gelée ; l'implémentation des phases 0 à 9 est en place (voir [État du dépôt](#état-du-dépôt)). Restent le contenu SUBJECT, la validation manuelle sur un vrai live TikTok et la mise en production.
+<p align="center">
+  <a href="https://github.com/polbotweb/encycla/actions/workflows/ci.yml"><img src="https://github.com/polbotweb/encycla/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
+  <img src="https://img.shields.io/badge/licence-MIT-blue" alt="Licence MIT">
+  <img src="https://img.shields.io/badge/node-22-339933" alt="Node 22">
+  <img src="https://img.shields.io/badge/TypeScript-strict-3178c6" alt="TypeScript strict">
+  <img src="https://img.shields.io/badge/langues-fr%20%7C%20en%20%7C%20ar-8b5cf6" alt="fr, en, ar">
+</p>
 
-- **Produit** : Encycla
-- **Jeu** : Encycla MindMaze
-- **Langue de l'UI** : français par défaut, anglais et arabe (RTL) disponibles
-- **Langue de la documentation** : français
-- **Statut** : documentation d'architecture gelée, implémentation des phases 0 à 9 en place ; contenu SUBJECT, live test TikTok et release restants
-- **Gel de la documentation** : 2026-10-23
-- **Version documentaire** : 2.0
-- **Date** : 2026-10-22
+<p align="center"><a href="README.en.md">English version</a></p>
+
+![Accueil sur ordinateur](docs/screenshots/desktop-fr-home.png)
+
+---
 
 ## Sommaire
 
-- [Pourquoi ce projet](#pourquoi-ce-projet)
-- [Modes de jeu](#modes-de-jeu)
-- [Architecture en un coup d'œil](#architecture-en-un-coup-dœil)
-- [Documentation](#documentation)
-- [État du dépôt](#état-du-dépôt)
-- [Démarrage](#démarrage)
-- [Structure cible](#structure-cible)
-- [Configuration](#configuration)
-- [Qualité et sécurité](#qualité-et-sécurité)
-- [Déploiement](#déploiement)
-- [Contenu](#contenu)
-- [Non-objectifs v1](#non-objectifs-v1)
-- [Feuille de route](#feuille-de-route)
-- [Contribuer](#contribuer)
-- [Licence et crédits](#licence-et-crédits)
+1. [Présentation](#1-présentation)
+2. [Fonctionnalités](#2-fonctionnalités)
+3. [Modes de jeu](#3-modes-de-jeu)
+4. [Guide du joueur](#4-guide-du-joueur)
+5. [Guide du streamer TikTok](#5-guide-du-streamer-tiktok)
+6. [Langues](#6-langues)
+7. [Guide de l'hébergeur / administrateur](#7-guide-de-lhébergeur--administrateur)
+8. [Configuration (`.env`)](#8-configuration-env)
+9. [Déploiement](#9-déploiement)
+10. [Sécurité et anti-triche](#10-sécurité-et-anti-triche)
+11. [Tutoriel développeur](#11-tutoriel-développeur)
+12. [Guide du rédacteur de contenu](#12-guide-du-rédacteur-de-contenu)
+13. [Tests et CI](#13-tests-et-ci)
+14. [FAQ et dépannage](#14-faq-et-dépannage)
+15. [Contribuer](#15-contribuer)
+16. [Documentation détaillée](#16-documentation-détaillée)
+17. [Licences et crédits](#17-licences-et-crédits)
 
-## Pourquoi ce projet
+---
 
-Le prototype initial concentre toutes les règles dans un composant React : score, vies, timer, progression, gagnant. Cette architecture ne peut pas garantir l'équité, la reconnexion, l'anti-triche ou le multi-joueurs.
+## 1. Présentation
 
-Encycla v2 applique quatre principes :
+**Encycla MindMaze** est un quiz visuel multijoueur en temps réel. Chaque question montre une vraie photo de Wikimedia Commons (un animal, un drapeau, un monument, une planète, un plat…) et propose quatre réponses. Après chaque question, l'article Wikipédia correspondant s'affiche : on joue, puis on apprend.
 
-1. **Le serveur est la seule source de vérité.** Le client émet des intentions et affiche des snapshots.
-2. **Toute partie est une room.** Le solo est une room à un joueur ; le duel CONTEST est une room à deux.
-3. **Chaque règle est déterministe et testable.** Le moteur est un réducteur pur, avec horloge, aléatoire et banque de questions injectés.
-4. **Aucun secret ni réponse dans le client.** La bonne réponse n'est diffusée qu'à la phase `REVEAL`.
+- **2 605 questions** dans **18 catégories**, toutes générées depuis Wikipédia, Wikidata et Wikimedia Commons, avec auteur, licence et permalien de révision ; aucun contenu inventé.
+- **Trois langues** : français (par défaut), anglais et arabe (mise en page de droite à gauche).
+- **Sans TikTok** : solo, salon privé, matchmaking public, sur ordinateur et sur mobile.
+- **Avec TikTok Live** : les spectateurs de **n'importe quel live** répondent `A`, `B`, `C` ou `D` dans le chat, avec un overlay pour OBS et une console pour le streamer.
+- **Le serveur fait foi** : score, temps, vies et bonne réponse sont calculés côté serveur. La bonne réponse n'est jamais envoyée avant la révélation.
 
-## Modes de jeu
+Principes d'architecture :
+
+1. Le serveur est la seule source de vérité. Le client envoie des intentions et affiche des instantanés.
+2. Toute partie est un salon (*room*). Le solo est un salon à un joueur, le duel un salon à deux.
+3. Les règles sont déterministes et testables : le moteur est un réducteur pur, avec horloge, aléatoire et banque de questions injectés.
+4. Aucun secret ni aucune réponse dans le client.
+
+## 2. Fonctionnalités
+
+| Domaine | Ce qui est fourni |
+| --- | --- |
+| Jeu | CLASSIC (10 niveaux de 20 questions), SUBJECT (une catégorie, 20 questions), CONTEST (duel de 10 questions), vies, séries, bonus de vitesse, article après chaque question. |
+| Multijoueur | Salons privés à code (2 à 8 joueurs), matchmaking public par mode/catégorie/difficulté/langue, vote « petit salon » après 2 minutes, reconnexion transparente. |
+| TikTok | Room TikTok pour n'importe quel live, jusqu'à 100 spectateurs, parseur strict des commentaires, overlay OBS en lecture seule, console de jeu, console streamer `/?mode=admin`, chat simulé pour les démos. |
+| Classement | Classement global (multijoueur et TikTok ; le solo n'est pas classé), filtres par mode et par source. |
+| Contenu | Banque Wikipédia/Commons/Wikidata, crédits par image, licences libres uniquement, traductions réelles ou question retirée de la langue. |
+| Interface | React 19, thème sombre AA, clavier (`A`–`D`, `1`–`4`, `M` pour le son, `Échap` pour quitter), annonces lecteur d'écran, sons synthétisés, PWA (manifeste, icônes *maskable*). |
+| Images | Proxy same-origin `/img` : aucun nom de fichier ni crédit avant la révélation, métadonnées retirées, cache disque plafonné. |
+| Exploitation | Docker non-root, Caddy HTTPS, SQLite avec repli mémoire, validation de configuration *fail-fast*, healthcheck, sauvegardes `VACUUM INTO`. |
+| Qualité | TypeScript strict, 429 tests Vitest, 47 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok), test de charge, CI complète. |
+
+## 3. Modes de jeu
 
 | | CLASSIC | SUBJECT | CONTEST |
 | --- | --- | --- | --- |
 | Niveaux | 10 | 1 | 1 |
 | Questions | 20 par niveau | 20 | 10 |
-| Joueurs | 1-8 web, 0 au départ puis jusqu'à 100 TikTok | 1-8 web, 0 au départ puis jusqu'à 100 TikTok | exactement 2 |
-| Catégories | toutes | une catégorie fixe | toutes |
-| Vies | 3 | 3 | aucune |
-| Difficulté | progressive | choisie | Adventurer |
+| Joueurs web | 1 à 8 | 1 à 8 | exactement 2 |
+| Joueurs TikTok | jusqu'à 100 | jusqu'à 100 | non proposé |
+| Catégories | toutes | une seule, choisie | toutes |
+| Vies | 3 (rechargées à chaque niveau en solo) | 3 | aucune |
+| Difficulté | progressive (Novice → Adventurer → Wizard) | choisie | Adventurer |
 | Article | après chaque question | après chaque question | après chaque question |
 
-**Sans TikTok (web, ordinateur et mobile)** — c'est le jeu complet, TikTok désactivé (`TIKTOK_ENABLED=false`, défaut) :
+### 3.1 Sans TikTok (web, ordinateur et mobile)
 
-- **Solo** : campagne CLASSIC ou SUBJECT, vies rechargées à chaque niveau.
-- **Salon privé** : code à 6 caractères (ou lien `/?mode=join&code=…`), 2 à 8 joueurs, démarrage par le host.
-- **Matchmaking public** : par mode, catégorie et difficulté ; duel CONTEST dès 2 joueurs ; small room après 2 minutes.
+C'est le jeu complet ; TikTok est désactivé par défaut (`TIKTOK_ENABLED=false`) et n'apparaît nulle part.
 
-**Avec TikTok Live (n'importe quel live)** — `TIKTOK_ENABLED=true` :
+- **Solo** : « Solo CLASSIC » ou « Solo SUBJECT » sur l'accueil. On joue seul ; la partie se termine à la perte des trois vies ou à la fin du dernier niveau.
+- **Salon privé** : « Créer un salon privé » donne un code à 6 caractères et un lien `/?mode=join&code=…`. Les invités le rejoignent, chacun se déclare prêt, l'hôte lance la partie. L'hôte peut passer un article pour tout le monde.
+- **Matchmaking public** : « Jouer en ligne ». Les joueurs sont regroupés par mode, catégorie, difficulté et langue des questions. CONTEST démarre dès 2 joueurs ; CLASSIC et SUBJECT visent 4 joueurs et proposent un vote « petit salon » (2 à 3 joueurs) après 2 minutes d'attente.
+- **SUBJECT / catégories** : une catégorie n'est proposée que si elle compte au moins 100 questions dans la langue choisie (les 18 catégories le dépassent dans les trois langues).
 
-- La console streamer `/?mode=admin` (jeton `ADMIN_TOKEN`) crée le salon pour le `@` du live choisi et donne deux liens : l'**overlay** (source Navigateur dans OBS) et la **console** (téléphone ou second écran : démarrer, pause, passer, réponse manuelle, fermer).
-- Les spectateurs répondent `A`, `B`, `C` ou `D` dans le chat ; top 10 et classement final à l'écran.
-- `TIKTOK_ADAPTER=fake` : chat simulé pour les démos et les tests, sans compte TikTok. Guide pas à pas : [docs/TIKTOK.md](docs/TIKTOK.md).
+### 3.2 Avec TikTok Live (n'importe quel live)
 
-Les deux modes sont vérifiés de bout en bout par Playwright contre le serveur construit (bureau, Pixel 7 et iPhone 14 émulés, fr/en/ar ; TikTok avec chat simulé) : `pnpm test:e2e`.
-- Une fin naturelle affiche l'article final avant le classement ; une fin anticipée web/solo (élimination, moins de 2 actifs) passe directement de `REVEAL` à `MATCH_OVER`. Une room TikTok ne s'arrête pas sur `< 2` actifs.
+`TIKTOK_ENABLED=true`. Le streamer crée une room depuis la console `/?mode=admin` pour le `@` de son live, met l'overlay dans OBS et pilote la partie depuis la console de jeu. Les spectateurs répondent `A`, `B`, `C` ou `D` dans le chat. Voir le [guide du streamer](#5-guide-du-streamer-tiktok).
 
-## Architecture en un coup d'œil
-
-```text
-Navigateur joueur ─┐
-Overlay OBS ───────┼── HTTP / Socket.io ──► Express + Socket.io
-Console host ──────┘                              │
-                                                  ▼
-                                         RoomManager (mémoire)
-                                                  │
-                                                  ▼
-                                         Moteur pur (reduce/tick)
-                                                  │
-                        ┌─────────────────────────┼─────────────────────┐
-                        ▼                         ▼                     ▼
-                   SQLite (scores)          JSON (questions)      TikTok adapter
-```
-
-- **HTTP** : sessions, rooms, file, leaderboard, santé, administration.
-- **Socket.io** : entrée de room, ready, start, réponses, continuation, pause, votes, snapshots.
-- **SQLite** : sessions, matchs, scores, questions approuvées ; fallback mémoire si indisponible.
-- **Moteur** : aucune I/O, aucun accès réseau, aucune dépendance au transport.
-- **Client** : React + Zustand, aucune règle de jeu.
-
-## Documentation
-
-La documentation est la référence d'implémentation. Aucune décision ouverte n'est laissée au développeur.
-
-| Document | Contenu |
+| Overlay OBS (1920 × 1080) | Console de jeu |
 | --- | --- |
-| [docs/ADR.md](docs/ADR.md) | 18 décisions d'architecture binding. |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | 114 décisions explicites et dettes assumées. |
-| [docs/SPECIFICATION.md](docs/SPECIFICATION.md) | Règles, modes, phases, scores, matchmaking, TikTok. |
-| [docs/PROTOCOL.md](docs/PROTOCOL.md) | Contrat HTTP, Socket.io, payloads, erreurs. |
-| [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Schéma SQLite, JSON des questions, leaderboard. |
-| [docs/SECURITY.md](docs/SECURITY.md) | Menace, authentification, CSP, secrets, vie privée. |
-| [docs/TESTING.md](docs/TESTING.md) | Pyramide, cas obligatoires, couverture, CI. |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Local, Docker, TLS, migrations, runbook. |
-| [docs/UI-UX.md](docs/UI-UX.md) | Écrans, tokens, accessibilité, overlay, control. |
-| [docs/TIKTOK.md](docs/TIKTOK.md) | État de l'implémentation TikTok, activation du connecteur, checklist de live. |
-| [docs/LICENSES.md](docs/LICENSES.md) | Licences du code (MIT), du contenu (CC BY-SA, CC0, Commons), des polices et du connecteur TikTok (AGPL). |
-| [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | Phases, dépendances, estimation, critères de sortie. |
+| ![Overlay TikTok pendant une question](docs/screenshots/desktop-fr-tiktok-overlay-question.png) | ![Console de jeu TikTok](docs/screenshots/desktop-fr-tiktok-control.png) |
 
-Ordre de lecture recommandé :
+Les deux modes sont vérifiés de bout en bout par Playwright contre le serveur construit : voir [Tests et CI](#13-tests-et-ci).
 
-1. ce README ;
-2. `ADR.md` puis `DECISIONS.md` ;
-3. `SPECIFICATION.md` ;
-4. `PROTOCOL.md` et `DATA-MODEL.md` ;
-5. `SECURITY.md`, `TESTING.md`, `UI-UX.md` ;
-6. `IMPLEMENTATION-PLAN.md` et `DEPLOYMENT.md`.
+## 4. Guide du joueur
 
-## État du dépôt
+1. **Ouvrir le jeu** et choisir sa langue en haut à droite (Français, English, العربية).
+2. **Saisir un pseudo** (2 à 24 caractères). Aucun compte, aucun e-mail : une session anonyme est créée.
+3. **Choisir comment jouer** : solo, salon privé, rejoindre avec un code, ou jouer en ligne.
+4. **Régler la partie** : mode, langue des questions, et pour SUBJECT la catégorie et la difficulté.
 
-Les phases 0 à 9 sont implémentées et vérifiées automatiquement :
+   ![Réglage d'une partie](docs/screenshots/desktop-fr-setup.png)
 
-- **Outillage** : pnpm (lockfile gelé), TypeScript strict, ESLint, Prettier, Vitest, Playwright, CI (secrets, format, lint, types, données, tests, audit, build, e2e, build Docker).
-- **Données** : `data/questions.json` (2 605 questions en français, anglais et arabe générées depuis Wikipédia et Wikimedia Commons par `pnpm run data:wikipedia`, validées par `pnpm run data:validate`) et import SQLite atomique.
-- **Moteur** (`server/game`) : réducteur pur `reduce`/`tick`, scoring, state machine, effets sous forme de données.
-- **Serveur** : Express 5 + Socket.io (`/game`), `RoomManager`, sessions hachées, persistance SQLite avec repli mémoire, leaderboard, matchmaking public avec vote small room, reconnexion, fermeture admin, rate limiting HTTP et socket, CSP stricte, HSTS, Permissions-Policy.
-- **TikTok** (`server/tiktok`) : parsing strict, connecteur avec backoff, faux adaptateur, route `POST /api/tiktok/rooms`, viewers (capacité 100, déduplication), overlay en lecture seule et console control. Le connecteur réel (`tiktok-live-connector`, AGPL-3.0) est une dépendance **optionnelle** isolée derrière l'interface `TikTokAdapter`, absente de l'image Docker par défaut : voir [docs/TIKTOK.md](docs/TIKTOK.md) et [docs/LICENSES.md](docs/LICENSES.md).
-- **Client** (`client/`) : React 19 + Zustand, toutes les vues de `docs/UI-UX.md` (accueil, lobby, file publique, countdown, question, révélation, article, fin de niveau, résultats, leaderboard, overlay, control), tokens sombres AA, annonces `aria-live`, raccourcis clavier, sons synthétisés en WebAudio (aucun fichier audio).
-- **Livraison** : `Dockerfile` multi-stage non-root avec healthcheck (option `WITH_TIKTOK`), `docker-compose.yml` durci avec proxy Caddy HTTPS optionnel (profil `proxy`), `.env.example` commenté, validation fail-fast de la configuration de production, bundle serveur `dist/server/index.js`.
-- **Tests** : unitaires, intégration Socket.io de bout en bout (CONTEST complet, solo, file publique, vote small room, reconnexion, room TikTok à 100 viewers), sécurité HTTP, jsdom + axe pour les vues, Playwright (solo, deux joueurs, changement de langue, RTL arabe, axe avec contraste dans les trois langues), test de charge `pnpm run test:load` (les rooms alternent fr, en, ar).
+5. **Répondre** : cliquer, toucher l'écran, ou taper `A`–`D` / `1`–`4`. Le chronomètre est celui du serveur.
 
-Ce qui reste, et qui ne peut pas être fait sans décision ou sans compte externe :
+   ![Une question](docs/screenshots/desktop-fr-question.png)
 
-- **Live TikTok** : le connecteur réel doit être validé sur un compte secondaire (1 h, 20 viewers) avant tout live public.
-- **Accessibilité manuelle** (NVDA, VoiceOver, contraste réel de l'overlay sur le flux OBS) n'est pas automatisable.
+6. **Révélation** : la bonne réponse, vos points (+ bonus de vitesse et de série), vos vies.
 
-### Ce que le propriétaire doit encore fournir
+   ![Révélation](docs/screenshots/desktop-fr-reveal.png)
 
-- **Hébergement** : un serveur (ou VM) avec Docker, un **nom de domaine** pointant vers lui (ports 80/443 ouverts) ; reporter le domaine dans `DOMAIN` et `PUBLIC_ORIGIN=https://<domaine>`.
-- **Secrets** dans `.env` (jamais commité) : `ADMIN_TOKEN` (`openssl rand -hex 32`).
-- **TikTok, seulement si utilisé** : décision d'utiliser un client non officiel sous AGPL ([docs/LICENSES.md](docs/LICENSES.md) §3), un **compte TikTok dédié**, son cookie `TIKTOK_SESSION_COOKIE` (`sessionid=…; tt-target-idc=…`), `TIKTOK_USERNAME`, et en option une clé Euler Stream `TIKTOK_SIGN_API_KEY` ; image construite avec `WITH_TIKTOK=true`.
-- **Sauvegardes** : une destination hors serveur pour les copies SQLite ([docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) §10).
-- La couverture client est inférieure à l'objectif de 70 % (voir `pnpm run test:coverage`) ; les seuils serveur (95 % branches `server/game`, 80 % `server`) sont atteints.
+7. **Article** : le résumé de l'article Wikipédia, le crédit de la photo et le lien vers l'article. « Continuer » quand vous êtes prêt (la suite démarre automatiquement sinon).
 
-## Démarrage
+   ![Article](docs/screenshots/desktop-fr-article.png)
 
-Prérequis : Node.js 22 et pnpm 10.28 (ou `corepack enable`).
+8. **Résultats** : podium et classement final ; « Classement » pour le classement global.
+
+| Résultats d'un duel | Classement global |
+| --- | --- |
+| ![Résultats d'un duel](docs/screenshots/desktop-fr-duel-results.png) | ![Classement](docs/screenshots/desktop-fr-leaderboard.png) |
+
+| Salon privé (lobby) | Matchmaking public |
+| --- | --- |
+| ![Lobby d'un salon privé](docs/screenshots/desktop-fr-lobby.png) | ![Recherche de joueurs](docs/screenshots/desktop-fr-matchmaking.png) |
+
+**Sur mobile**, tout fonctionne au toucher, sans défilement horizontal :
+
+| Accueil | Question | Article | Résultats |
+| --- | --- | --- | --- |
+| ![Accueil mobile](docs/screenshots/mobile-fr-home.png) | ![Question mobile](docs/screenshots/mobile-fr-question.png) | ![Article mobile](docs/screenshots/mobile-fr-article.png) | ![Résultats mobile](docs/screenshots/mobile-fr-results.png) |
+
+**Score** (CLASSIC et SUBJECT) : `points = base + vitesse + série` si la réponse est juste, où `base = 100 × difficulté (1 ; 1,25 ; 1,5) × niveau`, `vitesse` vaut 50 jusqu'à 3 s puis décroît jusqu'à 0 à 13 s, et `série = min(série, 10) × 20`. Une erreur ou l'absence de réponse coûte une vie. **CONTEST** : 1 000 points par bonne réponse, +200 au plus rapide quand les deux ont juste. Détail : [docs/SPECIFICATION.md §7](docs/SPECIFICATION.md).
+
+**Raccourcis** : `A`–`D` ou `1`–`4` pour répondre, `M` pour couper le son, `Échap` pour quitter le salon.
+
+## 5. Guide du streamer TikTok
+
+Prérequis côté serveur : `TIKTOK_ENABLED=true` et un `ADMIN_TOKEN` (voir [§8](#8-configuration-env)). Pour un vrai live, le connecteur optionnel `tiktok-live-connector` et un cookie de session d'un **compte TikTok dédié** ([docs/TIKTOK.md](docs/TIKTOK.md)).
+
+### 5.1 Créer la room
+
+1. Ouvrir `https://<votre-domaine>/?mode=admin`.
+2. Coller l'`ADMIN_TOKEN` dans « Jeton administrateur », puis **Déverrouiller**. Le jeton reste dans la page et n'est jamais enregistré.
+3. Vérifier l'**état du live** : `EN DIRECT` (chat connecté) ou `CHAT HORS LIGNE`, et le live suivi.
+4. Saisir le **`@` du live** à suivre (n'importe quel live en cours ; vide = live par défaut `TIKTOK_USERNAME`).
+5. Choisir **CLASSIC** ou **SUBJECT** (catégorie, difficulté), la **langue des questions** et le **temps par question** (10 à 30 s).
+6. **Créer le salon** : la console affiche le code, le **lien de l'overlay** et le **lien de la console**, avec « Copier » et « Ouvrir ».
+
+![Console streamer](docs/screenshots/desktop-fr-tiktok-admin.png)
+
+### 5.2 Mettre l'overlay dans OBS
+
+1. OBS → **Sources** → `+` → **Navigateur**.
+2. Coller le lien de l'overlay (`/?mode=overlay&room=CODE#token=…`). Le jeton est dans le fragment `#` : il n'est jamais envoyé au serveur HTTP ni écrit dans ses logs.
+3. Largeur × hauteur : **1080 × 1920** pour un live vertical, **1920 × 1080** pour un live horizontal.
+4. Cocher « Actualiser le navigateur quand la scène devient active ».
+5. L'overlay n'a aucun contrôle : il affiche la question, le chronomètre, le top 10, la réponse et l'article.
+
+![Overlay pendant la révélation](docs/screenshots/desktop-fr-tiktok-overlay-reveal.png)
+
+### 5.3 Piloter avec la console
+
+Ouvrir le lien de la console sur un téléphone ou un second écran :
+
+- **Démarrer**, **Pause** / **Reprendre**, **Passer** (question ou article), **Fermer** ;
+- **Réponse manuelle** : rechercher un spectateur et répondre `A`–`D` à sa place (si le chat a raté un message) ;
+- badge `EN DIRECT` / `CHAT HORS LIGNE` : si le chat se coupe, la room se met en pause au prochain moment sûr ; on reprend à la main.
+
+### 5.4 Ce que font les spectateurs
+
+- Commenter **`A`**, **`B`**, **`C`** ou **`D`** (minuscules acceptées, une `@mention` en tête est ignorée). Le premier commentaire valide inscrit le spectateur et compte comme sa réponse ; les suivants sur la même question sont ignorés.
+- Les liens, les commentaires ambigus et les réponses tardives sont ignorés sans bruit. Au-delà de 100 spectateurs, les nouveaux sont ignorés.
+- Les spectateurs apparaissent sous leur pseudo TikTok (nettoyé) dans le top 10 et le classement final.
+
+### 5.5 Répéter sans live
+
+Avec `TIKTOK_ADAPTER=fake`, la console streamer affiche « Chat simulé (démo) » et un **simulateur** (pseudo + boutons A/B/C/D). Idéal pour répéter la mise en scène OBS. À ne pas utiliser pour un vrai live.
+
+### 5.6 Fin du live
+
+**Fermer le salon** (console streamer ou console de jeu) révoque les liens overlay/console et libère la place : une seule room TikTok à la fois.
+
+## 6. Langues
+
+- **Français par défaut**, anglais (`en`) et arabe (`ar`, de droite à gauche).
+- Choix : sélecteur dans l'en-tête, mémorisé (`localStorage`, clé `encycla.lang.v1`) et dans l'URL (`?lang=ar`, prioritaire). La langue du navigateur n'est pas utilisée.
+- Les questions sont dans la **langue du salon** (« Langue des questions ») ; chaque joueur garde son interface dans sa langue. Le matchmaking apparie les joueurs de même langue.
+- Traductions (D-108) : nom de l'article Wikipédia ou libellé Wikidata de la langue ; sinon le nom scientifique (êtres vivants) ; sinon le nom d'origine ; sinon la question n'est pas proposée dans cette langue. **Jamais de français par défaut.** Banque actuelle : anglais 2 596 questions, arabe 2 553.
+- TikTok : réponses `A`–`D` quelle que soit la langue.
+
+| Arabe, ordinateur | Arabe, mobile |
+| --- | --- |
+| ![Accueil en arabe](docs/screenshots/desktop-ar-home.png) | ![Question en arabe sur mobile](docs/screenshots/mobile-ar-question.png) |
+
+## 7. Guide de l'hébergeur / administrateur
+
+### 7.1 Ce qu'il faut
+
+- Un serveur (ou une VM) avec **Docker** ; une seule instance (les rooms sont en mémoire).
+- Un **nom de domaine** pointant vers le serveur, ports **80** et **443** ouverts.
+- Un **`ADMIN_TOKEN`** : `openssl rand -hex 32`.
+- Une destination de **sauvegarde** hors serveur pour la base SQLite.
+- Pour TikTok seulement : la décision d'utiliser un client non officiel sous AGPL ([docs/LICENSES.md](docs/LICENSES.md) §3), un compte dédié et son cookie.
+
+### 7.2 Mise en ligne en 5 commandes (Docker + Caddy)
 
 ```bash
-git clone <repo>
-cd encycla
-pnpm install --frozen-lockfile
-cp .env.example .env
-pnpm run dev
+git clone https://github.com/polbotweb/encycla.git && cd encycla
+cp .env.example .env            # puis éditer : NODE_ENV, PUBLIC_ORIGIN, ADMIN_TOKEN, DOMAIN, TRUST_PROXY=true
+docker compose --profile proxy up -d --build
+curl -s https://<domaine>/api/health   # {"status":"ok",...}
+docker compose logs -f encycla
 ```
 
-- Client : `http://localhost:5173`
-- Serveur : `http://localhost:3000`
-- Le client Vite proxy `/api` et `/socket.io` vers le serveur.
-- Les migrations et la synchronisation des questions sont appliquées au démarrage du serveur ; `pnpm run db:migrate` et `pnpm run data:import` restent disponibles.
+Caddy obtient le certificat TLS automatiquement ([deploy/Caddyfile](deploy/Caddyfile)). Le conteneur applicatif est non-root, en système de fichiers en lecture seule, sans capacités, avec healthcheck.
 
-Production locale :
+### 7.3 Exploitation courante
 
-```bash
-pnpm run build   # dist/client (Vite) + dist/server (bundle esbuild)
-NODE_ENV=production ADMIN_TOKEN=<32+ caractères> PUBLIC_ORIGIN=https://exemple.test pnpm start
-```
+| Tâche | Comment |
+| --- | --- |
+| Santé | `GET /api/health` : `ok`, `degraded` (base indisponible, TikTok déconnecté…) ou `error` (`503`). |
+| Logs | JSON sur la sortie standard, sans IP persistée, sans cookie ni jeton. Niveau : `LOG_LEVEL` (`debug`, `info`, `warn`, `error`). |
+| Fermer une room bloquée | `curl -X POST -H "Authorization: Bearer $ADMIN_TOKEN" https://<domaine>/api/admin/rooms/CODE/close` |
+| Sauvegarde | `sqlite3 encycla.db "VACUUM INTO '/backups/encycla-$(date +%F).db'"` (jamais de copie à chaud du fichier). |
+| Restauration | Arrêter, copier la sauvegarde, supprimer `-wal`/`-shm`, démarrer, `PRAGMA integrity_check`. |
+| Mise à jour | `git pull && docker compose --profile proxy up -d --build` ; migrations et synchronisation des questions au démarrage. |
+| Redémarrage | Les rooms en cours sont perdues (matchs marqués `abandoned`) ; le classement est conservé. |
+| Activer TikTok | `.env` : `TIKTOK_ENABLED=true`, cookie, puis `WITH_TIKTOK=true docker compose --profile proxy up -d --build`. |
 
-Vérifications :
+Runbook complet (room bloquée, base verrouillée, mémoire, dérive d'horloge…) : [docs/DEPLOYMENT.md §13](docs/DEPLOYMENT.md).
 
-```bash
-pnpm run lint && pnpm run typecheck && pnpm test && pnpm run build
-pnpm run test:e2e                        # Playwright, build de production
-RATE_LIMIT=off pnpm start &              # puis, dans un autre terminal :
-BASE_URL=http://localhost:3000 pnpm run test:load
-```
+## 8. Configuration (`.env`)
 
-## Structure cible
-
-```text
-client/          React, Zustand, vues, styles, assets
-server/          Express, Socket.io, moteur, rooms, persistance, TikTok
-shared/          types, schémas Zod, constantes, protocole
-data/            questions.json, base SQLite non versionnée
-scripts/         extraction, validation, import, génération de contenu, charge
-tests/           unitaires, intégration, e2e, fixtures
-docs/            documentation de référence
-```
-
-Détail complet dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md).
-
-## Configuration
+Copier [`.env.example`](.env.example) en `.env` (jamais commité). Le serveur **refuse de démarrer** en production si une valeur requise manque ou est faible, en listant les problèmes sans afficher les secrets.
 
 | Variable | Défaut | Rôle |
 | --- | --- | --- |
-| `NODE_ENV` | `development` | Environnement. |
-| `PORT` | `3000` | Port HTTP/Socket.io. |
-| `PUBLIC_ORIGIN` | — | Origin public en production. |
-| `DATABASE_PATH` | `data/encycla.db` | Base SQLite. |
-| `ADMIN_TOKEN` | — | Routes admin et création TikTok. |
-| `TIKTOK_ENABLED` | `false` | Active le connecteur. |
-| `TIKTOK_USERNAME` | — | Compte TikTok du live. |
-| `TIKTOK_SESSION_COOKIE` | — | Cookie de session TikTok. |
-| `TIKTOK_SIGN_API_KEY` | — | Clé Euler Stream optionnelle pour le connecteur. |
-| `GEMINI_API_KEY` | — | Scripts de contenu hors ligne uniquement. |
-| `LOG_LEVEL` | `info` | Verbosité des logs. |
-| `TRUST_PROXY` | `false` | `true` (= 1) ou nombre de reverse proxies devant le serveur ; jamais « tout faire confiance ». |
-| `STATIC_DIR` | `dist/client` | Build Vite servi par Express. |
-| `RATE_LIMIT` | `on` | `off` pour les tests de charge ; refusé en production. |
+| `NODE_ENV` | `development` | `production` active toutes les validations. |
+| `PORT` | `3000` | Port HTTP et Socket.io. |
+| `PUBLIC_ORIGIN` | — | Origine publique exacte (`https://hôte`, sans slash) ; requise en production ; sert aussi à `og:image`. |
+| `DATABASE_PATH` | `data/encycla.db` | Base SQLite (repli mémoire si indisponible). |
+| `LOG_LEVEL` | `info` | `debug`, `info`, `warn`, `error`. |
+| `IMAGE_CACHE_DIR` | `data/image-cache` | Cache disque des images Commons du proxy `/img` ; vide = mémoire seule. |
+| `IMAGE_CACHE_MAX_MB` | `512` | Taille maximale de ce cache. |
+| `ADMIN_TOKEN` | — | Routes admin et console streamer ; requis en production, 32 caractères aléatoires minimum. |
+| `TRUST_PROXY` | `false` | `true` (un proxy) ou nombre de proxys devant le serveur. |
+| `RATE_LIMIT` | `on` | `off` pour les tests de charge et e2e ; refusé en production. |
+| `TIKTOK_ENABLED` | `false` | Active le mode TikTok. |
+| `TIKTOK_ADAPTER` | `live` | `live` (connecteur réel) ou `fake` (chat simulé, démo et tests). |
+| `TIKTOK_USERNAME` | — | Live suivi par défaut (facultatif : chaque room peut nommer son live). |
+| `TIKTOK_SESSION_COOKIE` | — | Cookie du compte dédié (`sessionid=…; tt-target-idc=…`) ; requis avec `live`. |
+| `TIKTOK_SIGN_API_KEY` | — | Clé Euler Stream facultative (quotas du service de signature). |
+| `GEMINI_API_KEY` | — | Scripts de contenu hors ligne uniquement ; jamais dans le conteneur de jeu. |
+| `DOMAIN` | — | Domaine servi par Caddy (`docker compose --profile proxy`). |
 
-Règles :
+Variables de build Docker : `WITH_TIKTOK=true` garde le connecteur AGPL dans l'image (absent par défaut). Toutes les règles : [docs/DEPLOYMENT.md §6.1](docs/DEPLOYMENT.md).
 
-- `.env` n'est jamais commité.
-- Aucune variable secrète n'est préfixée `VITE_`.
-- `GEMINI_API_KEY` n'est jamais montée dans le runtime de jeu.
-- `TIKTOK_USERNAME` et `TIKTOK_SESSION_COOKIE` sont obligatoires si `TIKTOK_ENABLED=true`.
-- Le serveur refuse de démarrer en production si `ADMIN_TOKEN` manque ou est faible (< 32 caractères, valeur d'exemple, peu de caractères distincts), si `PUBLIC_ORIGIN` n'est pas une origine `https://`, si `RATE_LIMIT=off`, ou si `TIKTOK_ENABLED=true` sans le paquet optionnel. Hors production, un `ADMIN_TOKEN` faible autre que `change-me` est aussi refusé (au lieu de désactiver silencieusement l'admin).
+## 9. Déploiement
 
-## Qualité et sécurité
+### 9.1 Docker seul
 
-### Qualité
+```bash
+docker build -t encycla .                             # sans le connecteur TikTok
+docker build --build-arg WITH_TIKTOK=true -t encycla . # avec
+docker run -d --env-file .env -p 127.0.0.1:3000:3000 \
+  -v encycla-db:/app/data/db -e DATABASE_PATH=/app/data/db/encycla.db encycla
+```
 
-- TypeScript strict.
-- ESLint + Prettier.
-- Vitest pour le moteur, le serveur et le client.
-- Playwright pour les parcours multi-joueurs.
-- Couverture minimale : 95 % branches sur `server/game`, 80 % sur `server`, 70 % sur `client`.
-- CI : lint, typecheck, données, tests, build, e2e, audit, secrets.
+### 9.2 Docker Compose + Caddy
 
-### Sécurité
+`docker compose up -d --build` sert l'application sur `127.0.0.1:3000` ; `--profile proxy` ajoute Caddy en HTTPS sur 80/443 (variable `DOMAIN`). Volumes : base SQLite (à sauvegarder) et cache d'images (jetable).
 
-- Aucun secret dans le bundle client.
-- Tokens de session hachés en base.
-- Tokens overlay/control scoped à une room, dans le fragment d'URL.
-- CSP stricte, pas de `unsafe-inline`, pas de `unsafe-eval`.
-- Aucun `dangerouslySetInnerHTML`.
-- Validation Zod de toutes les entrées.
-- Rate limiting HTTP et Socket.io.
-- La bonne réponse n'est jamais envoyée avant `REVEAL`.
-- Images servies par notre serveur (`/img/<jeton>`, proxy Commons à allowlist stricte, métadonnées retirées) : ni nom de fichier ni crédit avant la révélation (D-107), CSP `img-src 'self'`.
+### 9.3 Sans Docker (Node)
 
-Détail dans [docs/SECURITY.md](docs/SECURITY.md).
+```bash
+pnpm install --frozen-lockfile && pnpm run build
+NODE_ENV=production PUBLIC_ORIGIN=https://<domaine> ADMIN_TOKEN=<64 hex> TRUST_PROXY=true node dist/server/index.js
+```
 
-## Déploiement
+Derrière Caddy ou Nginx (WebSocket à relayer pour `/socket.io`). Exemples dans [docs/DEPLOYMENT.md §6.3](docs/DEPLOYMENT.md).
 
-- Une seule instance Node et SQLite local en v1.
-- Docker multi-stage, runtime non-root.
-- Reverse proxy TLS (Caddy ou Nginx).
-- Migrations et synchronisation JSON → SQLite au démarrage ; `pnpm run data:import` reste disponible pour un import manuel.
-- Sauvegarde SQLite par `VACUUM INTO`.
-- Un redémarrage perd les rooms ; les matchs en cours deviennent `abandoned`.
+### 9.4 Plateforme (PaaS)
 
-Procédure complète dans [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Toute plateforme qui exécute un `Dockerfile` convient si elle offre : **une seule instance** (pas d'auto-scaling horizontal : rooms et rate limiting sont en mémoire), un **volume persistant** pour `DATABASE_PATH`, les **WebSockets**, et les variables du §8 (`PUBLIC_ORIGIN` = l'URL https publique, `TRUST_PROXY=true` derrière le routeur de la plateforme). Healthcheck : `GET /api/health`.
 
-## Contenu
+## 10. Sécurité et anti-triche
 
-- La banque actuelle contient **2 605 questions uniques** en français (118 à 150 par catégorie, 18 catégories), toutes de type « identifier cette image ».
-- CLASSIC nécessite **200 questions approuvées**.
-- SUBJECT nécessite **100 questions par catégorie** (`MIN_QUESTIONS_PER_CATEGORY`, une partie en tire 20) ; les 18 catégories le dépassent d'au moins 10 % dans les trois langues (au moins 115 questions, D-109).
-- Les options sont mélangées à chaque tirage.
-- Les articles sont du texte brut, sans HTML.
-- Chaque question existe en **français**, et en **anglais et arabe** quand un vrai nom existe (mêmes photos, mêmes options dans le même ordre) ; voir [Langues](#langues).
+- **Autorité serveur** : le client n'envoie que des intentions (`ANSWER` avec l'index choisi). Score, temps de réponse (horloge serveur), vies et classement sont calculés côté serveur ; le client n'a aucune règle de jeu.
+- **Aucune fuite de réponse** : `correctIndex` n'est jamais envoyé avant `REVEAL` ; les images passent par `/img/<jeton>` (jeton éphémère par manche), sans nom de fichier ni crédit avant la révélation, métadonnées EXIF retirées.
+- **Une réponse par question**, verrouillée ; doublons, réponses tardives et jetons de phase périmés refusés.
+- **Sessions** : jetons aléatoires, hachés en base ; un `playerId` fourni par le client n'est jamais cru.
+- **Overlay / console** : jetons propres à une room, dans le fragment d'URL, révoqués à la fermeture ; l'overlay est en lecture seule.
+- **Entrées** : validation Zod de toutes les requêtes et de tous les événements ; pseudos et pseudos TikTok normalisés.
+- **Rate limiting** HTTP (100 requêtes/min/IP sur `/api`) et Socket.io.
+- **En-têtes** : CSP stricte (`default-src 'self'`, pas de `unsafe-inline` ni `unsafe-eval`), HSTS, Permissions-Policy ; aucun CDN ; aucun `dangerouslySetInnerHTML`.
+- **Secrets** : jamais dans le dépôt (gitleaks en CI), jamais préfixés `VITE_`, jamais dans les logs.
 
-### Génération depuis Wikipédia et Wikimedia Commons
+Modèle de menace complet : [docs/SECURITY.md](docs/SECURITY.md).
 
-`pnpm run data:wikipedia` (re)génère `data/questions.json`, `data/sources/report.json` et la section générée de `CREDITS.md` :
+## 11. Tutoriel développeur
 
-- seuls les **titres d'articles** sont choisis à la main (`scripts/wikimedia/seeds/`) ; la réponse (nom de l'article en français), l'explication (première phrase de l'article), le texte de l'article, l'image, l'auteur, la licence et la révision viennent de l'API Wikipédia, de Wikimedia Commons et de Wikidata (P18 en repli) ;
-- chaque question garde `source` (permalien `oldid` de l'article, révision, langue, licence CC BY-SA 4.0) et `image.author` / `image.license` / `image.sourceUrl` (page du fichier sur Commons) ;
-- licences d'images acceptées : CC0, domaine public, CC BY, CC BY-SA ; tout le reste (NC, ND, GFDL seul, usage loyal, auteur inconnu pour une licence à attribution) est écarté ;
-- les distracteurs sont de vrais sujets du même type, de préférence du même groupe (même famille, même continent…), jamais la même entité Wikidata ni un libellé contenu dans l'autre ;
-- pour les êtres vivants, les distracteurs les plus proches dans la taxonomie Wikidata (P171) passent en premier, avec au plus un du même genre (paires listées dans `data/sources/report.json` pour relecture) ;
-- tout ce qui est douteux est écarté et listé dans `data/sources/report.json` (article introuvable, page d'homonymie, image non libre, réponse introuvable dans l'article…) ;
-- politesse API : User-Agent descriptif, requêtes séquentielles avec délai, `maxlag`, reprise sur 429/`Retry-After`, cache disque (`data/cache/`, ignoré par git). `--offline` rejoue la génération depuis le cache, de façon identique.
+### 11.1 Prérequis et installation
 
-Les images sont servies en vignettes de 960 px (Commons n'accepte que des largeurs standard) ; les anciennes URL en 640 px répondent en HTTP 400.
-- Les images sont des fichiers Wikimedia crédités, servis par le proxy `/img` du serveur (cache disque `IMAGE_CACHE_DIR`, voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) §6.5).
-- Aucune génération Gemini au runtime ; la génération est hors ligne, avec revue humaine.
+- Node.js **22**, pnpm **10.28** (`corepack enable`), Git.
 
-Voir [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
+```bash
+git clone https://github.com/polbotweb/encycla.git && cd encycla
+pnpm install --frozen-lockfile
+cp .env.example .env
+pnpm run dev            # client http://localhost:5173 (proxy /api, /socket.io) + serveur http://localhost:3000
+```
 
-## Langues
+Migrations et synchronisation des questions s'appliquent au démarrage du serveur.
 
-- **Français par défaut**, anglais (`en`) et arabe (`ar`, mise en page de droite à gauche).
-- Choix : sélecteur dans l'en-tête, mémorisé dans `localStorage` (`encycla.lang.v1`) et dans l'URL (`?lang=ar`) ; le paramètre d'URL l'emporte. La langue du navigateur n'est pas utilisée.
-- Les questions sont affichées dans la **langue de la room** (« Langue des questions » à la création, par défaut la langue de l'interface). Le matchmaking public apparie les joueurs de la même langue. Chaque joueur garde son interface dans sa langue.
-- Traductions des questions (D-108) : le nom de l'article Wikipédia ou le libellé Wikidata de la langue ; sinon, pour un être vivant, son **nom scientifique** (italique, de gauche à droite) ; sinon le **nom d'origine** de l'élément ; sinon la question n'est pas proposée dans cette langue. Jamais de français par défaut, **toujours signalé** (`translations.<langue>.provenance`). Rien n'est inventé ; `pnpm run data:validate` affiche le nombre de réponses par origine.
-- Banque actuelle : anglais 2 596 questions (9 non proposées), arabe 2 553 (52 non proposées ; réponses : 138 noms scientifiques, 81 noms d'origine ; 437 articles d'une autre Wikipédia, surtout l'anglais). Un nom d'origine trop long dans une autre écriture est remplacé par une forme réelle plus courte (D-109).
-- TikTok : les spectateurs répondent toujours par A, B, C ou D, quelle que soit la langue.
-- Décisions : [D-84 à D-95](docs/DECISIONS.md). Interface et RTL : [docs/UI-UX.md §20](docs/UI-UX.md).
+### 11.2 Scripts
 
-## Non-objectifs v1
+| Script | Rôle |
+| --- | --- |
+| `pnpm dev` | Client Vite + serveur `tsx watch`. |
+| `pnpm build` | Client (Vite, assets précompressés) + serveur (bundle esbuild `dist/server/index.js`). |
+| `pnpm start` | Serveur de production depuis `dist/`. |
+| `pnpm lint` / `pnpm typecheck` | ESLint ; TypeScript strict (client, serveur, tests). |
+| `pnpm format` / `pnpm format:check` | Prettier. |
+| `pnpm test` / `pnpm test:coverage` | Vitest (unitaires, intégration Socket.io, jsdom + axe) avec seuils de couverture. |
+| `pnpm test:e2e` | Playwright, tous les projets (bureau, mobiles, TikTok). |
+| `pnpm test:e2e:desktop` / `pnpm test:e2e:mobile` | Bureau + TikTok ; Pixel 7 + iPhone 14. |
+| `pnpm test:load` | Charge : 25 duels CONTEST (50 sockets) contre `BASE_URL`. |
+| `pnpm docs:screenshots` | Régénère `docs/screenshots/` depuis l'application construite. |
+| `pnpm data:wikipedia` | (Re)génère la banque depuis Wikipédia/Commons/Wikidata (`--offline` : depuis le cache). |
+| `pnpm data:validate` | Valide `data/questions.json` et affiche les statistiques par langue. |
+| `pnpm data:import` / `pnpm db:migrate` | Import JSON → SQLite ; migrations. |
+| `pnpm brand` | Régénère logo, favicons, icônes et images sociales depuis le code. |
 
-- Multi-instance et scaling horizontal.
-- Mode hors-ligne.
-- Génération Gemini en direct.
-- Comptes email/mot de passe.
-- Matchmaking classé ou ELO.
-- Chat entre joueurs.
-- Modération du contenu TikTok.
-- Replay, historique de partie, rematch.
-- Spectateurs web.
-- Upload d'avatar.
+### 11.3 Architecture
 
-## Feuille de route
+```mermaid
+flowchart LR
+  subgraph Navigateurs
+    P[Joueur web / mobile]
+    O[Overlay OBS]
+    C[Console de jeu]
+    A[Console streamer /?mode=admin]
+  end
+  subgraph Serveur Node
+    H[Express 5<br/>HTTP + /img]
+    S[Socket.io /game]
+    R[RoomManager<br/>en mémoire]
+    E[Moteur pur<br/>reduce / tick]
+    Q[QueueManager<br/>matchmaking]
+    T[TikTokService<br/>connecteur + backoff]
+  end
+  P -- HTTP / WebSocket --> H & S
+  O -- WebSocket lecture seule --> S
+  C -- WebSocket --> S
+  A -- HTTP bearer ADMIN_TOKEN --> H
+  H --> R
+  S --> R
+  Q --> R
+  R --> E
+  T -- réponses A-D --> R
+  TT[(Chat TikTok Live)] --> T
+  R --> DB[(SQLite<br/>sessions, matchs, scores)]
+  E --> QB[(data/questions.json)]
+  H -- proxy --> WM[(Wikimedia Commons)]
+```
 
-| Phase | Contenu | Statut |
+Une partie est un salon ; le `RoomManager` applique les événements au moteur pur (`server/game/engine.ts`), exécute ses effets (persistance, minuteries) et diffuse un instantané `ROOM_STATE` personnalisé à chaque participant.
+
+### 11.4 Structure des dossiers
+
+```text
+client/                 React 19 + Zustand
+  views/                Accueil, lobby, question, révélation, article, résultats, classement,
+                        matchmaking, overlay, console de jeu, console streamer (AdminView)
+  components/           Shell, modales, boutons, logo, images…
+  i18n/                 fr.ts (référence), en.ts, ar.ts, sélecteur
+  lib/ store/ styles/   API, temps réel, stores, tokens CSS
+server/
+  game/                 Moteur pur : engine, scoring, state-machine, questions
+  rooms/ matchmaking/   RoomManager, codes ; QueueManager
+  realtime/             Passerelle Socket.io, charges utiles
+  http/                 Routes (sessions, jeu, admin, santé, social)
+  images/               Proxy /img, cache, jetons
+  persistence/ db/      SQLite (better-sqlite3), repli mémoire, migrations
+  security/             Jetons, jetons de room, rate limiting
+  tiktok/               Parseur, connecteur, adaptateurs réel/simulé, service, câblage
+shared/                 Types, schémas Zod, protocole, langues
+data/                   questions.json (versionné), base et caches (ignorés)
+scripts/                Générateur Wikipédia, validation, import, marque, charge, e2e
+tests/                  unitaires, intégration, client, données, e2e Playwright
+docs/                   Documentation de référence et captures
+deploy/                 Caddyfile
+```
+
+### 11.5 Protocole
+
+- **HTTP** (`/api`) : `POST /sessions`, `GET|PATCH /me`, `GET /config`, `POST /rooms`, `POST /solo`, `POST|DELETE /queue`, `GET /leaderboard`, `GET /health` ; admin : `POST /tiktok/rooms`, `GET /admin/tiktok`, `POST /admin/tiktok/chat` (chat simulé), `POST /admin/rooms/:code/close`.
+- **Socket.io** (`/game`) — client → serveur : `ROOM_JOIN`, `ROOM_LEAVE`, `LOBBY_READY`, `GAME_START`, `ANSWER`, `CONTINUE`, `HOST_PAUSE`, `HOST_RESUME`, `HOST_SKIP`, `HOST_MANUAL_ANSWER`, `HOST_CLOSE`, `SMALL_ROOM_VOTE` ; serveur → client : `SESSION_READY`, `ROOM_STATE`, `PLAYER_LOCKED`, `TIMER_SYNC`, `MATCH_FOUND`, `SMALL_ROOM_PROPOSAL`, `QUEUE_STATE`, `CONTROL_READY`, `ROOM_CLOSED`, `SESSION_REPLACED`, `ERROR`.
+- Phases : `LOBBY → COUNTDOWN → QUESTION → REVEAL → ARTICLE → (LEVEL_COMPLETE) → … → MATCH_OVER`, plus `PAUSED` et `CLOSED`.
+
+Contrat complet, charges utiles et codes d'erreur : [docs/PROTOCOL.md](docs/PROTOCOL.md).
+
+### 11.6 Modèle de données
+
+- **SQLite** : `players`, `player_sessions` (jetons hachés), `matches`, `scores`, `questions`, `questions_pending`.
+- **Questions** (`data/questions.json`) : `id`, `category`, `subject`, `questionText`, `options[4]`, `correctIndex`, `explanation`, `articleTitle`, `articleBody` (texte brut), `image` (`url`, `alt`, `author`, `license`, `credit`, `sourceUrl`), `source` (permalien `oldid`, licence), `translations.en|ar` avec `provenance`, ou `unavailable.<langue>`.
+
+Détail : [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
+
+### 11.7 Ajouter une langue
+
+1. `shared/languages.ts` : ajouter le code à `LANGUAGES` et `TRANSLATED_LANGUAGES`, sa direction et son nom.
+2. `client/i18n/<code>.ts` : traduire toutes les clés de `fr.ts` (le typage refuse une clé manquante) et l'enregistrer dans `client/i18n/index.ts`.
+3. Polices : ajouter une police OFL auto-hébergée si l'écriture l'exige (jamais de CDN).
+4. Contenu : `pnpm data:wikipedia` génère `translations.<code>` depuis la Wikipédia et Wikidata de cette langue, puis `pnpm data:validate`.
+5. Tests : ajouter la langue aux listes des tests d'i18n et des e2e (`tests/e2e/play-modes.spec.ts`).
+
+### 11.8 Conventions
+
+Jamais de règle de jeu dans le client ; un test pour chaque comportement ; une décision produit = une entrée dans [docs/DECISIONS.md](docs/DECISIONS.md) ; pas de nouvelle dépendance sans justification ; pas de HTML dans les articles.
+
+## 12. Guide du rédacteur de contenu
+
+Le contenu n'est **jamais écrit à la main** : seuls les **titres d'articles** de Wikipédia en français sont choisis. Tout le reste (réponse, explication, article, image, auteur, licence, révision, traductions) vient de Wikipédia, Wikidata et Wikimedia Commons.
+
+### 12.1 Ajouter des questions à une catégorie
+
+1. Ouvrir le fichier de graines de la catégorie dans `scripts/wikimedia/seeds/` (`nature.ts`, `world.ts`, `culture.ts`, `society.ts`).
+2. Ajouter des titres d'articles **exacts** (séparés par `;`) dans le groupe adapté (`group`, `question`, `alt`). L'`alt` ne doit jamais contenir la réponse.
+3. Lancer `pnpm data:wikipedia` (en ligne : API polie, cache dans `data/cache/`).
+4. Lire `data/sources/report.json` : titres écartés (homonymie, image non libre, réponse introuvable…) et paires de distracteurs proches à relire.
+5. `pnpm data:validate`, puis `pnpm test`, puis commit de `data/questions.json`, `data/sources/report.json` et `CREDITS.md`.
+
+### 12.2 Ajouter une catégorie
+
+1. `shared/schemas.ts` : ajouter la valeur à `CATEGORY_VALUES`.
+2. `client/i18n/fr.ts`, `en.ts`, `ar.ts` : clé `category.<Valeur>`.
+3. `scripts/wikimedia/seeds/` : créer ses groupes et les enregistrer dans `seeds/index.ts`.
+4. Générer et valider. SUBJECT n'est ouvert qu'à partir de **100 questions** dans une langue (viser 115+).
+
+### 12.3 Règles éditoriales
+
+- Licences d'images acceptées : CC0, domaine public, CC BY, CC BY-SA ; le reste est écarté automatiquement.
+- Distracteurs : de vrais sujets du même type, de préférence du même groupe, jamais la même entité.
+- Traductions : nom réel dans la langue, sinon nom scientifique, sinon nom d'origine, sinon pas de question dans cette langue ; jamais de français de secours.
+- Tout ce qui est douteux est écarté plutôt que corrigé à la main.
+
+Détails : [docs/DATA-MODEL.md](docs/DATA-MODEL.md), [docs/DECISIONS.md](docs/DECISIONS.md) (D-80 à D-112).
+
+## 13. Tests et CI
+
+| Niveau | Outil | Contenu |
 | --- | --- | --- |
-| 0 | Assainissement, lockfile, secrets, CI minimale. | Fait |
-| 1 | TypeScript strict, lint, tests, build serveur/client. | Fait |
-| 2 | Extraction, validation et import des questions. | Fait |
-| 3 | Moteur pur, scoring, state machine, tests. | Fait |
-| 4 | SQLite, sessions, identité, persistance. | Fait |
-| 5 | HTTP, Socket.io, rooms, orchestration. | Fait |
-| 6 | Client joueur, vues, accessibilité, sons. | Fait |
-| 7 | Matchmaking public et small rooms. | Fait |
-| 8 | TikTok, overlay, control. | Fait (connecteur réel non validé) |
-| 9 | Durcissement sécurité, charge, a11y. | Fait (a11y manuelle, TLS restants) |
-| 10 | Extension du contenu SUBJECT. | À faire (contenu éditorial) |
-| 11 | Release et live test. | À faire (live test, déploiement) |
+| Unitaires | Vitest | Moteur (scoring, phases, vies, séries), parseur TikTok, connecteur, câblage de l'adaptateur réel avec un module simulé, formes de libellés. |
+| Intégration | Vitest + Socket.io | CONTEST complet, solo, file publique, vote petit salon, reconnexion, room TikTok à 100 spectateurs, n'importe quel live, chat simulé. |
+| Client | Vitest + jsdom + axe | Vues, console streamer, i18n, accessibilité. |
+| E2E bureau | Playwright `chromium` | Solo jusqu'aux résultats, salon privé, matchmaking en fr/en/ar, TikTok désactivé sans lien cassé, images, RTL, axe. |
+| E2E mobile | Playwright `mobile-pixel`, `mobile-iphone` | Les mêmes parcours au toucher, sans défilement horizontal. |
+| E2E TikTok | Playwright `tiktok` | Console streamer → overlay 1920×1080 + console → spectateurs A/B/C/D → 20 questions → classement final → fermeture. |
+| Charge | `pnpm test:load` | 25 duels simultanés, latences p50/p95. |
 
-Détail et estimation dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md).
+Les e2e tournent contre le **serveur construit** (`pnpm build`), un serveur web sans TikTok et un serveur `TIKTOK_ADAPTER=fake`. Contre un déploiement existant : `E2E_BASE_URL=https://… E2E_TIKTOK_BASE_URL=https://… E2E_ADMIN_TOKEN=… pnpm exec playwright test`. Une passe « production » locale (`NODE_ENV=production`, https via `scripts/e2e/tls-proxy.mjs`) est décrite dans [docs/TESTING.md](docs/TESTING.md).
 
-## Contribuer
+```bash
+pnpm lint && pnpm typecheck && pnpm format:check && pnpm data:validate && pnpm test:coverage && pnpm build
+pnpm test:e2e
+RATE_LIMIT=off pnpm start &   # puis
+BASE_URL=http://localhost:3000 pnpm test:load
+```
 
-- Lire les documents de référence avant toute modification.
-- Ne jamais implémenter une règle dans le client.
-- Ne jamais ajouter une dépendance sans vérifier qu'elle existe déjà ou justifier son ajout.
-- Ajouter ou mettre à jour un test pour chaque comportement.
-- Ne jamais commiter de secret.
-- Ne jamais utiliser de CDN pour les polices, le JS ou le CSS ; les images éditoriales passent par le proxy same-origin `/img` (D-107).
-- Ne jamais utiliser `dangerouslySetInnerHTML`.
-- Ne jamais écrire de HTML dans les articles.
-- Ne jamais introduire de décision produit implicite : mettre à jour `DECISIONS.md` et `ADR.md`.
+**CI GitHub Actions** ([.github/workflows/ci.yml](.github/workflows/ci.yml)) : `secrets` (gitleaks), `verify` (format, lint, types, données, tests avec couverture, audit, build), `e2e` (bureau + TikTok), `e2e-mobile` (Pixel 7 + iPhone 14), `docker` (build de l'image).
 
-## Licence et crédits
+## 14. FAQ et dépannage
 
-- **Code** : licence [MIT](LICENSE), © 2026 Ishaq74 et les contributeurs d'Encycla.
-- **Questions et articles** : textes de Wikipédia (fr, en, ar) sous **CC BY-SA 4.0**, libellés Wikidata sous CC0 ; permalien de révision par question et par langue, liste dans [CREDITS.md](CREDITS.md).
-- **Images** : Wikimedia Commons, licence de chaque fichier (CC0, domaine public, CC BY, CC BY-SA), crédit affiché sous chaque image et listé dans `CREDITS.md`.
-- **Polices** : Merriweather, Inter, Noto Sans Arabic, Noto Naskh Arabic, SIL Open Font License.
-- **Connecteur TikTok** (optionnel) : `tiktok-live-connector`, **AGPL-3.0-only**, non distribué par défaut.
-- Détail et obligations : [docs/LICENSES.md](docs/LICENSES.md).
-- Sons : signaux synthétisés en WebAudio au runtime, aucun fichier audio embarqué.
+**Le serveur refuse de démarrer (« Invalid configuration »).** Lire la liste affichée : en production il faut `ADMIN_TOKEN` (32+ caractères aléatoires), `PUBLIC_ORIGIN` en `https://`, pas de `RATE_LIMIT=off` ; avec TikTok réel, `TIKTOK_SESSION_COOKIE`.
+
+**« Déconnecté » en haut à droite, rien ne se passe.** Le WebSocket ne passe pas : vérifier que le proxy relaie `/socket.io` (upgrade), que `PUBLIC_ORIGIN` est exactement l'URL du site, et `TRUST_PROXY=true` derrière un proxy.
+
+**Les images ne s'affichent pas.** Le serveur doit joindre `upload.wikimedia.org` (sortie HTTPS). Le cache `IMAGE_CACHE_DIR` évite de retélécharger.
+
+**Trop de requêtes (429).** Le rate limiting est de 100 requêtes/min/IP sur `/api`. Derrière un proxy, sans `TRUST_PROXY`, tous les joueurs partagent l'IP du proxy.
+
+**La catégorie est « Bientôt disponible ».** Moins de 100 questions dans la langue choisie : ajouter des titres ([§12](#12-guide-du-rédacteur-de-contenu)).
+
+**TikTok : `CHAT HORS LIGNE`.** Vérifier que le live est en cours, le `@`, le cookie (compte dédié), et que l'image a été construite avec `WITH_TIKTOK=true`. Le connecteur réessaie seul (1 s → 30 s) ; reprendre la room depuis la console.
+
+**TikTok : « Un salon TikTok est déjà ouvert ».** Une seule room TikTok à la fois : la fermer depuis la console streamer.
+
+**Un joueur a rechargé la page.** Il retrouve sa partie (reconnexion par session) ; après la fin, « Retour à l'accueil » le sort du salon terminé.
+
+**Comment tester TikTok sans compte ?** `TIKTOK_ENABLED=true TIKTOK_ADAPTER=fake ADMIN_TOKEN=…` puis `/?mode=admin`.
+
+## 15. Contribuer
+
+1. Forker, créer une branche, `pnpm install`.
+2. Lire les documents de référence concernés (règles : SPECIFICATION ; contrat : PROTOCOL ; décisions : DECISIONS).
+3. Écrire le test d'abord ou en même temps ; garder les règles dans le serveur.
+4. Vérifier : `pnpm lint && pnpm typecheck && pnpm format:check && pnpm test:coverage && pnpm test:e2e`.
+5. Si l'interface change : `pnpm docs:screenshots` et mettre à jour ce README.
+6. Ouvrir une pull request décrivant le comportement et les tests. Jamais de secret, jamais de contenu inventé.
+
+## 16. Documentation détaillée
+
+| Document | Contenu |
+| --- | --- |
+| [docs/SPECIFICATION.md](docs/SPECIFICATION.md) | Règles, modes, phases, scores, matchmaking, TikTok. |
+| [docs/PROTOCOL.md](docs/PROTOCOL.md) | Contrat HTTP et Socket.io, erreurs, séquences. |
+| [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Schéma SQLite, format des questions, traductions. |
+| [docs/TIKTOK.md](docs/TIKTOK.md) | Mode TikTok, n'importe quel live, chat simulé, connecteur réel, checklist de live. |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Local, production, Docker, TLS, sauvegardes, supervision, runbook. |
+| [docs/SECURITY.md](docs/SECURITY.md) | Menaces, authentification, CSP, secrets, vie privée. |
+| [docs/TESTING.md](docs/TESTING.md) | Pyramide de tests, cas obligatoires, couverture, CI. |
+| [docs/UI-UX.md](docs/UI-UX.md) | Écrans, tokens, accessibilité, overlay, console, RTL. |
+| [docs/ADR.md](docs/ADR.md) | Décisions d'architecture. |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | 114 décisions explicites et dettes assumées. |
+| [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | Phases et critères de sortie. |
+| [docs/LICENSES.md](docs/LICENSES.md) | Licences du code, du contenu, des polices et du connecteur TikTok. |
+
+Limites assumées en v1 : une seule instance, rooms en mémoire (perdues au redémarrage), rate limiting en mémoire, connecteur TikTok non officiel. Ce qui reste à faire hors code : valider le connecteur réel sur un compte secondaire (1 h, 20 spectateurs) et les tests d'accessibilité manuels (NVDA, VoiceOver).
+
+## 17. Licences et crédits
+
+- **Code** : [MIT](LICENSE), © 2026 Ishaq74 et les contributeurs d'Encycla.
+- **Questions et articles** : Wikipédia (fr, en, ar) sous **CC BY-SA 4.0**, libellés Wikidata sous CC0 ; permalien de révision par question et par langue ([CREDITS.md](CREDITS.md)).
+- **Images** : Wikimedia Commons, licence propre à chaque fichier (CC0, domaine public, CC BY, CC BY-SA), crédit affiché sous chaque image et listé dans `CREDITS.md`.
+- **Marque Encycla** : logo et icônes originaux générés par `pnpm brand` (`scripts/brand/build-brand.ts`).
+- **Polices** : Merriweather, Inter, Noto Sans Arabic, Noto Naskh Arabic (SIL Open Font License).
+- **Connecteur TikTok** (optionnel) : `tiktok-live-connector`, **AGPL-3.0-only**, absent de l'image par défaut.
+- **Sons** : synthétisés en WebAudio, aucun fichier audio.
+
+Détail et obligations : [docs/LICENSES.md](docs/LICENSES.md).
