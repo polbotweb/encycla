@@ -117,4 +117,32 @@ export const SPACE: SeedGroup[] = [
       `Station spatiale internationale; Télescope spatial Hubble; Télescope spatial James-Webb; Apollo 11; Apollo 13; Apollo 17; Voyager 1; Voyager 2; Spoutnik 1; Soyouz (véhicule spatial); Saturn V; Navette spatiale américaine; Challenger; Columbia; Discovery; Atlantis; Curiosity; Opportunity; Spirit; Perseverance; Ingenuity; Mir; Skylab; Rosetta; Philae; Cassini-Huygens; New Horizons; Galileo (sonde); Juno (sonde spatiale); Pioneer 10; Mariner 10; Magellan (sonde); Messenger (sonde spatiale); Dawn; Hayabusa; Ariane 5; Ariane 6; Falcon 9; Falcon Heavy; Starship; Space Launch System; Vostok 1; Lunokhod 1; Luna 9; Chandrayaan-3; Tchang'e 4; Sojourner; Viking 1; Mars Pathfinder; InSight; Parker Solar Probe; Solar Orbiter; Gaia; Herschel; Planck; Kepler; Compton Gamma Ray Observatory; Chandra; Spitzer`,
     ),
   },
+  // Real titles of subjects whose earlier seed title was a disambiguation page or missing, and
+  // named members of « Objet de Messier » (checked on 18/11/2026), so Space & Astronomy stays above
+  // the SUBJECT threshold in every language (D-109).
+  {
+    group: 'Engins spatiaux — titres exacts',
+    question: 'Quel est cet engin spatial ?',
+    alt: 'Image d’un engin spatial à identifier',
+    titles: t(
+      `Atlantis (navette spatiale); Challenger (navette spatiale); Columbia (navette spatiale); Discovery (navette spatiale); Curiosity (astromobile); Dawn (sonde spatiale); Hayabusa (sonde spatiale); Herschel (télescope spatial); Kepler (télescope spatial); Mir (station spatiale); Rosetta (sonde spatiale); Spirit (rover); Spitzer (télescope spatial); Planck (télescope spatial); Chandra (télescope spatial); Magellan (sonde spatiale); Chang'e 4`,
+    ),
+  },
+  {
+    group: 'Ciel profond — objets de Messier et titres exacts',
+    question: 'Quel est cet objet du ciel profond ?',
+    alt: 'Image d’un objet du ciel profond à identifier',
+    titles: t(
+      `Pléiades (astronomie); NGC 6302; Galaxies des Antennes; Amas d'Hercule; M74 (galaxie); Amas du Canard sauvage; M44 (amas ouvert); M63 (galaxie); NGC 1300`,
+    ),
+  },
+  {
+    group: 'Comètes et astéroïdes',
+    question: 'Quel est cet astre du système solaire ?',
+    alt: 'Image d’un astre du système solaire à identifier',
+    label: 'title',
+    titles: t(
+      `C/2006 P1 (McNaught); C/2020 F3 (NEOWISE); (433) Éros; (486958) Arrokoth; 17P/Holmes`,
+    ),
+  },
 ];

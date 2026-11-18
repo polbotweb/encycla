@@ -180,6 +180,17 @@ export const TREES: SeedGroup[] = [
       `Chêne vert; Chêne pédonculé; Chêne-liège; Hêtre commun; Charme commun; Châtaignier; Noyer commun; Noisetier; Tilleul à grandes feuilles; Orme champêtre; Frêne élevé; Érable sycomore; Érable plane; Érable champêtre; Bouleau verruqueux; Saule pleureur; Peuplier noir; Peuplier blanc; Aulne glutineux; Platane commun; Marronnier d'Inde; Sorbier des oiseleurs; Alisier blanc; Aubépine monogyne; Merisier; Pommier; Poirier commun; Prunier; Pêcher; Abricotier; Figuier; Olivier; Amandier; Oranger; Citronnier; Cyprès de Provence; Pin sylvestre; Pin parasol; Pin maritime; Pin noir d'Autriche; Pin cembro; Épicéa commun; Sapin blanc; Mélèze d'Europe; If commun; Cèdre du Liban; Cèdre de l'Atlas; Douglas vert; Séquoia géant; Séquoia à feuilles d'if; Ginkgo biloba; Baobab; Eucalyptus; Acajou; Teck; Ébène; Palmier dattier; Cocotier; Bananier; Robinier faux-acacia; Févier d'Amérique; Tulipier de Virginie; Catalpa commun; Arbre de Judée; Mûrier blanc; Laurier-sauce; Buis commun; Sureau noir; Tamaris; Dragonnier; Araucaria du Chili; Jacaranda; Flamboyant; Hévéa; Kapokier; Arganier; Sapin de Nordmann; Pin de Monterey; Pin des Canaries; Palmier nain; Pistachier lentisque; Caroubier; Arbousier; Micocoulier de Provence; Sophora du Japon; Cèdre de l'Himalaya; Cyprès chauve; Liquidambar; Copalme d'Amérique; Chêne rouge d'Amérique; Hêtre pourpre; Tremble; Saule blanc; Saule marsault`,
     ),
   },
+  {
+    // Members of the French Wikipedia categories « Arbre en Europe », « Arbre de climat tempéré
+    // océanique », « Arbre de climat méditerranéen » and « Arbre de climat continental humide »
+    // that the bank lacked (checked on 18/11/2026: lead image, Wikidata taxon name P225), so Trees
+    // stays above the SUBJECT threshold in every language (D-109).
+    group: 'Arbres — catégories Wikipédia',
+    ...TREE,
+    titles: t(
+      `Albizia julibrissin; Austrocedrus chilensis; Acer negundo; Araucaria bidwillii; Banksia integrifolia; Banksia brownii; Banksia grandis; Allocasuarina fraseriana; Corylus avellana; Cormier; Cryptomeria japonica; Cyprès de Nootka; Crataegus azarolus; Eucalyptus baxteri; Eucalyptus caliginosa; Eucalyptus acmenoides; Drimys winteri; Laburnum anagyroides; Laurier de Californie; Juniperus oxycedrus; Gevuina avellana; Hedlundia hybrida; Laureliopsis philippiana; Pin de Calabre; Orme d'Amérique; Phoenix theophrasti; Olearia lyallii; Pin rigide; Pin de Salzmann; Phillyrea angustifolia; Picea fennica; Quercus kelloggii; Santalum acuminatum; Quercus muehlenbergii; Quercus chrysolepis; Quercus tomentella; Quercus cerris; Quercus wislizeni; Quercus engelmannii`,
+    ),
+  },
 ];
 
 export const INSECTS: SeedGroup[] = [
@@ -247,6 +258,17 @@ export const MUSHROOMS: SeedGroup[] = [
     ...MUSHROOM,
     titles: t(
       `Cèpe de Bordeaux; Girolle; Trompette de la mort; Morille commune; Truffe noire du Périgord; Amanite tue-mouches; Amanite phalloïde; Amanite des Césars; Amanite panthère; Amanite vireuse; Coprin chevelu; Coprin noir d'encre; Lactaire délicieux; Russule charbonnière; Russule émétique; Pied-de-mouton; Bolet bai; Bolet jaune; Bolet à pied rouge; Bolet rude; Tricholome de la Saint-Georges; Rosé des prés; Agaric des jachères; Lépiote élevée; Armillaire couleur de miel; Pleurote en huître; Shiitake; Collybie à pied velouté; Polypore du bouleau; Tramète versicolore; Vesse-de-loup perlée; Géastre; Clathre rouge; Satyre puant; Hypholome en touffes; Pholiote écailleuse; Galère marginée; Cortinaire; Inocybe; Entolome livide; Clitocybe nébuleux; Marasme des Oréades; Sparassis crépu; Fistuline hépatique; Pézize orangée; Hygrophore; Tremelle foliacée; Oreille de Judas; Xylaire du bois; Ganoderme luisant; Chanterelle; Lactaire à toison; Lactaire; Russule; Bolet; Amanite; Agaric; Chanterelle en tube; Morille; Cèpe; Coprin; Pleurote; Lycoperdon; Calocère visqueuse; Pézize veinée; Pézize écarlate; Coprin pie; Psilocybe; Amanite rougissante; Amanite citrine; Amanite à volve; Agaric des bois; Agaric champêtre; Cèpe d'été; Bolet des bouviers; Bolet orangé; Bolet élégant; Bolet à chair jaune; Bolet de Satan; Hydne imbriqué; Hydne ombiliqué; Craterelle; Typhula; Auriculaire; Clavaire jaune; Ramaire; Amadouvier; Fomitopsis; Polypore soufré; Grifola frondosa; Lentin tigré; Pluteus cervinus; Volvaire; Paxille enroulé; Pholiote du peuplier; Cuphophyllus; Mycène; Mycène rose; Omphale; Hebeloma; Lyophyllum; Tricholome terreux; Tricholome équestre; Tricholome soufré`,
+    ),
+  },
+  {
+    // Members of the French Wikipedia categories « Champignon comestible », « Champignon toxique »
+    // and « Champignon hallucinogène » that the bank lacked (checked on 18/11/2026: article with a
+    // lead image, Wikidata taxon name P225), added so Mushrooms stays above the SUBJECT threshold
+    // in every language (D-109).
+    group: 'Champignons — catégories Wikipédia',
+    ...MUSHROOM,
+    titles: t(
+      `Amanita arocheae; Amanita zambiana; Agaricus subrufescens; Amanita calyptroderma; Amanita ponderosa; Afroboletus luteolus; Albatrellus ovinus; Amanita submembranacea; Boletus subcaerulescens; Boletus pallidoroseus; Boletus violaceofuscus; Boletus vermiculosus; Boletus rex-veris; Boletus variipes; Boletus nobilis; Boletus quercophilus; Boletus nobilissimus; Boletus subalpinus; Boletus regineus; Calvatia craniiformis; Bovista plumbea; Hygrophorus russula; Gomphus clavatus; Gyroporus cyanescens; Hapalopilus rutilans; Hericium erinaceus; Hygrophore des prés; Hydnum rufescens; Entoloma clypeatum; Guepinia helvelloides; Morchella; Omphalotus olearius; Pholiote ridée; Morchella elata; Morchella semilibera; Omphalotus japonicus; Paralepistopsis acromelalga; Neoboletus xanthopus; Stropharia; Schizophyllum commune; Sarcodon; Stropharia rugosoannulata; Suillus sibiricus; Russula japonica; Russula mustelina; Russule dorée`,
     ),
   },
 ];
