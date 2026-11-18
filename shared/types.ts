@@ -73,6 +73,8 @@ export interface PublicPlayer {
   score: number;
   lives: number;
   streak: number;
+  /** Longest run of correct answers in this match (SPECIFICATION §7.4). */
+  bestStreak: number;
   correctCount: number;
   wrongCount: number;
   timeoutCount: number;

@@ -21,6 +21,7 @@ function player(id: string, name: string, overrides: Partial<PublicPlayer> = {})
     score: 0,
     lives: 3,
     streak: 0,
+    bestStreak: 0,
     correctCount: 0,
     wrongCount: 0,
     timeoutCount: 0,

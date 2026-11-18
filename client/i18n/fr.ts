@@ -214,6 +214,7 @@ export const fr = {
   'results.score': 'Score',
   'results.correct': 'Justes',
   'results.errors': 'Erreurs',
+  'results.bestStreak': 'Meilleure série',
   'results.time': 'Temps',
   'results.tied': '(ex æquo)',
   'player.eliminated': 'Éliminé',

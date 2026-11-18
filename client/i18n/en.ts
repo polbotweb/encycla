@@ -206,6 +206,7 @@ export const en: Record<MessageKey, Message> = {
   'results.score': 'Score',
   'results.correct': 'Correct',
   'results.errors': 'Errors',
+  'results.bestStreak': 'Best streak',
   'results.time': 'Time',
   'results.tied': '(tied)',
   'player.eliminated': 'Eliminated',

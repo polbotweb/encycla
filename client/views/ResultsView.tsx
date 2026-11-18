@@ -117,6 +117,9 @@ export function ResultsView() {
                 <th scope="col" className="py-2 pe-2 text-end">
                   {t('results.errors')}
                 </th>
+                <th scope="col" className="py-2 pe-2 text-end">
+                  {t('results.bestStreak')}
+                </th>
                 <th scope="col" className="py-2 text-end">
                   {t('results.time')}
                 </th>
@@ -148,6 +151,9 @@ export function ResultsView() {
                     </td>
                     <td className="tabular py-2 pe-2 text-end font-mono">
                       {row.player.wrongCount + row.player.timeoutCount}
+                    </td>
+                    <td className="tabular py-2 pe-2 text-end font-mono">
+                      {row.player.bestStreak}
                     </td>
                     <td className="tabular py-2 text-end font-mono">
                       {formatResponseTime(row.player.totalResponseMs)}

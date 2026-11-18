@@ -872,6 +872,18 @@ describe('timeouts, abandonment and room cleanup', () => {
     };
     expect(toPublicState(levelState, h.now()).reveal).not.toBeNull();
     expect(toPublicState({ ...levelState, phase: 'CLOSED' }, h.now()).finalRanking).toBeNull();
+    const withStreak = {
+      ...levelState,
+      players: Object.fromEntries(
+        Object.entries(levelState.players).map(([id, player]) => [
+          id,
+          { ...player, bestStreak: 4 },
+        ]),
+      ),
+    };
+    const streaks = toPublicState(withStreak, h.now()).players.map((player) => player.bestStreak);
+    expect(streaks.length).toBeGreaterThan(0);
+    expect(new Set(streaks)).toEqual(new Set([4]));
   });
 
   it('keeps an unchanged tick stable', () => {

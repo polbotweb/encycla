@@ -15,6 +15,7 @@ export function player(
     score: 0,
     lives: 3,
     streak: 0,
+    bestStreak: 0,
     correctCount: 0,
     wrongCount: 0,
     timeoutCount: 0,

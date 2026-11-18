@@ -259,6 +259,7 @@ export function toPublicState(state: GameState, serverNow: number): PublicRoomSt
     score: player.score,
     lives: player.lives,
     streak: player.streak,
+    bestStreak: player.bestStreak,
     correctCount: player.correctCount,
     wrongCount: player.wrongCount,
     timeoutCount: player.timeoutCount,

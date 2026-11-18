@@ -272,6 +272,7 @@ export const ar: Record<MessageKey, Message> = {
   'results.score': 'النقاط',
   'results.correct': 'الصحيحة',
   'results.errors': 'الأخطاء',
+  'results.bestStreak': 'أفضل سلسلة',
   'results.time': 'الوقت',
   'results.tied': '(تعادل)',
   'player.eliminated': 'مُقصى',

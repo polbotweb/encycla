@@ -141,6 +141,7 @@ interface PublicPlayer {
   score: number;
   lives: number;
   streak: number;
+  bestStreak: number; // longest run of correct answers in the match
   correctCount: number;
   wrongCount: number;
   timeoutCount: number;

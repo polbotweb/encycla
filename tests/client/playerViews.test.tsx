@@ -28,6 +28,7 @@ const { LevelCompleteView } = await import('../../client/views/LevelCompleteView
 const { MatchmakingView } = await import('../../client/views/MatchmakingView');
 const { LeaderboardView } = await import('../../client/views/LeaderboardView');
 const { HomeView, validatePseudoInput } = await import('../../client/views/HomeView');
+const { ResultsView } = await import('../../client/views/ResultsView');
 const { PROTOCOL_VERSION } = await import('../../shared/protocol');
 
 pinLanguage('en');
@@ -341,5 +342,26 @@ describe('HomeView', () => {
     fireEvent.click(screen.getByText(translate('common.retry')));
     await screen.findByText(translate('home.noQuestions'));
     expect(useGameStore.getState().protocolMismatch).toBe(true);
+  });
+});
+
+describe('ResultsView', () => {
+  it("shows each player's best streak in the final ranking", () => {
+    render(<ResultsView />);
+    show(
+      room('MATCH_OVER', {
+        players: [player(ME, 'Alice', { score: 900, bestStreak: 7 }), player('p-2', 'Bob')],
+        finalRanking: [
+          { playerId: ME, rank: 1, tied: false },
+          { playerId: 'p-2', rank: 2, tied: false },
+        ],
+        winnerId: ME,
+      }),
+    );
+    expect(
+      screen.getByRole('columnheader', { name: translate('results.bestStreak') }),
+    ).toBeTruthy();
+    const row = screen.getAllByRole('row').find((item) => item.textContent?.includes('Alice'));
+    expect(row?.textContent).toContain('7');
   });
 });
