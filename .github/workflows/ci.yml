@@ -65,4 +65,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t encycla:ci .
+      - name: Build the default image (without the TikTok connector)
+        run: docker build -t encycla:ci .
+      - name: The optional AGPL connector is not in the default image
+        run: |
+          ! docker run --rm --entrypoint sh encycla:ci -c 'ls node_modules/.pnpm | grep -q tiktok-live-connector'
+      - name: Production refuses to start without a strong ADMIN_TOKEN
+        run: |
+          set +e
+          out=$(docker run --rm -e NODE_ENV=production -e ADMIN_TOKEN=change-me -e PUBLIC_ORIGIN=https://example.test encycla:ci 2>&1)
+          code=$?
+          echo "$out"
+          test "$code" -ne 0 && echo "$out" | grep -q 'ADMIN_TOKEN'
+      - name: Build the image with the TikTok connector
+        run: |
+          docker build --build-arg WITH_TIKTOK=true -t encycla:ci-tiktok .
+          docker run --rm --entrypoint node encycla:ci-tiktok -e "import('tiktok-live-connector').then(m => process.exit(typeof m.TikTokLiveConnection === 'function' ? 0 : 1))"

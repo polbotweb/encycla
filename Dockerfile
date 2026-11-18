@@ -7,9 +7,12 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 FROM deps AS build
+# The TikTok live connector (tiktok-live-connector, AGPL-3.0-only, unofficial) is an optional
+# dependency. It is left out of the image unless the operator opts in: --build-arg WITH_TIKTOK=true
+ARG WITH_TIKTOK=false
 COPY . .
 RUN pnpm run build
-RUN pnpm prune --prod
+RUN if [ "$WITH_TIKTOK" = "true" ]; then pnpm prune --prod; else pnpm prune --prod --no-optional; fi
 
 FROM node:22-alpine AS runtime
 WORKDIR /app
@@ -20,6 +23,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/data/questions.json ./data/questions.json
 COPY --from=build /app/server/db/migrations ./server/db/migrations
+COPY --from=build /app/LICENSE /app/CREDITS.md ./
 RUN mkdir -p /app/data/db && chown -R encycla:encycla /app/data/db
 USER encycla
 EXPOSE 3000

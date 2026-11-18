@@ -1,9 +1,19 @@
+# Production stack. See docs/DEPLOYMENT.md §7.
+#   cp .env.example .env   # then set NODE_ENV=production, PUBLIC_ORIGIN, ADMIN_TOKEN…
+#   docker compose up -d --build                     # app only, on 127.0.0.1:3000
+#   docker compose --profile proxy up -d --build     # app + Caddy (HTTPS on 80/443, needs DOMAIN)
+# TikTok connector (optional, AGPL-3.0): WITH_TIKTOK=true docker compose up -d --build
 services:
   encycla:
-    build: .
+    build:
+      context: .
+      args:
+        WITH_TIKTOK: ${WITH_TIKTOK:-false}
+    image: encycla:latest
     restart: unless-stopped
     env_file: .env
     environment:
+      NODE_ENV: production
       PORT: '3000'
       DATABASE_PATH: /app/data/db/encycla.db
     ports:
@@ -28,6 +38,27 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+      start_period: 15s
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: ['proxy']
+    restart: unless-stopped
+    depends_on:
+      encycla:
+        condition: service_healthy
+    environment:
+      DOMAIN: ${DOMAIN:-}
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
 
 volumes:
   encycla-data:
+  caddy-data:
+  caddy-config:

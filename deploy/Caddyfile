@@ -1,0 +1,5 @@
+# Used by `docker compose --profile proxy up -d`. TLS certificates are obtained automatically.
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy encycla:3000
+}

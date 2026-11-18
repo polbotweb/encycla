@@ -5,6 +5,7 @@ playwright-report
 test-results
 data/*.db
 data/*.db-*
+data/cache
 .env
 .env.*
 !.env.example
