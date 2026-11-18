@@ -21,6 +21,7 @@ import {
   languageSchema,
   parseBody,
   resolveSelection,
+  tiktokChatSchema,
   tiktokRoomSchema,
 } from './modes';
 
@@ -221,8 +222,44 @@ export function createGameRouter(options: GameRouterOptions): Router {
       }
       const body = parseBody(tiktokRoomSchema, request.body);
       const selection = resolveSelection(body, questions, { allowContest: false });
-      const created = tiktok.createRoom(selection, body.timerMs);
+      const created = tiktok.createRoom(selection, body.timerMs, body.liveUsername);
       response.status(201).json(created);
+    }),
+  );
+
+  // Streamer console status: is TikTok on, which live is followed, is a room open.
+  router.get(
+    '/admin/tiktok',
+    adminAuth(options.adminToken),
+    guarded((_request, response) => {
+      const tiktok = options.tiktok;
+      const enabled = tiktok?.enabled === true;
+      response.status(200).json({
+        enabled,
+        simulated: enabled && tiktok.simulated,
+        connected: enabled && tiktok.isConnected(),
+        liveUsername: enabled ? tiktok.liveTarget() : null,
+        activeRoomCode: enabled ? tiktok.activeRoomCode() : null,
+      });
+    }),
+  );
+
+  // Demo / end-to-end tests: inject a chat comment into the simulated live (fake adapter only).
+  router.post(
+    '/admin/tiktok/chat',
+    adminAuth(options.adminToken),
+    guarded((request, response) => {
+      const tiktok = options.tiktok;
+      if (!tiktok || !tiktok.simulated) {
+        throw new AppError('TIKTOK_DISABLED', 'The simulated TikTok chat is not enabled.');
+      }
+      const body = parseBody(tiktokChatSchema, request.body);
+      tiktok.simulateChat({
+        uniqueId: body.uniqueId,
+        nickname: body.nickname ?? null,
+        comment: body.comment,
+      });
+      response.status(202).end();
     }),
   );
 

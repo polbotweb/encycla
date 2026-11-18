@@ -29,6 +29,8 @@ export interface TikTokConnectorOptions {
   onChat: (message: TikTokChatMessage) => void;
   onConnectionChange: (connected: boolean) => void;
   scheduler?: Scheduler;
+  /** Live followed at startup (`TIKTOK_USERNAME`); null waits for a room to name one. */
+  target?: string | null;
 }
 
 /** Keeps one chat connection alive with exponential backoff. Never logs credentials. */
@@ -39,9 +41,26 @@ export class TikTokConnector {
   private running = false;
   private connected = false;
   private readonly scheduler: Scheduler;
+  private target: string | null;
 
   constructor(private readonly options: TikTokConnectorOptions) {
     this.scheduler = options.scheduler ?? realScheduler;
+    this.target = options.target ?? null;
+  }
+
+  /** The live currently followed (a TikTok handle), if any. */
+  currentTarget(): string | null {
+    return this.target;
+  }
+
+  /** Follows another live: drops the current connection and reconnects to `target`. */
+  retarget(target: string): void {
+    if (target === this.target) return;
+    this.target = target;
+    if (this.running) {
+      this.stop();
+      this.start();
+    }
   }
 
   isConnected(): boolean {
@@ -49,7 +68,7 @@ export class TikTokConnector {
   }
 
   start(): void {
-    if (this.running) {
+    if (this.running || this.target === null) {
       return;
     }
     this.running = true;
@@ -76,13 +95,13 @@ export class TikTokConnector {
   }
 
   private async connect(): Promise<void> {
-    if (!this.running) {
+    if (!this.running || this.target === null) {
       return;
     }
     this.timer = null;
     let adapter: TikTokAdapter;
     try {
-      adapter = this.options.factory();
+      adapter = this.options.factory(this.target);
     } catch (error) {
       this.options.logger.log('error', 'tiktok.adapter_unavailable', { reason: describe(error) });
       this.scheduleRetry();

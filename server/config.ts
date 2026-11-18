@@ -1,3 +1,5 @@
+import { normalizeHandle } from './tiktok/adapter';
+
 export const VERSION = '1.0.0';
 
 export interface ServerConfig {
@@ -7,6 +9,8 @@ export interface ServerConfig {
   logLevel: string;
   adminToken: string | null;
   tiktokEnabled: boolean;
+  /** `live` (tiktok-live-connector) or `fake` (simulated chat for demos and e2e tests). */
+  tiktokAdapter: 'live' | 'fake';
   tiktokUsername: string | null;
   /** Secret. Never log, never expose through the API. */
   tiktokSessionCookie: string | null;
@@ -102,6 +106,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     logLevel: env.LOG_LEVEL ?? 'info',
     adminToken: parseAdminToken(env.ADMIN_TOKEN),
     tiktokEnabled: env.TIKTOK_ENABLED === 'true',
+    tiktokAdapter: env.TIKTOK_ADAPTER?.trim().toLowerCase() === 'fake' ? 'fake' : 'live',
     tiktokUsername: env.TIKTOK_USERNAME?.trim() || null,
     tiktokSessionCookie: env.TIKTOK_SESSION_COOKIE?.trim() || null,
     tiktokSignApiKey: env.TIKTOK_SIGN_API_KEY?.trim() || null,
@@ -148,13 +153,20 @@ export function validateConfig(
   if (!config.rateLimit && env.NODE_ENV === 'production') {
     problems.push('RATE_LIMIT=off is not allowed in production.');
   }
-  if (config.tiktokEnabled) {
-    if (config.tiktokUsername === null) {
-      problems.push('TIKTOK_USERNAME is required when TIKTOK_ENABLED=true.');
-    }
-    if (config.tiktokSessionCookie === null) {
-      problems.push('TIKTOK_SESSION_COOKIE is required when TIKTOK_ENABLED=true.');
-    }
+  const adapter = env.TIKTOK_ADAPTER?.trim().toLowerCase();
+  if (adapter !== undefined && adapter !== '' && adapter !== 'live' && adapter !== 'fake') {
+    problems.push('TIKTOK_ADAPTER must be `live` (default) or `fake`.');
+  }
+  if (config.tiktokUsername !== null && normalizeHandle(config.tiktokUsername) === null) {
+    problems.push('TIKTOK_USERNAME must be a TikTok handle (letters, digits, "." or "_").');
+  }
+  // The live adapter needs a session; the live to follow may be named per room (any live).
+  if (
+    config.tiktokEnabled &&
+    config.tiktokAdapter === 'live' &&
+    config.tiktokSessionCookie === null
+  ) {
+    problems.push('TIKTOK_SESSION_COOKIE is required when TIKTOK_ENABLED=true.');
   }
   return problems;
 }

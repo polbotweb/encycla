@@ -16,8 +16,20 @@ const MAX_UNIQUE_ID_LENGTH = 64;
 
 export interface TikTokPort {
   readonly enabled: boolean;
+  /** True with the simulated chat (`TIKTOK_ADAPTER=fake`): `simulateChat` is then available. */
+  readonly simulated: boolean;
   isConnected(): boolean;
-  createRoom(selection: ModeSelection, timerMs?: number): { roomCode: string } & IssuedRoomTokens;
+  /** The live followed (TikTok handle), if any. */
+  liveTarget(): string | null;
+  /** The open TikTok room, if any (one at a time). */
+  activeRoomCode(): string | null;
+  createRoom(
+    selection: ModeSelection,
+    timerMs?: number,
+    liveUsername?: string,
+  ): { roomCode: string; liveUsername: string; connected: boolean } & IssuedRoomTokens;
+  /** Feeds one chat comment as if it came from the live (simulation only). */
+  simulateChat(message: TikTokChatMessage): void;
 }
 
 export interface TikTokServiceOptions {
@@ -29,6 +41,10 @@ export interface TikTokServiceOptions {
   logger: Logger;
   idFactory?: () => string;
   scheduler?: Scheduler;
+  /** Live followed at startup (`TIKTOK_USERNAME`); rooms may name any other live. */
+  defaultTarget?: string | null;
+  /** Simulated chat (fake adapter): enables `simulateChat` for demos and end-to-end tests. */
+  simulated?: boolean;
 }
 
 /**
@@ -50,6 +66,7 @@ export class TikTokService implements TikTokPort {
           logger: options.logger,
           onChat: (message) => this.handleChat(message),
           onConnectionChange: (connected) => this.onConnectionChange(connected),
+          target: options.defaultTarget ?? null,
           ...(options.scheduler ? { scheduler: options.scheduler } : {}),
         })
       : null;
@@ -57,6 +74,21 @@ export class TikTokService implements TikTokPort {
 
   get enabled(): boolean {
     return this.connector !== null;
+  }
+
+  get simulated(): boolean {
+    return this.enabled && this.options.simulated === true;
+  }
+
+  liveTarget(): string | null {
+    return this.connector?.currentTarget() ?? null;
+  }
+
+  simulateChat(message: TikTokChatMessage): void {
+    if (!this.simulated) {
+      throw new AppError('TIKTOK_DISABLED', 'The simulated TikTok chat is not enabled.');
+    }
+    this.handleChat(message);
   }
 
   isConnected(): boolean {
@@ -80,15 +112,26 @@ export class TikTokService implements TikTokPort {
   createRoom(
     selection: ModeSelection,
     timerMs: number = DEFAULT_TIKTOK_TIMER_MS,
-  ): { roomCode: string } & IssuedRoomTokens {
-    if (!this.enabled) {
+    liveUsername?: string,
+  ): { roomCode: string; liveUsername: string; connected: boolean } & IssuedRoomTokens {
+    const connector = this.connector;
+    if (!this.enabled || connector === null) {
       throw new AppError('TIKTOK_DISABLED', 'TikTok mode is disabled.');
-    }
-    if (!this.isConnected()) {
-      throw new AppError('TIKTOK_NOT_CONNECTED', 'The TikTok chat connector is offline.');
     }
     if (this.activeRoomCode() !== null) {
       throw new AppError('ROOM_IN_PROGRESS', 'A TikTok room is already open. Close it first.');
+    }
+    const target = liveUsername ?? connector.currentTarget();
+    if (target === null) {
+      throw new AppError('VALIDATION_ERROR', 'Name the TikTok live to follow (liveUsername).');
+    }
+    if (target !== connector.currentTarget()) {
+      // Any live: follow the one named by this room; the overlay shows "chat reconnecting" until
+      // the connector is in.
+      connector.retarget(target);
+      connector.start();
+    } else if (!this.isConnected()) {
+      throw new AppError('TIKTOK_NOT_CONNECTED', 'The TikTok chat connector is offline.');
     }
     const { manager, roomTokens } = this.options;
     const state = manager.createRoom({
@@ -104,8 +147,14 @@ export class TikTokService implements TikTokPort {
     this.activeRoom = state.roomCode;
     this.viewers.clear();
     this.capacityLogged = false;
-    manager.dispatch(state.roomCode, { type: 'TIKTOK_CONNECTION_CHANGED', connected: true });
-    return { roomCode: state.roomCode, ...roomTokens.issue(state.roomCode) };
+    const connected = this.isConnected();
+    manager.dispatch(state.roomCode, { type: 'TIKTOK_CONNECTION_CHANGED', connected });
+    return {
+      roomCode: state.roomCode,
+      liveUsername: target,
+      connected,
+      ...roomTokens.issue(state.roomCode),
+    };
   }
 
   /** Called by the server when any room closes. */

@@ -60,7 +60,7 @@ async function roleClient(
 
 async function start() {
   const fake = new FakeTikTokAdapter();
-  harness = await startHarness({ tiktokAdapterFactory: () => fake });
+  harness = await startHarness({ tiktokAdapterFactory: () => fake, tiktokDefaultTarget: 'game' });
   await until(() => harness!.server.tiktok.isConnected());
   return { h: harness, fake };
 }
@@ -125,13 +125,87 @@ describe('POST /api/tiktok/rooms', () => {
   it('answers TIKTOK_NOT_CONNECTED while the connector is offline, and health degrades', async () => {
     const fake = new FakeTikTokAdapter();
     fake.failNextConnects = 100;
-    harness = await startHarness({ tiktokAdapterFactory: () => fake });
+    harness = await startHarness({ tiktokAdapterFactory: () => fake, tiktokDefaultTarget: 'game' });
     const response = await createRoom(harness);
     expect(response.status).toBe(503);
     expect(response.body.error.code).toBe('TIKTOK_NOT_CONNECTED');
     const health = await harness.api('/api/health');
     expect(health.status).toBe(200);
     expect(health.body.status).toBe('degraded');
+  });
+});
+
+describe('any live, streamer status and simulated chat', () => {
+  it('follows the live a room names and reports it to the streamer console', async () => {
+    const targets: string[] = [];
+    harness = await startHarness({
+      tiktokAdapterFactory: (target) => {
+        targets.push(target);
+        return new FakeTikTokAdapter();
+      },
+    });
+    const h = harness;
+    expect((await h.api('/api/admin/tiktok')).status).toBe(401);
+    const idle = await h.api('/api/admin/tiktok', { token: ADMIN, method: 'GET' });
+    expect(idle.body).toEqual({
+      enabled: true,
+      simulated: false,
+      connected: false,
+      liveUsername: null,
+      activeRoomCode: null,
+    });
+    const missing = await createRoom(h);
+    expect(missing.body.error.code).toBe('VALIDATION_ERROR');
+    const bad = await createRoom(h, { mode: 'CLASSIC', liveUsername: 'not a handle' });
+    expect(bad.status).toBe(400);
+
+    const created = await createRoom(h, { mode: 'CLASSIC', liveUsername: '@Any.Live' });
+    expect(created.status).toBe(201);
+    expect(created.body.liveUsername).toBe('any.live');
+    expect(targets).toEqual(['any.live']);
+    await until(() => h.server.tiktok.isConnected());
+    const status = await h.api('/api/admin/tiktok', { token: ADMIN, method: 'GET' });
+    expect(status.body).toMatchObject({
+      connected: true,
+      liveUsername: 'any.live',
+      activeRoomCode: created.body.roomCode,
+    });
+    // The simulated chat endpoint stays closed with a real adapter.
+    const chat = await h.api('/api/admin/tiktok/chat', {
+      token: ADMIN,
+      body: { uniqueId: 'viewer', comment: 'A' },
+    });
+    expect(chat.status).toBe(503);
+  });
+
+  it('feeds simulated chat answers into the room with TIKTOK_ADAPTER=fake', async () => {
+    harness = await startHarness({
+      tiktokAdapterFactory: () => new FakeTikTokAdapter(),
+      tiktokDefaultTarget: 'demo',
+      tiktokSimulated: true,
+    });
+    const h = harness;
+    await until(() => h.server.tiktok.isConnected());
+    const created = await createRoom(h);
+    expect(created.body).toMatchObject({ liveUsername: 'demo', connected: true });
+    const control = await roleClient(
+      h,
+      'control',
+      created.body.roomCode,
+      created.body.controlToken,
+    );
+    await control.emit('GAME_START');
+    h.clock.advance(3000);
+    h.server.manager.sweep();
+    await until(() => control.states.at(-1)?.phase === 'QUESTION');
+    const say = (body: unknown) => h.api('/api/admin/tiktok/chat', { token: ADMIN, body });
+    expect((await say({ uniqueId: 'alice_1', nickname: 'Alice', comment: 'B' })).status).toBe(202);
+    expect((await say({ uniqueId: 'bad id!', comment: 'B' })).status).toBe(400);
+    expect((await say({ uniqueId: 'bob', comment: 'A' })).status).toBe(202);
+    const code = created.body.roomCode as string;
+    await until(() => h.server.manager.getState(code)!.joinedPlayerCount === 2);
+    const names = Object.values(h.server.manager.getState(code)!.players).map((p) => p.displayName);
+    expect(names.sort()).toEqual(['Alice', 'bob']);
   });
 });
 

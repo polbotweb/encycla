@@ -12,7 +12,11 @@ Ce document décrit ce qui est **implémenté** pour le mode TikTok et ce qui re
 | Connecteur | `server/tiktok/connector.ts` | Reconnexion avec backoff 1 s → 30 s, aucun identifiant dans les logs. |
 | Adaptateur réel | `server/tiktok/liveAdapter.ts` | Enveloppe de `tiktok-live-connector` (voir ci-dessous). |
 | Service | `server/tiktok/service.ts` | Une room TikTok à la fois, viewers, capacité 100, déduplication, état du connecteur. |
-| Route admin | `POST /api/tiktok/rooms` | Crée la room et renvoie `overlayToken` / `controlToken`. |
+| Câblage | `server/tiktok/setup.ts` | Choisit l'adaptateur selon la config : aucun, réel (`live`) ou chat simulé (`fake`). |
+| Route admin | `POST /api/tiktok/rooms` | Crée la room pour **n'importe quel live** (`liveUsername`) et renvoie `overlayToken` / `controlToken`. |
+| État streamer | `GET /api/admin/tiktok` | TikTok activé ?, chat simulé ?, connecté ?, live suivi, room ouverte. |
+| Chat simulé | `POST /api/admin/tiktok/chat` | Injecte un commentaire (uniquement avec `TIKTOK_ADAPTER=fake`). |
+| Console streamer | `client/views/AdminView.tsx` (`/?mode=admin`) | Jeton admin (en mémoire seulement), live, mode, langue, timer ; liens overlay/console à copier ; fermeture ; simulateur A/B/C/D en mode démo. |
 | Overlay et control | `client/views/OverlayView.tsx`, `ControlView.tsx` | Overlay en lecture seule, console avec start, pause, skip, réponse manuelle, fermeture. |
 
 Comportement :
@@ -24,6 +28,31 @@ Comportement :
 - Une déconnexion du connecteur met `tiktokConnected=false` et pause la room ; la reprise est manuelle (`HOST_RESUME`), l'opérateur peut continuer avec la réponse manuelle.
 - `GET /api/health` passe en `degraded` si TikTok est activé mais déconnecté.
 - Les tokens overlay/control sont révoqués à la fermeture de la room.
+
+## N'importe quel live
+
+`TIKTOK_USERNAME` n'est qu'un live **par défaut**. Chaque room peut nommer le live à suivre (`liveUsername`, champ « Live TikTok à suivre » de la console streamer, `@` facultatif, 2–24 caractères `A-Z a-z 0-9 . _`). Si c'est un autre live que celui suivi, le connecteur se reconnecte sur ce live ; la room est créée tout de suite et l'overlay affiche « Reconnexion du chat… » jusqu'à la connexion (`connected` dans la réponse). Une seule room TikTok à la fois.
+
+## Guide streamer (pas à pas)
+
+1. Ouvrir `https://<domaine>/?mode=admin`, coller `ADMIN_TOKEN`, **Déverrouiller**. Le jeton reste dans la page (jamais stocké).
+2. Vérifier l'état : `EN DIRECT` (chat connecté) ou `CHAT HORS LIGNE`, et le live suivi.
+3. Saisir le `@` du live (ou laisser vide pour le live par défaut), choisir CLASSIC ou SUBJECT (catégorie, difficulté), la langue des questions et le temps par question (10–30 s), puis **Créer le salon**.
+4. **OBS** : Sources → `+` → **Navigateur** → coller le « Lien de l'overlay », largeur/hauteur 1080 × 1920 (live vertical) ou 1920 × 1080 ; cocher « Actualiser le navigateur quand la scène devient active ». L'overlay n'a aucun contrôle.
+5. Ouvrir le « Lien de la console » sur le téléphone ou un second écran : **Démarrer**, **Pause/Reprendre**, **Passer**, réponse manuelle pour un spectateur, **Fermer**.
+6. Les spectateurs commentent `A`, `B`, `C` ou `D` (minuscules, `@mention` en tête et texte autour d'une seule lettre acceptés ; voir le parseur). Le premier commentaire valide les inscrit et compte comme réponse ; les suivants sur la même question sont ignorés.
+7. Après chaque question : réponse, top 10, article ; à la fin, classement final. **Fermer le salon** (console streamer ou console de jeu) libère la place pour le live suivant.
+
+## Mode démo et tests : `TIKTOK_ADAPTER=fake`
+
+```dotenv
+TIKTOK_ENABLED=true
+TIKTOK_ADAPTER=fake
+TIKTOK_USERNAME=encycla_demo   # facultatif
+ADMIN_TOKEN=<openssl rand -hex 32>
+```
+
+Aucun cookie, aucun paquet optionnel : le connecteur se « connecte » à un chat simulé. La console streamer affiche « Chat simulé (démo) » et un simulateur (pseudo + boutons A/B/C/D) ; `POST /api/admin/tiktok/chat` injecte un commentaire. Le serveur l'annonce au démarrage. C'est ce que vérifie `tests/e2e/tiktok.spec.ts` (console streamer → overlay 1920×1080 + console → 4 spectateurs A/B/C/D → révélation → 20 questions → classement final → fermeture). À ne pas utiliser pour un vrai live.
 
 ## Activer le connecteur réel
 
@@ -43,15 +72,16 @@ WITH_TIKTOK=true docker compose up -d --build           # ou via compose
 
 ```dotenv
 TIKTOK_ENABLED=true
-TIKTOK_USERNAME=<compte dédié>
+TIKTOK_ADAPTER=live                # défaut
+TIKTOK_USERNAME=<live par défaut>  # facultatif : chaque room peut nommer son live
 TIKTOK_SESSION_COOKIE=sessionid=<valeur>; tt-target-idc=<valeur>
 # optionnel : clé Euler Stream (quotas du service de signature)
 TIKTOK_SIGN_API_KEY=
 ```
 
-Au démarrage, le serveur refuse `TIKTOK_ENABLED=true` sans `TIKTOK_USERNAME` ni `TIKTOK_SESSION_COOKIE`. En production il refuse aussi de démarrer si le paquet optionnel n'est pas installé (image construite sans `WITH_TIKTOK=true`) ; en développement il avertit et reste en mode manuel. Si le live se coupe, le connecteur reste déconnecté, réessaie avec backoff, `POST /api/tiktok/rooms` répond `TIKTOK_NOT_CONNECTED` et la santé est `degraded`.
+Au démarrage, le serveur refuse `TIKTOK_ENABLED=true` (adaptateur `live`) sans `TIKTOK_SESSION_COOKIE`, un `TIKTOK_USERNAME` qui n'est pas un pseudo TikTok et un `TIKTOK_ADAPTER` autre que `live`/`fake`. En production il refuse aussi de démarrer si le paquet optionnel n'est pas installé (image construite sans `WITH_TIKTOK=true`) ; en développement il avertit et reste en mode manuel. Si le live se coupe, le connecteur reste déconnecté, réessaie avec backoff, `POST /api/tiktok/rooms` répond `TIKTOK_NOT_CONNECTED` et la santé est `degraded`.
 
-Tests : `tests/tiktok/connector.test.ts` vérifie, avec un module simulé, les options passées au paquet (cookie de session, `authenticateWs`, clé de signature), la conversion des messages `chat`, la gestion de `streamEnd`/`disconnected`, le silence sur `error`, et que le vrai paquet installé expose bien `TikTokLiveConnection`.
+Tests : `tests/tiktok/connector.test.ts` vérifie que `tiktokSetup` câble bien `LiveTikTokAdapter` sur le live demandé par la room (module simulé) et, avec un module simulé, les options passées au paquet (cookie de session, `authenticateWs`, clé de signature), la conversion des messages `chat`, la gestion de `streamEnd`/`disconnected`, le silence sur `error`, et que le vrai paquet installé expose bien `TikTokLiveConnection`.
 
 > `liveAdapter.ts` suit l'API publique de `tiktok-live-connector` 2.5 (événements `chat`, `disconnected`, `streamEnd`, option `session.cookie`). Il n'a **pas** pu être exécuté contre un vrai live dans cet environnement : la validation ci-dessous est obligatoire.
 
@@ -60,7 +90,7 @@ Tests : `tests/tiktok/connector.test.ts` vérifie, avec un module simulé, les o
 - [ ] Compte secondaire dédié, jamais le compte principal.
 - [ ] `ADMIN_TOKEN` et `TIKTOK_SESSION_COOKIE` stockés comme secrets, jamais dans le dépôt.
 - [ ] `GET /api/health` retourne `ok` (connecteur connecté).
-- [ ] Création de room : `curl -X POST /api/tiktok/rooms` avec le bearer admin.
+- [ ] Création de room depuis `/?mode=admin` (ou `curl -X POST /api/tiktok/rooms` avec le bearer admin et `{"mode":"CLASSIC","liveUsername":"@live"}`).
 - [ ] Overlay OBS : URL `/?mode=overlay&room=CODE#token=OVERLAY_TOKEN`, affichage sans contrôle.
 - [ ] Console : URL `/?mode=control&room=CODE#token=CONTROL_TOKEN`, badge `LIVE`.
 - [ ] 20 viewers de test répondent ; vérifier dédup, élimination, top 10.

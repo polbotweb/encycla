@@ -15,4 +15,13 @@ export interface TikTokAdapter {
   onDisconnect(handler: (reason: string) => void): void;
 }
 
-export type TikTokAdapterFactory = () => TikTokAdapter;
+/** Builds an adapter for the live of `target` (a TikTok handle without "@"). */
+export type TikTokAdapterFactory = (target: string) => TikTokAdapter;
+
+/** TikTok handle: letters, digits, "." and "_", 2-24 characters, without the leading "@". */
+export const TIKTOK_HANDLE = /^[A-Za-z0-9._]{2,24}$/;
+
+export function normalizeHandle(raw: string): string | null {
+  const handle = raw.trim().replace(/^@/, '');
+  return TIKTOK_HANDLE.test(handle) ? handle.toLowerCase() : null;
+}

@@ -7,6 +7,8 @@ import {
   type Scheduler,
 } from '../../server/tiktok/connector';
 import { LiveTikTokAdapter, parseSessionCookie } from '../../server/tiktok/liveAdapter';
+import { tiktokOptions, tiktokSetup } from '../../server/tiktok/setup';
+import { normalizeHandle } from '../../server/tiktok/adapter';
 import { type LogLevel } from '../../server/util/logger';
 
 class ManualScheduler implements Scheduler {
@@ -66,6 +68,7 @@ describe('TikTokConnector', () => {
       onChat: (message) => chats.push(message.comment),
       onConnectionChange: (connected) => changes.push(connected),
       scheduler,
+      target: 'game',
     });
     return { scheduler, adapters, changes, chats, logs, connector };
   }
@@ -136,6 +139,7 @@ describe('TikTokConnector', () => {
       onChat: () => {},
       onConnectionChange: () => {},
       scheduler,
+      target: 'game',
     });
     connector.start();
     await flush();
@@ -269,5 +273,96 @@ describe('isConnectorInstalled', () => {
         throw new Error('missing');
       }),
     ).toBe(false);
+  });
+
+  it('is wired by tiktokSetup from the configuration, following the live a room names', async () => {
+    class Connection {
+      static last: Connection | null = null;
+      handlers = new Map<string, (...args: unknown[]) => void>();
+      constructor(public uniqueId: string) {
+        Connection.last = this;
+      }
+      on(event: string, handler: (...args: unknown[]) => void) {
+        this.handlers.set(event, handler);
+        return this;
+      }
+      async connect() {
+        return {};
+      }
+      disconnect() {}
+      emit(event: string, payload?: unknown) {
+        this.handlers.get(event)?.(payload);
+      }
+    }
+    const load = async () => ({ TikTokLiveConnection: Connection });
+    const config = {
+      tiktokEnabled: true,
+      tiktokAdapter: 'live' as const,
+      tiktokUsername: '@Host.Live',
+      tiktokSessionCookie: 'sessionid=abc',
+      tiktokSignApiKey: null,
+    };
+    const setup = tiktokSetup(config, load)!;
+    expect(setup.defaultTarget).toBe('host.live');
+    expect(setup.simulated).toBe(false);
+    const adapter = setup.factory('other_live');
+    expect(adapter).toBeInstanceOf(LiveTikTokAdapter);
+    const chats: unknown[] = [];
+    adapter.onChat((message) => chats.push(message));
+    await adapter.connect();
+    expect(Connection.last!.uniqueId).toBe('other_live');
+    Connection.last!.emit('chat', { user: { uniqueId: 'v' }, comment: 'D' });
+    expect(chats).toEqual([{ uniqueId: 'v', nickname: null, comment: 'D' }]);
+
+    expect(tiktokSetup({ ...config, tiktokEnabled: false })).toBeNull();
+    expect(tiktokSetup({ ...config, tiktokSessionCookie: null })).toBeNull();
+    const fake = tiktokSetup({ ...config, tiktokAdapter: 'fake', tiktokSessionCookie: null })!;
+    expect(fake.simulated).toBe(true);
+    expect(fake.factory('x')).toBeInstanceOf(FakeTikTokAdapter);
+    expect(tiktokOptions(null)).toEqual({
+      tiktokAdapterFactory: null,
+      tiktokDefaultTarget: null,
+      tiktokSimulated: false,
+    });
+  });
+});
+
+describe('normalizeHandle', () => {
+  it('strips "@", lowercases and rejects anything but a TikTok handle', () => {
+    expect(normalizeHandle(' @Some.Live_1 ')).toBe('some.live_1');
+    for (const bad of ['a', 'x'.repeat(25), 'with space', 'https://x', '<b>']) {
+      expect(normalizeHandle(bad), bad).toBeNull();
+    }
+  });
+});
+
+describe('TikTokConnector.retarget', () => {
+  it('waits for a target, then follows the live it is pointed at', async () => {
+    const targets: string[] = [];
+    const connector = new TikTokConnector({
+      factory: (target) => {
+        targets.push(target);
+        return new FakeTikTokAdapter();
+      },
+      logger: { log: () => {} },
+      onChat: () => {},
+      onConnectionChange: () => {},
+      scheduler: new ManualScheduler(),
+    });
+    connector.start();
+    await flush();
+    expect(targets).toEqual([]);
+    expect(connector.currentTarget()).toBeNull();
+    connector.retarget('first');
+    connector.start();
+    await flush();
+    expect(connector.isConnected()).toBe(true);
+    connector.retarget('first');
+    connector.retarget('second');
+    await flush();
+    expect(targets).toEqual(['first', 'second']);
+    expect(connector.currentTarget()).toBe('second');
+    expect(connector.isConnected()).toBe(true);
+    connector.stop();
   });
 });

@@ -31,7 +31,26 @@ export const createRoomSchema = selectionSchema.extend({
 
 export const tiktokRoomSchema = selectionSchema.extend({
   timerMs: z.number().int().min(10_000).max(30_000).optional(),
+  /** Any live: the TikTok handle whose chat feeds this room (defaults to `TIKTOK_USERNAME`). */
+  liveUsername: z
+    .string()
+    .trim()
+    .regex(/^@?[A-Za-z0-9._]{2,24}$/)
+    .transform((value) => value.replace(/^@/, '').toLowerCase())
+    .optional(),
 });
+
+/** One simulated chat comment (`TIKTOK_ADAPTER=fake` only). */
+export const tiktokChatSchema = z
+  .object({
+    uniqueId: z
+      .string()
+      .trim()
+      .regex(/^[A-Za-z0-9._]{2,24}$/),
+    nickname: z.string().trim().min(1).max(40).optional(),
+    comment: z.string().trim().min(1).max(200),
+  })
+  .strict();
 
 export interface ModeSelection {
   mode: GameMode;

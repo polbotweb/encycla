@@ -28,6 +28,10 @@ export interface GameServerOptions extends Omit<
   allowedOrigin?: string | null;
   /** Chat connector factory; omit or null to disable TikTok (`TIKTOK_DISABLED`). */
   tiktokAdapterFactory?: TikTokAdapterFactory | null;
+  /** Live followed at startup (`TIKTOK_USERNAME`). */
+  tiktokDefaultTarget?: string | null;
+  /** Simulated chat (`TIKTOK_ADAPTER=fake`). */
+  tiktokSimulated?: boolean;
 }
 
 export interface GameServer {
@@ -96,6 +100,8 @@ export function createGameServer(options: GameServerOptions): GameServer {
 
   const tiktokService = new TikTokService({
     adapterFactory: options.tiktokAdapterFactory ?? null,
+    defaultTarget: options.tiktokDefaultTarget ?? null,
+    simulated: options.tiktokSimulated ?? false,
     manager,
     persistence,
     roomTokens,

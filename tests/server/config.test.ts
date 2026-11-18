@@ -13,6 +13,7 @@ describe('loadConfig', () => {
       logLevel: 'info',
       adminToken: null,
       tiktokEnabled: false,
+      tiktokAdapter: 'live',
       tiktokUsername: null,
       tiktokSessionCookie: null,
       tiktokSignApiKey: null,
@@ -77,8 +78,17 @@ describe('validateConfig', () => {
     expect(validateConfig(loadConfig({ RATE_LIMIT: 'off' }), {})).toEqual([]);
   });
 
-  it('requires a username and a session cookie when TikTok is enabled', () => {
-    expect(validateConfig(loadConfig({ TIKTOK_ENABLED: 'true' }), {})).toHaveLength(2);
+  it('requires a session cookie for the live adapter; the live may be named per room', () => {
+    expect(validateConfig(loadConfig({ TIKTOK_ENABLED: 'true' }), {})).toHaveLength(1);
+    const anyLive = { TIKTOK_ENABLED: 'true', TIKTOK_SESSION_COOKIE: 'sessionid=abc' };
+    expect(validateConfig(loadConfig(anyLive), {})).toEqual([]);
+    expect(
+      validateConfig(loadConfig({ ...anyLive, TIKTOK_USERNAME: 'not a handle!' }), {}),
+    ).toHaveLength(1);
+    const bad = { TIKTOK_ENABLED: 'true', TIKTOK_ADAPTER: 'nope' };
+    expect(validateConfig(loadConfig(bad), bad)).toHaveLength(2);
+    const fake = { TIKTOK_ENABLED: 'true', TIKTOK_ADAPTER: 'fake' };
+    expect(validateConfig(loadConfig(fake), fake)).toEqual([]);
     const env = {
       TIKTOK_ENABLED: 'true',
       TIKTOK_USERNAME: 'game',

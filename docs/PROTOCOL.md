@@ -477,7 +477,9 @@ Admin uniquement (`ADMIN_TOKEN`).
   "mode": "CLASSIC",
   "category": null,
   "difficulty": null,
-  "timerMs": 15000
+  "language": "fr",
+  "timerMs": 15000,
+  "liveUsername": "@un_live"
 }
 ```
 
@@ -486,6 +488,8 @@ Réponse `201` :
 ```json
 {
   "roomCode": "T9X4P2",
+  "liveUsername": "un_live",
+  "connected": true,
   "overlayToken": "ovl_...",
   "controlToken": "ctl_..."
 }
@@ -496,14 +500,32 @@ Contraintes :
 - `mode` requis : `CLASSIC` ou `SUBJECT` uniquement ; `CONTEST` est refusé en TikTok.
 - `CLASSIC` refuse `category`/`difficulty`, `SUBJECT` les exige.
 - `timerMs` optionnel, entre 10 000 et 30 000 ms, défaut 15 000.
+- `liveUsername` optionnel : n'importe quel live (`@` facultatif, `[A-Za-z0-9._]{2,24}`, mis en minuscules). Défaut : `TIKTOK_USERNAME`. Sans l'un ni l'autre : `VALIDATION_ERROR`. Un autre live que celui suivi reconnecte le connecteur ; la room est créée aussitôt et `connected` dit si le chat est déjà branché (sinon `TIKTOK_CONNECTION_CHANGED` suivra). `TIKTOK_NOT_CONNECTED` ne concerne que le live déjà suivi quand il est hors ligne.
+- Une room TikTok ouverte à la fois : sinon `ROOM_IN_PROGRESS`.
 - La catégorie SUBJECT doit avoir au moins 100 questions approuvées (`MIN_QUESTIONS_PER_CATEGORY`).
 - Les tokens overlay/control n'ont pas d'expiration propre ; ils restent valides jusqu'à la fermeture de la room et sont révoqués à ce moment.
 
-Erreurs : `AUTH_REQUIRED`, `AUTH_INVALID`, `FORBIDDEN`, `TIKTOK_DISABLED`, `TIKTOK_NOT_CONNECTED`, `VALIDATION_ERROR`, `CATEGORY_INSUFFICIENT_QUESTIONS`.
+Erreurs : `AUTH_REQUIRED`, `AUTH_INVALID`, `FORBIDDEN`, `TIKTOK_DISABLED`, `TIKTOK_NOT_CONNECTED`, `VALIDATION_ERROR`, `CATEGORY_INSUFFICIENT_QUESTIONS`, `ROOM_IN_PROGRESS`.
 
 ### 3.12 `POST /api/admin/rooms/:code/close`
 
 Admin. Ferme une room bloquée. Réponse `204`.
+
+### 3.12 bis `GET /api/admin/tiktok` et `POST /api/admin/tiktok/chat`
+
+Admin. État pour la console streamer (`/?mode=admin`) :
+
+```json
+{
+  "enabled": true,
+  "simulated": false,
+  "connected": true,
+  "liveUsername": "un_live",
+  "activeRoomCode": "T9X4P2"
+}
+```
+
+`POST /api/admin/tiktok/chat` (`{ "uniqueId": "viewer_1", "nickname": "Viewer", "comment": "B" }`, `nickname` facultatif) injecte un commentaire dans le chat **simulé** et répond `202` ; il n'existe qu'avec `TIKTOK_ADAPTER=fake` (sinon `TIKTOK_DISABLED`, `503`). Le commentaire suit exactement le chemin d'un vrai commentaire (parseur, capacité, dédup).
 
 ### 3.13 Routes d'administration des questions
 

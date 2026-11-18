@@ -6,7 +6,8 @@ import {
 } from '../shared/question-bank';
 import { CATEGORY_VALUES } from '../shared/schemas';
 import { loadConfig, validateConfig } from './config';
-import { LiveTikTokAdapter, isConnectorInstalled } from './tiktok/liveAdapter';
+import { isConnectorInstalled } from './tiktok/liveAdapter';
+import { tiktokOptions, tiktokSetup } from './tiktok/setup';
 import { initializePersistence } from './persistence/db';
 import { createGameServer } from './server';
 import { createLogger, parseLogLevel } from './util/logger';
@@ -44,7 +45,12 @@ async function main(): Promise<void> {
   if (problems.length > 0) {
     throw new Error(`Invalid configuration:\n- ${problems.join('\n- ')}`);
   }
-  if (config.tiktokEnabled && !(await isConnectorInstalled())) {
+  if (config.tiktokEnabled && config.tiktokAdapter === 'fake') {
+    console.warn(
+      'TIKTOK_ADAPTER=fake: TikTok rooms use a simulated chat (demo / tests), not a real live.',
+    );
+  }
+  if (config.tiktokEnabled && config.tiktokAdapter === 'live' && !(await isConnectorInstalled())) {
     const message =
       'TIKTOK_ENABLED=true but the optional package tiktok-live-connector is not installed ' +
       '(build the Docker image with WITH_TIKTOK=true, or `pnpm install` with optional dependencies).';
@@ -84,15 +90,7 @@ async function main(): Promise<void> {
     imageCacheMaxBytes: config.imageCacheMaxBytes,
     logger: createLogger(parseLogLevel(config.logLevel)),
     allowedOrigin: config.publicOrigin,
-    tiktokAdapterFactory:
-      config.tiktokEnabled && config.tiktokUsername && config.tiktokSessionCookie
-        ? () =>
-            new LiveTikTokAdapter({
-              username: config.tiktokUsername as string,
-              sessionCookie: config.tiktokSessionCookie as string,
-              signApiKey: config.tiktokSignApiKey,
-            })
-        : null,
+    ...tiktokOptions(tiktokSetup(config)),
   });
   game.httpServer.listen(config.port, () => {
     console.info(`Encycla server listening on http://localhost:${config.port}`);

@@ -154,6 +154,7 @@ IMAGE_CACHE_MAX_MB=512
 ADMIN_TOKEN=<openssl rand -hex 32>
 TRUST_PROXY=true
 TIKTOK_ENABLED=false
+TIKTOK_ADAPTER=live
 TIKTOK_USERNAME=
 TIKTOK_SESSION_COOKIE=
 TIKTOK_SIGN_API_KEY=
@@ -170,8 +171,11 @@ Validation **fail-fast** au démarrage (`server/config.ts`, avant d'ouvrir la ba
 | `ADMIN_TOKEN` < 32 caractères (prod) / < 16 (dev), espaces, < 8 caractères distincts | refus | refus |
 | `PUBLIC_ORIGIN` absent ou pas `https://hôte[:port]` | refus | libre |
 | `RATE_LIMIT=off` | refus | autorisé (tests de charge) |
-| `TIKTOK_ENABLED=true` sans `TIKTOK_USERNAME` / `TIKTOK_SESSION_COOKIE` | refus | refus |
-| `TIKTOK_ENABLED=true` sans le paquet optionnel `tiktok-live-connector` | refus | avertissement, mode manuel |
+| `TIKTOK_ENABLED=true` (adaptateur `live`) sans `TIKTOK_SESSION_COOKIE` | refus | refus |
+| `TIKTOK_USERNAME` qui n'est pas un pseudo TikTok | refus | refus |
+| `TIKTOK_ADAPTER` autre que `live` / `fake` | refus | refus |
+| `TIKTOK_ADAPTER=fake` (chat simulé, démo) | avertissement au démarrage | avertissement au démarrage |
+| `TIKTOK_ENABLED=true` (adaptateur `live`) sans le paquet optionnel `tiktok-live-connector` | refus | avertissement, mode manuel |
 | `TRUST_PROXY` autre que `false`, `true` ou 1-10 | refus | refus |
 | `IMAGE_CACHE_MAX_MB` autre qu'un entier 1-100000 | refus | refus |
 
@@ -179,7 +183,7 @@ Validation **fail-fast** au démarrage (`server/config.ts`, avant d'ouvrir la ba
 - `ADMIN_TOKEN` : `openssl rand -hex 32` (64 caractères).
 - Les IP ne sont jamais persistées ; seul le rate limiting en mémoire les utilise.
 - `GEMINI_API_KEY` n'est pas nécessaire au runtime ; ne pas la monter dans le conteneur de jeu.
-- `TIKTOK_SESSION_COOKIE` est obligatoire si `TIKTOK_ENABLED=true`.
+- `TIKTOK_SESSION_COOKIE` est obligatoire si `TIKTOK_ENABLED=true` avec l'adaptateur réel ; `TIKTOK_USERNAME` est facultatif (live par défaut, chaque room peut nommer le sien).
 
 ### 6.2 Démarrage
 
