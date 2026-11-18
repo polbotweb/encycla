@@ -1,40 +1,45 @@
 {
   "language": "fr",
   "languages": ["fr", "en", "ar"],
-  "seedTitles": 3832,
-  "questions": 2496,
+  "seedTitles": 3948,
+  "questions": 2605,
   "perCategory": {
     "Fauna": { "seedTitles": 261, "questions": 150, "dropped": 41 },
     "Flora": { "seedTitles": 247, "questions": 144, "dropped": 103 },
     "Flags": { "seedTitles": 192, "questions": 150, "dropped": 2 },
     "Birds": { "seedTitles": 131, "questions": 128, "dropped": 3 },
-    "Trees": { "seedTitles": 194, "questions": 109, "dropped": 85 },
+    "Trees": { "seedTitles": 233, "questions": 144, "dropped": 89 },
     "Insects": { "seedTitles": 310, "questions": 150, "dropped": 141 },
-    "Mushrooms": { "seedTitles": 186, "questions": 103, "dropped": 83 },
+    "Mushrooms": { "seedTitles": 232, "questions": 147, "dropped": 85 },
     "Architecture": { "seedTitles": 196, "questions": 150, "dropped": 39 },
     "Inventions": { "seedTitles": 146, "questions": 118, "dropped": 28 },
     "Arts & Literature": { "seedTitles": 198, "questions": 150, "dropped": 42 },
     "Geography": { "seedTitles": 226, "questions": 150, "dropped": 30 },
-    "Space & Astronomy": { "seedTitles": 160, "questions": 108, "dropped": 52 },
+    "Space & Astronomy": { "seedTitles": 191, "questions": 137, "dropped": 54 },
     "History": { "seedTitles": 170, "questions": 137, "dropped": 33 },
     "Mythology": { "seedTitles": 228, "questions": 150, "dropped": 78 },
     "Gastronomy": { "seedTitles": 364, "questions": 150, "dropped": 75 },
-    "Music": { "seedTitles": 185, "questions": 149, "dropped": 36 },
+    "Music": { "seedTitles": 185, "questions": 150, "dropped": 35 },
     "Sports": { "seedTitles": 209, "questions": 150, "dropped": 32 },
     "Science": { "seedTitles": 229, "questions": 150, "dropped": 43 }
   },
   "translations": {
     "en": {
-      "answerLabels": { "wikipedia": 2443, "wikidata": 44, "scientific-name": 0, "native-name": 0 },
-      "optionLabels": { "wikipedia": 9854, "wikidata": 94, "scientific-name": 0, "native-name": 0 },
+      "answerLabels": { "wikipedia": 2544, "wikidata": 52, "scientific-name": 0, "native-name": 0 },
+      "optionLabels": {
+        "wikipedia": 10258,
+        "wikidata": 126,
+        "scientific-name": 0,
+        "native-name": 0
+      },
       "articles": {
-        "own": 2442,
-        "other:fr": 25,
+        "own": 2540,
+        "other:fr": 29,
         "other:pt": 3,
+        "other:de": 11,
         "other:nl": 1,
-        "other:es": 5,
-        "other:de": 6,
-        "other:it": 5
+        "other:it": 6,
+        "other:es": 6
       },
       "nativeNameLanguages": {},
       "perCategory": {
@@ -67,11 +72,18 @@
           "articles": { "own": 127, "other:fr": 1 }
         },
         "Trees": {
-          "questions": 109,
+          "questions": 144,
           "unavailable": 0,
-          "labels": { "wikipedia": 105, "wikidata": 4, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 431, "wikidata": 5, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 105, "other:pt": 1, "other:fr": 2, "other:nl": 1 }
+          "labels": { "wikipedia": 137, "wikidata": 7, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 563, "wikidata": 13, "scientific-name": 0, "native-name": 0 },
+          "articles": {
+            "own": 137,
+            "other:de": 2,
+            "other:pt": 1,
+            "other:fr": 2,
+            "other:nl": 1,
+            "other:it": 1
+          }
         },
         "Insects": {
           "questions": 149,
@@ -81,11 +93,11 @@
           "articles": { "own": 143, "other:es": 1, "other:fr": 4, "other:de": 1 }
         },
         "Mushrooms": {
-          "questions": 102,
+          "questions": 146,
           "unavailable": 1,
-          "labels": { "wikipedia": 99, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 400, "wikidata": 8, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 98, "other:it": 1, "other:fr": 2, "other:de": 1 }
+          "labels": { "wikipedia": 138, "wikidata": 8, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 552, "wikidata": 32, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 134, "other:es": 1, "other:fr": 6, "other:de": 4, "other:it": 1 }
         },
         "Architecture": {
           "questions": 150,
@@ -116,11 +128,11 @@
           "articles": { "own": 149, "other:fr": 1 }
         },
         "Space & Astronomy": {
-          "questions": 108,
+          "questions": 137,
           "unavailable": 0,
-          "labels": { "wikipedia": 108, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 432, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 108 }
+          "labels": { "wikipedia": 137, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 548, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 137 }
         },
         "History": {
           "questions": 137,
@@ -144,11 +156,11 @@
           "articles": { "own": 139, "other:es": 4, "other:it": 2, "other:fr": 5 }
         },
         "Music": {
-          "questions": 149,
+          "questions": 150,
           "unavailable": 0,
-          "labels": { "wikipedia": 146, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 593, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 146, "other:pt": 1, "other:de": 2 }
+          "labels": { "wikipedia": 147, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 597, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 147, "other:pt": 1, "other:de": 2 }
         },
         "Sports": {
           "questions": 150,
@@ -218,28 +230,28 @@
     },
     "ar": {
       "answerLabels": {
-        "wikipedia": 2220,
-        "wikidata": 53,
-        "scientific-name": 90,
+        "wikipedia": 2280,
+        "wikidata": 54,
+        "scientific-name": 138,
         "native-name": 82
       },
       "optionLabels": {
-        "wikipedia": 8934,
-        "wikidata": 186,
-        "scientific-name": 360,
+        "wikipedia": 9172,
+        "wikidata": 192,
+        "scientific-name": 552,
         "native-name": 300
       },
       "articles": {
-        "own": 2071,
-        "other:en": 349,
-        "other:fr": 15,
+        "own": 2116,
+        "other:en": 402,
+        "other:fr": 19,
         "other:pt": 2,
-        "other:es": 3,
-        "other:de": 1,
-        "other:it": 4
+        "other:de": 6,
+        "other:it": 5,
+        "other:es": 4
       },
       "nativeNameLanguages": {
-        "th": 2,
+        "en": 15,
         "ja": 5,
         "oc": 4,
         "fr": 213,
@@ -248,7 +260,6 @@
         "grc": 2,
         "it": 2,
         "is": 5,
-        "en": 13,
         "ru": 1,
         "el": 7,
         "de": 14,
@@ -284,11 +295,11 @@
           "articles": { "own": 97, "other:en": 29, "other:fr": 1 }
         },
         "Trees": {
-          "questions": 105,
+          "questions": 140,
           "unavailable": 4,
-          "labels": { "wikipedia": 102, "wikidata": 2, "scientific-name": 1, "native-name": 0 },
-          "options": { "wikipedia": 410, "wikidata": 6, "scientific-name": 4, "native-name": 0 },
-          "articles": { "own": 83, "other:en": 21, "other:pt": 1 }
+          "labels": { "wikipedia": 124, "wikidata": 2, "scientific-name": 14, "native-name": 0 },
+          "options": { "wikipedia": 498, "wikidata": 6, "scientific-name": 56, "native-name": 0 },
+          "articles": { "own": 94, "other:en": 42, "other:de": 2, "other:pt": 1, "other:it": 1 }
         },
         "Insects": {
           "questions": 148,
@@ -298,11 +309,18 @@
           "articles": { "own": 78, "other:en": 65, "other:es": 1, "other:fr": 3, "other:de": 1 }
         },
         "Mushrooms": {
-          "questions": 99,
+          "questions": 143,
           "unavailable": 4,
-          "labels": { "wikipedia": 51, "wikidata": 5, "scientific-name": 43, "native-name": 0 },
-          "options": { "wikipedia": 210, "wikidata": 14, "scientific-name": 172, "native-name": 0 },
-          "articles": { "other:en": 72, "own": 26, "other:it": 1 }
+          "labels": { "wikipedia": 59, "wikidata": 6, "scientific-name": 78, "native-name": 0 },
+          "options": { "wikipedia": 240, "wikidata": 20, "scientific-name": 312, "native-name": 0 },
+          "articles": {
+            "other:en": 103,
+            "own": 31,
+            "other:es": 1,
+            "other:fr": 4,
+            "other:de": 3,
+            "other:it": 1
+          }
         },
         "Architecture": {
           "questions": 150,
@@ -333,11 +351,11 @@
           "articles": { "own": 133, "other:en": 16, "other:fr": 1 }
         },
         "Space & Astronomy": {
-          "questions": 108,
+          "questions": 137,
           "unavailable": 0,
-          "labels": { "wikipedia": 106, "wikidata": 0, "scientific-name": 0, "native-name": 2 },
-          "options": { "wikipedia": 425, "wikidata": 0, "scientific-name": 0, "native-name": 7 },
-          "articles": { "own": 108 }
+          "labels": { "wikipedia": 135, "wikidata": 0, "scientific-name": 0, "native-name": 2 },
+          "options": { "wikipedia": 541, "wikidata": 0, "scientific-name": 0, "native-name": 7 },
+          "articles": { "own": 136, "other:en": 1 }
         },
         "History": {
           "questions": 137,
@@ -361,11 +379,11 @@
           "articles": { "own": 101, "other:es": 2, "other:en": 38, "other:it": 2, "other:fr": 3 }
         },
         "Music": {
-          "questions": 137,
+          "questions": 138,
           "unavailable": 12,
-          "labels": { "wikipedia": 126, "wikidata": 4, "scientific-name": 0, "native-name": 7 },
-          "options": { "wikipedia": 499, "wikidata": 24, "scientific-name": 0, "native-name": 25 },
-          "articles": { "own": 121, "other:en": 16 }
+          "labels": { "wikipedia": 127, "wikidata": 4, "scientific-name": 0, "native-name": 7 },
+          "options": { "wikipedia": 503, "wikidata": 24, "scientific-name": 0, "native-name": 25 },
+          "articles": { "own": 122, "other:en": 16 }
         },
         "Sports": {
           "questions": 150,
@@ -382,7 +400,7 @@
           "articles": { "own": 149 }
         }
       },
-      "answersWithoutOwnName": 172,
+      "answersWithoutOwnName": 220,
       "fallbacks": [
         {
           "id": "fauna-requin-marteau-halicorne",
@@ -427,8 +445,86 @@
           "article": "other:fr"
         },
         {
+          "id": "trees-austrocedrus-chilensis",
+          "subject": "Austrocedrus chilensis",
+          "label": "scientific-name:la",
+          "article": "other:de"
+        },
+        {
+          "id": "trees-banksia-grandis",
+          "subject": "Banksia grandis",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-allocasuarina-fraseriana",
+          "subject": "Allocasuarina fraseriana",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-cypres-de-nootka",
+          "subject": "Cyprès de Nootka",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-eucalyptus-caliginosa",
+          "subject": "Eucalyptus caliginosa",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-laurier-de-californie",
+          "subject": "Laurier de Californie",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-laureliopsis-philippiana",
+          "subject": "Laureliopsis philippiana",
+          "label": "scientific-name:la",
+          "article": "other:de"
+        },
+        {
           "id": "trees-alisier-blanc",
           "subject": "Alisier blanc",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-olearia-lyallii",
+          "subject": "Olearia lyallii",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-picea-fennica",
+          "subject": "Picea fennica",
+          "label": "scientific-name:la",
+          "article": "other:it"
+        },
+        {
+          "id": "trees-quercus-kelloggii",
+          "subject": "Quercus kelloggii",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-quercus-muehlenbergii",
+          "subject": "Quercus muehlenbergii",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-quercus-chrysolepis",
+          "subject": "Quercus chrysolepis",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "trees-quercus-wislizeni",
+          "subject": "Quercus wislizeni",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -673,8 +769,20 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-amanita-arocheae",
+          "subject": "Amanita arocheae",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-bolet-rude",
           "subject": "Bolet rude",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-amanita-zambiana",
+          "subject": "Amanita zambiana",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -685,16 +793,34 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-amanita-calyptroderma",
+          "subject": "Amanita calyptroderma",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-trompette-de-la-mort",
           "subject": "Trompette de la mort",
           "label": "scientific-name:la",
           "article": "other:en"
         },
         {
+          "id": "mushrooms-amanita-ponderosa",
+          "subject": "Amanita ponderosa",
+          "label": "scientific-name:la",
+          "article": "other:es"
+        },
+        {
           "id": "mushrooms-cortinaire-remarquable",
           "subject": "Cortinaire remarquable",
           "label": "scientific-name:la",
           "article": "other:en"
+        },
+        {
+          "id": "mushrooms-afroboletus-luteolus",
+          "subject": "Afroboletus luteolus",
+          "label": "scientific-name:la",
+          "article": "other:fr"
         },
         {
           "id": "mushrooms-galere-marginee",
@@ -721,6 +847,12 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-amanita-submembranacea",
+          "subject": "Amanita submembranacea",
+          "label": "scientific-name:la",
+          "article": "other:de"
+        },
+        {
           "id": "mushrooms-inocybe-de-patouillard",
           "subject": "Inocybe de Patouillard",
           "label": "scientific-name:la",
@@ -729,6 +861,18 @@
         {
           "id": "mushrooms-coprin-micace",
           "subject": "Coprin micacé",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-boletus-subcaerulescens",
+          "subject": "Boletus subcaerulescens",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-boletus-pallidoroseus",
+          "subject": "Boletus pallidoroseus",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -745,6 +889,12 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-boletus-violaceofuscus",
+          "subject": "Boletus violaceofuscus",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-bolet-a-pied-rouge",
           "subject": "Bolet à pied rouge",
           "label": "scientific-name:la",
@@ -753,6 +903,12 @@
         {
           "id": "mushrooms-fistuline-hepatique",
           "subject": "Fistuline hépatique",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-boletus-vermiculosus",
+          "subject": "Boletus vermiculosus",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -775,6 +931,12 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-boletus-rex-veris",
+          "subject": "Boletus rex-veris",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-russule-charbonniere",
           "subject": "Russule charbonnière",
           "label": "scientific-name:la",
@@ -783,6 +945,12 @@
         {
           "id": "mushrooms-psilocybe",
           "subject": "Psilocybe",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-boletus-variipes",
+          "subject": "Boletus variipes",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -799,8 +967,26 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-boletus-quercophilus",
+          "subject": "Boletus quercophilus",
+          "label": "scientific-name:la",
+          "article": "other:fr"
+        },
+        {
+          "id": "mushrooms-boletus-nobilissimus",
+          "subject": "Boletus nobilissimus",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-amanite-citrine",
           "subject": "Amanite citrine",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-boletus-subalpinus",
+          "subject": "Boletus subalpinus",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -817,10 +1003,22 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-boletus-regineus",
+          "subject": "Boletus regineus",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-cepe",
           "subject": "Cèpe",
           "label": "scientific-name:la",
           "article": "other:it"
+        },
+        {
+          "id": "mushrooms-calvatia-craniiformis",
+          "subject": "Calvatia craniiformis",
+          "label": "scientific-name:la",
+          "article": "other:en"
         },
         {
           "id": "mushrooms-marasme-des-oreades",
@@ -841,6 +1039,12 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-hygrophorus-russula",
+          "subject": "Hygrophorus russula",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-tricholome-de-la-saint-georges",
           "subject": "Tricholome de la Saint-Georges",
           "label": "scientific-name:la",
@@ -849,6 +1053,12 @@
         {
           "id": "mushrooms-pezize-veinee",
           "subject": "Pézize veinée",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-gomphus-clavatus",
+          "subject": "Gomphus clavatus",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -865,8 +1075,20 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-gyroporus-cyanescens",
+          "subject": "Gyroporus cyanescens",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-coprin-pie",
           "subject": "Coprin pie",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-hapalopilus-rutilans",
+          "subject": "Hapalopilus rutilans",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -877,10 +1099,28 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-hygrophore-des-pres",
+          "subject": "Hygrophore des prés",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-hydnum-rufescens",
+          "subject": "Hydnum rufescens",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-bolet-elegant",
           "subject": "Bolet élégant",
           "label": "scientific-name:la",
           "article": "other:en"
+        },
+        {
+          "id": "mushrooms-entoloma-clypeatum",
+          "subject": "Entoloma clypeatum",
+          "label": "scientific-name:la",
+          "article": "other:de"
         },
         {
           "id": "mushrooms-bolet-a-chair-jaune",
@@ -889,8 +1129,20 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-guepinia-helvelloides",
+          "subject": "Guepinia helvelloides",
+          "label": "scientific-name:la",
+          "article": "other:de"
+        },
+        {
           "id": "mushrooms-typhula",
           "subject": "Typhula",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-omphalotus-olearius",
+          "subject": "Omphalotus olearius",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -901,8 +1153,20 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-pholiote-ridee",
+          "subject": "Pholiote ridée",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-lentin-tigre",
           "subject": "Lentin tigré",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-morchella-semilibera",
+          "subject": "Morchella semilibera",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -913,8 +1177,32 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-omphalotus-japonicus",
+          "subject": "Omphalotus japonicus",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-paralepistopsis-acromelalga",
+          "subject": "Paralepistopsis acromelalga",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "mushrooms-pholiote-du-peuplier",
           "subject": "Pholiote du peuplier",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-neoboletus-xanthopus",
+          "subject": "Neoboletus xanthopus",
+          "label": "scientific-name:la",
+          "article": "other:fr"
+        },
+        {
+          "id": "mushrooms-stropharia-rugosoannulata",
+          "subject": "Stropharia rugosoannulata",
           "label": "scientific-name:la",
           "article": "other:en"
         },
@@ -925,9 +1213,27 @@
           "article": "other:en"
         },
         {
+          "id": "mushrooms-suillus-sibiricus",
+          "subject": "Suillus sibiricus",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
+          "id": "mushrooms-russula-japonica",
+          "subject": "Russula japonica",
+          "label": "scientific-name:la",
+          "article": "other:fr"
+        },
+        {
+          "id": "mushrooms-russula-mustelina",
+          "subject": "Russula mustelina",
+          "label": "scientific-name:la",
+          "article": "other:en"
+        },
+        {
           "id": "architecture-wat-arun",
           "subject": "Wat Arun",
-          "label": "native-name:th",
+          "label": "native-name:en",
           "article": "other:en"
         },
         {
@@ -1673,10 +1979,10 @@
     }
   },
   "taxonomy": {
-    "livingThings": 783,
-    "withLineage": 734,
-    "arabicCommonNamesAvailable": 108,
-    "meanSharedAncestors": 47.2,
+    "livingThings": 862,
+    "withLineage": 813,
+    "arabicCommonNamesAvailable": 110,
+    "meanSharedAncestors": 44.7,
     "sameGenusPairs": [
       { "id": "fauna-lion", "answer": "Lion", "distractor": "Panthère des neiges" },
       { "id": "fauna-loup-gris", "answer": "Loup gris", "distractor": "Coyote" },
@@ -1813,6 +2119,16 @@
         "answer": "Pin noir d'Autriche",
         "distractor": "Pin maritime"
       },
+      {
+        "id": "trees-banksia-integrifolia",
+        "answer": "Banksia integrifolia",
+        "distractor": "Banksia brownii"
+      },
+      {
+        "id": "trees-banksia-brownii",
+        "answer": "Banksia brownii",
+        "distractor": "Banksia integrifolia"
+      },
       { "id": "trees-sapin-blanc", "answer": "Sapin blanc", "distractor": "Sapin de Nordmann" },
       { "id": "trees-erable-sycomore", "answer": "Érable sycomore", "distractor": "Érable plane" },
       {
@@ -1842,6 +2158,36 @@
       { "id": "trees-peuplier-blanc", "answer": "Peuplier blanc", "distractor": "Tremble" },
       { "id": "trees-saule-blanc", "answer": "Saule blanc", "distractor": "Saule pleureur" },
       { "id": "trees-saule-pleureur", "answer": "Saule pleureur", "distractor": "Saule blanc" },
+      {
+        "id": "trees-quercus-kelloggii",
+        "answer": "Quercus kelloggii",
+        "distractor": "Quercus muehlenbergii"
+      },
+      {
+        "id": "trees-quercus-muehlenbergii",
+        "answer": "Quercus muehlenbergii",
+        "distractor": "Quercus chrysolepis"
+      },
+      {
+        "id": "trees-quercus-chrysolepis",
+        "answer": "Quercus chrysolepis",
+        "distractor": "Quercus muehlenbergii"
+      },
+      {
+        "id": "trees-quercus-tomentella",
+        "answer": "Quercus tomentella",
+        "distractor": "Quercus engelmannii"
+      },
+      {
+        "id": "trees-quercus-wislizeni",
+        "answer": "Quercus wislizeni",
+        "distractor": "Quercus chrysolepis"
+      },
+      {
+        "id": "trees-quercus-engelmannii",
+        "answer": "Quercus engelmannii",
+        "distractor": "Quercus tomentella"
+      },
       { "id": "trees-tremble", "answer": "Tremble", "distractor": "Peuplier noir" },
       { "id": "insects-perce-oreille", "answer": "Perce-oreille", "distractor": "Phasme" },
       {
@@ -1856,9 +2202,19 @@
       },
       { "id": "mushrooms-bolet-jaune", "answer": "Bolet jaune", "distractor": "Bolet élégant" },
       {
+        "id": "mushrooms-amanita-arocheae",
+        "answer": "Amanita arocheae",
+        "distractor": "Amanita ponderosa"
+      },
+      {
         "id": "mushrooms-amanite-phalloide",
         "answer": "Amanite phalloïde",
         "distractor": "Amanite vireuse"
+      },
+      {
+        "id": "mushrooms-amanita-zambiana",
+        "answer": "Amanita zambiana",
+        "distractor": "Amanita calyptroderma"
       },
       {
         "id": "mushrooms-amanite-panthere",
@@ -1871,9 +2227,19 @@
         "distractor": "Agaric des bois"
       },
       {
+        "id": "mushrooms-amanita-calyptroderma",
+        "answer": "Amanita calyptroderma",
+        "distractor": "Amanita arocheae"
+      },
+      {
         "id": "mushrooms-amanite-vireuse",
         "answer": "Amanite vireuse",
         "distractor": "Amanite tue-mouches"
+      },
+      {
+        "id": "mushrooms-amanita-ponderosa",
+        "answer": "Amanita ponderosa",
+        "distractor": "Amanita zambiana"
       },
       {
         "id": "mushrooms-rose-des-pres",
@@ -1885,12 +2251,62 @@
         "answer": "Champignon de Paris",
         "distractor": "Rosé des prés"
       },
+      {
+        "id": "mushrooms-amanita-submembranacea",
+        "answer": "Amanita submembranacea",
+        "distractor": "Amanita arocheae"
+      },
+      {
+        "id": "mushrooms-boletus-subcaerulescens",
+        "answer": "Boletus subcaerulescens",
+        "distractor": "Boletus quercophilus"
+      },
+      {
+        "id": "mushrooms-boletus-violaceofuscus",
+        "answer": "Boletus violaceofuscus",
+        "distractor": "Boletus subcaerulescens"
+      },
+      {
+        "id": "mushrooms-boletus-vermiculosus",
+        "answer": "Boletus vermiculosus",
+        "distractor": "Boletus nobilissimus"
+      },
+      {
+        "id": "mushrooms-boletus-rex-veris",
+        "answer": "Boletus rex-veris",
+        "distractor": "Boletus vermiculosus"
+      },
+      {
+        "id": "mushrooms-boletus-variipes",
+        "answer": "Boletus variipes",
+        "distractor": "Boletus quercophilus"
+      },
       { "id": "mushrooms-lactaire", "answer": "Lactaire", "distractor": "Russule" },
+      {
+        "id": "mushrooms-boletus-quercophilus",
+        "answer": "Boletus quercophilus",
+        "distractor": "Boletus rex-veris"
+      },
       { "id": "mushrooms-russule", "answer": "Russule", "distractor": "Lactaire" },
+      {
+        "id": "mushrooms-boletus-nobilissimus",
+        "answer": "Boletus nobilissimus",
+        "distractor": "Boletus variipes"
+      },
       {
         "id": "mushrooms-amanite-citrine",
         "answer": "Amanite citrine",
         "distractor": "Amanite panthère"
+      },
+      {
+        "id": "mushrooms-boletus-subalpinus",
+        "answer": "Boletus subalpinus",
+        "distractor": "Boletus variipes"
+      },
+      {
+        "id": "mushrooms-boletus-regineus",
+        "answer": "Boletus regineus",
+        "distractor": "Boletus rex-veris"
       },
       { "id": "mushrooms-cepe-d-ete", "answer": "Cèpe d'été", "distractor": "Cèpe de Bordeaux" },
       {
@@ -1898,20 +2314,40 @@
         "answer": "Agaric des bois",
         "distractor": "Agaric des jachères"
       },
-      { "id": "mushrooms-bolet-elegant", "answer": "Bolet élégant", "distractor": "Bolet jaune" }
+      { "id": "mushrooms-bolet-elegant", "answer": "Bolet élégant", "distractor": "Bolet jaune" },
+      {
+        "id": "mushrooms-omphalotus-olearius",
+        "answer": "Omphalotus olearius",
+        "distractor": "Omphalotus japonicus"
+      },
+      {
+        "id": "mushrooms-omphalotus-japonicus",
+        "answer": "Omphalotus japonicus",
+        "distractor": "Omphalotus olearius"
+      },
+      {
+        "id": "mushrooms-russula-japonica",
+        "answer": "Russula japonica",
+        "distractor": "Russula mustelina"
+      },
+      {
+        "id": "mushrooms-russula-mustelina",
+        "answer": "Russula mustelina",
+        "distractor": "Russula japonica"
+      }
     ]
   },
   "imageLicenses": {
-    "CC BY-SA 4.0": 441,
-    "CC BY 4.0": 75,
-    "CC BY 2.0": 149,
-    "CC BY-SA 2.0": 124,
-    "CC BY-SA 3.0": 520,
-    "Public domain": 928,
-    "CC BY 3.0": 82,
-    "CC BY-SA 2.5": 63,
-    "CC BY 2.5": 45,
-    "CC0 1.0": 68,
+    "CC BY-SA 4.0": 464,
+    "CC BY 4.0": 82,
+    "CC BY 2.0": 152,
+    "CC BY-SA 2.0": 125,
+    "CC BY-SA 3.0": 554,
+    "Public domain": 957,
+    "CC BY 3.0": 85,
+    "CC BY-SA 2.5": 64,
+    "CC BY 2.5": 51,
+    "CC0 1.0": 70,
     "CC BY-SA 1.0": 1
   },
   "dropReasons": {
@@ -1919,13 +2355,13 @@
     "duplicate of an earlier subject": 284,
     "disambiguation page": 300,
     "answer not found in the article introduction": 35,
-    "author unknown for an attribution licence": 32,
-    "image too small or extreme aspect ratio": 40,
-    "licence rejected: licence not in the allowlist": 37,
+    "author unknown for an attribution licence": 35,
+    "image too small or extreme aspect ratio": 42,
+    "licence rejected: licence not in the allowlist": 39,
     "article is about a place, not this kind of subject": 8,
     "image is not a photograph of the subject": 30,
-    "article has no lead image": 24,
-    "same image already used by another subject": 8,
+    "article has no lead image": 23,
+    "same image already used by another subject": 9,
     "unsupported image type application/ogg": 1,
     "article is a homonymy/list-like page": 1,
     "article does not look like a fungus": 2,
@@ -4820,6 +5256,26 @@
       "reason": "answer not found in the article introduction"
     },
     {
+      "category": "Trees",
+      "title": "Cormier",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Trees",
+      "title": "Eucalyptus acmenoides",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Trees",
+      "title": "Pin de Salzmann",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Trees",
+      "title": "Quercus cerris",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
       "category": "Insects",
       "title": "Lucane cerf-volant",
       "reason": "answer not found in the article introduction"
@@ -4958,6 +5414,16 @@
       "category": "Mushrooms",
       "title": "Tricholome terreux",
       "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Agaricus subrufescens",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Mushrooms",
+      "title": "Stropharia",
+      "reason": "author unknown for an attribution licence"
     },
     {
       "category": "Architecture",
@@ -5167,6 +5633,16 @@
       "category": "Space & Astronomy",
       "title": "Compton Gamma Ray Observatory",
       "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "Herschel (télescope spatial)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Space & Astronomy",
+      "title": "C/2006 P1 (McNaught)",
+      "reason": "licence rejected: licence not in the allowlist"
     },
     {
       "category": "History",
@@ -5412,7 +5888,6 @@
       "title": "George Gershwin",
       "reason": "image too small or extreme aspect ratio"
     },
-    { "category": "Music", "title": "Johann Pachelbel", "reason": "article has no lead image" },
     {
       "category": "Music",
       "title": "Georg Philipp Telemann",
