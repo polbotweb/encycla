@@ -874,7 +874,8 @@ Un bouton disabled garde un contraste lisible et un `aria-disabled`.
 ### 20.4 Langue du contenu
 
 - La question est dans la langue de la **room** ; l'interface reste dans la langue du joueur. Le bloc de question, la révélation et l'article portent `lang` et `dir` de la room, de sorte qu'une question arabe soit en RTL dans une interface française (et inversement).
-- Si l'article n'existe pas dans la langue de la room, la révélation et l'article sont affichés en français (`reveal.textLanguage = 'fr'`, `lang="fr" dir="ltr"`) avec la mention « Texte original : Français » ; rien n'est traduit automatiquement.
+- Si l'article n'existe pas dans la langue de la room, l'article d'une autre Wikipédia (en arabe : l'anglais d'abord) est affiché dans sa langue (`reveal.textLanguage`, `lang`/`dir` de cette langue) avec un avis nommant la langue et un lien vers l'article ; l'explication reste dans la langue de la room ; rien n'est traduit automatiquement (D-108).
+- Un nom scientifique est en italique, isolé `<bdi lang="la" dir="ltr">` ; un nom d'origine est isolé `<bdi lang="<code>">` dans sa direction.
 - La fenêtre de création de partie propose « Langue des questions » (par défaut la langue de l'interface).
 - L'overlay TikTok et la console suivent `?lang=` comme le reste de l'application.
 

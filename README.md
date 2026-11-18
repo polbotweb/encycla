@@ -251,10 +251,10 @@ Procédure complète dans [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 - La banque actuelle contient **2 496 questions uniques** en français (100 à 150 par catégorie, 18 catégories), toutes de type « identifier cette image ».
 - CLASSIC nécessite **200 questions approuvées**.
-- SUBJECT nécessite **100 questions par catégorie** (`MIN_QUESTIONS_PER_CATEGORY`, une partie en tire 20) ; les 18 catégories atteignent ce seuil.
+- SUBJECT nécessite **100 questions par catégorie** (`MIN_QUESTIONS_PER_CATEGORY`, une partie en tire 20) ; les 18 catégories atteignent ce seuil en français et en anglais, 17 en arabe (pas Champignons).
 - Les options sont mélangées à chaque tirage.
 - Les articles sont du texte brut, sans HTML.
-- Chaque question existe en **français, anglais et arabe** (mêmes photos, mêmes options dans le même ordre) ; voir [Langues](#langues).
+- Chaque question existe en **français**, et en **anglais et arabe** quand un vrai nom existe (mêmes photos, mêmes options dans le même ordre) ; voir [Langues](#langues).
 
 ### Génération depuis Wikipédia et Wikimedia Commons
 
@@ -279,7 +279,8 @@ Voir [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
 - **Français par défaut**, anglais (`en`) et arabe (`ar`, mise en page de droite à gauche).
 - Choix : sélecteur dans l'en-tête, mémorisé dans `localStorage` (`encycla.lang.v1`) et dans l'URL (`?lang=ar`) ; le paramètre d'URL l'emporte. La langue du navigateur n'est pas utilisée.
 - Les questions sont affichées dans la **langue de la room** (« Langue des questions » à la création, par défaut la langue de l'interface). Le matchmaking public apparie les joueurs de la même langue. Chaque joueur garde son interface dans sa langue.
-- Traductions des questions : l'article Wikipédia de la langue (lien Wikidata), sinon le libellé Wikidata, sinon le français, **toujours signalé** (`translations.<langue>.provenance`). Rien n'est inventé ; `pnpm run data:validate` affiche le nombre de réponses par origine.
+- Traductions des questions (D-108) : le nom de l'article Wikipédia ou le libellé Wikidata de la langue ; sinon, pour un être vivant, son **nom scientifique** (italique, de gauche à droite) ; sinon le **nom d'origine** de l'élément ; sinon la question n'est pas proposée dans cette langue. Jamais de français par défaut, **toujours signalé** (`translations.<langue>.provenance`). Rien n'est inventé ; `pnpm run data:validate` affiche le nombre de réponses par origine.
+- Banque actuelle : anglais 2 487 questions (9 non proposées), arabe 2 445 (51 non proposées ; réponses : 90 noms scientifiques, 82 noms d'origine ; 374 articles d'une autre Wikipédia, surtout l'anglais). SUBJECT Champignons est désactivé en arabe (99 questions sur 100 requises).
 - TikTok : les spectateurs répondent toujours par A, B, C ou D, quelle que soit la langue.
 - Décisions : [D-84 à D-95](docs/DECISIONS.md). Interface et RTL : [docs/UI-UX.md §20](docs/UI-UX.md).
 

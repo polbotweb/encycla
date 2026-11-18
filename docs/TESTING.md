@@ -514,13 +514,16 @@ La charge n'est pas un critère de release v1, mais un test de non-régression n
 
 ### 12.1 Langues
 
-- Chaque question a une traduction `en` et `ar` : 4 options distinctes, la bonne réponse au même index que le français, `provenance` cohérente.
-- Un article `wikipedia` est un permalien de l'article de cette langue ; un article `fallback-fr` reprend le texte et la source français.
+- Chaque question a une traduction `en` et `ar`, ou une raison `unavailable` (jamais les deux) : 4 options distinctes, la bonne réponse au même index que le français, `provenance` et `optionLanguages` cohérentes.
+- Aucun texte français dans une room arabe (D-108) : libellés `wikipedia`/`wikidata` en arabe, noms scientifiques `la`, noms d'origine jamais `ar`, un libellé identique au français n'est qu'un nom d'origine ; question et explication en arabe. Même contrôle en anglais.
+- Un article est un permalien de la langue qu'il cite ; `other-language` ne cite jamais la langue de la room.
+- SUBJECT par langue : seul Mushrooms en arabe (99) est sous le seuil.
+- Générateur (`tests/data/forms.test.ts`) : échelle des libellés, options uniformément latines, retrait quand la réponse détonnerait, doublons, ordre des articles de repli, affinité de forme des distracteurs.
 - Un même libellé français est traduit de la même façon partout (< 1 % d'exceptions dues aux collisions).
 - Alt et crédit d'image traduits ; l'alt ne contient jamais la réponse (mot entier, Unicode).
 - Chaque question et chaque alt des seeds a une traduction anglaise et arabe.
-- Serveur : `localizeQuestion`, même permutation des options dans les trois langues, `textLanguage` de repli, `language` sur solo/rooms/queue, files de matchmaking par langue.
-- Client : parité des trois dictionnaires (clés, variables, formes de pluriel CLDR), pluriels fr/en/ar, ordre de priorité `?lang=` > `localStorage` > fr, `<html lang dir>`, axe dans les trois langues, `lang`/`dir` du contenu, article de repli.
+- Serveur : `localizeQuestion`, même permutation des options dans les trois langues, `textLanguage` de l'article d'une autre langue, questions non proposées exclues du tirage et des décomptes (`config.categories[].languages`), `optionForms` dans l'ordre affiché, `language` sur solo/rooms/queue, files de matchmaking par langue.
+- Client : parité des trois dictionnaires (clés, variables, formes de pluriel CLDR), pluriels fr/en/ar, ordre de priorité `?lang=` > `localStorage` > fr, `<html lang dir>`, axe dans les trois langues, `lang`/`dir` du contenu, article d'une autre langue (avis, lien), noms latins en `<bdi lang="la" dir="ltr">` italique, noms d'origine isolés.
 - E2E : défaut français, persistance, miroir RTL, 360 px sans défilement horizontal, partie solo en arabe.
 
 ## 13. Couverture

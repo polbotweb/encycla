@@ -419,19 +419,20 @@ WHERE match_id IN (SELECT id FROM matches WHERE status = 'abandoned')
 
 #### 6.2 bis Traductions (`translations`)
 
-La question française est la base : `id`, `category`, image, `correctIndex` et l'ordre des options sont communs aux trois langues. `translations.en` et `translations.ar` contiennent :
+La question française est la base : `id`, `category`, image, `correctIndex` et l'ordre des options sont communs aux trois langues. `translations.en` et `translations.ar` contiennent les champs ci-dessous ; une question sans traduction dans une langue porte `unavailable.<langue>` (raison) et n'est jamais proposée dans cette langue (D-108) :
 
 | Champ | Contenu |
 | --- | --- |
 | `subject`, `questionText`, `options[4]`, `explanation` | mêmes éléments que la base, dans la langue (options dans le même ordre, la bonne au même index) |
-| `articleTitle`, `articleBody` | article de la langue, sinon article français |
+| `articleTitle`, `articleBody` | article de la langue, sinon celui d'une autre Wikipédia (arabe : anglais d'abord ; puis langue d'origine, de, es, it, pt, nl, français en dernier), dans sa langue |
 | `imageAlt`, `imageCredit` | texte alternatif et crédit de l'image dans la langue (la photo, l'auteur et la licence sont ceux de la base) |
-| `source` | permalien `oldid` de l'article d'où vient le texte (la révision française si l'article est en repli) |
-| `provenance.label` | origine du libellé de la réponse : `wikipedia` (titre de l'article de la langue, via le sitelink Wikidata), `wikidata` (libellé Wikidata) ou `fallback-fr` |
+| `source` | permalien `oldid` de l'article d'où vient le texte ; `source.language` est la langue de cet article |
+| `provenance.label` | origine du libellé de la réponse : `wikipedia` (titre de l'article de la langue, via le sitelink Wikidata), `wikidata` (libellé ou nom Wikidata de la langue), `scientific-name` (P225, êtres vivants) ou `native-name` (nom d'origine : P1705, libellé dans la langue d'origine, P1559, P1448) |
 | `provenance.options[4]` | idem pour chaque option, dans l'ordre |
-| `provenance.article` | `wikipedia` ou `fallback-fr` |
+| `provenance.optionLanguages[4]` | langue de chaque option : la langue de la room, `la` pour un nom scientifique, la langue d'origine pour un nom natif (jamais celle de la room) |
+| `provenance.article` | `wikipedia` (article de la langue) ou `other-language` (article d'une autre Wikipédia, `source.language` ≠ langue) |
 
-Règles : rien n'est inventé ni traduit automatiquement ; chaque repli est marqué et compté (`pnpm run data:validate`, `data/sources/report.json › translations`). Le serveur applique `localizeQuestion(question, language)` au tirage ; un client ne reçoit que la langue de sa room.
+Règles : rien n'est inventé ni traduit automatiquement ; jamais de français dans une room anglaise ou arabe hors nom d'origine réellement français (D-108) ; chaque repli est marqué et compté (`pnpm run data:validate`, `data/sources/report.json › translations`). Le serveur applique `localizeQuestion(question, language)` au tirage ; un client ne reçoit que la langue de sa room.
 
 ### 6.3 Validation
 

@@ -209,7 +209,8 @@ Règles :
 - `phaseEndsAt` est nul pour les phases non minutées.
 - `remainingMs` est non nul en `PAUSED`.
 - `level` est 1-based ; `questionIndex` est 0-based et représente l'index dans le level courant. L'UI affiche `questionIndex + 1`.
-- `reveal.textLanguage` est la langue réelle de `explanation`, `articleTitle` et `articleBody` : la langue de la room, ou `fr` quand l'article n'existe pas dans cette langue (repli, voir DATA-MODEL §6.2 bis). Le client affiche alors ce texte en français, de gauche à droite, avec un avis.
+- `reveal.textLanguage` est la langue réelle de `articleTitle` et `articleBody` : la langue de la room, ou celle d'une autre Wikipédia quand l'article n'existe pas dans cette langue (D-108, DATA-MODEL §6.2 bis). Le client affiche alors l'article dans sa langue et sa direction, avec un avis et `reveal.articleUrl` (permalien de la révision). `explanation` est toujours dans la langue de la room.
+- `question.optionForms` et `reveal.optionForms` (facultatifs, dans l'ordre affiché) : `null` pour un nom de la langue de la room, `{ "lang": "la", "scientific": true }` pour un nom scientifique, `{ "lang": "<code>" }` pour un nom d'origine. `reveal.subjectForm` décrit la bonne réponse. Le client les isole dans `<bdi lang dir>` (latin : italique, `dir="ltr"`).
 - `question.image` ne contient que `url`, `alt` et `widths` ; crédit, licence et `sourceUrl` n'arrivent qu'avec `reveal.image`, sous la même `url` (D-107). Les images se chargent avec `GET /img/<jeton>?w=330|500|960` (jeton par manche, 2 h).
 - `language` est la langue de la room (D-88) : `question`, `reveal` et leurs images (alt, crédit) sont servis dans cette langue ; l'ordre des options et `correctIndex` sont identiques dans les trois langues.
 - `difficulty` est `null` pour CLASSIC et CONTEST ; il porte la difficulté choisie en SUBJECT. CONTEST applique `Adventurer` comme preset fixe.
@@ -423,8 +424,16 @@ Public. Permet à l'UI de connaître les modes et catégories disponibles.
   "protocolVersion": 1,
   "modes": ["CLASSIC", "SUBJECT", "CONTEST"],
   "categories": [
-    { "value": "Fauna", "questionCount": 15, "subjectEnabled": false },
-    { "value": "Science", "questionCount": 12, "subjectEnabled": false }
+    {
+      "value": "Mushrooms",
+      "questionCount": 103,
+      "subjectEnabled": true,
+      "languages": {
+        "fr": { "questionCount": 103, "subjectEnabled": true },
+        "en": { "questionCount": 103, "subjectEnabled": true },
+        "ar": { "questionCount": 99, "subjectEnabled": false }
+      }
+    }
   ],
   "constants": {
     "maxLives": 3,
@@ -436,6 +445,8 @@ Public. Permet à l'UI de connaître les modes et catégories disponibles.
   }
 }
 ```
+
+`questionCount` et `subjectEnabled` au premier niveau valent pour le français ; `languages` donne les mêmes chiffres pour chaque langue de room, en ne comptant que les questions proposées dans cette langue (D-108). `POST /api/rooms`/`/api/solo` en SUBJECT renvoie `CATEGORY_INSUFFICIENT_QUESTIONS` selon le chiffre de la langue demandée.
 
 ### 3.10 `GET /api/health`
 
