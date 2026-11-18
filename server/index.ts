@@ -9,6 +9,7 @@ import { loadConfig, validateConfig } from './config';
 import { isConnectorInstalled } from './tiktok/liveAdapter';
 import { tiktokOptions, tiktokSetup } from './tiktok/setup';
 import { initializePersistence } from './persistence/db';
+import { startBackupScheduler } from './persistence/backup';
 import { createGameServer } from './server';
 import { loadImageTokenSecret } from './images/secret';
 import { dirname } from 'node:path';
@@ -114,9 +115,39 @@ async function main(): Promise<void> {
   }, SESSION_PURGE_INTERVAL_MS);
   purgeTimer.unref();
 
+  // Online backups of the live database (D-119), rotated in BACKUP_DIR.
+  const backups =
+    initialized.database &&
+    config.databasePath !== ':memory:' &&
+    config.backupDir &&
+    config.backupIntervalMs > 0
+      ? startBackupScheduler({
+          db: initialized.database,
+          dir: config.backupDir,
+          keep: config.backupKeep,
+          intervalMs: config.backupIntervalMs,
+          onResult: (result) =>
+            console.info(
+              `Database backup written: ${result.path} (${result.bytes} bytes` +
+                (result.rotated.length > 0 ? `, ${result.rotated.length} rotated out)` : ')'),
+            ),
+          onError: (error) =>
+            console.error(
+              `Database backup failed: ${error instanceof Error ? error.message : String(error)}`,
+            ),
+        })
+      : null;
+  if (backups) {
+    console.info(
+      `Database backups every ${config.backupIntervalMs / 3_600_000} h in ${config.backupDir} ` +
+        `(keeping ${config.backupKeep}).`,
+    );
+  }
+
   function shutdown(signal: string): void {
     console.info(`${signal} received, shutting down.`);
     clearInterval(purgeTimer);
+    backups?.stop();
     void game
       .close({ preserveRooms: true })
       .catch((error: unknown) => {

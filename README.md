@@ -261,6 +261,9 @@ Copier [`.env.example`](.env.example) en `.env` (jamais commité). Le serveur **
 | `LOG_LEVEL` | `info` | `debug`, `info`, `warn`, `error`. |
 | `IMAGE_CACHE_DIR` | `data/image-cache` | Cache disque des images Commons du proxy `/img` ; vide = mémoire seule. |
 | `IMAGE_CACHE_MAX_MB` | `512` | Taille maximale de ce cache. |
+| `BACKUP_DIR` | `backups/` à côté de la base | Sauvegardes SQLite automatiques à chaud (D-119). Vide : désactivées. |
+| `BACKUP_INTERVAL_HOURS` | `6` | Intervalle des sauvegardes (`0` : désactivé). |
+| `BACKUP_KEEP` | `28` | Sauvegardes gardées (rotation). Restauration : `pnpm db:restore`. |
 | `IMAGE_TOKEN_SECRET` | *(généré)* | Clé des liens `/img/…` (≥ 32 caractères). Vide : générée une fois dans le dossier de la base (`data/image-token.secret`, mode 600), pour que les images des parties en cours survivent à un redémarrage. **Secret.** |
 | `ADMIN_TOKEN` | — | Routes admin et console streamer ; requis en production, 32 caractères aléatoires minimum. |
 | `TRUST_PROXY` | `false` | `true` (un proxy) ou nombre de proxys devant le serveur. |

@@ -1,3 +1,4 @@
+import { dirname, join } from 'node:path';
 import { normalizeHandle } from './tiktok/adapter';
 
 export const VERSION = '1.0.0';
@@ -26,6 +27,12 @@ export interface ServerConfig {
   imageCacheMaxBytes: number;
   /** Secret. Key of the image tokens (D-116); absent: generated once in the data directory. */
   imageTokenSecret: string | null;
+  /** Online SQLite backups (D-119); empty `BACKUP_DIR` disables them. */
+  backupDir: string | null;
+  /** `BACKUP_INTERVAL_HOURS` (0 = off). */
+  backupIntervalMs: number;
+  /** `BACKUP_KEEP`: newest backups kept by rotation. */
+  backupKeep: number;
 }
 
 function parsePort(value: string | undefined): number {
@@ -34,6 +41,26 @@ function parsePort(value: string | undefined): number {
     throw new Error(`Invalid PORT: ${value}`);
   }
   return port;
+}
+
+function parseBoundedNumber(
+  name: string,
+  value: string | undefined,
+  fallback: number,
+  min: number,
+  max: number,
+  integer = false,
+): number {
+  const parsed = Number(value?.trim() || String(fallback));
+  if (
+    !Number.isFinite(parsed) ||
+    parsed < min ||
+    parsed > max ||
+    (integer && !Number.isInteger(parsed))
+  ) {
+    throw new Error(`Invalid ${name}: ${value}`);
+  }
+  return parsed;
 }
 
 function parseCacheMegabytes(value: string | undefined): number {
@@ -119,6 +146,19 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
       env.IMAGE_CACHE_DIR === undefined ? 'data/image-cache' : env.IMAGE_CACHE_DIR.trim() || null,
     imageCacheMaxBytes: parseCacheMegabytes(env.IMAGE_CACHE_MAX_MB) * 1024 * 1024,
     imageTokenSecret: env.IMAGE_TOKEN_SECRET?.trim() || null,
+    // Default: `backups/` next to the database (same volume in Docker); point it elsewhere for
+    // off-volume copies.
+    backupDir:
+      env.BACKUP_DIR === undefined
+        ? (env.DATABASE_PATH ?? 'data/encycla.db') === ':memory:'
+          ? null
+          : join(dirname(env.DATABASE_PATH ?? 'data/encycla.db'), 'backups')
+        : env.BACKUP_DIR.trim() || null,
+    backupIntervalMs: Math.round(
+      parseBoundedNumber('BACKUP_INTERVAL_HOURS', env.BACKUP_INTERVAL_HOURS, 6, 0, 24 * 30) *
+        3_600_000,
+    ),
+    backupKeep: parseBoundedNumber('BACKUP_KEEP', env.BACKUP_KEEP, 28, 1, 1000, true),
   };
 }
 

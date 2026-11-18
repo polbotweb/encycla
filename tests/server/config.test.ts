@@ -23,7 +23,34 @@ describe('loadConfig', () => {
       imageCacheDir: 'data/image-cache',
       imageCacheMaxBytes: 512 * 1024 * 1024,
       imageTokenSecret: null,
+      backupDir: 'data/backups',
+      backupIntervalMs: 6 * 3_600_000,
+      backupKeep: 28,
     });
+  });
+
+  it('configures online backups, or turns them off', () => {
+    const custom = loadConfig({
+      BACKUP_DIR: '/backups',
+      BACKUP_INTERVAL_HOURS: '0.5',
+      BACKUP_KEEP: '7',
+    });
+    expect(custom).toMatchObject({
+      backupDir: '/backups',
+      backupIntervalMs: 1_800_000,
+      backupKeep: 7,
+    });
+    expect(loadConfig({ BACKUP_DIR: '' }).backupDir).toBeNull();
+    expect(loadConfig({ DATABASE_PATH: '/app/data/db/encycla.db' }).backupDir).toBe(
+      '/app/data/db/backups',
+    );
+    expect(loadConfig({ DATABASE_PATH: ':memory:' }).backupDir).toBeNull();
+    expect(loadConfig({ BACKUP_INTERVAL_HOURS: '0' }).backupIntervalMs).toBe(0);
+    expect(() => loadConfig({ BACKUP_KEEP: '0' })).toThrow('Invalid BACKUP_KEEP');
+    expect(() => loadConfig({ BACKUP_KEEP: '2.5' })).toThrow('Invalid BACKUP_KEEP');
+    expect(() => loadConfig({ BACKUP_INTERVAL_HOURS: 'often' })).toThrow(
+      'Invalid BACKUP_INTERVAL_HOURS',
+    );
   });
 
   it('never accepts the placeholder or a short admin token', () => {

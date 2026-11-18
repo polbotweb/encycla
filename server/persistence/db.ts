@@ -35,6 +35,8 @@ export interface PersistenceInitialization {
   abandonedMatches: number;
   degradedReason: string | null;
   questionsError: string | null;
+  /** Open SQLite handle (online backups, D-119); null when persistence is in memory. */
+  database: Database.Database | null;
 }
 
 export function openDatabase(databasePath: string): Database.Database {
@@ -103,6 +105,7 @@ export function initializePersistence(options: OpenPersistenceOptions): Persiste
       abandonedMatches: 0,
       degradedReason: error instanceof Error ? error.message : String(error),
       questionsError: null,
+      database: null,
     };
   }
 
@@ -115,6 +118,7 @@ export function initializePersistence(options: OpenPersistenceOptions): Persiste
         abandonedMatches: 0,
         degradedReason: 'PRAGMA quick_check failed',
         questionsError: null,
+        database: null,
       };
     }
   } catch (error) {
@@ -125,6 +129,7 @@ export function initializePersistence(options: OpenPersistenceOptions): Persiste
       abandonedMatches: 0,
       degradedReason: error instanceof Error ? error.message : String(error),
       questionsError: null,
+      database: null,
     };
   }
 
@@ -168,5 +173,6 @@ export function initializePersistence(options: OpenPersistenceOptions): Persiste
     abandonedMatches,
     degradedReason: null,
     questionsError,
+    database: db,
   };
 }

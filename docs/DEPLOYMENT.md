@@ -77,6 +77,8 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
     "test:e2e": "playwright test",
     "test:load": "tsx scripts/load-test.ts",
     "db:migrate": "tsx server/db/migrate.ts",
+    "db:backup": "tsx scripts/db-backup.ts",
+    "db:restore": "tsx scripts/db-restore.ts",
     "data:validate": "tsx scripts/validate-questions.ts",
     "data:import": "tsx scripts/import-questions.ts",
     "data:extract": "tsx scripts/extract-legacy-questions.ts",
@@ -317,7 +319,7 @@ docker compose logs -f encycla
 3. Dans `.env` : `NODE_ENV=production`, `DOMAIN`, `PUBLIC_ORIGIN=https://<domaine>`, `ADMIN_TOKEN=$(openssl rand -hex 32)`, `TRUST_PROXY=true`. `chmod 600 .env`.
 4. `docker compose --profile proxy up -d --build` ; en cas d'erreur de configuration, `docker compose logs encycla` liste les variables à corriger.
 5. Vérifier `curl https://<domaine>/api/health` (`ok`) et une partie solo dans un navigateur.
-6. Programmer la sauvegarde SQLite (§10) vers un stockage hors serveur.
+6. Vérifier les sauvegardes automatiques (§10.1) et programmer leur copie hors serveur.
 7. TikTok, seulement après décision (§12 et [TIKTOK.md](TIKTOK.md)) : renseigner `TIKTOK_*`, puis `WITH_TIKTOK=true docker compose --profile proxy up -d --build`.
 
 ### 7.4 Migrations dans Docker
@@ -395,33 +397,40 @@ Les migrations sont forward-only. Un rollback de code sans rollback de base n'es
 
 ## 10. Sauvegardes
 
-### 10.1 Création
+### 10.1 Sauvegardes automatiques (D-119)
 
-```bash
-sqlite3 /var/lib/encycla/encycla.db "VACUUM INTO '/backups/encycla-$(date +%F-%H%M).db';"
-```
+Le serveur sauvegarde lui-même la base **à chaud** avec l'API de sauvegarde en ligne de SQLite (`better-sqlite3` `backup()`, compatible WAL : les parties continuent pendant la copie).
 
-Ou via un script Node avec `better-sqlite3` :
+| Variable | Défaut | Rôle |
+| --- | --- | --- |
+| `BACKUP_DIR` | `backups/` à côté de la base (`data/backups`, ou `/app/data/db/backups` dans Docker) | Dossier des sauvegardes. Vide : sauvegardes automatiques désactivées. |
+| `BACKUP_INTERVAL_HOURS` | `6` | Intervalle (décimales acceptées). `0` : désactivé. La première copie a lieu un intervalle après le démarrage. |
+| `BACKUP_KEEP` | `28` (7 jours à 6 h) | Nombre de sauvegardes gardées ; les plus anciennes sont supprimées. |
 
-```ts
-db.prepare("VACUUM INTO ?").run(path);
-```
-
-- Ne jamais copier le fichier `.db` à chaud sans checkpoint.
-- Fréquence : quotidienne.
-- Rétention : 7 jours minimum, 30 jours recommandé.
-- Stockage hors du serveur.
-- Chiffrement au repos si le stockage est partagé.
+- Fichiers `encycla-AAAAMMJJTHHMMSSmmmZ.db` (heure UTC, triables), autonomes (journal `DELETE`, pas de `-wal`/`-shm`).
+- Chaque copie est écrite sous un nom temporaire, vérifiée (`PRAGMA quick_check` + schéma Encycla) puis renommée : une sauvegarde listée est toujours complète.
+- Journal : `Database backup written: … (… bytes, N rotated out)` ou `Database backup failed: …` (à surveiller, §11.4).
+- Copie ponctuelle, serveur en marche : `pnpm db:backup` (ou `node dist/scripts/db-backup.js` dans l'image Docker : `docker compose exec encycla node dist/scripts/db-backup.js`).
+- Le dossier par défaut est sur le **même volume** que la base : il protège contre une erreur ou une corruption, pas contre la perte du disque. Copier `BACKUP_DIR` hors du serveur (rsync, restic, stockage objet) et le chiffrer si le stockage est partagé. Sauvegarder aussi `image-token.secret` (§6.5).
+- Ne jamais copier le fichier `.db` à chaud à la main : utiliser `pnpm db:backup`.
 
 ### 10.2 Restauration
 
-1. Arrêter le service.
-2. Copier la sauvegarde vers `DATABASE_PATH`.
-3. Supprimer `-wal` et `-shm` résiduels.
-4. Démarrer.
-5. `PRAGMA integrity_check`.
-6. Vérifier le leaderboard.
-7. Tester une room.
+```bash
+pnpm db:restore                 # liste les sauvegardes de BACKUP_DIR
+pnpm db:restore latest          # dit ce qui serait restauré, sans rien toucher
+pnpm db:restore latest --yes    # serveur arrêté : restaure la plus récente
+pnpm db:restore encycla-20261118T120000000Z.db --yes
+```
+
+Dans Docker : `docker compose stop encycla`, puis `docker compose run --rm encycla node dist/scripts/db-restore.js latest --yes`, puis `docker compose start encycla`.
+
+1. Arrêter le service (le script ne se coordonne pas avec un serveur en marche).
+2. Le script vérifie la sauvegarde (`quick_check`, schéma Encycla) et refuse un fichier invalide.
+3. La base actuelle est d'abord consolidée (checkpoint du WAL) et gardée à côté : `<base>.before-restore-<heure UTC>`.
+4. Les `-wal`/`-shm` résiduels sont supprimés, puis la sauvegarde remplace la base (copie puis renommage).
+5. Démarrer : les migrations manquantes s'appliquent, le WAL se réactive.
+6. Vérifier le leaderboard et tester une room.
 
 ### 10.3 Test de restauration
 

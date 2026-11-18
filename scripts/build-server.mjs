@@ -7,7 +7,13 @@ await rm('dist/server', { recursive: true, force: true });
 await rm('dist/scripts', { recursive: true, force: true });
 
 await build({
-  entryPoints: ['server/index.ts', 'scripts/import-questions.ts', 'scripts/db-migrate.ts'],
+  entryPoints: [
+    'server/index.ts',
+    'scripts/import-questions.ts',
+    'scripts/db-migrate.ts',
+    'scripts/db-backup.ts',
+    'scripts/db-restore.ts',
+  ],
   outbase: '.',
   outdir: 'dist',
   bundle: true,

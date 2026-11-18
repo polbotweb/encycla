@@ -17,6 +17,8 @@
     "start": "node dist/server/index.js",
     "preview": "vite preview",
     "db:migrate": "tsx scripts/db-migrate.ts",
+    "db:backup": "tsx scripts/db-backup.ts",
+    "db:restore": "tsx scripts/db-restore.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.server.json && tsc --noEmit -p tsconfig.test.json",
     "test": "vitest run",
