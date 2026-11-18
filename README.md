@@ -90,7 +90,7 @@ La documentation est la référence d'implémentation. Aucune décision ouverte 
 | Document | Contenu |
 | --- | --- |
 | [docs/ADR.md](docs/ADR.md) | 18 décisions d'architecture binding. |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | 99 décisions explicites et dettes assumées. |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | 109 décisions explicites et dettes assumées. |
 | [docs/SPECIFICATION.md](docs/SPECIFICATION.md) | Règles, modes, phases, scores, matchmaking, TikTok. |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Contrat HTTP, Socket.io, payloads, erreurs. |
 | [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Schéma SQLite, JSON des questions, leaderboard. |
@@ -116,7 +116,7 @@ Ordre de lecture recommandé :
 Les phases 0 à 9 sont implémentées et vérifiées automatiquement :
 
 - **Outillage** : pnpm (lockfile gelé), TypeScript strict, ESLint, Prettier, Vitest, Playwright, CI (secrets, format, lint, types, données, tests, audit, build, e2e, build Docker).
-- **Données** : `data/questions.json` (2 496 questions en français, anglais et arabe générées depuis Wikipédia et Wikimedia Commons par `pnpm run data:wikipedia`, validées par `pnpm run data:validate`) et import SQLite atomique.
+- **Données** : `data/questions.json` (2 605 questions en français, anglais et arabe générées depuis Wikipédia et Wikimedia Commons par `pnpm run data:wikipedia`, validées par `pnpm run data:validate`) et import SQLite atomique.
 - **Moteur** (`server/game`) : réducteur pur `reduce`/`tick`, scoring, state machine, effets sous forme de données.
 - **Serveur** : Express 5 + Socket.io (`/game`), `RoomManager`, sessions hachées, persistance SQLite avec repli mémoire, leaderboard, matchmaking public avec vote small room, reconnexion, fermeture admin, rate limiting HTTP et socket, CSP stricte, HSTS, Permissions-Policy.
 - **TikTok** (`server/tiktok`) : parsing strict, connecteur avec backoff, faux adaptateur, route `POST /api/tiktok/rooms`, viewers (capacité 100, déduplication), overlay en lecture seule et console control. Le connecteur réel (`tiktok-live-connector`, AGPL-3.0) est une dépendance **optionnelle** isolée derrière l'interface `TikTokAdapter`, absente de l'image Docker par défaut : voir [docs/TIKTOK.md](docs/TIKTOK.md) et [docs/LICENSES.md](docs/LICENSES.md).
@@ -249,9 +249,9 @@ Procédure complète dans [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Contenu
 
-- La banque actuelle contient **2 496 questions uniques** en français (100 à 150 par catégorie, 18 catégories), toutes de type « identifier cette image ».
+- La banque actuelle contient **2 605 questions uniques** en français (118 à 150 par catégorie, 18 catégories), toutes de type « identifier cette image ».
 - CLASSIC nécessite **200 questions approuvées**.
-- SUBJECT nécessite **100 questions par catégorie** (`MIN_QUESTIONS_PER_CATEGORY`, une partie en tire 20) ; les 18 catégories atteignent ce seuil en français et en anglais, 17 en arabe (pas Champignons).
+- SUBJECT nécessite **100 questions par catégorie** (`MIN_QUESTIONS_PER_CATEGORY`, une partie en tire 20) ; les 18 catégories le dépassent d'au moins 10 % dans les trois langues (au moins 115 questions, D-109).
 - Les options sont mélangées à chaque tirage.
 - Les articles sont du texte brut, sans HTML.
 - Chaque question existe en **français**, et en **anglais et arabe** quand un vrai nom existe (mêmes photos, mêmes options dans le même ordre) ; voir [Langues](#langues).
@@ -280,7 +280,7 @@ Voir [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
 - Choix : sélecteur dans l'en-tête, mémorisé dans `localStorage` (`encycla.lang.v1`) et dans l'URL (`?lang=ar`) ; le paramètre d'URL l'emporte. La langue du navigateur n'est pas utilisée.
 - Les questions sont affichées dans la **langue de la room** (« Langue des questions » à la création, par défaut la langue de l'interface). Le matchmaking public apparie les joueurs de la même langue. Chaque joueur garde son interface dans sa langue.
 - Traductions des questions (D-108) : le nom de l'article Wikipédia ou le libellé Wikidata de la langue ; sinon, pour un être vivant, son **nom scientifique** (italique, de gauche à droite) ; sinon le **nom d'origine** de l'élément ; sinon la question n'est pas proposée dans cette langue. Jamais de français par défaut, **toujours signalé** (`translations.<langue>.provenance`). Rien n'est inventé ; `pnpm run data:validate` affiche le nombre de réponses par origine.
-- Banque actuelle : anglais 2 487 questions (9 non proposées), arabe 2 445 (51 non proposées ; réponses : 90 noms scientifiques, 82 noms d'origine ; 374 articles d'une autre Wikipédia, surtout l'anglais). SUBJECT Champignons est désactivé en arabe (99 questions sur 100 requises).
+- Banque actuelle : anglais 2 596 questions (9 non proposées), arabe 2 554 (51 non proposées ; réponses : 138 noms scientifiques, 82 noms d'origine ; 438 articles d'une autre Wikipédia, surtout l'anglais). Un nom d'origine trop long dans une autre écriture est remplacé par une forme réelle plus courte (D-109).
 - TikTok : les spectateurs répondent toujours par A, B, C ou D, quelle que soit la langue.
 - Décisions : [D-84 à D-95](docs/DECISIONS.md). Interface et RTL : [docs/UI-UX.md §20](docs/UI-UX.md).
 

@@ -517,7 +517,8 @@ La charge n'est pas un critère de release v1, mais un test de non-régression n
 - Chaque question a une traduction `en` et `ar`, ou une raison `unavailable` (jamais les deux) : 4 options distinctes, la bonne réponse au même index que le français, `provenance` et `optionLanguages` cohérentes.
 - Aucun texte français dans une room arabe (D-108) : libellés `wikipedia`/`wikidata` en arabe, noms scientifiques `la`, noms d'origine jamais `ar`, un libellé identique au français n'est qu'un nom d'origine ; question et explication en arabe. Même contrôle en anglais.
 - Un article est un permalien de la langue qu'il cite ; `other-language` ne cite jamais la langue de la room.
-- SUBJECT par langue : seul Mushrooms en arabe (99) est sous le seuil.
+- SUBJECT par langue : chaque catégorie a au moins 110 questions dans chaque langue (marge de 10 %, D-109).
+- Aucun nom d'origine de plus de 24 caractères dans une autre écriture que le latin ; Wat Arun s'affiche « Wat Arun » en arabe.
 - Générateur (`tests/data/forms.test.ts`) : échelle des libellés, options uniformément latines, retrait quand la réponse détonnerait, doublons, ordre des articles de repli, affinité de forme des distracteurs.
 - Un même libellé français est traduit de la même façon partout (< 1 % d'exceptions dues aux collisions).
 - Alt et crédit d'image traduits ; l'alt ne contient jamais la réponse (mot entier, Unicode).

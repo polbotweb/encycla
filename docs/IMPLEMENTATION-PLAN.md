@@ -371,7 +371,7 @@ Critères de sortie :
 
 Risques :
 
-- Une catégorie sous le seuil SUBJECT (100) reste désactivée. La banque Wikipédia (2 496 questions) atteint le seuil dans les 18 catégories.
+- Une catégorie sous le seuil SUBJECT (100) reste désactivée. La banque Wikipédia (2 605 questions) atteint le seuil dans les 18 catégories.
 - Les articles peuvent être courts ou incohérents. Revue humaine obligatoire.
 - Les images peuvent être retirées de Wikimedia. Prévoir un placeholder.
 

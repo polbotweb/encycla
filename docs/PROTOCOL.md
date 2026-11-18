@@ -426,12 +426,12 @@ Public. Permet à l'UI de connaître les modes et catégories disponibles.
   "categories": [
     {
       "value": "Mushrooms",
-      "questionCount": 103,
+      "questionCount": 147,
       "subjectEnabled": true,
       "languages": {
-        "fr": { "questionCount": 103, "subjectEnabled": true },
-        "en": { "questionCount": 103, "subjectEnabled": true },
-        "ar": { "questionCount": 99, "subjectEnabled": false }
+        "fr": { "questionCount": 147, "subjectEnabled": true },
+        "en": { "questionCount": 146, "subjectEnabled": true },
+        "ar": { "questionCount": 143, "subjectEnabled": true }
       }
     }
   ],
