@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { Announcer, ClosedView, ConnectionBanner, PausedBanner } from './components/game/Banners';
 import { LeaveModal } from './components/game/LeaveControls';
 import { AppHeader } from './components/game/Shell';
@@ -10,19 +10,25 @@ import { useGameStore } from './store/gameStore';
 import { useSessionStore } from './store/sessionStore';
 import { useUiStore } from './store/uiStore';
 import { ArticleView } from './views/ArticleView';
-import { ControlView } from './views/ControlView';
 import { CountdownView } from './views/CountdownView';
 import { HomeView } from './views/HomeView';
 import { LeaderboardView } from './views/LeaderboardView';
 import { LevelCompleteView } from './views/LevelCompleteView';
 import { LobbyView } from './views/LobbyView';
 import { MatchmakingView } from './views/MatchmakingView';
-import { OverlayView } from './views/OverlayView';
 import { QuestionView } from './views/QuestionView';
 import { ResultsView } from './views/ResultsView';
 import { RevealView } from './views/RevealView';
 import { useMe } from './lib/useMe';
 import type { RoomPhase } from '../shared/types';
+
+// Streamer-only screens are split out of the player bundle.
+const OverlayView = lazy(() =>
+  import('./views/OverlayView').then((module) => ({ default: module.OverlayView })),
+);
+const ControlView = lazy(() =>
+  import('./views/ControlView').then((module) => ({ default: module.ControlView })),
+);
 
 function RoomView({ phase }: { phase: RoomPhase | null }) {
   switch (phase) {
@@ -123,15 +129,21 @@ function PlayerApp({
 export default function App() {
   const route = useMemo(() => parseRoute(window.location.search, window.location.hash), []);
   if (route.kind === 'overlay') {
-    return <OverlayView roomCode={route.roomCode} token={route.token} />;
+    return (
+      <Suspense fallback={<main className="min-h-dvh" aria-busy="true" />}>
+        <OverlayView roomCode={route.roomCode} token={route.token} />
+      </Suspense>
+    );
   }
   if (route.kind === 'control') {
     return (
-      <ControlView
-        roomCode={route.roomCode}
-        token={route.token}
-        {...(route.overlayToken ? { overlayToken: route.overlayToken } : {})}
-      />
+      <Suspense fallback={<main className="min-h-dvh" aria-busy="true" />}>
+        <ControlView
+          roomCode={route.roomCode}
+          token={route.token}
+          {...(route.overlayToken ? { overlayToken: route.overlayToken } : {})}
+        />
+      </Suspense>
     );
   }
   return <PlayerApp initialScreen={route.screen} initialCode={route.code} />;

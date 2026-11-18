@@ -7,6 +7,7 @@ import { VERSION } from './config';
 import { createGameRouter, type PresencePort } from './http/game';
 import { buildHealth, type QuestionsHealth } from './http/health';
 import { sendError } from './http/errors';
+import { precompressedAssets } from './http/precompressed';
 import { createSessionsRouter } from './http/sessions';
 import { createMemoryPersistence } from './persistence/db';
 import type { Persistence } from './persistence/repositories';
@@ -141,6 +142,7 @@ export function createApp(options: AppOptions = {}): Express {
 
   const staticDir = options.staticDir ? resolve(options.staticDir) : null;
   if (staticDir && existsSync(staticDir)) {
+    app.use(precompressedAssets(staticDir));
     app.use(
       express.static(staticDir, {
         index: false,

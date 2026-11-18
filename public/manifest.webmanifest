@@ -1,0 +1,13 @@
+{
+  "name": "Encycla MindMaze",
+  "short_name": "Encycla",
+  "description": "Le jeu de l’encyclopédie visuelle : identifiez l’image, puis lisez l’article.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
