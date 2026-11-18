@@ -61,6 +61,7 @@ import {
   formKey,
   isUsableLang,
   LONG_NATIVE,
+  orderOriginLanguages,
   resolveOptions,
   type LabelChoice,
   type NameForms,
@@ -450,7 +451,6 @@ const NAME_PROPERTIES: Record<string, 'native' | 'taxon'> = {
   P225: 'taxon',
 };
 /** How directly a property gives the item's language: language of the work first. */
-const LANGUAGE_VIA = ['P364', 'P407', 'P103', 'P37', 'P495', 'P17'];
 
 /**
  * Scientific names, original names and original languages of items (Wikidata Query Service),
@@ -518,23 +518,22 @@ async function fetchItemForms(qids: string[]): Promise<Map<string, ItemForms>> {
     const languages = await client.get<SparqlBody>(WIKIDATA_SPARQL, {
       query:
         `SELECT ?item ?via ?code WHERE { VALUES ?item { ${values} } ` +
-        `{ VALUES ?via { wdt:P364 wdt:P407 wdt:P103 wdt:P37 } ?item ?via ?language . } UNION ` +
+        `{ VALUES ?via { wdt:P364 wdt:P407 wdt:P103 wdt:P2936 wdt:P37 } ?item ?via ?language . } UNION ` +
         `{ VALUES ?via { wdt:P495 wdt:P17 } ?item ?via ?country . ?country wdt:P37 ?language . } ` +
         `?language wdt:P424 ?code . }`,
     });
-    const found = new Map<string, { code: string; rank: number }[]>();
+    const found = new Map<string, { code: string; via: string }[]>();
     for (const row of languages.body.results?.bindings ?? []) {
       const item = entityId(row.item?.value);
       const via = row.via?.value.split('/').pop() ?? '';
       const code = row.code?.value?.trim().toLowerCase();
       if (!item || !code || !isUsableLang(code)) continue;
       const list = found.get(item) ?? [];
-      list.push({ code, rank: LANGUAGE_VIA.indexOf(via) });
+      list.push({ code, via });
       found.set(item, list);
     }
     for (const [item, list] of found) {
-      const ordered = list.sort((a, b) => a.rank - b.rank || a.code.localeCompare(b.code));
-      entry(item).originLanguages = [...new Set(ordered.map(({ code }) => code))];
+      entry(item).originLanguages = orderOriginLanguages(list);
     }
   }
 

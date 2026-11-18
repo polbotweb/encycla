@@ -7,6 +7,7 @@ import {
   formKey,
   isUsableLang,
   nativeChoice,
+  orderOriginLanguages,
   resolveOptions,
   scientificChoice,
   trustedNativeNames,
@@ -274,5 +275,35 @@ describe('distractor form affinity', () => {
     expect(formAffinity(target, candidate({ ar: 'own', en: 'own' }))).toBe(1);
     expect(formAffinity(target, candidate({ ar: 'none', en: 'own' }))).toBe(-1);
     expect(formAffinity(target, candidate())).toBe(0);
+  });
+});
+
+describe('original language order (D-112)', () => {
+  it('ranks English last unless it is the item’s own language', () => {
+    expect(
+      orderOriginLanguages([
+        { code: 'en', via: 'P495' },
+        { code: 'hi', via: 'P495' },
+      ]),
+    ).toEqual(['hi', 'en']);
+    expect(
+      orderOriginLanguages([
+        { code: 'en', via: 'P37' },
+        { code: 'ga', via: 'P495' },
+      ]),
+    ).toEqual(['ga', 'en']);
+    expect(
+      orderOriginLanguages([
+        { code: 'en', via: 'P407' },
+        { code: 'cy', via: 'P495' },
+      ]),
+    ).toEqual(['en', 'cy']);
+    expect(
+      orderOriginLanguages([
+        { code: 'it', via: 'P17' },
+        { code: 'la', via: 'P364' },
+        { code: 'la', via: 'P17' },
+      ]),
+    ).toEqual(['la', 'it']);
   });
 });

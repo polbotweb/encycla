@@ -318,3 +318,32 @@ export function articleFallbackOrder(
     (lang) => lang !== language,
   );
 }
+
+/** Wikidata properties giving an item's original language, most specific first (D-112). */
+export const LANGUAGE_VIA = ['P364', 'P407', 'P103', 'P2936', 'P37', 'P495', 'P17'];
+/** Direct statements of the item's own language (work, original language, language used). */
+const DIRECT_LANGUAGE = new Set(['P364', 'P407', 'P103', 'P2936']);
+
+/**
+ * Original languages of an item in order of preference (D-112): by property (the language of the
+ * work itself before the official languages of its country), and English last unless a direct
+ * statement makes it the item's own language — an Indian bansuri is named in Hindi before English,
+ * an English novel stays English.
+ */
+export function orderOriginLanguages(found: readonly { code: string; via: string }[]): string[] {
+  const rank = (via: string) => {
+    const index = LANGUAGE_VIA.indexOf(via);
+    return index < 0 ? LANGUAGE_VIA.length : index;
+  };
+  const englishIsOwn = found.some(
+    ({ code, via }) => baseLang(code) === 'en' && DIRECT_LANGUAGE.has(via),
+  );
+  const demoted = (code: string) => (!englishIsOwn && baseLang(code) === 'en' ? 1 : 0);
+  const ordered = [...found].sort(
+    (a, b) =>
+      demoted(a.code) - demoted(b.code) ||
+      rank(a.via) - rank(b.via) ||
+      a.code.localeCompare(b.code),
+  );
+  return [...new Set(ordered.map(({ code }) => code))];
+}
