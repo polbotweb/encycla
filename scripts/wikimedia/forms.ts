@@ -38,6 +38,8 @@ export interface NameForms {
   originAliases?: Record<string, string[]>;
   /** English Wikidata label (international form of a long name in another script). */
   englishLabel?: string;
+  /** The item is a kind of thing (Wikidata P279 subclass of), not one named entity. */
+  isClass?: boolean;
 }
 
 export const MAX_LABEL = 80;
@@ -67,14 +69,36 @@ export function scientificChoice(forms: NameForms | undefined): LabelChoice | nu
  * (P1559, people), then the official name (P1448, often a long formal title).
  */
 function nativeCandidates(forms: NameForms): { text: string; lang: string; property?: string }[] {
+  const names = trustedNativeNames(forms);
   const byProperty = (property: string) =>
-    forms.nativeNames.filter((name) => (name.property ?? 'P1705') === property);
+    names.filter((name) => (name.property ?? 'P1705') === property);
   return [
     ...byProperty('P1705'),
     ...forms.originLanguages.map((lang) => ({ text: forms.originLabels[lang] ?? '', lang })),
     ...byProperty('P1559'),
     ...byProperty('P1448'),
   ].map((name) => ({ ...name, text: displayName(name.text) }));
+}
+
+/**
+ * Native label (P1705), name in native language (P1559) and official name (P1448) values that
+ * really name this item (D-110). Rejected:
+ *   - an official name (P1448) on a kind of thing (P279): there it holds a class designation, e.g.
+ *     the Hornbostel–Sachs "Side-blown flutes" on the transverse flute;
+ *     (a native label stays: Bouzouki keeps its P1705 "Μπουζούκι");
+ *   - a value in a language that is not one of the item's known original languages (Saint-Sernin
+ *     of Toulouse is named by its French name, not the Occitan P1705, French being its language);
+ *   - plural generic forms of the item's own label in that language ("flutes" for "flute").
+ */
+export function trustedNativeNames(forms: NameForms): NameForms['nativeNames'] {
+  const origins = new Set(forms.originLanguages.map(baseLang));
+  return forms.nativeNames.filter(({ text, lang, property }) => {
+    if (forms.isClass && property === 'P1448') return false;
+    if (origins.size > 0 && !origins.has(baseLang(lang))) return false;
+    const own = forms.originLabels[lang]?.trim().toLocaleLowerCase();
+    const value = text.trim().toLocaleLowerCase();
+    return !own || !(value === `${own}s` || value === `${own}es`);
+  });
 }
 
 /** Wikidata labels start in lowercase for common nouns ("mont Ventoux"): capitalise for display. */

@@ -507,6 +507,14 @@ async function fetchItemForms(qids: string[]): Promise<Map<string, ItemForms>> {
         .map(({ text, lang, property }) => ({ text, lang, property }));
     }
 
+    const classes = await client.get<SparqlBody>(WIKIDATA_SPARQL, {
+      query: `SELECT DISTINCT ?item WHERE { VALUES ?item { ${values} } ?item wdt:P279 ?class . }`,
+    });
+    for (const row of classes.body.results?.bindings ?? []) {
+      const item = entityId(row.item?.value);
+      if (item) entry(item).isClass = true;
+    }
+
     const languages = await client.get<SparqlBody>(WIKIDATA_SPARQL, {
       query:
         `SELECT ?item ?via ?code WHERE { VALUES ?item { ${values} } ` +
