@@ -1,7 +1,9 @@
 import type { Language } from '../../../shared/languages';
+import type { LabelForm } from '../../../shared/types';
 import { contentAttributes, useTranslation, type MessageKey } from '../../i18n';
 import { OPTION_LETTERS } from '../../lib/format';
 import { CheckIcon, CrossIcon } from './Icons';
+import { Term } from './Term';
 
 export type OptionState = 'default' | 'selected' | 'correct' | 'incorrect' | 'muted';
 
@@ -27,6 +29,8 @@ export interface OptionButtonProps {
   onSelect?: (index: number) => void;
   /** Language of the option text (the language of the questions). */
   language?: Language;
+  /** Scientific or original name, when the option is not a name in that language (D-108). */
+  form?: LabelForm | null | undefined;
 }
 
 export function OptionButton({
@@ -36,6 +40,7 @@ export function OptionButton({
   disabled = false,
   onSelect,
   language,
+  form,
 }: OptionButtonProps) {
   const { t } = useTranslation();
   const letter = OPTION_LETTERS[index] ?? String(index + 1);
@@ -64,7 +69,7 @@ export function OptionButton({
         className="min-w-0 flex-1 break-words"
         {...(language ? contentAttributes(language) : {})}
       >
-        {text}
+        <Term text={text} form={form} />
       </span>
       {suffix ? <span className="sr-only">{`. ${suffix}`}</span> : null}
       {state === 'correct' ? <CheckIcon className="shrink-0" /> : null}

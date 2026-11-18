@@ -57,8 +57,11 @@ export function PlaySetupModal({
 
   const effectiveMode = modes.includes(mode) ? mode : 'CLASSIC';
   const categories = config?.categories ?? [];
-  const category_ok = categories.find((entry) => entry.value === category)?.subjectEnabled === true;
-  const anySubject = categories.some((entry) => entry.subjectEnabled);
+  // A category may have fewer questions in English or Arabic (no name to show, D-108).
+  const enabledIn = (entry: (typeof categories)[number]): boolean =>
+    entry.languages?.[questionLanguage]?.subjectEnabled ?? entry.subjectEnabled;
+  const category_ok = categories.some((entry) => entry.value === category && enabledIn(entry));
+  const anySubject = categories.some(enabledIn);
   const canConfirm = effectiveMode !== 'SUBJECT' || category_ok;
 
   function submit(): void {
@@ -135,9 +138,9 @@ export function PlaySetupModal({
               >
                 <option value="">{t('setup.chooseCategory')}</option>
                 {categories.map((entry) => (
-                  <option key={entry.value} value={entry.value} disabled={!entry.subjectEnabled}>
+                  <option key={entry.value} value={entry.value} disabled={!enabledIn(entry)}>
                     {labelFor('category', entry.value)}
-                    {entry.subjectEnabled ? '' : ` — ${t('common.comingSoon')}`}
+                    {enabledIn(entry) ? '' : ` — ${t('common.comingSoon')}`}
                   </option>
                 ))}
               </select>

@@ -190,6 +190,7 @@ export function QuestionView() {
                   state={state}
                   disabled={!canAnswer}
                   language={room.language}
+                  form={question.optionForms?.[index]}
                   onSelect={(chosen) => void choose(chosen)}
                 />
               );

@@ -4,8 +4,7 @@ import { Banner } from '../components/ui/Banner';
 import { Button } from '../components/ui/Button';
 import { ImageCredit, ImageFrame } from '../components/ui/ImageFrame';
 import { LeaveButton } from '../components/game/LeaveControls';
-import { LANGUAGE_NAMES } from '../../shared/languages';
-import { errorMessage, useTranslation } from '../i18n';
+import { errorMessage, languageName, useTranslation } from '../i18n';
 import { ApiClientError } from '../lib/api';
 import { formatSeconds } from '../lib/format';
 import { gameActions } from '../lib/realtime';
@@ -92,7 +91,24 @@ export function ArticleView() {
           />
           {reveal.textLanguage !== room.language ? (
             <p className="mt-3 text-sm text-ink-2" data-testid="article-fallback-notice">
-              {t('article.fallbackNotice', { language: LANGUAGE_NAMES[reveal.textLanguage] })}
+              {t('article.fallbackNotice', {
+                language: languageName(reveal.textLanguage, room.language),
+              })}
+            </p>
+          ) : null}
+          {reveal.articleUrl ? (
+            <p className="mt-2 text-sm">
+              <a
+                href={reveal.articleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+                hrefLang={reveal.textLanguage}
+              >
+                {t('article.readOnWikipedia', {
+                  language: languageName(reveal.textLanguage, room.language),
+                })}
+              </a>
             </p>
           ) : null}
         </div>

@@ -225,7 +225,8 @@ export const ar: Record<MessageKey, Message> = {
   'timer.pausedSuffix': '، متوقف مؤقتًا',
 
   // ---- article and level
-  'article.fallbackNotice': 'هذه المقالة غير متوفرة بلغة اللعبة. النص الأصلي: {language}.',
+  'article.fallbackNotice': 'لا توجد مقالة بلغة اللعبة: إليك مقالة ويكيبيديا باللغة {language}.',
+  'article.readOnWikipedia': 'اقرأ المقالة على ويكيبيديا ({language})',
   'article.title': 'المقال',
   'article.remaining': 'متبقٍّ {seconds} ث',
   'article.autoContinue': 'متابعة تلقائية خلال {seconds} ث',

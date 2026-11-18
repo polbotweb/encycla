@@ -2,6 +2,7 @@ import { ViewTitle } from '../components/game/Shell';
 import { CheckIcon, CrossIcon, FlameIcon, HeartIcon } from '../components/ui/Icons';
 import { ImageFrame } from '../components/ui/ImageFrame';
 import { OptionButton, type OptionState } from '../components/ui/OptionButton';
+import { TextWithTerm } from '../components/ui/Term';
 import { TopList } from '../components/ui/TopList';
 import { contentAttributes, useTranslation } from '../i18n';
 import { useMe } from '../lib/useMe';
@@ -66,13 +67,18 @@ export function RevealView() {
                   text={option}
                   state={state}
                   language={room.language}
+                  form={reveal.optionForms?.[index]}
                   disabled
                 />
               );
             })}
           </div>
-          <p className="text-ink-2" {...contentAttributes(reveal.textLanguage)}>
-            {reveal.explanation}
+          <p className="text-ink-2" {...contentAttributes(room.language)}>
+            <TextWithTerm
+              text={reveal.explanation}
+              term={reveal.subject}
+              form={reveal.subjectForm}
+            />
           </p>
           {me ? (
             <div className="flex flex-wrap items-center gap-4 text-sm text-ink-2">

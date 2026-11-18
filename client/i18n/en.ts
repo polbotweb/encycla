@@ -173,7 +173,8 @@ export const en: Record<MessageKey, Message> = {
 
   // ---- article and level
   'article.fallbackNotice':
-    'This article does not exist in the language of the game. Original text: {language}.',
+    'No article in the language of the game: here is the Wikipedia article in {language}.',
+  'article.readOnWikipedia': 'Read the article on Wikipedia ({language})',
   'article.title': 'Article',
   'article.remaining': '{seconds} s remaining',
   'article.autoContinue': 'Auto-continue in {seconds}s',

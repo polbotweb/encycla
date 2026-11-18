@@ -181,7 +181,8 @@ export const fr = {
 
   // ---- article and level
   'article.fallbackNotice':
-    'Cet article n’existe pas dans la langue de la partie. Texte original : {language}.',
+    'Pas d’article dans la langue de la partie : voici l’article Wikipédia en {language}.',
+  'article.readOnWikipedia': 'Lire l’article sur Wikipédia ({language})',
   'article.title': 'Article',
   'article.remaining': '{seconds} s restantes',
   'article.autoContinue': 'Suite automatique dans {seconds} s',

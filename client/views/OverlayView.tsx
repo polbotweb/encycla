@@ -3,6 +3,7 @@ import type { PublicRoomState } from '../../shared/types';
 import { Avatar } from '../components/ui/Avatar';
 import { CheckIcon } from '../components/ui/Icons';
 import { ImageFrame } from '../components/ui/ImageFrame';
+import { Term, TextWithTerm } from '../components/ui/Term';
 import { contentAttributes, translate, useTranslation } from '../i18n';
 import { OPTION_LETTERS, formatSeconds, truncate } from '../lib/format';
 import { useRemaining } from '../lib/useRemaining';
@@ -163,7 +164,9 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
                     >
                       {OPTION_LETTERS[index]}
                     </span>
-                    <span {...contentAttributes(room.language)}>{option}</span>
+                    <span {...contentAttributes(room.language)}>
+                      <Term text={option} form={room.question?.optionForms?.[index]} />
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -197,18 +200,19 @@ export function OverlayView({ roomCode, token }: { roomCode: string; token: stri
                       {OPTION_LETTERS[index]}
                     </span>
                     <span className="flex-1" {...contentAttributes(room.language)}>
-                      {option}
+                      <Term text={option} form={room.reveal?.optionForms?.[index]} />
                     </span>
                     {correct ? <CheckIcon width={32} height={32} /> : null}
                   </li>
                 );
               })}
             </ol>
-            <p
-              className="line-clamp-2 text-2xl text-ink-2"
-              {...contentAttributes(room.reveal.textLanguage)}
-            >
-              {room.reveal.explanation}
+            <p className="line-clamp-2 text-2xl text-ink-2" {...contentAttributes(room.language)}>
+              <TextWithTerm
+                text={room.reveal.explanation}
+                term={room.reveal.subject}
+                form={room.reveal.subjectForm}
+              />
             </p>
           </OverlayPanel>
           <Leaders room={room} limit={10} />

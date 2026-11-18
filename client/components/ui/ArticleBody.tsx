@@ -1,5 +1,4 @@
 import { forwardRef } from 'react';
-import type { Language } from '../../../shared/languages';
 import { contentAttributes } from '../../i18n';
 
 export const MAX_ARTICLE_CHARS = 5000;
@@ -7,7 +6,7 @@ export const MAX_ARTICLE_CHARS = 5000;
 /** Plain-text article: React escapes everything, there is no HTML path. */
 export const ArticleBody = forwardRef<
   HTMLElement,
-  { title: string; body: string; language?: Language }
+  { title: string; body: string; language?: string }
 >(function ArticleBody({ title, body, language }, ref) {
   const paragraphs = body
     .slice(0, MAX_ARTICLE_CHARS)

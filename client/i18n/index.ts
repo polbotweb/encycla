@@ -128,9 +128,43 @@ export function useTranslation(): Translation {
   };
 }
 
-/** `lang` / `dir` attributes for text whose language differs from the interface (the questions). */
-export function contentAttributes(language: Language): { lang: Language; dir: TextDirection } {
-  return { lang: language, dir: LANGUAGE_DIRECTION[language] };
+const RTL_LANGUAGES = new Set([
+  'ar',
+  'arc',
+  'ckb',
+  'dv',
+  'fa',
+  'he',
+  'ps',
+  'sd',
+  'syr',
+  'ug',
+  'ur',
+  'yi',
+]);
+
+/** Writing direction of any language tag (`ar`, `he`… are right-to-left). */
+export function directionOf(language: string): TextDirection {
+  const base = language.toLowerCase().split('-')[0] ?? '';
+  return RTL_LANGUAGES.has(base) ? 'rtl' : 'ltr';
+}
+
+/**
+ * `lang` / `dir` attributes for text whose language differs from the interface (the questions,
+ * an article from another Wikipedia, an original name).
+ */
+export function contentAttributes<L extends string>(language: L): { lang: L; dir: TextDirection } {
+  return { lang: language, dir: directionOf(language) };
+}
+
+/** Name of a language in the interface language (`de` → « allemand »), the code as a fallback. */
+export function languageName(language: string, interfaceLanguage: Language): string {
+  try {
+    const names = new Intl.DisplayNames([interfaceLanguage], { type: 'language' });
+    return names.of(language) ?? language;
+  } catch {
+    return language;
+  }
 }
 
 /** Message for an API error code; unknown codes (and network errors) read as an internal error. */
