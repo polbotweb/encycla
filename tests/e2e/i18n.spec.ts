@@ -1,9 +1,22 @@
+import { readFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { translate } from '../../client/i18n';
 import type { Language } from '../../shared/languages';
 
 const ARABIC = /[\u0600-\u06FF]/;
+
+// The Arabic answer sets of the bank. Some are scientific names (Latin script) when Wikidata has
+// no Arabic label, so the displayed answers are checked against the bank, not against the script.
+const ARABIC_OPTION_SETS: Set<string> = new Set(
+  (
+    JSON.parse(readFileSync('data/questions.json', 'utf8')) as {
+      questions: { translations?: { ar?: { options: string[] } } }[];
+    }
+  ).questions.flatMap((q) =>
+    q.translations?.ar ? [[...q.translations.ar.options].sort().join('|')] : [],
+  ),
+);
 
 async function seriousViolations(page: Page): Promise<string[]> {
   const results = await new AxeBuilder({ page }).analyze();
@@ -97,8 +110,10 @@ test('an Arabic solo game: the question, the answer and the article are in Arabi
   expect(await title.innerText()).toMatch(ARABIC);
   const options = page.getByRole('button', { name: /^[A-D] / });
   await expect(options).toHaveCount(4);
-  const labels = await options.allInnerTexts();
-  expect(labels.filter((label) => ARABIC.test(label)).length).toBeGreaterThanOrEqual(3);
+  const labels = (await options.allInnerTexts()).map((label) =>
+    label.replace(/^[A-D]\s+/, '').trim(),
+  );
+  expect(ARABIC_OPTION_SETS.has([...labels].sort().join('|')), labels.join(', ')).toBe(true);
   expect(await seriousViolations(page)).toEqual([]);
 
   await page.keyboard.press('KeyB');
