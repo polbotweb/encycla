@@ -247,6 +247,7 @@ function publicQuestion(question: QuestionRuntime) {
     id: publicQuestionId(question),
     questionText: question.question.questionText,
     options: [...question.options],
+    ...(question.optionForms ? { optionForms: [...question.optionForms] } : {}),
     // Only the picture and its generic alternative text: credit, licence and file page name the
     // file (and often the answer), so they wait for the reveal.
     image: question.question.image

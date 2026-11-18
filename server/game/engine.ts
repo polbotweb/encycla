@@ -1,4 +1,5 @@
 import { DEFAULT_LANGUAGE } from '../../shared/languages';
+import type { LabelForm } from '../../shared/types';
 import type { GameEvent } from './events';
 import { selectQuestion } from './questions';
 import {
@@ -292,13 +293,18 @@ function revealFor(question: QuestionRuntime) {
   return {
     questionId: publicQuestionId(question),
     subject: question.question.subject,
+    ...(question.optionForms?.[question.correctIndex]
+      ? { subjectForm: question.optionForms[question.correctIndex] as LabelForm }
+      : {}),
     questionText: question.question.questionText,
     options: [...question.options],
+    ...(question.optionForms ? { optionForms: [...question.optionForms] } : {}),
     correctIndex: question.correctIndex,
     explanation: question.question.explanation,
     articleTitle: question.question.articleTitle,
     articleBody: question.question.articleBody,
     textLanguage: question.textLanguage ?? DEFAULT_LANGUAGE,
+    ...(question.question.source ? { articleUrl: question.question.source.url } : {}),
     image: question.question.image
       ? {
           url: question.question.image.url,

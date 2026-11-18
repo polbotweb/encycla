@@ -1,6 +1,7 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { z } from 'zod';
 import { CATEGORY_VALUES, type QuestionRecord } from '../../shared/schemas';
+import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from '../../shared/languages';
 import { PROTOCOL_VERSION, type ConfigResponse } from '../../shared/protocol';
 import { MAX_LIVES } from '../game/scoring';
 import type { PlayerRecord, Persistence } from '../persistence/repositories';
@@ -78,18 +79,23 @@ export function identityOf(player: PlayerRecord): { id: string; pseudo: string; 
 }
 
 export function buildConfig(questions: readonly QuestionRecord[]): ConfigResponse {
-  const counts = categoryCounts(questions);
+  const counts = new Map(
+    LANGUAGES.map((language) => [language, categoryCounts(questions, language)] as const),
+  );
+  const figures = (language: Language, value: string) => {
+    const questionCount = counts.get(language)?.get(value) ?? 0;
+    return { questionCount, subjectEnabled: questionCount >= MIN_QUESTIONS_PER_CATEGORY };
+  };
   return {
     protocolVersion: PROTOCOL_VERSION,
     modes: ['CLASSIC', 'SUBJECT', 'CONTEST'],
-    categories: CATEGORY_VALUES.map((value) => {
-      const questionCount = counts.get(value) ?? 0;
-      return {
-        value,
-        questionCount,
-        subjectEnabled: questionCount >= MIN_QUESTIONS_PER_CATEGORY,
-      };
-    }),
+    categories: CATEGORY_VALUES.map((value) => ({
+      value,
+      ...figures(DEFAULT_LANGUAGE, value),
+      languages: Object.fromEntries(
+        LANGUAGES.map((language) => [language, figures(language, value)]),
+      ) as Record<Language, { questionCount: number; subjectEnabled: boolean }>,
+    })),
     constants: {
       maxLives: MAX_LIVES,
       questionsPerLevel: 20,

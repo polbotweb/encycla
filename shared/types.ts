@@ -28,28 +28,45 @@ export interface ImageView {
   sourceUrl?: string;
 }
 
+/**
+ * How a label is written when it is not a name in the room language (D-108): a scientific name
+ * (`lang: "la"`, italic, left-to-right) or the item's original name in `lang`.
+ */
+export interface LabelForm {
+  lang: string;
+  scientific?: true;
+}
+
 export interface QuestionView {
   /** Opaque round id (never the bank id, which names the answer). */
   id: string;
   questionText: string;
   options: string[];
+  /** Same order as `options`; `null` for a name in the room language. Absent when all are. */
+  optionForms?: (LabelForm | null)[];
   image: ImageView | null;
 }
 
 export interface RevealView {
   questionId: string;
   subject: string;
+  /** Form of `subject` when it is not a name in the room language. */
+  subjectForm?: LabelForm;
   questionText: string;
   options: string[];
+  optionForms?: (LabelForm | null)[];
   correctIndex: number;
+  /** Always in the room language (the answer inside it may be a `subjectForm` name). */
   explanation: string;
   articleTitle: string;
   articleBody: string;
   /**
-   * Language of `explanation`, `articleTitle` and `articleBody`. It is the room language, except
-   * when the article does not exist in that language and the French text is shown instead.
+   * Wikipedia language of `articleTitle` and `articleBody`: the room language, or the language of
+   * the best other real article when the room language has none (shown with a notice, D-108).
    */
-  textLanguage: Language;
+  textLanguage: string;
+  /** Permalink of the article revision shown (any language), linked under the article. */
+  articleUrl?: string;
   image: ImageView | null;
 }
 

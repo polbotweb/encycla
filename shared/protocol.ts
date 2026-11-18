@@ -1,3 +1,4 @@
+import type { Language } from './languages';
 import type { Difficulty, GameMode, PublicRoomState } from './types';
 
 export const PROTOCOL_VERSION = 1;
@@ -93,7 +94,13 @@ export const HTTP_STATUS_BY_CODE: Record<ErrorCode, number> = {
 export interface ConfigResponse {
   protocolVersion: number;
   modes: GameMode[];
-  categories: { value: string; questionCount: number; subjectEnabled: boolean }[];
+  /** `questionCount` / `subjectEnabled` are the French figures; `languages` gives each language's. */
+  categories: {
+    value: string;
+    questionCount: number;
+    subjectEnabled: boolean;
+    languages: Record<Language, { questionCount: number; subjectEnabled: boolean }>;
+  }[];
   constants: {
     maxLives: number;
     questionsPerLevel: number;

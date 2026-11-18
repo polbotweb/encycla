@@ -1,5 +1,6 @@
 import { DEFAULT_LANGUAGE, type Language } from '../../shared/languages';
 import type { QuestionRecord } from '../../shared/schemas';
+import type { LabelForm } from '../../shared/types';
 import type { QuestionRuntime } from './types';
 
 export interface QuestionSelection {
@@ -16,9 +17,25 @@ function randomIndex(length: number, random: () => number): number {
 }
 
 /**
+ * True when the question can be played in `language` (D-108): French always; another language
+ * only with a translation, never by showing the French text instead.
+ */
+export function isOfferedIn(question: QuestionRecord, language: Language): boolean {
+  return language === 'fr' || question.translations?.[language] !== undefined;
+}
+
+/** Questions playable in `language`. */
+export function offeredIn(
+  questions: readonly QuestionRecord[],
+  language: Language,
+): readonly QuestionRecord[] {
+  return language === 'fr' ? questions : questions.filter((q) => isOfferedIn(q, language));
+}
+
+/**
  * The question as shown in `language`: same id, same picture, same option order, with the text
- * of that language. French is the base record; a missing translation falls back to French (the
- * bank validation requires every question to have one, so this is only a safety net).
+ * of that language. French is the base record. A question without a translation is never
+ * selected for that language (`isOfferedIn`); it is returned unchanged here only as a guard.
  */
 export function localizeQuestion(question: QuestionRecord, language: Language): QuestionRecord {
   if (language === 'fr') {
@@ -51,12 +68,27 @@ export function localizeQuestion(question: QuestionRecord, language: Language): 
   };
 }
 
-/** Language the explanation and the article of a localized question are really written in. */
-export function textLanguageOf(question: QuestionRecord, language: Language): Language {
+/** Wikipedia language the article of a localized question is really written in. */
+export function textLanguageOf(question: QuestionRecord, language: Language): string {
   if (language === 'fr') {
     return 'fr';
   }
-  return question.translations?.[language]?.provenance.article === 'wikipedia' ? language : 'fr';
+  return question.translations?.[language]?.source.language ?? 'fr';
+}
+
+/** Form of each option (bank order) that is not a name in `language`; `null` otherwise. */
+export function optionFormsOf(
+  question: QuestionRecord,
+  language: Language,
+): (LabelForm | null)[] | undefined {
+  const provenance = language === 'fr' ? undefined : question.translations?.[language]?.provenance;
+  if (!provenance) return undefined;
+  const forms = provenance.options.map((origin, index): LabelForm | null => {
+    if (origin === 'scientific-name') return { lang: 'la', scientific: true };
+    if (origin === 'native-name') return { lang: provenance.optionLanguages[index] ?? 'und' };
+    return null;
+  });
+  return forms.some((form) => form !== null) ? forms : undefined;
 }
 
 export function shuffleOptions(question: QuestionRecord, random: () => number): QuestionRuntime {
@@ -82,9 +114,12 @@ function withTextLanguage(
   language: Language,
   random: () => number,
 ): QuestionRuntime {
+  const runtime = shuffleOptions(localizeQuestion(question, language), random);
+  const forms = optionFormsOf(question, language);
   return {
-    ...shuffleOptions(localizeQuestion(question, language), random),
+    ...runtime,
     textLanguage: textLanguageOf(question, language),
+    ...(forms ? { optionForms: runtime.optionOrder.map((index) => forms[index] ?? null) } : {}),
   };
 }
 
@@ -95,8 +130,9 @@ export function selectQuestion(
   random: () => number,
   language: Language = DEFAULT_LANGUAGE,
 ): QuestionSelection | null {
+  const playable = offeredIn(questions, language);
   const eligible =
-    category === null ? questions : questions.filter((question) => question.category === category);
+    category === null ? playable : playable.filter((question) => question.category === category);
 
   if (eligible.length === 0) {
     return null;

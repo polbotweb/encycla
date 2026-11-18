@@ -6,6 +6,7 @@ import {
 } from '../../shared/schemas';
 import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from '../../shared/languages';
 import type { Difficulty, GameMode } from '../../shared/types';
+import { offeredIn } from '../game/questions';
 import { AppError } from './errors';
 
 export { MIN_QUESTIONS_PER_CATEGORY };
@@ -39,9 +40,13 @@ export interface ModeSelection {
   language: Language;
 }
 
-export function categoryCounts(questions: readonly QuestionRecord[]): Map<string, number> {
+/** Questions per category, among those playable in `language` (all of them in French). */
+export function categoryCounts(
+  questions: readonly QuestionRecord[],
+  language: Language = DEFAULT_LANGUAGE,
+): Map<string, number> {
   const counts = new Map<string, number>();
-  for (const question of questions) {
+  for (const question of offeredIn(questions, language)) {
     counts.set(question.category, (counts.get(question.category) ?? 0) + 1);
   }
   return counts;
@@ -87,12 +92,12 @@ export function resolveSelection(
     if (category === null || difficulty === null) {
       throw new AppError('VALIDATION_ERROR', 'SUBJECT requires a category and a difficulty.');
     }
-    const count = categoryCounts(questions).get(category) ?? 0;
+    const count = categoryCounts(questions, language).get(category) ?? 0;
     if (count < MIN_QUESTIONS_PER_CATEGORY) {
       throw new AppError(
         'CATEGORY_INSUFFICIENT_QUESTIONS',
-        `Category ${category} needs at least ${MIN_QUESTIONS_PER_CATEGORY} questions.`,
-        { category, questionCount: count },
+        `Category ${category} needs at least ${MIN_QUESTIONS_PER_CATEGORY} questions in ${language}.`,
+        { category, questionCount: count, language },
       );
     }
   }

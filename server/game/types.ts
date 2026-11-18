@@ -1,3 +1,4 @@
+import type { LabelForm } from '../../shared/types';
 import type { Language } from '../../shared/languages';
 import type { QuestionRecord } from '../../shared/schemas';
 import type {
@@ -54,8 +55,10 @@ export interface QuestionRuntime {
   options: string[];
   correctIndex: number;
   optionOrder: number[];
-  /** Language of the explanation and the article (French when the translation falls back). */
-  textLanguage?: Language;
+  /** Wikipedia language of the article (another language when the room language has none). */
+  textLanguage?: string;
+  /** Form of each displayed option (same order as `options`), `null` for room-language names. */
+  optionForms?: (LabelForm | null)[];
   /**
    * Opaque id of this round, shown to clients instead of the bank id (which is a slug of the
    * answer). Set when the question opens; the bank id is used until then.
