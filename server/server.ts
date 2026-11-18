@@ -34,6 +34,8 @@ export interface GameServerOptions extends Omit<
   tiktokDefaultTarget?: string | null;
   /** Simulated chat (`TIKTOK_ADAPTER=fake`). */
   tiktokSimulated?: boolean;
+  /** Bring back the rooms saved by the previous process (D-117). */
+  restoreRooms?: boolean;
 }
 
 export interface GameServer {
@@ -46,7 +48,8 @@ export interface GameServer {
   roomTokens: RoomTokenRegistry;
   tiktok: TikTokService;
   images: ImageService;
-  close(): Promise<void>;
+  /** `preserveRooms`: keep the running rooms for the next process (graceful restart, D-117). */
+  close(options?: { preserveRooms?: boolean }): Promise<void>;
 }
 
 /** Wires HTTP, Socket.io, the room manager and persistence together. */
@@ -153,6 +156,10 @@ export function createGameServer(options: GameServerOptions): GameServer {
     ...(options.rateLimit === undefined ? {} : { rateLimit: options.rateLimit }),
     ...(options.allowedOrigin === undefined ? {} : { allowedOrigin: options.allowedOrigin }),
   });
+  if (options.restoreRooms) {
+    const restored = manager.restore();
+    if (restored > 0) logger.log('info', 'rooms.restored', { count: restored });
+  }
   manager.start();
   matchmaking.start();
   tiktokService.start();
@@ -167,10 +174,10 @@ export function createGameServer(options: GameServerOptions): GameServer {
     roomTokens,
     tiktok: tiktokService,
     images,
-    async close() {
+    async close(closeOptions = {}) {
       tiktokService.stop();
       matchmaking.stop();
-      manager.stop();
+      manager.stop('SERVER_RESTART', { preserve: closeOptions.preserveRooms === true });
       await gateway?.close();
       if (httpServer.listening) {
         await new Promise<void>((resolve) => httpServer.close(() => resolve()));

@@ -11,6 +11,11 @@ import {
 } from './memory/repositories';
 import type { Persistence } from './repositories';
 import {
+  MemoryRoomSnapshotRepository,
+  SqliteRoomSnapshotRepository,
+  restorableSnapshots,
+} from './roomSnapshots';
+import {
   SqliteMatchRepository,
   SqlitePlayerRepository,
   SqliteQuestionRepository,
@@ -58,6 +63,7 @@ export function createSqlitePersistence(db: Database.Database): Persistence {
     sessions,
     matches,
     questions,
+    rooms: new SqliteRoomSnapshotRepository(db),
     close: () => db.close(),
   };
 }
@@ -75,6 +81,7 @@ export function createMemoryPersistence(questions: readonly QuestionRecord[] = [
     sessions,
     matches,
     questions: questionRepository,
+    rooms: new MemoryRoomSnapshotRepository(),
     close: () => undefined,
   };
 }
@@ -143,7 +150,17 @@ export function initializePersistence(options: OpenPersistenceOptions): Persiste
     }
   }
 
-  const abandonedMatches = persistence.matches.abandonInProgress(now);
+  // Matches of rooms that will be restored (D-117) stay in progress; stale snapshots go.
+  const snapshots = persistence.rooms.list();
+  const restorable = restorableSnapshots(snapshots, now);
+  const kept = new Set(restorable.map((entry) => entry.state.roomCode));
+  for (const snapshot of snapshots) {
+    if (!kept.has(snapshot.roomCode)) persistence.rooms.delete(snapshot.roomCode);
+  }
+  const keepMatches = new Set(
+    restorable.flatMap((entry) => (entry.state.matchId ? [entry.state.matchId] : [])),
+  );
+  const abandonedMatches = persistence.matches.abandonInProgress(now, keepMatches);
 
   return {
     persistence,

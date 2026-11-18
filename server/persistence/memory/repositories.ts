@@ -308,10 +308,10 @@ export class MemoryMatchRepository implements MatchRepository {
     }
   }
 
-  abandonInProgress(now: number): number {
+  abandonInProgress(now: number, keep: ReadonlySet<string> = new Set()): number {
     let count = 0;
     for (const match of this.matches.values()) {
-      if (match.status === 'in_progress') {
+      if (match.status === 'in_progress' && !keep.has(match.id)) {
         this.abandon(match.id, now);
         count += 1;
       }

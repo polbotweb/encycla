@@ -536,7 +536,7 @@ BASE_URL=http://localhost:3000 pnpm test:load
 | [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | Phases et critères de sortie. |
 | [docs/LICENSES.md](docs/LICENSES.md) | Licences du code, du contenu, des polices et du connecteur TikTok. |
 
-Limites assumées en v1 : une seule instance, rooms en mémoire (perdues au redémarrage), rate limiting en mémoire, connecteur TikTok non officiel. Ce qui reste à faire hors code : valider le connecteur réel sur un compte secondaire (1 h, 20 spectateurs) et les tests d'accessibilité manuels (NVDA, VoiceOver).
+Limites assumées en v1 : une seule instance, rooms en mémoire (les rooms web sont restaurées après un redémarrage de moins de 10 minutes, D-117 ; pas les rooms TikTok), rate limiting en mémoire, connecteur TikTok non officiel. Ce qui reste à faire hors code : valider le connecteur réel sur un compte secondaire (1 h, 20 spectateurs) et les tests d'accessibilité manuels (NVDA, VoiceOver).
 
 ## 17. Licences et crédits
 

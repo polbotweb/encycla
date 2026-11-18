@@ -105,7 +105,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
 
 - Serveur : `tsx watch`, redémarrage à chaque changement.
 - Client : HMR Vite.
-- Un redémarrage serveur perd les rooms ; les clients doivent retourner au menu.
+- `tsx watch` tue le processus sans arrêt propre : les rooms reviennent depuis leur dernier instantané (D-117).
 - En développement, si SQLite est absent ou corrompu, le serveur bascule automatiquement en mode dégradé et le jeu reste jouable.
 
 ### 4.3 Base de développement
@@ -376,9 +376,9 @@ docker compose up -d
 ### 8.4 Continuité
 
 - Une instance unique ne permet pas de zéro downtime.
-- Un redémarrage perd les rooms en mémoire.
-- Les matchs en cours deviennent `abandoned`.
-- Les joueurs doivent revenir au menu.
+- Arrêt propre (`SIGTERM`, `docker compose restart`, redéploiement) : les rooms web en cours sont écrites dans SQLite (`active_rooms`, D-117) et **restaurées au démarrage suivant** si l'arrêt a duré moins de 10 minutes. La phase en cours reprend où elle en était, plus 5 s ; chaque joueur a la période de grâce habituelle (30 s) pour revenir, sa session étant en base ; le client affiche « Reconnexion… » puis retrouve la partie. Les matchs restaurés restent `in_progress`.
+- Crash (`SIGKILL`, panne) : même chose à partir du dernier instantané (écrit au plus une fois par seconde et par room).
+- Ne sont pas restaurés : les rooms TikTok (connexion au chat, liens overlay/console), les rooms terminées, la file de matchmaking, les instantanés de plus de 10 minutes. Leurs joueurs voient « Le serveur a redémarré » et reviennent au menu ; leurs matchs deviennent `abandoned`.
 - Prévenir avant un déploiement en heure de pointe.
 - Ne pas déployer pendant un live TikTok.
 
@@ -575,7 +575,7 @@ Réponse :
 
 - Une instance Node.
 - SQLite local.
-- Rooms en mémoire.
+- Rooms en mémoire, avec instantanés SQLite pour les redémarrages (D-117).
 - 200 rooms simultanées.
 - 5 000 sockets.
 - 100 viewers TikTok par room.

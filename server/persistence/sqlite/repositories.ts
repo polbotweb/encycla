@@ -435,13 +435,14 @@ export class SqliteMatchRepository implements MatchRepository {
     })();
   }
 
-  abandonInProgress(now: number): number {
+  abandonInProgress(now: number, keep: ReadonlySet<string> = new Set()): number {
     return this.db.transaction(() => {
       const result = this.db
         .prepare(
-          "UPDATE matches SET status = 'abandoned', ended_at = ? WHERE status = 'in_progress'",
+          `UPDATE matches SET status = 'abandoned', ended_at = ?
+           WHERE status = 'in_progress' AND id NOT IN (SELECT value FROM json_each(?))`,
         )
-        .run(now);
+        .run(now, JSON.stringify([...keep]));
       this.db
         .prepare(
           `UPDATE scores SET status = 'abandoned', finalized_at = ?, updated_at = ?

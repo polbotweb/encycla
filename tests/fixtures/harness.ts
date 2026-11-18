@@ -52,10 +52,13 @@ export interface TestPlayer {
   disconnect(): void;
 }
 
-export async function startHarness(options: Partial<GameServerOptions> = {}): Promise<Harness> {
-  const clock = makeClock();
+export async function startHarness(
+  options: Partial<GameServerOptions> = {},
+  setup: { databasePath?: string; clock?: Clock } = {},
+): Promise<Harness> {
+  const clock = setup.clock ?? makeClock();
   const initialized = initializePersistence({
-    databasePath: ':memory:',
+    databasePath: setup.databasePath ?? ':memory:',
     questions: TEST_QUESTIONS,
     now: clock.now(),
   });

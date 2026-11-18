@@ -90,6 +90,7 @@ async function main(): Promise<void> {
 
   const game = createGameServer({
     imageTokenSecret: imageSecret.secret,
+    restoreRooms: true,
     persistence: initialized.persistence,
     questionList: questions,
     questions: bank.success ? 'ok' : 'degraded',
@@ -117,7 +118,7 @@ async function main(): Promise<void> {
     console.info(`${signal} received, shutting down.`);
     clearInterval(purgeTimer);
     void game
-      .close()
+      .close({ preserveRooms: true })
       .catch((error: unknown) => {
         console.error(error);
         process.exitCode = 1;

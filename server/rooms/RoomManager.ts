@@ -13,12 +13,15 @@ import type {
 } from '../game/types';
 import { AppError } from '../http/errors';
 import type { Persistence } from '../persistence/repositories';
+import { isRestorable, restorableSnapshots } from '../persistence/roomSnapshots';
 import type { Logger } from '../util/logger';
 import { silentLogger } from '../util/logger';
 import { generateRoomCode } from './codes';
 
 export const TIMER_SYNC_INTERVAL_MS = 5000;
 export const SWEEP_INTERVAL_MS = 1000;
+/** Extra time given to a restored timed phase so players can reconnect first (D-117). */
+export const RESTORE_GRACE_MS = 5000;
 const SYNCED_PHASES = new Set(['COUNTDOWN', 'QUESTION', 'ARTICLE', 'LEVEL_COMPLETE']);
 
 /** Outbound port: the transport layer implements it. The manager never touches sockets. */
@@ -129,6 +132,8 @@ export class RoomManager {
   private readonly onRequeue: RoomManagerOptions['onRequeue'];
   private readonly publicView: (state: PublicRoomState) => PublicRoomState;
   private sweeper: ReturnType<typeof setInterval> | null = null;
+  /** Rooms changed since their last snapshot (written once per sweep, D-117). */
+  private readonly dirty = new Set<string>();
 
   constructor(options: RoomManagerOptions) {
     this.persistence = options.persistence;
@@ -150,14 +155,83 @@ export class RoomManager {
     }
   }
 
-  stop(reason = 'SERVER_RESTART'): void {
+  /**
+   * Stops the clocks. With `preserve` (graceful restart, D-117) restorable rooms are written to
+   * the database and left for the next process; the others are closed as before.
+   */
+  stop(reason = 'SERVER_RESTART', options: { preserve?: boolean } = {}): number {
     if (this.sweeper !== null) {
       clearInterval(this.sweeper);
       this.sweeper = null;
     }
-    for (const code of [...this.rooms.keys()]) {
+    let preserved = 0;
+    for (const [code, room] of [...this.rooms.entries()]) {
+      if (options.preserve && isRestorable(room.state) && this.saveSnapshot(room)) {
+        if (room.timer !== null) clearTimeout(room.timer);
+        this.rooms.delete(code);
+        preserved += 1;
+        continue;
+      }
       this.forceClose(code, reason);
     }
+    this.dirty.clear();
+    if (preserved > 0) this.logger.log('info', 'rooms.preserved', { count: preserved });
+    return preserved;
+  }
+
+  /**
+   * Brings back the rooms saved by the previous process (D-117): timed phases resume where they
+   * were, plus a short grace; every member starts disconnected and has the usual grace period
+   * to come back (their session token is in the database), otherwise they forfeit.
+   */
+  restore(): number {
+    const now = this.now();
+    let restored = 0;
+    for (const { state, savedAt } of restorableSnapshots(this.persistence.rooms.list(), now)) {
+      const members = Object.values(state.players);
+      if (this.rooms.has(state.roomCode) || members.some((p) => this.playerRooms.has(p.id))) {
+        continue;
+      }
+      const shift = Math.max(0, now - savedAt) + RESTORE_GRACE_MS;
+      const moved = (value: number | null): number | null =>
+        value === null ? null : value + shift;
+      const next: GameState = {
+        ...state,
+        phaseStartedAt: moved(state.phaseStartedAt),
+        phaseEndsAt: moved(state.phaseEndsAt),
+        pausedAt: moved(state.pausedAt),
+        lastActivityAt: now,
+        // Clients may hold a newer version than the last snapshot (written once a second).
+        stateVersion: state.stateVersion + 1000,
+        players: Object.fromEntries(
+          members.map((player) => [
+            player.id,
+            {
+              ...player,
+              ...(player.status === 'CONNECTED' || player.status === 'DISCONNECTED'
+                ? { status: 'DISCONNECTED' as const, disconnectedAt: now }
+                : {}),
+              answer: player.answer
+                ? { ...player.answer, receivedAt: player.answer.receivedAt + shift }
+                : null,
+            },
+          ]),
+        ),
+      };
+      const room: Room = { state: next, timer: null, timerAt: null, lastSyncAt: 0 };
+      this.rooms.set(next.roomCode, room);
+      for (const member of members) this.playerRooms.set(member.id, next.roomCode);
+      this.rearm(room);
+      this.dirty.add(next.roomCode);
+      restored += 1;
+      this.logger.log('info', 'room.restored', {
+        roomCode: next.roomCode,
+        phase: next.phase,
+        players: members.length,
+        downtimeMs: now - savedAt,
+      });
+    }
+    return restored;
   }
 
   // ---- queries -----------------------------------------------------------
@@ -210,6 +284,7 @@ export class RoomManager {
       now: this.now(),
     });
     this.rooms.set(code, { state, timer: null, timerAt: null, lastSyncAt: 0 });
+    this.dirty.add(code);
     if (params.host && !state.isTikTok) {
       this.playerRooms.set(params.host.id, code);
       this.emitter.attach(params.host.id, code);
@@ -433,6 +508,30 @@ export class RoomManager {
     for (const code of [...this.rooms.keys()]) {
       this.tickRoom(code);
     }
+    this.flushSnapshots();
+  }
+
+  /** Writes the rooms changed since the last sweep (at most one write per room and second). */
+  flushSnapshots(): void {
+    for (const code of [...this.dirty]) {
+      this.dirty.delete(code);
+      const room = this.rooms.get(code);
+      if (room) this.saveSnapshot(room);
+    }
+  }
+
+  private saveSnapshot(room: Room): boolean {
+    const { state } = room;
+    let saved = false;
+    this.safely(() => {
+      if (isRestorable(state)) {
+        this.persistence.rooms.save(state.roomCode, JSON.stringify(state), this.now());
+        saved = true;
+      } else {
+        this.persistence.rooms.delete(state.roomCode);
+      }
+    });
+    return saved;
   }
 
   /** Admin / shutdown close: abandons the running match, never throws. */
@@ -473,6 +572,7 @@ export class RoomManager {
 
     this.reconcileMembers(previous, next, room.state.roomCode);
     this.rearm(room);
+    this.dirty.add(room.state.roomCode);
 
     if (broadcast) {
       this.broadcast(room);
@@ -627,6 +727,8 @@ export class RoomManager {
       room.timer = null;
     }
     this.rooms.delete(code);
+    this.dirty.delete(code);
+    this.safely(() => this.persistence.rooms.delete(code));
     this.emitter.roomClosed(code, reason);
     for (const [playerId, playerCode] of [...this.playerRooms.entries()]) {
       if (playerCode === code) {

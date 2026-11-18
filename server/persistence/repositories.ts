@@ -3,6 +3,7 @@ import type { Language } from '../../shared/languages';
 import type { QuestionRecord } from '../../shared/schemas';
 import type { GameMode } from '../../shared/types';
 import type { FinalResult, MatchRecord, ScoreRecord } from '../game/types';
+import type { RoomSnapshotRepository } from './roomSnapshots';
 
 export type Provider = 'web' | 'tiktok';
 export type PersistedScoreStatus =
@@ -74,7 +75,8 @@ export interface MatchRepository {
   updateScores(matchId: string, scores: readonly ScoreRecord[], now?: number): void;
   complete(matchId: string, results: readonly FinalResult[], endedAt: number): void;
   abandon(matchId: string, endedAt: number): void;
-  abandonInProgress(now: number): number;
+  /** Abandons the matches still in progress, except those of rooms about to be restored. */
+  abandonInProgress(now: number, keep?: ReadonlySet<string>): number;
   leaderboard(filter?: LeaderboardFilter): LeaderboardEntry[];
 }
 
@@ -90,5 +92,6 @@ export interface Persistence {
   sessions: SessionRepository;
   matches: MatchRepository;
   questions: QuestionRepository;
+  rooms: RoomSnapshotRepository;
   close(): void;
 }
