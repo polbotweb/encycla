@@ -308,7 +308,9 @@ export function VoiceSuggestion() {
   const { t, language } = useTranslation();
   const enabled = useVoiceStore((state) => state.settings.enabled);
   const supported = useVoiceStore((state) => state.supported);
-  const [dismissed, setDismissed] = useState(() => safeStorage.get(SUGGESTION_ITEM) === 'dismissed');
+  const [dismissed, setDismissed] = useState(
+    () => safeStorage.get(SUGGESTION_ITEM) === 'dismissed',
+  );
   if (!supported || enabled || dismissed) return null;
   const dismiss = (): void => {
     safeStorage.set(SUGGESTION_ITEM, 'dismissed');
