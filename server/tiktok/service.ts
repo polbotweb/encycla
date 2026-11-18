@@ -8,6 +8,7 @@ import type { ModeSelection } from '../http/modes';
 import type { Logger } from '../util/logger';
 import type { TikTokAdapterFactory, TikTokChatMessage } from './adapter';
 import { TikTokConnector, type Scheduler } from './connector';
+import { publicQuestionId } from '../game/types';
 import { parseAnswerComment } from './parser';
 
 export const DEFAULT_TIKTOK_TIMER_MS = 15_000;
@@ -169,7 +170,7 @@ export class TikTokService implements TikTokPort {
     manager.dispatch(code, {
       type: 'ANSWER',
       playerId,
-      questionId: state.question.question.id,
+      questionId: publicQuestionId(state.question),
       choiceIndex,
     });
   }

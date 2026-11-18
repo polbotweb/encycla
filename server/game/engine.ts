@@ -48,6 +48,7 @@ import type {
   QuestionRuntime,
   ReduceResult,
 } from './types';
+import { publicQuestionId } from './types';
 
 interface InternalResult {
   state: GameState;
@@ -240,12 +241,14 @@ function startQuestion(state: GameState, now: number, deps: EngineDeps): Interna
   }
 
   const timerMs = questionTimerMs(state);
+  // The QUESTION phase token doubles as the opaque round id shown to clients.
+  const roundId = deps.idFactory();
   let next: GameState = {
-    ...enterPhase(state, 'QUESTION', now, timerMs, deps.idFactory()),
+    ...enterPhase(state, 'QUESTION', now, timerMs, roundId),
     level: state.level,
     questionIndex: state.questionsResolvedThisLevel,
     players,
-    question: selection.runtime,
+    question: { ...selection.runtime, roundId },
     preloadedQuestion: null,
     usedQuestionIds,
     questionParticipantIds: sortedPlayers(state)
@@ -287,7 +290,7 @@ function startQuestion(state: GameState, now: number, deps: EngineDeps): Interna
 
 function revealFor(question: QuestionRuntime) {
   return {
-    questionId: question.question.id,
+    questionId: publicQuestionId(question),
     subject: question.question.subject,
     questionText: question.question.questionText,
     options: [...question.options],
@@ -296,7 +299,17 @@ function revealFor(question: QuestionRuntime) {
     articleTitle: question.question.articleTitle,
     articleBody: question.question.articleBody,
     textLanguage: question.textLanguage ?? DEFAULT_LANGUAGE,
-    image: question.question.image ?? null,
+    image: question.question.image
+      ? {
+          url: question.question.image.url,
+          alt: question.question.image.alt,
+          ...(question.question.image.credit ? { credit: question.question.image.credit } : {}),
+          ...(question.question.image.license ? { license: question.question.image.license } : {}),
+          ...(question.question.image.sourceUrl
+            ? { sourceUrl: question.question.image.sourceUrl }
+            : {}),
+        }
+      : null,
   };
 }
 
@@ -320,7 +333,7 @@ function resolveQuestion(state: GameState, now: number): InternalResult {
       continue;
     }
 
-    const answer = player.answer?.questionId === runtime.question.id ? player.answer : null;
+    const answer = player.answer?.questionId === publicQuestionId(runtime) ? player.answer : null;
     const correct = answer !== null && answer.choiceIndex === runtime.correctIndex;
     const timedOut = answer === null;
     const responseTimeMs =
@@ -998,7 +1011,7 @@ function handleAnswer(
   if (player.status === 'DISCONNECTED') {
     return reject(state, 'PLAYER_NOT_CONNECTED', 'The player is disconnected.');
   }
-  if (!state.question || state.question.question.id !== questionId) {
+  if (!state.question || publicQuestionId(state.question) !== questionId) {
     return reject(state, 'QUESTION_MISMATCH', 'The question does not match the current one.');
   }
   if (!Number.isInteger(choiceIndex) || choiceIndex < 0 || choiceIndex > 3) {
@@ -1074,7 +1087,7 @@ function handleManualAnswer(
     return reject(state, 'ANSWER_TOO_LATE', 'The question timer has expired.');
   }
 
-  const questionId = state.question.question.id;
+  const questionId = publicQuestionId(state.question);
   const next = withPlayer(state, {
     ...player,
     answer: { questionId, choiceIndex: event.choiceIndex, receivedAt: now },

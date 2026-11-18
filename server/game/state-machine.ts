@@ -14,6 +14,7 @@ import {
   timerMsForDifficulty,
 } from './scoring';
 import type { GameState, PlayerState, QuestionRuntime } from './types';
+import { publicQuestionId } from './types';
 
 export const COUNTDOWN_MS = 3000;
 export const REVEAL_MS = 2500;
@@ -240,13 +241,17 @@ export function phaseShowsReveal(phase: RoomPhase): boolean {
   );
 }
 
+/** What players see during QUESTION: nothing that names the answer (no subject, no bank id). */
 function publicQuestion(question: QuestionRuntime) {
   return {
-    id: question.question.id,
-    subject: question.question.subject,
+    id: publicQuestionId(question),
     questionText: question.question.questionText,
     options: [...question.options],
-    image: question.question.image ?? null,
+    // Only the picture and its generic alternative text: credit, licence and file page name the
+    // file (and often the answer), so they wait for the reveal.
+    image: question.question.image
+      ? { url: question.question.image.url, alt: question.question.image.alt }
+      : null,
   };
 }
 

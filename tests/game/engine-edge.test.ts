@@ -1,3 +1,4 @@
+import { publicQuestionId } from '../../server/game/types';
 import { describe, expect, it } from 'vitest';
 import type { GameEvent } from '../../server/game/events';
 import { createGameState, reduce, tick, toPublicState } from '../../server/game/engine';
@@ -108,7 +109,7 @@ function answer(h: Harness, state: GameState, playerId: string, choiceIndex: num
   return event(h, state, {
     type: 'ANSWER',
     playerId,
-    questionId: state.question?.question.id ?? '',
+    questionId: state.question ? publicQuestionId(state.question) : '',
     choiceIndex,
   });
 }
@@ -199,7 +200,7 @@ describe('answer guards', () => {
     const h = harness();
     let state = startPrivate(h);
     state = toQuestion(h, state);
-    const questionId = state.question?.question.id ?? '';
+    const questionId = state.question ? publicQuestionId(state.question) : '';
 
     expect(
       reduce(state, { type: 'ANSWER', playerId: 'p1', questionId: 'other', choiceIndex: 0 }, h.deps)
@@ -223,7 +224,7 @@ describe('answer guards', () => {
     const h = harness();
     let state = startPrivate(h);
     state = toQuestion(h, state);
-    const questionId = state.question?.question.id ?? '';
+    const questionId = state.question ? publicQuestionId(state.question) : '';
 
     state = answer(h, state, 'p1', correct(state));
     expect(
@@ -276,7 +277,7 @@ describe('answer guards', () => {
         {
           type: 'ANSWER',
           playerId: 'p1',
-          questionId: lateQuestion.question?.question.id ?? '',
+          questionId: lateQuestion.question ? publicQuestionId(lateQuestion.question) : '',
           choiceIndex: 0,
         },
         h.deps,
@@ -1241,5 +1242,36 @@ describe('additional reachable branches', () => {
 
     const tiktok = startTikTok(h);
     expect(phaseDurationMs(tiktok, 'ARTICLE')).toBe(8000);
+  });
+});
+
+describe('round ids and image projection (D-107)', () => {
+  it('falls back to the bank id before a round opens', () => {
+    const runtime = { question: TEST_QUESTIONS[0]! } as Parameters<typeof publicQuestionId>[0];
+    expect(publicQuestionId(runtime)).toBe(TEST_QUESTIONS[0]!.id);
+    expect(publicQuestionId({ ...runtime, roundId: 'round' })).toBe('round');
+  });
+
+  it('sends only url and alt before the reveal, and no empty credit fields after it', () => {
+    const bare = TEST_QUESTIONS.map((question) => ({
+      ...question,
+      image: {
+        url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/X.png',
+        alt: 'Picture to identify',
+        credit: '',
+        license: '',
+        sourceUrl: '',
+        author: 'Someone',
+      },
+    }));
+    const h = harness(bare);
+    let state = toQuestion(h, startSolo(h));
+    const question = toPublicState(state, h.now()).question!;
+    expect(question.image).toEqual({ url: bare[0]!.image.url, alt: 'Picture to identify' });
+    expect(question.id).toBe(publicQuestionId(state.question!));
+    expect(question.id).not.toBe(state.question!.question.id);
+    state = answer(h, state, 'p1', correct(state));
+    const reveal = toPublicState(state, h.now()).reveal!;
+    expect(reveal.image).toEqual({ url: bare[0]!.image.url, alt: 'Picture to identify' });
   });
 });

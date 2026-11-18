@@ -86,10 +86,9 @@ function room(phase: RoomPhase, overrides: Partial<PublicRoomState> = {}): Publi
 
 const QUESTION = {
   id: 'q1',
-  subject: 'Stonehenge',
   questionText: 'What is this prehistoric monument?',
   options: OPTIONS,
-  image: { url: 'https://upload.wikimedia.org/x.jpg', alt: 'Standing stones' },
+  image: { url: '/img/AbCdEfGhIjKlMnOpQrStUv', alt: 'Standing stones' },
 };
 
 const REVEAL = {

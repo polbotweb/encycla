@@ -33,10 +33,9 @@ export const OPTIONS = ['Carnac', 'Stonehenge', 'Avebury', 'Newgrange'];
 
 export const QUESTION = {
   id: 'q1',
-  subject: 'Stonehenge',
   questionText: 'What is this prehistoric monument?',
   options: OPTIONS,
-  image: { url: 'https://upload.wikimedia.org/x.jpg', alt: 'Standing stones' },
+  image: { url: '/img/AbCdEfGhIjKlMnOpQrStUv', alt: 'Standing stones' },
 };
 
 export const REVEAL = {

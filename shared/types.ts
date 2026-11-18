@@ -18,16 +18,19 @@ export type RoomPhase =
 export type PlayerStatus = 'CONNECTED' | 'DISCONNECTED' | 'ELIMINATED' | 'FORFEITED' | 'LEFT';
 
 export interface ImageView {
+  /** Same-origin `/img/<opaque token>` (D-107); never the Commons file URL. */
   url: string;
   alt: string;
+  /** Widths the proxy serves through `?w=` (responsive `srcset`); absent: a single size. */
+  widths?: number[];
   credit?: string;
   license?: string;
   sourceUrl?: string;
 }
 
 export interface QuestionView {
+  /** Opaque round id (never the bank id, which names the answer). */
   id: string;
-  subject: string;
   questionText: string;
   options: string[];
   image: ImageView | null;

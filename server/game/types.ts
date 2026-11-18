@@ -56,6 +56,16 @@ export interface QuestionRuntime {
   optionOrder: number[];
   /** Language of the explanation and the article (French when the translation falls back). */
   textLanguage?: Language;
+  /**
+   * Opaque id of this round, shown to clients instead of the bank id (which is a slug of the
+   * answer). Set when the question opens; the bank id is used until then.
+   */
+  roundId?: string;
+}
+
+/** Id of a question as clients see it: the opaque round id, never the bank slug. */
+export function publicQuestionId(runtime: QuestionRuntime): string {
+  return runtime.roundId ?? runtime.question.id;
 }
 
 export type MatchStatus = 'in_progress' | 'completed' | 'abandoned';

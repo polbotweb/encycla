@@ -1,3 +1,4 @@
+import { publicQuestionId } from '../../server/game/types';
 import { describe, expect, it } from 'vitest';
 import type { GameEvent } from '../../server/game/events';
 import { createGameState, reduce, tick, toPublicState } from '../../server/game/engine';
@@ -102,7 +103,7 @@ function answer(h: Harness, state: GameState, playerId: string, choiceIndex: num
   return event(h, state, {
     type: 'ANSWER',
     playerId,
-    questionId: state.question?.question.id ?? '',
+    questionId: state.question ? publicQuestionId(state.question) : '',
     choiceIndex,
   });
 }

@@ -91,16 +91,16 @@ type PlayerStatus =
   | 'LEFT';
 
 interface ImageView {
-  url: string;
+  url: string; // same-origin "/img/<opaque token>" (D-107), never the Commons file URL
   alt: string;
-  credit?: string;
-  license?: string;
-  sourceUrl?: string;
+  widths?: number[]; // widths served through "?w=" (srcset); absent: one size
+  credit?: string; // REVEAL only
+  license?: string; // REVEAL only
+  sourceUrl?: string; // REVEAL only (Commons file page)
 }
 
 interface QuestionView {
-  id: string;
-  subject: string;
+  id: string; // opaque round id, not the bank id (D-107)
   questionText: string;
   options: string[];
   image: ImageView | null;
@@ -210,6 +210,7 @@ Règles :
 - `remainingMs` est non nul en `PAUSED`.
 - `level` est 1-based ; `questionIndex` est 0-based et représente l'index dans le level courant. L'UI affiche `questionIndex + 1`.
 - `reveal.textLanguage` est la langue réelle de `explanation`, `articleTitle` et `articleBody` : la langue de la room, ou `fr` quand l'article n'existe pas dans cette langue (repli, voir DATA-MODEL §6.2 bis). Le client affiche alors ce texte en français, de gauche à droite, avec un avis.
+- `question.image` ne contient que `url`, `alt` et `widths` ; crédit, licence et `sourceUrl` n'arrivent qu'avec `reveal.image`, sous la même `url` (D-107). Les images se chargent avec `GET /img/<jeton>?w=330|500|960` (jeton par manche, 2 h).
 - `language` est la langue de la room (D-88) : `question`, `reveal` et leurs images (alt, crédit) sont servis dans cette langue ; l'ordre des options et `correctIndex` sont identiques dans les trois langues.
 - `difficulty` est `null` pour CLASSIC et CONTEST ; il porte la difficulté choisie en SUBJECT. CONTEST applique `Adventurer` comme preset fixe.
 - `hostId` est l'ID du joueur host en web, `null` pour une room TikTok (host spectateur).
