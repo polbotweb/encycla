@@ -1,15 +1,11 @@
 /**
- * Responsive Wikimedia Commons images.
+ * Responsive pictures served by our own image proxy (D-107).
  *
- * Commons only serves thumbnails at its standard widths (20, 40, 60, 120, 250, 330, 500, 960,
- * 1280, 1920, 3840 px); other widths are refused by the CDN. The bank stores 960 px thumbnails,
- * or the original file when it is narrower than that: originals get no srcset, because a
- * thumbnail wider than the original does not exist.
+ * Snapshots only carry `/img/<opaque token>` plus the widths the proxy offers for that picture
+ * (standard Commons thumbnail steps). Pictures without widths (originals narrower than 960 px)
+ * get no `srcset`: a candidate wider than the original does not exist.
  */
-export const COMMONS_WIDTHS = [330, 500, 960, 1280] as const;
-
-const THUMB =
-  /^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/thumb\/[^?#]+\/)(\d+)px-([^/?#]+)$/;
+import type { ImageView } from '../../shared/types';
 
 /** Same `sizes` everywhere so the question, reveal and article reuse one cached candidate. */
 export const IMAGE_SIZES = '(min-width: 1024px) 55vw, 100vw';
@@ -19,15 +15,14 @@ export interface ImageSources {
   srcSet: string | null;
 }
 
-export function commonsSources(url: string): ImageSources {
-  const match = THUMB.exec(url);
-  if (!match) return { src: url, srcSet: null };
-  const [, base, width, name] = match as unknown as [string, string, string, string];
-  const stored = Number(width);
-  const widths = COMMONS_WIDTHS.filter((candidate) => candidate <= stored);
-  if (widths.length < 2) return { src: url, srcSet: null };
+const PROXIED = /^\/img\/[A-Za-z0-9_-]{22}$/;
+
+export function imageSources(image: Pick<ImageView, 'url' | 'widths'>): ImageSources {
+  const widths = image.widths ?? [];
+  if (!PROXIED.test(image.url) || widths.length < 2) return { src: image.url, srcSet: null };
+  const largest = Math.max(...widths);
   return {
-    src: url,
-    srcSet: widths.map((candidate) => `${base}${candidate}px-${name} ${candidate}w`).join(', '),
+    src: `${image.url}?w=${largest}`,
+    srcSet: widths.map((width) => `${image.url}?w=${width} ${width}w`).join(', '),
   };
 }

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import type { Language } from '../../../shared/languages';
 import type { ImageView } from '../../../shared/types';
 import { contentAttributes, useTranslation } from '../../i18n';
-import { IMAGE_SIZES, commonsSources } from '../../lib/images';
+import { IMAGE_SIZES, imageSources } from '../../lib/images';
 
 type LoadState = 'loading' | 'loaded' | 'retry' | 'failed';
 
 function FramedImage({ image, language }: { image: ImageView; language?: Language }) {
   const { t } = useTranslation();
   const [state, setState] = useState<LoadState>('loading');
-  const { src, srcSet } = commonsSources(image.url);
+  const { src, srcSet } = imageSources(image);
 
   if (state === 'failed') {
     return (

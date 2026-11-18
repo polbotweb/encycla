@@ -30,6 +30,7 @@ export default defineConfig({
       DATABASE_PATH: 'data/e2e.db',
       LOG_LEVEL: 'warn',
       TIKTOK_ENABLED: 'false',
+      IMAGE_CACHE_DIR: '',
     },
   },
 });
