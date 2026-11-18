@@ -18,12 +18,16 @@ export interface TranslationStats {
   labelWikipedia: number;
   /** Answer label taken from the Wikidata label (no article in that language). */
   labelWikidata: number;
-  /** Answer label that falls back to French (nothing in that language). */
-  labelFallbackFr: number;
+  /** Answer label that is the scientific name of a living thing (P225). */
+  labelScientific: number;
+  /** Answer label that is the item's original name (P1705, P1448, P1559, original language). */
+  labelNative: number;
   /** Article text taken from the article in that language. */
   articleWikipedia: number;
-  /** Article text that falls back to the French article. */
-  articleFallbackFr: number;
+  /** Article text from another language's article (shown with a notice). */
+  articleOtherLanguage: number;
+  /** Questions not offered in that language (no name to show). */
+  unavailable: number;
 }
 
 export interface QuestionBankReport {
@@ -74,9 +78,11 @@ export function emptyTranslationStats(): Record<TranslatedLanguage, TranslationS
   const blank = (): TranslationStats => ({
     labelWikipedia: 0,
     labelWikidata: 0,
-    labelFallbackFr: 0,
+    labelScientific: 0,
+    labelNative: 0,
     articleWikipedia: 0,
-    articleFallbackFr: 0,
+    articleOtherLanguage: 0,
+    unavailable: 0,
   });
   return { en: blank(), ar: blank() };
 }
@@ -125,9 +131,30 @@ function provenanceIssues(question: QuestionRecord): string[] {
   for (const language of TRANSLATED_LANGUAGES) {
     const translation = question.translations?.[language];
     if (!translation) {
-      issues.push(`${question.id}: missing ${language} translation`);
+      if (!question.unavailable?.[language]) {
+        issues.push(`${question.id}: missing ${language} translation (and no unavailable reason)`);
+      }
       continue;
     }
+    if (question.unavailable?.[language]) {
+      issues.push(`${question.id}: ${language} is both translated and unavailable`);
+    }
+    const { provenance } = translation;
+    provenance.options.forEach((origin, index) => {
+      const lang = provenance.optionLanguages[index] ?? '';
+      const base = lang.toLowerCase().split('-')[0];
+      if ((origin === 'wikipedia' || origin === 'wikidata') && base !== language) {
+        issues.push(`${question.id}: ${language} option ${index} is a ${origin} name in "${lang}"`);
+      }
+      if (origin === 'scientific-name' && lang !== 'la') {
+        issues.push(
+          `${question.id}: ${language} option ${index} scientific name must be tagged la`,
+        );
+      }
+      if (origin === 'native-name' && base === language) {
+        issues.push(`${question.id}: ${language} option ${index} original name is in ${language}`);
+      }
+    });
     const translatedAnswer = translation.options[question.correctIndex];
     if (translation.subject !== translatedAnswer) {
       issues.push(`${question.id}: ${language} subject is not the translated answer`);
@@ -141,8 +168,13 @@ function provenanceIssues(question: QuestionRecord): string[] {
     ) {
       issues.push(`${question.id}: ${language} article text must cite a ${language} revision`);
     }
-    if (translation.provenance.article === 'fallback-fr' && translation.source.language !== 'fr') {
-      issues.push(`${question.id}: ${language} fallback text must cite the French revision`);
+    if (
+      translation.provenance.article === 'other-language' &&
+      translation.source.language === language
+    ) {
+      issues.push(
+        `${question.id}: ${language} other-language article cites a ${language} revision`,
+      );
     }
     if (translation.provenance.options[question.correctIndex] !== translation.provenance.label) {
       issues.push(`${question.id}: ${language} label origin does not match the answer option`);
@@ -159,15 +191,18 @@ export function translationStats(
   for (const question of questions) {
     for (const language of TRANSLATED_LANGUAGES) {
       const translation = question.translations?.[language];
+      const entry = stats[language];
       if (!translation) {
+        entry.unavailable += 1;
         continue;
       }
-      const entry = stats[language];
-      if (translation.provenance.label === 'wikipedia') entry.labelWikipedia += 1;
-      else if (translation.provenance.label === 'wikidata') entry.labelWikidata += 1;
-      else entry.labelFallbackFr += 1;
-      if (translation.provenance.article === 'wikipedia') entry.articleWikipedia += 1;
-      else entry.articleFallbackFr += 1;
+      const { label, article } = translation.provenance;
+      if (label === 'wikipedia') entry.labelWikipedia += 1;
+      else if (label === 'wikidata') entry.labelWikidata += 1;
+      else if (label === 'scientific-name') entry.labelScientific += 1;
+      else entry.labelNative += 1;
+      if (article === 'wikipedia') entry.articleWikipedia += 1;
+      else entry.articleOtherLanguage += 1;
     }
   }
   return stats;

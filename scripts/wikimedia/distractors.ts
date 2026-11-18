@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import type { FormKey } from './forms';
 import { normalizeText } from './text';
 
 export interface Candidate {
@@ -11,10 +12,11 @@ export interface Candidate {
   pageId: number;
   qid: string | undefined;
   /**
-   * True when the item has a real label in every game language (Wikipedia or Wikidata). Items
-   * that would fall back to French are only used as distractors when nothing else is available.
+   * How the item is written in each translated language (`own` name, `scientific` name, `foreign`
+   * original name, `none`). Distractors written like the answer come first, so no option stands
+   * out by its form (D-108); items with no name in a language come last.
    */
-  complete?: boolean;
+  forms?: Readonly<Record<string, FormKey>>;
   /** Living things: every ancestor taxon (Wikidata P171, transitively). */
   lineage?: ReadonlySet<string>;
   /** Living things: direct parent taxa (P171), usually the genus. */
@@ -27,6 +29,15 @@ export function taxonomicCloseness(a: Candidate, b: Candidate): number {
   let shared = 0;
   for (const taxon of a.lineage) if (b.lineage.has(taxon)) shared += 1;
   return shared;
+}
+
+/** Languages where `candidate` is written like `target`; -1 when it has no name somewhere. */
+export function formAffinity(target: Candidate, candidate: Candidate): number {
+  if (!candidate.forms) return 0;
+  const languages = Object.keys(candidate.forms);
+  if (languages.some((language) => candidate.forms?.[language] === 'none')) return -1;
+  return languages.filter((language) => candidate.forms?.[language] === target.forms?.[language])
+    .length;
 }
 
 /** True when two living things have the same direct parent taxon (typically the same genus). */
@@ -127,11 +138,10 @@ export function pickDistractors(
     const byKinship = target.lineage
       ? [...shuffled].sort((a, b) => taxonomicCloseness(target, b) - taxonomicCloseness(target, a))
       : shuffled;
-    // Stable partition: fully translated items first (identical order when all are complete).
-    const ordered = [
-      ...byKinship.filter((candidate) => candidate.complete !== false),
-      ...byKinship.filter((candidate) => candidate.complete === false),
-    ];
+    // Stable: written like the answer in the most languages first, unnamed items last.
+    const ordered = [...byKinship].sort(
+      (a, b) => formAffinity(target, b) - formAffinity(target, a),
+    );
     for (const candidate of ordered) {
       if (picked.length === 3) {
         break;

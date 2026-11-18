@@ -96,10 +96,21 @@ export const questionSourceSchema = z.object({
 });
 
 /**
- * Where a translated label / text really comes from. Nothing is invented: when a language has no
- * article for the item, the label falls back to the Wikidata label, then to the French one.
+ * Where a translated label really comes from (D-108). Nothing is invented and French is never a
+ * default: the article title in that language, else its Wikidata label (or common name), else the
+ * scientific name of a living thing (P225), else the item's original name (P1705, P1448, P1559,
+ * label in its original language). Without any of them the question is not offered in that
+ * language (`unavailable`).
  */
-export const TRANSLATION_ORIGINS = ['wikipedia', 'wikidata', 'fallback-fr'] as const;
+/** BCP 47-like language tag of a label (`ar`, `la`, `zh-hans`…). */
+export const LANGUAGE_TAG = /^[a-z]{2,3}(?:-[a-z0-9]+)*$/i;
+
+export const TRANSLATION_ORIGINS = [
+  'wikipedia',
+  'wikidata',
+  'scientific-name',
+  'native-name',
+] as const;
 export type TranslationOrigin = (typeof TRANSLATION_ORIGINS)[number];
 
 /** The same question in another language: same item, same picture, same option order. */
@@ -112,14 +123,19 @@ export const questionTranslationSchema = z.object({
   articleBody: safeText(20, 5000),
   imageAlt: safeText(5, 200),
   imageCredit: safeText(1, 200),
-  /** Revision the text of this language comes from (the French one when the text is a fallback). */
+  /** Revision the article text comes from (another language when `article` is `other-language`). */
   source: questionSourceSchema,
   provenance: z.object({
     /** Origin of the answer label and of each option label (same order as `options`). */
     label: z.enum(TRANSLATION_ORIGINS),
     options: z.array(z.enum(TRANSLATION_ORIGINS)).length(4),
-    /** `wikipedia` when the article is in this language, `fallback-fr` when the French text is shown. */
-    article: z.enum(['wikipedia', 'fallback-fr']),
+    /** Language of each option label: this language, `la` for scientific names, else the original one. */
+    optionLanguages: z.array(z.string().regex(LANGUAGE_TAG)).length(4),
+    /**
+     * `wikipedia` when the article is in this language; `other-language` when the best other real
+     * article is shown instead (language in `source.language`, with a notice).
+     */
+    article: z.enum(['wikipedia', 'other-language']),
   }),
 });
 
@@ -145,6 +161,10 @@ export const questionSchema = z
         en: questionTranslationSchema.optional(),
         ar: questionTranslationSchema.optional(),
       })
+      .optional(),
+    /** Languages the question is not offered in, with the reason (no name to show, D-108). */
+    unavailable: z
+      .object({ en: safeText(1, 200).optional(), ar: safeText(1, 200).optional() })
       .optional(),
   })
   .superRefine((question, context) => {

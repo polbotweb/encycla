@@ -34,7 +34,8 @@ export function labelFromTitle(title: string, kind: 'title' | 'flag' = 'title'):
   return label;
 }
 
-export type TextLanguage = 'fr' | 'en' | 'ar';
+/** Wikipedia language code; French, English and Arabic have dedicated rules, others use the Latin ones. */
+export type TextLanguage = string;
 
 /** Cleans an extract: drops headings, footnote markers, collapses whitespace, keeps paragraphs. */
 export function cleanExtract(extract: string, language: TextLanguage = 'fr'): string {
@@ -86,7 +87,7 @@ export function splitSentences(text: string, language: TextLanguage = 'fr'): str
     const previous = out[out.length - 1];
     if (
       previous !== undefined &&
-      (language === 'en' ? ABBREVIATIONS_EN : ABBREVIATIONS).test(previous)
+      (language === 'fr' || language === 'ar' ? ABBREVIATIONS : ABBREVIATIONS_EN).test(previous)
     ) {
       out[out.length - 1] = `${previous} ${piece}`;
     } else {

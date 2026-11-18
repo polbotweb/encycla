@@ -14,11 +14,13 @@ async function main(): Promise<void> {
     console.log(`  ${category}: ${report.counts[category]}`);
   }
 
-  console.log('Translations (answer label / article origin):');
+  console.log('Translations (answer label / article origin, D-108):');
   for (const [language, stats] of Object.entries(report.translations)) {
     console.log(
-      `  ${language}: labels wikipedia=${stats.labelWikipedia} wikidata=${stats.labelWikidata} fallback-fr=${stats.labelFallbackFr}` +
-        ` | articles wikipedia=${stats.articleWikipedia} fallback-fr=${stats.articleFallbackFr}`,
+      `  ${language}: labels wikipedia=${stats.labelWikipedia} wikidata=${stats.labelWikidata}` +
+        ` scientific=${stats.labelScientific} native=${stats.labelNative}` +
+        ` | articles own=${stats.articleWikipedia} other-language=${stats.articleOtherLanguage}` +
+        ` | not offered=${stats.unavailable}`,
     );
   }
 

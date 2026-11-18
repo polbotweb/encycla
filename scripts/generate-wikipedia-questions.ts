@@ -52,6 +52,18 @@ import {
   QUESTION_TEXT,
   translatedLabel,
 } from './wikimedia/languages';
+import {
+  ARTICLE_LANGUAGES,
+  articleFallbackOrder,
+  GENERIC_ARTICLE_LANGUAGES,
+  baseLang,
+  chooseLabel,
+  formKey,
+  isUsableLang,
+  resolveOptions,
+  type LabelChoice,
+  type NameForms,
+} from './wikimedia/forms';
 import { SEEDS } from './wikimedia/seeds';
 import {
   buildArticleBody,
@@ -423,6 +435,140 @@ async function fetchTaxonomy(qids: string[]): Promise<Map<string, Taxonomy>> {
   return out;
 }
 
+// ---------------------------------------------------------------- names without a translation
+
+type ItemForms = NameForms & {
+  /** Article titles in the original-language Wikipedias (`de` → title). */
+  sitelinks: Record<string, string>;
+};
+
+const NAME_PROPERTIES: Record<string, 'native' | 'taxon'> = {
+  P1705: 'native',
+  P1448: 'native',
+  P1559: 'native',
+  P225: 'taxon',
+};
+/** How directly a property gives the item's language: language of the work first. */
+const LANGUAGE_VIA = ['P364', 'P407', 'P103', 'P37', 'P495', 'P17'];
+
+/**
+ * Scientific names, original names and original languages of items (Wikidata Query Service),
+ * plus their labels and Wikipedia articles in those languages (D-108).
+ */
+async function fetchItemForms(qids: string[]): Promise<Map<string, ItemForms>> {
+  const out = new Map<string, ItemForms>();
+  const entry = (qid: string): ItemForms => {
+    let value = out.get(qid);
+    if (!value) {
+      value = { nativeNames: [], originLanguages: [], originLabels: {}, sitelinks: {} };
+      out.set(qid, value);
+    }
+    return value;
+  };
+  const sorted = [...new Set(qids)].sort();
+  for (const qid of sorted) entry(qid);
+  for (const batch of chunk(sorted, 80)) {
+    const values = batch.map((qid) => `wd:${qid}`).join(' ');
+    const names = await client.get<SparqlBody>(WIKIDATA_SPARQL, {
+      query:
+        `SELECT ?item ?p ?name WHERE { VALUES ?item { ${values} } ` +
+        `VALUES ?p { wdt:P1705 wdt:P1448 wdt:P1559 wdt:P225 } ?item ?p ?name . }`,
+    });
+    const native = new Map<
+      string,
+      { text: string; lang: string; property: 'P1705' | 'P1559' | 'P1448'; rank: number }[]
+    >();
+    for (const row of names.body.results?.bindings ?? []) {
+      const item = entityId(row.item?.value);
+      const property = row.p?.value.split('/').pop() ?? '';
+      const text = row.name?.value?.trim();
+      if (!item || !text) continue;
+      if (NAME_PROPERTIES[property] === 'taxon') {
+        const current = entry(item).taxonName;
+        // Several P225 values (synonyms): keep the alphabetically first for a stable output.
+        if (!current || text.localeCompare(current) < 0) entry(item).taxonName = text;
+      } else if (NAME_PROPERTIES[property] === 'native' && row.name?.['xml:lang']) {
+        const list = native.get(item) ?? [];
+        list.push({
+          text,
+          lang: row.name['xml:lang'],
+          property: property as 'P1705' | 'P1559' | 'P1448',
+          rank: Object.keys(NAME_PROPERTIES).indexOf(property),
+        });
+        native.set(item, list);
+      }
+    }
+    for (const [item, list] of native) {
+      entry(item).nativeNames = list
+        .sort(
+          (a, b) => a.rank - b.rank || a.lang.localeCompare(b.lang) || a.text.localeCompare(b.text),
+        )
+        .map(({ text, lang, property }) => ({ text, lang, property }));
+    }
+
+    const languages = await client.get<SparqlBody>(WIKIDATA_SPARQL, {
+      query:
+        `SELECT ?item ?via ?code WHERE { VALUES ?item { ${values} } ` +
+        `{ VALUES ?via { wdt:P364 wdt:P407 wdt:P103 wdt:P37 } ?item ?via ?language . } UNION ` +
+        `{ VALUES ?via { wdt:P495 wdt:P17 } ?item ?via ?country . ?country wdt:P37 ?language . } ` +
+        `?language wdt:P424 ?code . }`,
+    });
+    const found = new Map<string, { code: string; rank: number }[]>();
+    for (const row of languages.body.results?.bindings ?? []) {
+      const item = entityId(row.item?.value);
+      const via = row.via?.value.split('/').pop() ?? '';
+      const code = row.code?.value?.trim().toLowerCase();
+      if (!item || !code || !isUsableLang(code)) continue;
+      const list = found.get(item) ?? [];
+      list.push({ code, rank: LANGUAGE_VIA.indexOf(via) });
+      found.set(item, list);
+    }
+    for (const [item, list] of found) {
+      const ordered = list.sort((a, b) => a.rank - b.rank || a.code.localeCompare(b.code));
+      entry(item).originLanguages = [...new Set(ordered.map(({ code }) => code))];
+    }
+  }
+
+  // Labels in the original languages and articles in the other Wikipedias, 50 items per request.
+  for (const batch of chunk(sorted, 50)) {
+    const codes = [...new Set(batch.flatMap((qid) => entry(qid).originLanguages))].sort();
+    const sites = [
+      ...new Set(
+        [...codes.map(baseLang), ...GENERIC_ARTICLE_LANGUAGES]
+          .filter((code) => ARTICLE_LANGUAGES.has(code) && !['fr', 'en', 'ar'].includes(code))
+          .map((code) => `${code}wiki`),
+      ),
+    ].sort();
+    const { body } = await client.get<{
+      entities?: Record<
+        string,
+        {
+          labels?: Record<string, { value?: string }>;
+          sitelinks?: Record<string, { title?: string }>;
+        }
+      >;
+    }>(WIKIDATA_API, {
+      action: 'wbgetentities',
+      ids: batch.join('|'),
+      props: codes.length > 0 ? 'labels|sitelinks' : 'sitelinks',
+      ...(codes.length > 0 ? { languages: codes.join('|') } : {}),
+      sitefilter: sites.join('|'),
+    });
+    for (const [qid, entity] of Object.entries(body.entities ?? {})) {
+      const forms = out.get(qid);
+      if (!forms) continue;
+      for (const code of forms.originLanguages) {
+        const label = entity.labels?.[code]?.value?.trim();
+        if (label) forms.originLabels[code] = label;
+      }
+      for (const [site, link] of Object.entries(entity.sitelinks ?? {})) {
+        if (link.title && site.endsWith('wiki')) forms.sitelinks[site.slice(0, -4)] = link.title;
+      }
+    }
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------- translations
 
 interface WikidataEntity {
@@ -467,22 +613,19 @@ async function fetchWikidataEntities(qids: string[]): Promise<Map<string, Wikida
 }
 
 interface LangContent {
-  /** Answer label in this language. */
-  label: string;
-  /** Article title including its qualifier, used to tell apart two identical labels. */
-  fullTitle: string | undefined;
-  origin: TranslationOrigin;
+  /** Answer label in this language, or `null` when the item has no name to show (D-108). */
+  choice: LabelChoice | null;
+  living: boolean;
+  forms: NameForms | undefined;
   articleTitle: string;
   body: string;
-  /** Raw extract the explanation sentence is taken from (the French one on fallback). */
+  /** Raw extract the explanation sentence is taken from (only in the room language). */
   extract: string;
   source: QuestionSource;
-  article: 'wikipedia' | 'fallback-fr';
+  article: 'wikipedia' | 'other-language';
 }
 
 type SubjectTranslations = Record<TranslatedLanguage, LangContent>;
-
-const MAX_LABEL = 80;
 
 function permalink(language: string, title: string, revisionId: number): string {
   return `https://${language}.wikipedia.org/w/index.php?title=${encodeURIComponent(title.replace(/ /g, '_'))}&oldid=${revisionId}`;
@@ -490,162 +633,199 @@ function permalink(language: string, title: string, revisionId: number): string 
 
 const ARTICLE_LICENSE = 'CC BY-SA 4.0';
 
+interface ArticleText {
+  title: string;
+  body: string;
+  extract: string;
+  source: QuestionSource;
+}
+
+/** Usable article text of a resolved page (long enough, not a disambiguation page). */
+function articleText(
+  page: (WikiPage & { fetchedAt: string }) | undefined,
+  language: string,
+): ArticleText | null {
+  if (
+    page === undefined ||
+    page.missing ||
+    page.pageprops?.disambiguation !== undefined ||
+    page.lastrevid === undefined ||
+    page.extract === undefined
+  ) {
+    return null;
+  }
+  const body = buildArticleBody(page.extract, MAX_ARTICLE_CHARS, language);
+  if (body.length < MIN_ARTICLE_CHARS) return null;
+  return {
+    title: page.title,
+    body,
+    extract: page.extract,
+    source: {
+      url: permalink(language, page.title, page.lastrevid),
+      revisionId: page.lastrevid,
+      language,
+      license: ARTICLE_LICENSE,
+      retrievedAt: page.fetchedAt,
+    },
+  };
+}
+
+async function resolveWithLongExtracts(
+  titles: string[],
+  language: string,
+): Promise<Map<string, WikiPage & { fetchedAt: string }>> {
+  const endpoint = `https://${language}.wikipedia.org/w/api.php`;
+  console.log(`Resolving ${titles.length} ${language}.wikipedia.org articles…`);
+  const pages = await resolveArticles([...new Set(titles)], endpoint);
+  for (const page of pages.values()) {
+    if (
+      !page.missing &&
+      page.extract !== undefined &&
+      cleanExtract(page.extract, language).length < MIN_ARTICLE_CHARS
+    ) {
+      page.extract = await fetchLongExtract(page.title, endpoint);
+    }
+  }
+  return pages;
+}
+
 /**
- * English and Arabic content for the selected subjects, from the *same Wikidata items*:
- *   label   = title of the Wikipedia article in that language (via the Wikidata sitelink),
- *             else the Wikidata label in that language, else the French label (flagged);
- *   article = the article in that language, else the French article (flagged, French revision).
+ * English and Arabic content for the selected subjects, from the *same Wikidata items* (D-108):
+ *   label   = title of the Wikipedia article in that language (via the Wikidata sitelink), else
+ *             the Wikidata label / Arabic common name, else the scientific name (living things)
+ *             or the original name (other items), else none: not offered in that language;
+ *   article = the article in that language, else the best other real article (Arabic: English
+ *             first, then the original language; English: the original language), French last.
  */
 async function fetchTranslations(
   subjects: (Subject & { label: string; body: string })[],
-  taxonomy: Map<string, Taxonomy> = new Map(),
+  taxonomy: Map<string, Taxonomy>,
+  itemForms: Map<string, ItemForms>,
 ): Promise<Map<Subject, SubjectTranslations>> {
   const entities = await fetchWikidataEntities(
     subjects.flatMap((subject) => (subject.qid ? [subject.qid] : [])),
   );
   const out = new Map<Subject, SubjectTranslations>();
-  const articles = {} as Record<TranslatedLanguage, Map<string, WikiPage & { fetchedAt: string }>>;
-
+  const pagesByLanguage = new Map<string, Map<string, WikiPage & { fetchedAt: string }>>();
   for (const language of TRANSLATED_LANGUAGES) {
-    const endpoint = `https://${language}.wikipedia.org/w/api.php`;
     const titles = subjects.flatMap((subject) => {
       const title = subject.qid ? entities.get(subject.qid)?.sitelinks[language] : undefined;
       return title ? [title] : [];
     });
-    console.log(`Resolving ${titles.length} ${language}.wikipedia.org articles…`);
-    const pages = await resolveArticles([...new Set(titles)], endpoint);
-    for (const page of pages.values()) {
-      if (
-        !page.missing &&
-        page.extract !== undefined &&
-        cleanExtract(page.extract, language).length < MIN_ARTICLE_CHARS
-      ) {
-        page.extract = await fetchLongExtract(page.title, endpoint);
+    pagesByLanguage.set(language, await resolveWithLongExtracts(titles, language));
+  }
+  const ownArticle = (subject: Subject, language: string): ArticleText | null => {
+    const entity = subject.qid ? entities.get(subject.qid) : undefined;
+    const title = language === 'en' || language === 'ar' ? entity?.sitelinks[language] : undefined;
+    return title ? articleText(pagesByLanguage.get(language)?.get(title), language) : null;
+  };
+
+  // Original-language articles, only for the subjects that may need them.
+  const wanted = new Map<string, string[]>();
+  for (const subject of subjects) {
+    const forms = subject.qid ? itemForms.get(subject.qid) : undefined;
+    if (!forms) continue;
+    for (const language of TRANSLATED_LANGUAGES) {
+      if (ownArticle(subject, language)) continue;
+      for (const code of articleFallbackOrder(language, forms.originLanguages)) {
+        if (['fr', 'en', 'ar'].includes(code)) continue;
+        const title = forms.sitelinks[code];
+        if (title) wanted.set(code, [...(wanted.get(code) ?? []), title]);
       }
     }
-    articles[language] = pages;
+  }
+  for (const [code, titles] of [...wanted.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+    pagesByLanguage.set(code, await resolveWithLongExtracts(titles, code));
   }
 
   for (const subject of subjects) {
     const entity = subject.qid ? entities.get(subject.qid) : undefined;
+    const forms = subject.qid ? itemForms.get(subject.qid) : undefined;
     const kind = subject.kind;
-    const frSource: QuestionSource = {
-      url: permalink(LANG, subject.title, subject.revisionId),
-      revisionId: subject.revisionId,
-      language: LANG,
-      license: ARTICLE_LICENSE,
-      retrievedAt: subject.fetchedAt,
+    const living = LIVING_CATEGORIES.has(subject.category);
+    const french: ArticleText = {
+      title: subject.seedTitle,
+      body: subject.body,
+      extract: subject.extract,
+      source: {
+        url: permalink(LANG, subject.title, subject.revisionId),
+        revisionId: subject.revisionId,
+        language: LANG,
+        license: ARTICLE_LICENSE,
+        retrievedAt: subject.fetchedAt,
+      },
     };
     const result = {} as SubjectTranslations;
 
     for (const language of TRANSLATED_LANGUAGES) {
       const siteTitle = entity?.sitelinks[language];
-      const page = siteTitle ? articles[language].get(siteTitle) : undefined;
-      const usable =
+      const page = siteTitle ? pagesByLanguage.get(language)?.get(siteTitle) : undefined;
+      const pageUsable =
         page !== undefined &&
         !page.missing &&
         page.pageprops?.disambiguation === undefined &&
         page.lastrevid !== undefined &&
         page.extract !== undefined;
-      const body = usable
-        ? buildArticleBody(page.extract as string, MAX_ARTICLE_CHARS, language)
-        : '';
-      const hasText = usable && body.length >= MIN_ARTICLE_CHARS;
 
-      const candidates: { label: string; origin: TranslationOrigin; full?: string }[] = [];
-      if (usable) {
-        candidates.push({
+      const real: LabelChoice[] = [];
+      if (pageUsable) {
+        real.push({
           label: translatedLabel(page.title, kind, language),
           origin: 'wikipedia',
+          lang: language,
           full: page.title,
         });
       }
       const wikidataLabel = entity?.labels[language];
       if (wikidataLabel) {
-        candidates.push({
+        real.push({
           label: translatedLabel(wikidataLabel, kind, language),
           origin: 'wikidata',
+          lang: language,
         });
       }
       // Living things without an Arabic article or label: the Arabic common name (P1843).
       const commonName =
         language === 'ar' && subject.qid ? taxonomy.get(subject.qid)?.arNames[0] : undefined;
       if (commonName) {
-        candidates.push({ label: translatedLabel(commonName, kind, language), origin: 'wikidata' });
+        real.push({
+          label: translatedLabel(commonName, kind, language),
+          origin: 'wikidata',
+          lang: language,
+        });
       }
-      const chosen = candidates.find(
-        (candidate) => candidate.label.length > 0 && candidate.label.length <= MAX_LABEL,
-      ) ?? { label: subject.label, origin: 'fallback-fr' as const };
+      const choice = chooseLabel({ language, living, real, forms });
 
-      if (hasText) {
-        result[language] = {
-          label: chosen.label,
-          fullTitle: chosen.full,
-          origin: chosen.origin,
-          articleTitle: page.title,
-          body,
-          extract: page.extract as string,
-          source: {
-            url: permalink(language, page.title, page.lastrevid as number),
-            revisionId: page.lastrevid as number,
-            language,
-            license: ARTICLE_LICENSE,
-            retrievedAt: page.fetchedAt,
-          },
-          article: 'wikipedia',
-        };
-      } else {
-        result[language] = {
-          label: chosen.label,
-          fullTitle: chosen.full,
-          origin: chosen.origin,
-          articleTitle: chosen.origin === 'fallback-fr' ? subject.seedTitle : chosen.label,
-          body: subject.body,
-          extract: subject.extract,
-          source: frSource,
-          article: 'fallback-fr',
-        };
+      let article: ArticleText | null = ownArticle(subject, language);
+      const isOwn = article !== null;
+      if (!article) {
+        for (const code of articleFallbackOrder(language, forms?.originLanguages ?? [])) {
+          if (code === 'fr') {
+            article = french;
+          } else if (code === 'en' || code === 'ar') {
+            article = ownArticle(subject, code);
+          } else {
+            const title = forms?.sitelinks[code];
+            article = title ? articleText(pagesByLanguage.get(code)?.get(title), code) : null;
+          }
+          if (article) break;
+        }
       }
+      const chosenArticle = article ?? french;
+      result[language] = {
+        choice,
+        living,
+        forms,
+        articleTitle: chosenArticle.title,
+        body: chosenArticle.body,
+        extract: chosenArticle.extract,
+        source: chosenArticle.source,
+        article: isOwn ? 'wikipedia' : 'other-language',
+      };
     }
     out.set(subject, result);
   }
   return out;
-}
-
-const normalizeOption = (value: string): string =>
-  value.normalize('NFKC').trim().toLowerCase().replace(/\s+/g, ' ');
-
-/**
- * Option labels of a question in one language, consistent with the answer: the label of the same
- * item as in French. Two identical labels are told apart with the full article title (e.g.
- * "Mercury (planet)"), and as a last resort by the French label.
- */
-function localizedOptions(
-  options: { label: string; translations: SubjectTranslations }[],
-  language: TranslatedLanguage,
-): { labels: string[]; origins: TranslationOrigin[] } {
-  const labels = options.map((option) => option.translations[language].label);
-  const origins = options.map((option) => option.translations[language].origin);
-  const duplicated = (): Set<number> => {
-    const seen = new Map<string, number[]>();
-    labels.forEach((label, index) => {
-      const key = normalizeOption(label);
-      seen.set(key, [...(seen.get(key) ?? []), index]);
-    });
-    return new Set([...seen.values()].filter((list) => list.length > 1).flat());
-  };
-
-  for (const index of duplicated()) {
-    const full = options[index]?.translations[language].fullTitle;
-    if (full && full !== labels[index] && full.length <= MAX_LABEL) {
-      labels[index] = full;
-    }
-  }
-  for (const index of duplicated()) {
-    labels[index] = options[index]?.label as string;
-    origins[index] = 'fallback-fr';
-  }
-  return { labels, origins };
 }
 
 // ---------------------------------------------------------------- main
@@ -859,7 +1039,11 @@ async function main(): Promise<void> {
   const taxonomy = await fetchTaxonomy(living.map((subject) => subject.qid as string));
 
   // 5c. English and Arabic content of the same items (Wikidata sitelinks and labels).
-  const translations = await fetchTranslations(selected, taxonomy);
+  console.log(`Fetching scientific and original names of ${selected.length} items…`);
+  const itemForms = await fetchItemForms(
+    selected.flatMap((subject) => (subject.qid ? [subject.qid] : [])),
+  );
+  const translations = await fetchTranslations(selected, taxonomy, itemForms);
 
   // 6. Questions.
   const candidates: (Candidate & { subject: (typeof selected)[number] })[] = selected.map(
@@ -871,9 +1055,11 @@ async function main(): Promise<void> {
       label: subject.label,
       pageId: subject.pageId,
       qid: subject.qid,
-      complete: TRANSLATED_LANGUAGES.every(
-        (language) =>
-          (translations.get(subject) as SubjectTranslations)[language].origin !== 'fallback-fr',
+      forms: Object.fromEntries(
+        TRANSLATED_LANGUAGES.map((language) => [
+          language,
+          formKey((translations.get(subject) as SubjectTranslations)[language].choice),
+        ]),
       ),
       ...(LIVING_CATEGORIES.has(subject.category) && subject.qid && taxonomy.has(subject.qid)
         ? {
@@ -925,23 +1111,31 @@ async function main(): Promise<void> {
       ? `${PHRASES.correctAnswer.fr} : ${subject.label}. ${sentence}`
       : `${PHRASES.correctAnswer.fr} : ${subject.label}. ${PHRASES.sourceFallback.fr}`;
 
-    const optionItems = options.map((option) => ({
-      label: option.label,
-      translations: translations.get(option.subject) as SubjectTranslations,
-    }));
+    const optionInputs = options.map((option) => option.subject);
     const own = translations.get(subject) as SubjectTranslations;
     const translated: Partial<Record<TranslatedLanguage, QuestionTranslation>> = {};
+    const unavailable: Partial<Record<TranslatedLanguage, string>> = {};
     for (const language of TRANSLATED_LANGUAGES) {
       const content = own[language];
-      const { labels, origins } = localizedOptions(optionItems, language);
+      const resolved = resolveOptions(
+        optionInputs.map((option) => {
+          const item = (translations.get(option) as SubjectTranslations)[language];
+          return { choice: item.choice, living: item.living, forms: item.forms };
+        }),
+        correctIndex,
+        language,
+      );
+      if (!resolved.ok) {
+        unavailable[language] = resolved.reason;
+        continue;
+      }
+      const { labels, origins, langs } = resolved;
       const answer = labels[correctIndex] as string;
       const prefix = `${PHRASES.correctAnswer[language]}: ${answer}. `;
       const limit = Math.min(430, 495 - prefix.length);
-      const localizedSentence = firstSentence(
-        content.extract,
-        limit,
-        content.article === 'wikipedia' ? language : 'fr',
-      );
+      // The explanation stays in the room language: a sentence only from an article in it.
+      const localizedSentence =
+        content.article === 'wikipedia' ? firstSentence(content.extract, limit, language) : '';
       const questionText = QUESTION_TEXT[subject.question]?.[language];
       const alt = ALT_TEXT[subject.alt]?.[language];
       if (!questionText || !alt) {
@@ -960,6 +1154,7 @@ async function main(): Promise<void> {
         provenance: {
           label: origins[correctIndex] as TranslationOrigin,
           options: origins,
+          optionLanguages: langs,
           article: content.article,
         },
       };
@@ -991,6 +1186,7 @@ async function main(): Promise<void> {
         retrievedAt: subject.fetchedAt,
       },
       translations: translated,
+      ...(Object.keys(unavailable).length > 0 ? { unavailable } : {}),
     });
   }
 
@@ -1089,74 +1285,83 @@ async function writeReport(
   await writeFile(REPORT, await formatJson(report, REPORT), 'utf8');
 }
 
-type Origin = 'wikipedia' | 'wikidata' | 'fallback-fr';
+type OriginCounts = Record<TranslationOrigin, number>;
 
-interface OriginCounts {
-  wikipedia: number;
-  wikidata: number;
-  'fallback-fr': number;
-}
+const blankOrigins = (): OriginCounts => ({
+  wikipedia: 0,
+  wikidata: 0,
+  'scientific-name': 0,
+  'native-name': 0,
+});
 
-const blankOrigins = (): OriginCounts => ({ wikipedia: 0, wikidata: 0, 'fallback-fr': 0 });
+const bump = (counts: Record<string, number>, key: string): void => {
+  counts[key] = (counts[key] ?? 0) + 1;
+};
 
 /**
  * Per language and per category: where every answer label, every distractor label and every
- * article of the translations comes from, plus the list of questions that fall back to French.
+ * article of the translations comes from (D-108), the languages of the original names, and the
+ * questions not offered in that language with the reason.
  */
 function translationReport(questions: QuestionRecord[]): Record<string, unknown> {
   const report: Record<string, unknown> = {};
   for (const language of TRANSLATED_LANGUAGES) {
     const labels = blankOrigins();
     const options = blankOrigins();
-    const articles = { wikipedia: 0, 'fallback-fr': 0 };
+    const articles: Record<string, number> = {};
+    const nativeNameLanguages: Record<string, number> = {};
     const categories: Record<
       string,
-      { questions: number; labels: OriginCounts; options: OriginCounts; articles: typeof articles }
+      {
+        questions: number;
+        unavailable: number;
+        labels: OriginCounts;
+        options: OriginCounts;
+        articles: Record<string, number>;
+      }
     > = {};
-    const fallbacks: Array<{
-      id: string;
-      subject: string;
-      label: Origin;
-      article: string;
-      optionFallbacks: number;
-    }> = [];
+    const fallbacks: Array<{ id: string; subject: string; label: string; article: string }> = [];
+    const unavailable: Array<{ id: string; subject: string; reason: string }> = [];
 
     for (const question of questions) {
-      const translation = question.translations?.[language];
-      if (!translation) {
-        continue;
-      }
       const entry = (categories[question.category] ??= {
         questions: 0,
+        unavailable: 0,
         labels: blankOrigins(),
         options: blankOrigins(),
-        articles: { wikipedia: 0, 'fallback-fr': 0 },
+        articles: {},
       });
+      const translation = question.translations?.[language];
+      if (!translation) {
+        entry.unavailable += 1;
+        unavailable.push({
+          id: question.id,
+          subject: question.subject,
+          reason: question.unavailable?.[language] ?? 'missing',
+        });
+        continue;
+      }
       const provenance = translation.provenance;
       entry.questions += 1;
       labels[provenance.label] += 1;
       entry.labels[provenance.label] += 1;
-      articles[provenance.article] += 1;
-      entry.articles[provenance.article] += 1;
-      let optionFallbacks = 0;
-      for (const origin of provenance.options) {
+      const articleKey =
+        provenance.article === 'wikipedia' ? 'own' : `other:${translation.source.language}`;
+      bump(articles, articleKey);
+      bump(entry.articles, articleKey);
+      provenance.options.forEach((origin, index) => {
         options[origin] += 1;
         entry.options[origin] += 1;
-        if (origin === 'fallback-fr') {
-          optionFallbacks += 1;
+        if (origin === 'native-name') {
+          bump(nativeNameLanguages, provenance.optionLanguages[index] ?? '?');
         }
-      }
-      if (
-        provenance.label === 'fallback-fr' ||
-        provenance.article === 'fallback-fr' ||
-        optionFallbacks > 0
-      ) {
+      });
+      if (provenance.label !== 'wikipedia' && provenance.label !== 'wikidata') {
         fallbacks.push({
           id: question.id,
           subject: question.subject,
-          label: provenance.label,
-          article: provenance.article,
-          optionFallbacks,
+          label: `${provenance.label}:${provenance.optionLanguages[question.correctIndex]}`,
+          article: articleKey,
         });
       }
     }
@@ -1164,9 +1369,12 @@ function translationReport(questions: QuestionRecord[]): Record<string, unknown>
       answerLabels: labels,
       optionLabels: options,
       articles,
+      nativeNameLanguages,
       perCategory: categories,
-      questionsWithAnyFallback: fallbacks.length,
+      answersWithoutOwnName: fallbacks.length,
       fallbacks,
+      notOffered: unavailable.length,
+      unavailable,
     };
   }
   return report;
@@ -1182,7 +1390,7 @@ async function writeCredits(questions: QuestionRecord[]): Promise<void> {
     '',
     '## Contenu des questions (Wikipédia et Wikimedia Commons)',
     '',
-    `Les textes (réponses, explications, articles) proviennent de Wikipédia (${LANG}, et ${TRANSLATED_LANGUAGES.join(', ')} pour les traductions), disponibles sous licence [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr). Chaque question conserve le permalien de la révision de l’article utilisée, pour chaque langue (champ \`source\` de \`data/questions.json\` et \`translations.<langue>.source\`). Les libellés sans article dans une langue viennent de Wikidata ([CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.fr)) ; l’origine de chaque libellé est enregistrée dans \`translations.<langue>.provenance\`.`,
+    `Les textes (réponses, explications, articles) proviennent de Wikipédia (${LANG}, et ${TRANSLATED_LANGUAGES.join(', ')} pour les traductions), disponibles sous licence [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr). Chaque question conserve le permalien de la révision de l’article utilisée, pour chaque langue (champ \`source\` de \`data/questions.json\` et \`translations.<langue>.source\`). Les libellés sans article dans une langue viennent de Wikidata ([CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.fr)) : libellé, nom scientifique (P225) ou nom d’origine (P1705, P1448, P1559, libellé dans la langue d’origine) ; l’origine de chaque libellé est enregistrée dans \`translations.<langue>.provenance\`. Quand une langue n’a pas d’article, l’article d’une autre langue est utilisé et crédité (« ar → en »).`,
     '',
     'Les images proviennent de Wikimedia Commons ; auteur, licence et page du fichier sont listés ci-dessous (généré par `pnpm data:wikipedia`, ne pas éditer à la main).',
     '',
@@ -1206,9 +1414,10 @@ async function writeCredits(questions: QuestionRecord[]): Promise<void> {
       }
       const links = TRANSLATED_LANGUAGES.map((language) => {
         const translation = question.translations?.[language];
-        return translation?.provenance.article === 'wikipedia'
+        if (!translation) return '—';
+        return translation.provenance.article === 'wikipedia'
           ? `[${language}](${translation.source.url})`
-          : '—';
+          : `${language} → [${translation.source.language}](${translation.source.url})`;
       });
       lines.push(
         `| ${escape(question.subject)} | ${escape(image.author ?? image.credit)} | ${escape(image.license)} | [Commons](${image.sourceUrl}) | [${LANG}](${source.url}) | ${links.join(' | ')} |`,
