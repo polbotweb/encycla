@@ -16,7 +16,7 @@ Encycla mélange du **code** (le nôtre), du **contenu** (Wikipédia, Wikidata, 
 
 Le dépôt est publié sous licence MIT. Elle s'applique au code écrit pour Encycla, pas au contenu ni aux dépendances.
 
-> Le dépôt d'origine (`Ishaq74/encycla`) ne portait pas de licence. Le choix de la licence MIT pour le code qui en dérive appartient aux titulaires des droits de ces premiers commits ; il doit être confirmé par eux (voir le README, « Ce que le propriétaire doit encore fournir »).
+> Titulaire des droits : **Ishaq74** (auteur du dépôt d'origine `Ishaq74/encycla`), qui a confirmé la licence MIT, et les contributeurs d'Encycla. Notice : `Copyright (c) 2026 Ishaq74 and Encycla contributors`.
 
 ## 2. Le contenu : CC BY-SA 4.0 et licences Commons
 

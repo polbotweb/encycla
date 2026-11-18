@@ -131,7 +131,6 @@ Ce qui reste, et qui ne peut pas être fait sans décision ou sans compte extern
 
 ### Ce que le propriétaire doit encore fournir
 
-- **Licence du code** : confirmer la licence MIT, en particulier pour les premiers commits du dépôt d'origine `Ishaq74/encycla` (publié sans licence) ; ajuster si besoin la ligne de copyright de [`LICENSE`](LICENSE).
 - **Hébergement** : un serveur (ou VM) avec Docker, un **nom de domaine** pointant vers lui (ports 80/443 ouverts) ; reporter le domaine dans `DOMAIN` et `PUBLIC_ORIGIN=https://<domaine>`.
 - **Secrets** dans `.env` (jamais commité) : `ADMIN_TOKEN` (`openssl rand -hex 32`).
 - **TikTok, seulement si utilisé** : décision d'utiliser un client non officiel sous AGPL ([docs/LICENSES.md](docs/LICENSES.md) §3), un **compte TikTok dédié**, son cookie `TIKTOK_SESSION_COOKIE` (`sessionid=…; tt-target-idc=…`), `TIKTOK_USERNAME`, et en option une clé Euler Stream `TIKTOK_SIGN_API_KEY` ; image construite avec `WITH_TIKTOK=true`.
@@ -329,7 +328,7 @@ Détail et estimation dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLA
 
 ## Licence et crédits
 
-- **Code** : licence [MIT](LICENSE).
+- **Code** : licence [MIT](LICENSE), © 2026 Ishaq74 et les contributeurs d'Encycla.
 - **Questions et articles** : textes de Wikipédia (fr, en, ar) sous **CC BY-SA 4.0**, libellés Wikidata sous CC0 ; permalien de révision par question et par langue, liste dans [CREDITS.md](CREDITS.md).
 - **Images** : Wikimedia Commons, licence de chaque fichier (CC0, domaine public, CC BY, CC BY-SA), crédit affiché sous chaque image et listé dans `CREDITS.md`.
 - **Polices** : Merriweather, Inter, Noto Sans Arabic, Noto Naskh Arabic, SIL Open Font License.
