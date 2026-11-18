@@ -15,7 +15,9 @@ import type { Persistence } from './persistence/repositories';
 import type { QueueManager } from './matchmaking/QueueManager';
 import type { TikTokPort } from './tiktok/service';
 import { RoomManager } from './rooms/RoomManager';
-import { FixedWindowLimiter, httpRateLimit } from './security/rateLimit';
+import { FixedWindowLimiter, apiRateLimit, httpRateLimit } from './security/rateLimit';
+import { RATE_LIMITS } from './security/limits';
+import { extractBearerToken } from './security/tokens';
 import { SessionService } from './services/session-service';
 import { ImageService } from './images/service';
 
@@ -61,7 +63,8 @@ export function createApp(options: AppOptions = {}): Express {
     });
   const rateLimit = options.rateLimit ?? true;
   const images =
-    options.images ?? new ImageService({ now, rateLimitPerMinute: rateLimit ? 300 : null });
+    options.images ??
+    new ImageService({ now, rateLimitPerMinute: rateLimit ? RATE_LIMITS.imagesPerIp : null });
   const manager =
     options.manager ??
     new RoomManager({
@@ -108,8 +111,25 @@ export function createApp(options: AppOptions = {}): Express {
   app.use(express.json({ limit: '16kb' }));
 
   if (rateLimit) {
-    app.use('/api', httpRateLimit(new FixedWindowLimiter(100, 60_000, now)));
-    app.post('/api/sessions', httpRateLimit(new FixedWindowLimiter(10, 60_000, now)));
+    // Monitoring probes are never limited; admin routes get their own strict budget.
+    app.use(
+      '/api',
+      apiRateLimit({
+        now,
+        sessionOf: (request) => sessions.peek(extractBearerToken(request.get('authorization'))),
+        anonymousPerIp: RATE_LIMITS.apiAnonymousPerIp,
+        perSession: RATE_LIMITS.apiPerSession,
+        perIpCeiling: RATE_LIMITS.apiPerIpCeiling,
+        exempt: (request) => request.path === '/health',
+      }),
+    );
+    app.post(
+      '/api/sessions',
+      httpRateLimit(new FixedWindowLimiter(RATE_LIMITS.sessionCreatePerIp, 60_000, now)),
+    );
+    const admin = httpRateLimit(new FixedWindowLimiter(RATE_LIMITS.adminPerIp, 60_000, now));
+    app.use('/api/admin', admin);
+    app.post('/api/tiktok/rooms', admin);
   }
 
   app.use(images.router());

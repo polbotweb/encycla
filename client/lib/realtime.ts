@@ -68,6 +68,15 @@ export function connectPlayerSocket(token: string): void {
       next.disconnect();
       return;
     }
+    if (code === 'RATE_LIMITED') {
+      // A refused handshake is not retried by Socket.io: try again shortly (D-118).
+      setTimeout(
+        () => {
+          if (!next.connected) next.connect();
+        },
+        5_000 + Math.random() * 5_000,
+      );
+    }
     useGameStore.getState().setConnection('reconnecting');
   });
   next.on('disconnect', (reason) => {

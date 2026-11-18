@@ -138,6 +138,17 @@ export class SessionService {
     return { playerId, pseudo, token, expiresAt };
   }
 
+  /** Player id of a valid, unexpired session token; no side effect (rate-limit keys, D-118). */
+  peek(token: string | null): string | null {
+    if (!token || !isSessionToken(token)) return null;
+    try {
+      const session = this.options.persistence.sessions.findByTokenHash(hashToken(token));
+      return session && session.expiresAt > this.now() ? session.playerId : null;
+    } catch {
+      return null;
+    }
+  }
+
   authenticate(token: string | null): AuthenticatedSession {
     if (!token) {
       throw new SessionError('AUTH_REQUIRED', 'Authentication is required.');

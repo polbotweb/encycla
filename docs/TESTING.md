@@ -649,7 +649,7 @@ Une fonctionnalité est terminée si :
 
 L'adaptateur réel est testé sans réseau dans `tests/tiktok/connector.test.ts` : `tiktokSetup` câble `LiveTikTokAdapter` sur le live nommé par la room, avec un `tiktok-live-connector` simulé (options, conversion des messages, déconnexions).
 
-Les deux serveurs de test tournent avec `RATE_LIMIT=off` : tous les navigateurs partagent `127.0.0.1` et la limite de 100 requêtes/min/IP. CI : job `e2e` (`pnpm test:e2e:desktop`) et job `e2e-mobile` (`pnpm test:e2e:mobile`).
+Les deux serveurs de test tournent avec `RATE_LIMIT=off` : tous les navigateurs partagent `127.0.0.1` et les budgets par IP (D-118). CI : job `e2e` (`pnpm test:e2e:desktop`) et job `e2e-mobile` (`pnpm test:e2e:mobile`).
 
 ### Passe « production » locale
 

@@ -58,7 +58,7 @@ export class ImageService {
       ...(options.maxMemoryBytes === undefined ? {} : { maxMemoryBytes: options.maxMemoryBytes }),
     });
     this.fetcher = options.fetcher ?? ((url, init) => fetch(url, init));
-    const perMinute = options.rateLimitPerMinute === undefined ? 300 : options.rateLimitPerMinute;
+    const perMinute = options.rateLimitPerMinute === undefined ? 1200 : options.rateLimitPerMinute;
     this.limiter = perMinute === null ? null : new FixedWindowLimiter(perMinute, 60_000, this.now);
   }
 

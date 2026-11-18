@@ -66,10 +66,10 @@ describe('HTTP hardening', () => {
     );
   });
 
-  it('rate limits POST /api/sessions at 10 per minute per IP', async () => {
+  it('rate limits POST /api/sessions at 30 per minute per IP', async () => {
     const base = await start({ rateLimit: true });
     const statuses: number[] = [];
-    for (let index = 0; index < 12; index += 1) {
+    for (let index = 0; index < 32; index += 1) {
       const response = await fetch(`${base}/api/sessions`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -77,8 +77,8 @@ describe('HTTP hardening', () => {
       });
       statuses.push(response.status);
     }
-    expect(statuses.slice(0, 10).every((status) => status === 201)).toBe(true);
-    expect(statuses.slice(10)).toEqual([429, 429]);
+    expect(statuses.slice(0, 30).every((status) => status === 201)).toBe(true);
+    expect(statuses.slice(30)).toEqual([429, 429]);
   });
 
   it('requires a valid admin bearer token on admin routes', async () => {

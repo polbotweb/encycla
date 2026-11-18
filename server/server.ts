@@ -8,6 +8,7 @@ import { QueueManager } from './matchmaking/QueueManager';
 import { Gateway } from './realtime/gateway';
 import { RoomManager, type RoomEmitter } from './rooms/RoomManager';
 import { RoomTokenRegistry } from './security/roomTokens';
+import { RATE_LIMITS } from './security/limits';
 import { SessionService } from './services/session-service';
 import { createMemoryPersistence } from './persistence/db';
 import type { Persistence } from './persistence/repositories';
@@ -68,7 +69,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
       now,
       cacheDir: options.imageCacheDir ?? null,
       ...(options.imageTokenSecret ? { tokenSecret: options.imageTokenSecret } : {}),
-      rateLimitPerMinute: options.rateLimit === false ? null : 300,
+      rateLimitPerMinute: options.rateLimit === false ? null : RATE_LIMITS.imagesPerIp,
       ...(options.imageCacheMaxBytes === undefined
         ? {}
         : { maxDiskBytes: options.imageCacheMaxBytes }),
@@ -155,6 +156,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
     queue: matchmaking,
     ...(options.rateLimit === undefined ? {} : { rateLimit: options.rateLimit }),
     ...(options.allowedOrigin === undefined ? {} : { allowedOrigin: options.allowedOrigin }),
+    ...(typeof options.trustProxy === 'number' ? { trustProxy: options.trustProxy } : {}),
   });
   if (options.restoreRooms) {
     const restored = manager.restore();

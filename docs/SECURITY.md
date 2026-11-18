@@ -191,7 +191,7 @@ Les images passent par le proxy same-origin `/img` (DECISIONS D-107) : le naviga
 - Largeurs autorisées : 330, 500, 960 (`?w=`, sinon 400) ; une vignette n'est jamais agrandie.
 - Contenu : JPEG ou PNG reconnu par ses octets magiques, sinon 502. EXIF, XMP, IPTC, commentaires JPEG et chunks `tEXt`/`zTXt`/`iTXt`/`eXIf`/`tIME` retirés ; bourrage nul déterministe par jeton et largeur (0-16 Ko après la fin d'image) pour que taille et hash ne correspondent pas au fichier public.
 - En-têtes de réponse : `Content-Type` sniffé, `Cache-Control: private, max-age=<durée restante du jeton>`, `ETag` dérivé du jeton (HMAC, `304` sur `If-None-Match`), `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer` ; aucun en-tête amont recopié (pas de `Content-Disposition`, `Last-Modified`, métadonnées Swift). Jeton inconnu ou expiré : `404` `no-store`.
-- Rate limiting : 300 requêtes/min/IP sur `/img` (§8).
+- Rate limiting : 1 200 requêtes/min/IP sur `/img` (§8).
 - Risque résiduel assumé : reconnaissance visuelle de l'image (recherche inversée).
 - En cas d'image indisponible : placeholder local.
 
@@ -304,14 +304,19 @@ Cross-Origin-Resource-Policy: same-origin
 
 | Portée | Limite | Stockage |
 | --- | --- | --- |
-| HTTP par IP | 100/min | mémoire |
-| Sessions par IP | 10/min | mémoire |
-| Images `/img` par IP | 300/min | mémoire |
+| `/api` avec session valide | 120/min par session | mémoire |
+| `/api` sans session (ou jeton forgé) | 120/min par IP | mémoire |
+| `/api` plafond, toutes sessions d'une IP | 1 200/min par IP | mémoire |
+| `GET /api/health` | aucune limite (sondes) | — |
+| Création de session `POST /api/sessions` | 30/min par IP | mémoire |
+| Admin et streamer (`/api/admin/*`, `POST /api/tiktok/rooms`) | 30/min par IP | mémoire |
+| Images `/img` | 1 200/min par IP | mémoire |
+| Fichiers statiques (JS, CSS, polices) | aucune limite | — |
 | Rooms par session | 10/min | mémoire |
-| Join par IP | 10/min | mémoire |
 | File par session | 20/min | mémoire |
-| Connexions socket par IP | 20/min, 5 simultanées | mémoire |
-| Événements socket | 10/s, burst 20 | par socket |
+| `ROOM_JOIN` | 10/min par joueur et 60/min par IP | mémoire |
+| Connexions socket (handshakes) | 120/min par IP | mémoire |
+| Événements socket | 10/s, burst 20 | par connexion |
 | Réponses | 1/question/joueur | état de room |
 | Continues | 1/phase/joueur | état de room |
 | Votes small room | 1/proposition/joueur | état de room |
@@ -319,10 +324,11 @@ Cross-Origin-Resource-Policy: same-origin
 | File publique | 500 joueurs | mémoire |
 | Viewers TikTok | 100/room | état de room |
 
-- En dépassement : `RATE_LIMITED`.
-- Un abus répété : déconnexion et blocage temporaire de l'IP (5 min).
+- En dépassement : `RATE_LIMITED` (HTTP 429 avec `Retry-After: 60`, ack ou `connect_error` côté socket ; le client retente seul un handshake refusé après 5 à 10 s).
+- Toutes les valeurs sont dans `server/security/limits.ts` (D-118).
+- **IP partagées** (école, bureau, NAT d'opérateur mobile) : un joueur connecté est compté sur **sa session** (jeton Bearer vérifié en base, pas un cookie : l'app n'en pose aucun), le plafond par IP est dix fois plus haut. Un jeton forgé n'est pas une session et retombe dans le budget anonyme par IP.
+- L'IP est celle du client selon `TRUST_PROXY`, aussi pour Socket.io (même règle de sauts qu'Express sur `X-Forwarded-For`). Sans `TRUST_PROXY` derrière un proxy, tout le monde partage l'IP du proxy.
 - Les compteurs sont remis à zéro au redémarrage (une instance).
-- Les routes admin ont une limite séparée : 30/min.
 
 ## 9. Gestion des secrets
 

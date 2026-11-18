@@ -99,6 +99,16 @@ describe('SessionService', () => {
     expectSessionError(() => service.authenticate('not-a-session'), 'AUTH_INVALID');
     expectSessionError(() => service.authenticate(`sess_${'b'.repeat(43)}`), 'AUTH_INVALID');
   });
+  it('peeks at a session for rate-limit keys without touching it', () => {
+    const { service, setNow } = makeService();
+    const created = service.create('Ada');
+    expect(service.peek(created.token)).toBe(created.playerId);
+    expect(service.peek(null)).toBeNull();
+    expect(service.peek('forged')).toBeNull();
+    expect(service.peek(`sess_${'b'.repeat(43)}`)).toBeNull();
+    setNow(1_000 + SESSION_TTL_MS + 1);
+    expect(service.peek(created.token)).toBeNull();
+  });
 });
 
 describe('session HTTP routes', () => {

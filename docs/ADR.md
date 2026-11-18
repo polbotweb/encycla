@@ -674,7 +674,7 @@ Le prototype expose la clé Gemini dans le bundle client, rend `articleBody` via
 3. Les réponses correctes ne quittent jamais le serveur avant `REVEAL`.
 4. `articleBody` est du texte brut rendu par React. Interdiction de `dangerouslySetInnerHTML`.
 5. CSP stricte, `helmet`, CORS restreint à `PUBLIC_ORIGIN` en production, corps HTTP limité à 16 Ko.
-6. Rate limiting : 100 requêtes HTTP/min/IP, 10 événements socket/s par socket, 10 créations de session/min/IP, 10 tentatives de join/min/IP. Bucket mémoire en v1.
+6. Rate limiting : 100 requêtes HTTP/min/IP, 10 événements socket/s par socket, 10 créations de session/min/IP, 10 tentatives de join/min/IP. Bucket mémoire en v1. (Valeurs remplacées par D-118 : limites par route et par session, `server/security/limits.ts`.)
 7. Les codes de room ne sont pas une authentification. Les rooms privées restent accessibles par code, avec rate limit sur les tentatives.
 8. Les tokens de session et les tokens overlay/control sont hachés au repos et jamais loggués.
 9. Les pseudos sont normalisés, limités à 24 graphèmes, sans caractères de contrôle ni chevrons ; React échappe le rendu.

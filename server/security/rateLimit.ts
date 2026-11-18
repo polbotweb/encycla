@@ -67,6 +67,64 @@ export class TokenBucket {
   }
 }
 
+/**
+ * `/api` limiter (D-118): requests with a valid session count against that session, plus a high
+ * per-IP ceiling; anonymous requests count against their IP. A forged bearer token is not a
+ * session, so it falls into the anonymous bucket.
+ */
+export function apiRateLimit(options: {
+  now: () => number;
+  sessionOf: (request: Request) => string | null;
+  anonymousPerIp: number;
+  perSession: number;
+  perIpCeiling: number;
+  exempt?: (request: Request) => boolean;
+}) {
+  const anonymous = new FixedWindowLimiter(options.anonymousPerIp, 60_000, options.now);
+  const sessions = new FixedWindowLimiter(options.perSession, 60_000, options.now);
+  const ceiling = new FixedWindowLimiter(options.perIpCeiling, 60_000, options.now);
+  return (request: Request, response: Response, next: NextFunction): void => {
+    if (options.exempt?.(request)) {
+      next();
+      return;
+    }
+    const ip = clientIp(request);
+    const session = options.sessionOf(request);
+    const allowed = session
+      ? sessions.hit(`s:${session}`) && ceiling.hit(ip)
+      : anonymous.hit(ip) && ceiling.hit(ip);
+    if (allowed) {
+      next();
+      return;
+    }
+    response.setHeader('Retry-After', '60');
+    sendError(response, 429, 'RATE_LIMITED', 'Too many requests.');
+  };
+}
+
+/**
+ * Client address of a raw request (Socket.io handshake) with the same rule as Express
+ * `trust proxy = <hops>`: walk `X-Forwarded-For` from the right, trusting `hops` proxies.
+ */
+export function forwardedIp(
+  remote: string | undefined,
+  forwardedFor: string | string[] | undefined,
+  hops: false | number,
+): string {
+  const socketAddress = remote ?? 'unknown';
+  if (!hops || hops <= 0 || !forwardedFor) return socketAddress;
+  const header = Array.isArray(forwardedFor) ? forwardedFor.join(',') : forwardedFor;
+  const chain = [
+    socketAddress,
+    ...header
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .reverse(),
+  ];
+  return chain[Math.min(hops, chain.length - 1)] ?? socketAddress;
+}
+
 export function clientIp(request: Request): string {
   return request.ip ?? request.socket.remoteAddress ?? 'unknown';
 }

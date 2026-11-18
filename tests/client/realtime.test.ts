@@ -61,6 +61,24 @@ describe('player socket', () => {
     expect(socket.disconnects).toBeGreaterThan(0);
   });
 
+  it('retries a handshake refused for rate limiting after a short pause', () => {
+    vi.useFakeTimers();
+    try {
+      const socket = connect();
+      socket.connected = false;
+      const before = socket.connects;
+      socket.serverEmit(
+        'connect_error',
+        Object.assign(new Error('x'), { data: { code: 'RATE_LIMITED' } }),
+      );
+      expect(useGameStore.getState().connection).toBe('reconnecting');
+      vi.advanceTimersByTime(10_000);
+      expect(socket.connects).toBe(before + 1);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('reconnects after a server-side disconnect', () => {
     const socket = connect();
     socket.serverEmit('disconnect', 'io server disconnect');

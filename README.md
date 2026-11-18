@@ -311,7 +311,7 @@ Toute plateforme qui exécute un `Dockerfile` convient si elle offre : **une seu
 - **Sessions** : jetons aléatoires, hachés en base ; un `playerId` fourni par le client n'est jamais cru.
 - **Overlay / console** : jetons propres à une room, dans le fragment d'URL, révoqués à la fermeture ; l'overlay est en lecture seule.
 - **Entrées** : validation Zod de toutes les requêtes et de tous les événements ; pseudos et pseudos TikTok normalisés.
-- **Rate limiting** HTTP (100 requêtes/min/IP sur `/api`) et Socket.io.
+- **Rate limiting** par route, adapté aux IP partagées : `/api` compté par session (120/min) avec un plafond par IP (1 200/min), admin strict (30/min/IP), images souples (1 200/min/IP), statiques et `/api/health` non limités, Socket.io par joueur et par connexion (détail : `docs/SECURITY.md` §8, D-118).
 - **En-têtes** : CSP stricte (`default-src 'self'`, pas de `unsafe-inline` ni `unsafe-eval`), HSTS, Permissions-Policy ; aucun CDN ; aucun `dangerouslySetInnerHTML`.
 - **Secrets** : jamais dans le dépôt (gitleaks en CI), jamais préfixés `VITE_`, jamais dans les logs.
 
@@ -498,7 +498,7 @@ BASE_URL=http://localhost:3000 pnpm test:load
 
 **Les images ne s'affichent pas.** Le serveur doit joindre `upload.wikimedia.org` (sortie HTTPS). Le cache `IMAGE_CACHE_DIR` évite de retélécharger.
 
-**Trop de requêtes (429).** Le rate limiting est de 100 requêtes/min/IP sur `/api`. Derrière un proxy, sans `TRUST_PROXY`, tous les joueurs partagent l'IP du proxy.
+**Trop de requêtes (429).** Les limites sont dans `server/security/limits.ts` (`docs/SECURITY.md` §8). Un joueur connecté est compté sur sa session, donc une classe derrière une même IP passe ; derrière un proxy, sans `TRUST_PROXY`, tous les joueurs partagent quand même l'IP du proxy pour les budgets par IP.
 
 **La catégorie est « Bientôt disponible ».** Moins de 100 questions dans la langue choisie : ajouter des titres ([§12](#12-guide-du-rédacteur-de-contenu)).
 

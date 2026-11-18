@@ -15,7 +15,8 @@ import { AppError, internalApiError, toApiError } from '../http/errors';
 import type { PlayerRecord } from '../persistence/repositories';
 import type { RoomEmitter, RoomManager } from '../rooms/RoomManager';
 import { normalizeRoomCode } from '../rooms/codes';
-import { FixedWindowLimiter, TokenBucket } from '../security/rateLimit';
+import { FixedWindowLimiter, TokenBucket, forwardedIp } from '../security/rateLimit';
+import { RATE_LIMITS } from '../security/limits';
 import type { RoomTokenRegistry } from '../security/roomTokens';
 import { SessionError, type SessionService } from '../services/session-service';
 import type { Logger } from '../util/logger';
@@ -31,8 +32,8 @@ import {
   smallRoomVotePayload,
 } from './payloads';
 
-export const SOCKET_EVENT_RATE = 10;
-export const SOCKET_EVENT_BURST = 20;
+export const SOCKET_EVENT_RATE = RATE_LIMITS.socketEventsPerSecond;
+export const SOCKET_EVENT_BURST = RATE_LIMITS.socketEventsBurst;
 export const CONTROL_CAPABILITIES = [
   'start',
   'pause',
@@ -59,6 +60,8 @@ export interface GatewayOptions {
   allowedOrigin?: string | null;
   /** Per-IP `ROOM_JOIN` limit (default true). Disabled only for load tests. */
   rateLimit?: boolean;
+  /** Proxy hops to trust for the client address, as `TRUST_PROXY` (default none). */
+  trustProxy?: false | number;
 }
 
 type Role = 'player' | 'overlay' | 'control';
@@ -68,6 +71,7 @@ interface SocketData {
   player?: PlayerRecord;
   roomCode?: string;
   bucket: TokenBucket;
+  ip?: string;
 }
 
 type EventsMap = Record<string, (...args: any[]) => void>;
@@ -87,6 +91,8 @@ export class Gateway implements RoomEmitter {
   readonly nsp: Namespace;
   private readonly playerSockets = new Map<string, GameSocket>();
   private readonly joinLimiter: FixedWindowLimiter;
+  private readonly joinIpLimiter: FixedWindowLimiter;
+  private readonly connectLimiter: FixedWindowLimiter;
   private readonly logger: Logger;
   private readonly now: () => number;
 
@@ -96,7 +102,9 @@ export class Gateway implements RoomEmitter {
   ) {
     this.logger = options.logger ?? silentLogger;
     this.now = options.now ?? Date.now;
-    this.joinLimiter = new FixedWindowLimiter(10, 60_000, this.now);
+    this.joinLimiter = new FixedWindowLimiter(RATE_LIMITS.roomJoinPerPlayer, 60_000, this.now);
+    this.joinIpLimiter = new FixedWindowLimiter(RATE_LIMITS.roomJoinPerIp, 60_000, this.now);
+    this.connectLimiter = new FixedWindowLimiter(RATE_LIMITS.socketConnectsPerIp, 60_000, this.now);
     this.nsp = io.of(GAME_NAMESPACE);
     this.nsp.use((socket, next) => this.authenticate(socket as GameSocket, next));
     this.nsp.on('connection', (socket) => this.onConnection(socket as GameSocket));
@@ -167,11 +175,20 @@ export class Gateway implements RoomEmitter {
     const auth = parsed.data;
     const role: Role = auth.role ?? 'player';
     const bucket = new TokenBucket(SOCKET_EVENT_RATE, SOCKET_EVENT_BURST, this.now);
+    const ip = forwardedIp(
+      socket.handshake.address,
+      socket.handshake.headers['x-forwarded-for'],
+      this.options.trustProxy ?? false,
+    );
+    if (this.options.rateLimit !== false && !this.connectLimiter.hit(ip)) {
+      next(connectError('RATE_LIMITED', 'Too many connections.'));
+      return;
+    }
 
     if (role === 'player') {
       try {
         const { player } = this.options.sessions.authenticate(auth.token ?? null);
-        socket.data = { role, player, bucket };
+        socket.data = { role, player, bucket, ip };
         next();
       } catch (error) {
         if (error instanceof SessionError) {
@@ -201,7 +218,7 @@ export class Gateway implements RoomEmitter {
       next(connectError('AUTH_INVALID', 'The token is invalid.'));
       return;
     }
-    socket.data = { role, roomCode: code, bucket };
+    socket.data = { role, roomCode: code, bucket, ip };
     next();
   }
 
@@ -263,8 +280,12 @@ export class Gateway implements RoomEmitter {
   private registerHandlers(socket: GameSocket): void {
     this.on(socket, 'ROOM_JOIN', roomJoinPayload, (payload, ctx) => {
       const player = ctx.requirePlayer();
-      const ip = socket.handshake.address;
-      if (this.options.rateLimit !== false && !this.joinLimiter.hit(ip)) {
+      const ip = socket.data.ip ?? socket.handshake.address;
+      // Per player first (players behind one address share the per-IP budget, D-118).
+      if (
+        this.options.rateLimit !== false &&
+        (!this.joinLimiter.hit(player.id) || !this.joinIpLimiter.hit(ip))
+      ) {
         throw new AppError('RATE_LIMITED', 'Too many join attempts.');
       }
       const code = normalizeRoomCode(payload.code);
