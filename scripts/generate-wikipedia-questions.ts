@@ -60,6 +60,7 @@ import {
   chooseLabel,
   formKey,
   isUsableLang,
+  LONG_NATIVE,
   resolveOptions,
   type LabelChoice,
   type NameForms,
@@ -563,6 +564,54 @@ async function fetchItemForms(qids: string[]): Promise<Map<string, ItemForms>> {
       }
       for (const [site, link] of Object.entries(entity.sitelinks ?? {})) {
         if (link.title && site.endsWith('wiki')) forms.sitelinks[site.slice(0, -4)] = link.title;
+      }
+    }
+  }
+
+  // Short and international forms of long original names (D-109): English label and aliases in
+  // the original languages, only for items that have an original name at all.
+  const named = sorted.filter((qid) => {
+    const forms = entry(qid);
+    return [
+      ...forms.nativeNames.map((name) => name.text),
+      ...Object.values(forms.originLabels),
+    ].some((text) => text.trim().length > LONG_NATIVE);
+  });
+  for (const batch of chunk(named, 10)) {
+    const codes = [
+      ...new Set(
+        batch.flatMap((qid) => [
+          ...entry(qid).originLanguages,
+          ...entry(qid).nativeNames.map((name) => name.lang),
+        ]),
+      ),
+    ]
+      .filter(isUsableLang)
+      .sort()
+      .slice(0, 49);
+    const { body } = await client.get<{
+      entities?: Record<
+        string,
+        {
+          labels?: Record<string, { value?: string }>;
+          aliases?: Record<string, { value?: string }[]>;
+        }
+      >;
+    }>(WIKIDATA_API, {
+      action: 'wbgetentities',
+      ids: batch.join('|'),
+      props: 'labels|aliases',
+      languages: [...new Set(['en', ...codes])].join('|'),
+    });
+    for (const [qid, entity] of Object.entries(body.entities ?? {})) {
+      const forms = out.get(qid);
+      if (!forms) continue;
+      const english = entity.labels?.en?.value?.trim();
+      if (english) forms.englishLabel = english;
+      for (const [code, aliases] of Object.entries(entity.aliases ?? {})) {
+        if (code === 'en') continue;
+        const values = aliases.map((alias) => alias.value?.trim() ?? '').filter(Boolean);
+        if (values.length > 0) (forms.originAliases ??= {})[code] = values;
       }
     }
   }

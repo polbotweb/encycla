@@ -34,6 +34,10 @@ export interface NameForms {
   originLanguages: string[];
   /** Labels of the item in those languages. */
   originLabels: Record<string, string>;
+  /** Wikidata aliases in the original languages (short forms of a long name). */
+  originAliases?: Record<string, string[]>;
+  /** English Wikidata label (international form of a long name in another script). */
+  englishLabel?: string;
 }
 
 export const MAX_LABEL = 80;
@@ -82,6 +86,43 @@ export function displayName(text: string): string {
     : trimmed;
 }
 
+/** An original name longer than this is shortened when a shorter real form exists (D-109). */
+export const LONG_NATIVE = 24;
+
+const LATIN_SCRIPT = /^[\p{Script=Latin}\p{N}\p{P}\p{S}\p{Zs}\p{M}]+$/u;
+
+/**
+ * A shorter real form of an overly long original name, never an invented abbreviation:
+ *   1. written in another script (Thai, Japanese…), the item's English Wikidata label, its
+ *      international form ("Wat Arun" for "วัดอรุณราชวรารามราชวรมหาวิหาร");
+ *   2. otherwise the longest Wikidata alias, in the same language, that the long name starts
+ *      with (its short form), within the limit.
+ * Long Latin-script names with no such alias are kept: they are the genuine name and readable.
+ */
+function shortened(choice: LabelChoice, forms: NameForms, language: string): LabelChoice {
+  if (choice.label.length <= LONG_NATIVE) return choice;
+  const english = forms.englishLabel?.trim();
+  if (
+    !LATIN_SCRIPT.test(choice.label) &&
+    baseLang(language) !== 'en' &&
+    english &&
+    usable(english) &&
+    english.length < choice.label.length
+  ) {
+    return { label: displayName(english), origin: 'native-name', lang: 'en' };
+  }
+  const prefix = (forms.originAliases?.[choice.lang] ?? [])
+    .map((alias) => displayName(alias))
+    .filter(
+      (alias) =>
+        alias.length >= 3 &&
+        alias.length <= LONG_NATIVE &&
+        choice.label.toLocaleLowerCase().startsWith(alias.toLocaleLowerCase()),
+    )
+    .sort((a, b) => b.length - a.length || a.localeCompare(b))[0];
+  return prefix ? { ...choice, label: prefix } : choice;
+}
+
 /** The original name of an item (never in `language` itself: that would be a real label). */
 export function nativeChoice(forms: NameForms | undefined, language: string): LabelChoice | null {
   if (!forms) return null;
@@ -92,7 +133,7 @@ export function nativeChoice(forms: NameForms | undefined, language: string): La
     if (baseLang(lang) === baseLang(language)) {
       continue;
     }
-    return { label, origin: 'native-name', lang };
+    return shortened({ label, origin: 'native-name', lang }, forms, language);
   }
   return null;
 }
