@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  isOfferedIn,
+  offeredIn,
+  optionFormsOf,
   localizeQuestion,
   selectQuestion,
   shuffleOptions,
@@ -125,7 +128,7 @@ describe('question language', () => {
     expect(en?.runtime.options[0]).toMatch(/^EN /);
   });
 
-  it('reports the language of the article text, which is French when it falls back', () => {
+  it('reports the language of the article text, which may be another Wikipedia (D-108)', () => {
     expect(textLanguageOf(question, 'fr')).toBe('fr');
     expect(textLanguageOf(question, 'ar')).toBe('ar');
     const ar = question.translations?.ar;
@@ -134,16 +137,64 @@ describe('question language', () => {
       ...question,
       translations: {
         ...question.translations,
-        ar: { ...ar!, provenance: { ...ar!.provenance, article: 'fallback-fr' as const } },
+        ar: {
+          ...ar!,
+          source: { ...ar!.source, language: 'en' },
+          provenance: { ...ar!.provenance, article: 'other-language' as const },
+        },
       },
     };
-    expect(textLanguageOf(fallback, 'ar')).toBe('fr');
+    expect(textLanguageOf(fallback, 'ar')).toBe('en');
     expect(textLanguageOf(fallback, 'en')).toBe('en');
     const { translations: _translations, ...untranslated } = question;
     void _translations;
     expect(textLanguageOf(untranslated, 'en')).toBe('fr');
     const pick = selectQuestion([fallback], null, [], sequence([0.5]), 'ar');
-    expect(pick?.runtime.textLanguage).toBe('fr');
+    expect(pick?.runtime.textLanguage).toBe('en');
     expect(pick?.runtime.options[0]).toMatch(/^AR /);
+    expect(pick?.runtime.optionForms).toBeUndefined();
+  });
+
+  it('never offers a question in a language it has no translation for', () => {
+    const { translations: _translations, ...untranslated } = question;
+    void _translations;
+    const frenchOnly = { ...untranslated, unavailable: { ar: 'no name', en: 'no name' } };
+    expect(isOfferedIn(frenchOnly, 'fr')).toBe(true);
+    expect(isOfferedIn(frenchOnly, 'ar')).toBe(false);
+    expect(selectQuestion([frenchOnly], null, [], sequence([0.5]), 'ar')).toBeNull();
+    expect(selectQuestion([frenchOnly], null, [], sequence([0.5]), 'fr')).not.toBeNull();
+    expect(offeredIn([frenchOnly, question], 'en')).toEqual([question]);
+  });
+
+  it('carries scientific and original-name forms in the displayed option order', () => {
+    const ar = question.translations!.ar!;
+    const mixed = {
+      ...question,
+      translations: {
+        ...question.translations,
+        ar: {
+          ...ar,
+          provenance: {
+            ...ar.provenance,
+            label: 'scientific-name' as const,
+            options: ['scientific-name', 'scientific-name', 'native-name', 'wikipedia'] as (
+              'scientific-name' | 'native-name' | 'wikipedia'
+            )[],
+            optionLanguages: ['la', 'la', 'ja', 'ar'],
+          },
+        },
+      },
+    };
+    expect(optionFormsOf(mixed, 'ar')).toEqual([
+      { lang: 'la', scientific: true },
+      { lang: 'la', scientific: true },
+      { lang: 'ja' },
+      null,
+    ]);
+    expect(optionFormsOf(mixed, 'fr')).toBeUndefined();
+    const pick = selectQuestion([mixed], null, [], sequence([0.9, 0.1, 0.5, 0.3]), 'ar')!;
+    pick.runtime.optionOrder.forEach((bankIndex, shown) => {
+      expect(pick.runtime.optionForms?.[shown]).toEqual(optionFormsOf(mixed, 'ar')?.[bankIndex]);
+    });
   });
 });

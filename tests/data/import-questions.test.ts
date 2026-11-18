@@ -157,7 +157,8 @@ describe('syncQuestions translations', () => {
           },
           provenance: {
             label: 'wikipedia',
-            options: ['wikipedia', 'wikidata', 'wikidata', 'fallback-fr'],
+            options: ['wikipedia', 'wikidata', 'wikidata', 'native-name'],
+            optionLanguages: ['en', 'en', 'en', 'fr'],
             article: 'wikipedia',
           },
         },

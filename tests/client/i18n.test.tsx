@@ -304,7 +304,7 @@ describe('rendered application', () => {
     expect(code.closest('[dir]')?.getAttribute('dir')).toBe('ltr');
   });
 
-  it('shows a French fallback article in French, left-to-right, with a notice', async () => {
+  it('shows an article from another Wikipedia in its own language, with a notice and a link', async () => {
     act(() => useLanguageStore.getState().setLanguage('ar'));
     const { container } = render(<App />);
     const base = room('ar');
@@ -320,19 +320,88 @@ describe('rendered application', () => {
           questionText: 'ما هذا الفطر؟',
           options: ['A', 'B', 'Typhula', 'D'],
           correctIndex: 2,
-          explanation: 'Typhula est un genre de champignons.',
+          explanation: 'الإجابة الصحيحة: Typhula. المصدر: ويكيبيديا.',
           articleTitle: 'Typhula',
-          articleBody: 'Typhula est un genre de champignons basidiomycètes.',
-          textLanguage: 'fr',
+          articleBody: 'Typhula is a genus of fungi in the family Typhulaceae.',
+          textLanguage: 'en',
+          articleUrl: 'https://en.wikipedia.org/w/index.php?title=Typhula&oldid=1',
+          subjectForm: { lang: 'la', scientific: true },
+          optionForms: [
+            { lang: 'la', scientific: true },
+            { lang: 'la', scientific: true },
+            { lang: 'la', scientific: true },
+            { lang: 'la', scientific: true },
+          ],
           image: null,
         },
       } as PublicRoomState);
     });
     const heading = await screen.findByRole('heading', { name: 'Typhula' });
     const holder = heading.closest('[lang]');
-    expect(holder?.getAttribute('lang')).toBe('fr');
+    expect(holder?.getAttribute('lang')).toBe('en');
     expect(holder?.getAttribute('dir')).toBe('ltr');
-    expect(screen.getByTestId('article-fallback-notice').textContent).toContain('Français');
+    const notice = screen.getByTestId('article-fallback-notice').textContent ?? '';
+    expect(notice).toContain('الإنجليزية');
+    expect(notice).not.toMatch(/fran/i);
+    const link = screen.getByRole('link', { name: /ويكيبيديا/ });
+    expect(link.getAttribute('href')).toBe(
+      'https://en.wikipedia.org/w/index.php?title=Typhula&oldid=1',
+    );
     expect(await violations(container)).toEqual([]);
+  });
+
+  it('renders scientific names in Latin italics, left-to-right, isolated in an Arabic room', async () => {
+    act(() => useLanguageStore.getState().setLanguage('ar'));
+    const { container } = render(<App />);
+    const base = room('ar');
+    const options = [
+      'Amanita muscaria',
+      'Boletus edulis',
+      'Morchella esculenta',
+      'Russula emetica',
+    ];
+    act(() => {
+      useGameStore.getState().setPlayer(ME);
+      useGameStore.getState().applyRoomState({
+        ...base,
+        question: {
+          ...base.question!,
+          questionText: 'ما هذا الفطر؟',
+          options,
+          optionForms: options.map(() => ({ lang: 'la', scientific: true })),
+        },
+      } as PublicRoomState);
+    });
+    for (const option of options) {
+      const term = (await screen.findByText(option)).closest('bdi');
+      expect(term, option).not.toBeNull();
+      expect(term?.getAttribute('lang')).toBe('la');
+      expect(term?.getAttribute('dir')).toBe('ltr');
+      expect(term?.className).toContain('italic');
+    }
+    expect(await violations(container)).toEqual([]);
+  });
+
+  it('isolates an original name in its own script, upright, in an Arabic room', async () => {
+    act(() => useLanguageStore.getState().setLanguage('ar'));
+    render(<App />);
+    const base = room('ar');
+    act(() => {
+      useGameStore.getState().setPlayer(ME);
+      useGameStore.getState().applyRoomState({
+        ...base,
+        question: {
+          ...base.question!,
+          questionText: 'ما هذا المبنى؟',
+          options: ['قصر الحمراء', 'Château de Chambord', 'برج إيفل', 'كاتدرائية نوتردام'],
+          optionForms: [null, { lang: 'fr' }, null, null],
+        },
+      } as PublicRoomState);
+    });
+    const term = (await screen.findByText('Château de Chambord')).closest('bdi');
+    expect(term?.getAttribute('lang')).toBe('fr');
+    expect(term?.getAttribute('dir')).toBe('ltr');
+    expect(term?.className ?? '').not.toContain('italic');
+    expect(screen.getByText('قصر الحمراء').closest('bdi')).toBeNull();
   });
 });

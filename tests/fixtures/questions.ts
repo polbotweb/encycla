@@ -49,6 +49,7 @@ function makeQuestion(
     provenance: {
       label: 'wikipedia',
       options: ['wikipedia', 'wikipedia', 'wikipedia', 'wikipedia'],
+      optionLanguages: [1, 2, 3, 4].map(() => tag.toLowerCase()),
       article: 'wikipedia',
     },
   });
