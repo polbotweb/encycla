@@ -169,6 +169,7 @@ function buildMatchRecord(state: GameState, matchId: string, startedAt: number):
     source: state.isTikTok ? 'tiktok' : 'web',
     category: state.category,
     difficulty: state.difficulty,
+    language: state.language,
     startedAt,
     playerCount: state.joinedPlayerCount,
     settings: { ...state.settings },

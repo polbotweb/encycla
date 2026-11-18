@@ -149,6 +149,44 @@ describe.each(['memory', 'sqlite'] as const)('%s repositories', (kind) => {
     expect(persistence.matches.abandonInProgress(5_000)).toBe(0);
   });
 
+  it('stores the match language and filters the leaderboard by it', () => {
+    const persistence = makePersistence(kind);
+    persistence.players.create(makePlayer('p1', 'Ada'));
+    persistence.players.create(makePlayer('p2', 'Grace'));
+    persistence.matches.create(makeMatch('fr1'), [makeScore('p1', { score: 10 }), makeScore('p2')]);
+    persistence.matches.complete(
+      'fr1',
+      [makeResult('p1', { score: 10 }), makeResult('p2', { rank: 2, score: 0 })],
+      2_000,
+    );
+    persistence.matches.create(makeMatch('ar1', { language: 'ar' }), [
+      makeScore('p1'),
+      makeScore('p2', { score: 70 }),
+    ]);
+    persistence.matches.complete(
+      'ar1',
+      [makeResult('p2', { score: 70 }), makeResult('p1', { rank: 2, score: 0 })],
+      3_000,
+    );
+
+    const arabic = persistence.matches.leaderboard({ language: 'ar' });
+    expect(arabic.map((entry) => entry.matches)).toEqual([1, 1]);
+    expect(
+      persistence.matches.leaderboard({ language: 'fr' }).map((entry) => entry.matches),
+    ).toEqual([1, 1]);
+    expect(persistence.matches.leaderboard({ language: 'en' })).toEqual([]);
+    expect(persistence.matches.leaderboard().map((entry) => entry.matches)).toEqual([2, 2]);
+    if (kind === 'sqlite') {
+      const rows = persistence.db
+        ?.prepare('SELECT id, language FROM matches ORDER BY id')
+        .all() as Array<{ id: string; language: string }>;
+      expect(rows).toEqual([
+        { id: 'ar1', language: 'ar' },
+        { id: 'fr1', language: 'fr' },
+      ]);
+    }
+  });
+
   it('replaces and lists questions', () => {
     const persistence = makePersistence(kind);
     const questions = TEST_QUESTIONS.slice(0, 2);

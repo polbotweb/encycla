@@ -41,6 +41,7 @@ interface MemoryMatch {
   category: string | null;
   difficulty: MatchRecord['difficulty'];
   source: Provider;
+  language: MatchRecord['language'];
   playerCount: number;
   totalQuestions: number;
   status: 'in_progress' | 'completed' | 'abandoned';
@@ -223,6 +224,7 @@ export class MemoryMatchRepository implements MatchRepository {
       category: match.category,
       difficulty: match.difficulty,
       source: match.source,
+      language: match.language,
       playerCount: match.playerCount,
       totalQuestions: totalQuestions(match.mode),
       status: 'in_progress',
@@ -331,6 +333,9 @@ export class MemoryMatchRepository implements MatchRepository {
         continue;
       }
       if (filter.source != null && match.source !== filter.source) {
+        continue;
+      }
+      if (filter.language != null && match.language !== filter.language) {
         continue;
       }
 

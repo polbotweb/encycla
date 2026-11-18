@@ -52,6 +52,7 @@ const soloSchema = z
 const leaderboardQuery = z.object({
   mode: z.enum(['CLASSIC', 'SUBJECT', 'CONTEST']).optional(),
   source: z.enum(['web', 'tiktok']).optional(),
+  language: languageSchema.optional(),
   limit: z.coerce.number().int().min(1).max(100).default(50),
   offset: z.coerce.number().int().min(0).default(0),
 });
@@ -128,10 +129,11 @@ export function createGameRouter(options: GameRouterOptions): Router {
       if (options.persistence.kind !== 'sqlite') {
         throw new AppError('PERSISTENCE_DISABLED', 'Persistence is disabled.');
       }
-      const { mode, source, limit, offset } = parsed.data;
+      const { mode, source, language, limit, offset } = parsed.data;
       const entries = options.persistence.matches.leaderboard({
         mode: mode ?? null,
         source: source ?? null,
+        language: language ?? null,
         limit,
         offset,
       });

@@ -133,6 +133,8 @@ export interface MatchRecord {
   source: 'web' | 'tiktok';
   category: string | null;
   difficulty: Difficulty | null;
+  /** Language of the questions (room language). */
+  language: Language;
   startedAt: number;
   playerCount: number;
   settings: RoomSettings;

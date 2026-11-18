@@ -269,9 +269,9 @@ export class SqliteMatchRepository implements MatchRepository {
   create(match: MatchRecord, scores: readonly ScoreRecord[], now = match.startedAt): void {
     const insertMatch = this.db.prepare(
       `INSERT INTO matches (
-        id, room_code, mode, category, difficulty, source, player_count, total_questions,
+        id, room_code, mode, category, difficulty, source, language, player_count, total_questions,
         status, winning_player_id, settings_json, protocol_version, created_at, started_at, ended_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'in_progress', NULL, ?, 1, ?, NULL, NULL)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'in_progress', NULL, ?, 1, ?, NULL, NULL)`,
     );
     const insertScore = this.db.prepare(
       `INSERT INTO scores (
@@ -289,6 +289,7 @@ export class SqliteMatchRepository implements MatchRepository {
         match.category,
         match.difficulty,
         match.source,
+        match.language,
         match.playerCount,
         totalQuestions(match.mode),
         JSON.stringify(match.settings),
@@ -468,6 +469,10 @@ export class SqliteMatchRepository implements MatchRepository {
     if (filter.source != null) {
       conditions.push('m.source = ?');
       params.push(filter.source);
+    }
+    if (filter.language != null) {
+      conditions.push('m.language = ?');
+      params.push(filter.language);
     }
 
     const limit = clampLimit(filter.limit);

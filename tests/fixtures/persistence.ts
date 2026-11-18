@@ -38,6 +38,7 @@ export function makeMatch(id: string, overrides: Partial<MatchRecord> = {}): Mat
     source: 'web',
     category: null,
     difficulty: null,
+    language: 'fr',
     startedAt: 1_000,
     playerCount: 2,
     settings: {

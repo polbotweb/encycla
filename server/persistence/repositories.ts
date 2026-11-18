@@ -1,4 +1,5 @@
 import type Database from 'better-sqlite3';
+import type { Language } from '../../shared/languages';
 import type { QuestionRecord } from '../../shared/schemas';
 import type { GameMode } from '../../shared/types';
 import type { FinalResult, MatchRecord, ScoreRecord } from '../game/types';
@@ -34,6 +35,8 @@ export type SessionRecord = NewSession;
 export interface LeaderboardFilter {
   mode?: GameMode | null;
   source?: Provider | null;
+  /** Only matches played in this question language. */
+  language?: Language | null;
   limit?: number;
   offset?: number;
 }
