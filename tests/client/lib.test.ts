@@ -78,6 +78,7 @@ describe('parseRoute', () => {
 
   it('opens the leaderboard', () => {
     expect(parseRoute('?mode=leaderboard', '')).toMatchObject({ screen: 'leaderboard' });
+    expect(parseRoute('?mode=admin', '')).toEqual({ kind: 'admin' });
   });
 });
 

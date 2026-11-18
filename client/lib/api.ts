@@ -95,6 +95,39 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   return payload as T;
 }
 
+export interface TikTokStatusView {
+  enabled: boolean;
+  simulated: boolean;
+  connected: boolean;
+  liveUsername: string | null;
+  activeRoomCode: string | null;
+}
+
+export interface TikTokRoomCreated {
+  roomCode: string;
+  liveUsername: string;
+  connected: boolean;
+  overlayToken: string;
+  controlToken: string;
+}
+
+/** Streamer console calls; the admin token is sent per request and never stored. */
+export const adminApi = {
+  tiktokStatus: (adminToken: string) =>
+    request<TikTokStatusView>('/api/admin/tiktok', { token: adminToken }),
+  createTikTokRoom: (
+    adminToken: string,
+    body: Selection & { timerMs?: number; liveUsername?: string },
+  ) => request<TikTokRoomCreated>('/api/tiktok/rooms', { token: adminToken, body }),
+  closeRoom: (adminToken: string, roomCode: string) =>
+    request<void>(`/api/admin/rooms/${encodeURIComponent(roomCode)}/close`, {
+      method: 'POST',
+      token: adminToken,
+    }),
+  simulateChat: (adminToken: string, body: { uniqueId: string; comment: string }) =>
+    request<void>('/api/admin/tiktok/chat', { token: adminToken, body }),
+};
+
 export const api = {
   config: () => request<ConfigResponse>('/api/config'),
   createSession: (pseudo: string) =>

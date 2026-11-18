@@ -1,7 +1,8 @@
 export type AppRoute =
   | { kind: 'player'; screen: 'home' | 'leaderboard'; code: string }
   | { kind: 'overlay'; roomCode: string; token: string }
-  | { kind: 'control'; roomCode: string; token: string; overlayToken: string | undefined };
+  | { kind: 'control'; roomCode: string; token: string; overlayToken: string | undefined }
+  | { kind: 'admin' };
 
 /**
  * `/?mode=overlay&room=CODE#token=...` — the token lives in the fragment so it never reaches
@@ -24,6 +25,9 @@ export function parseRoute(search: string, hash: string): AppRoute {
       token,
       overlayToken: fragment.get('overlay') ?? undefined,
     };
+  }
+  if (mode === 'admin') {
+    return { kind: 'admin' };
   }
   if (mode === 'leaderboard') {
     return { kind: 'player', screen: 'leaderboard', code: '' };

@@ -342,6 +342,42 @@ export const ar: Record<MessageKey, Message> = {
   'control.closeBody': 'ستُلغى المباراة بلا فائز، وستعرض الطبقة أن البث قد انتهى.',
   'control.skipBody': 'يُعدّ اللاعبون الذين لم يجيبوا متجاوزين للوقت.',
 
+  // ---- streamer console (/?mode=admin)
+  'admin.title': 'لوحة البث على تيك توك',
+  'admin.token': 'رمز المسؤول',
+  'admin.tokenHint': 'قيمة ADMIN_TOKEN. تبقى في هذه الصفحة ولا تُحفظ أبدًا.',
+  'admin.unlock': 'فتح',
+  'admin.refresh': 'تحديث',
+  'admin.badToken': 'رُفض رمز المسؤول.',
+  'admin.roomOpen': 'هناك غرفة تيك توك مفتوحة بالفعل. أغلقها أولًا.',
+  'admin.disabled':
+    'وضع تيك توك معطّل على هذا الخادم (اضبط TIKTOK_ENABLED=true لتفعيله). تبقى اللعبة على الويب قابلة للعب بالكامل.',
+  'admin.status': 'حالة البث',
+  'admin.noLive': 'لا يوجد بث متابَع',
+  'admin.simulated': 'دردشة محاكاة (تجربة)',
+  'admin.create': 'غرفة تيك توك جديدة',
+  'admin.live': 'بث تيك توك المراد متابعته',
+  'admin.livePlaceholder': '@اسم_البث',
+  'admin.liveHint':
+    'أي بث مباشر جارٍ: اكتب @ الخاص به. اتركه فارغًا للإبقاء على البث المعروض أعلاه.',
+  'admin.timer': 'الوقت لكل سؤال',
+  'admin.createButton': 'إنشاء الغرفة',
+  'admin.room': 'الغرفة',
+  'admin.overlayLink': 'رابط الواجهة (OBS)',
+  'admin.overlayHint':
+    'في OBS: المصادر ← + ← متصفح، الصق هذا الرابط، بحجم 1080 × 1920 (عمودي) أو 1920 × 1080.',
+  'admin.controlLink': 'رابط لوحة التحكم',
+  'admin.controlHint': 'افتحه على هاتفك أو على شاشة ثانية للبدء والتخطي والإيقاف المؤقت.',
+  'admin.copy': 'نسخ',
+  'admin.open': 'فتح',
+  'admin.roomElsewhere': 'أُنشئت هذه الغرفة في مكان آخر: روابطها لا تظهر هنا.',
+  'admin.closeRoom': 'إغلاق الغرفة',
+  'admin.simTitle': 'محاكي الدردشة',
+  'admin.simHint': 'دردشة محاكاة: أرسل تعليقات كما يفعل المشاهد.',
+  'admin.simViewer': 'اسم المشاهد',
+  'admin.simSay': 'التعليق بـ {letter}',
+  'admin.simSent': 'علّق {name} بـ {letter}.',
+
   // ---- stream overlay
   'overlay.title': 'ENCYCLA مباشر',
   'overlay.live': 'مباشر',

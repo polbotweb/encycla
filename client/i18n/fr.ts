@@ -285,6 +285,44 @@ export const fr = {
     'La partie est abandonnée sans vainqueur et l’overlay indique que le direct est terminé.',
   'control.skipBody': 'Les joueurs sans réponse sont comptés comme hors délai.',
 
+  // ---- streamer console (/?mode=admin)
+  'admin.title': 'Console streamer TikTok',
+  'admin.token': 'Jeton administrateur',
+  'admin.tokenHint':
+    'La valeur de ADMIN_TOKEN. Elle reste dans cette page et n’est jamais enregistrée.',
+  'admin.unlock': 'Déverrouiller',
+  'admin.refresh': 'Actualiser',
+  'admin.badToken': 'Jeton administrateur refusé.',
+  'admin.roomOpen': 'Un salon TikTok est déjà ouvert. Fermez-le d’abord.',
+  'admin.disabled':
+    'Le mode TikTok est désactivé sur ce serveur (TIKTOK_ENABLED=true pour l’activer). Le jeu web reste entièrement jouable.',
+  'admin.status': 'État du live',
+  'admin.noLive': 'Aucun live suivi',
+  'admin.simulated': 'Chat simulé (démo)',
+  'admin.create': 'Nouveau salon TikTok',
+  'admin.live': 'Live TikTok à suivre',
+  'admin.livePlaceholder': '@nom_du_live',
+  'admin.liveHint':
+    'N’importe quel live en cours : son @. Laissez vide pour garder le live affiché ci-dessus.',
+  'admin.timer': 'Temps par question',
+  'admin.createButton': 'Créer le salon',
+  'admin.room': 'Salon',
+  'admin.overlayLink': 'Lien de l’overlay (OBS)',
+  'admin.overlayHint':
+    'Dans OBS : Sources → + → Navigateur, collez ce lien, 1080 × 1920 (vertical) ou 1920 × 1080.',
+  'admin.controlLink': 'Lien de la console',
+  'admin.controlHint':
+    'Ouvrez-le sur votre téléphone ou un second écran pour démarrer, passer, mettre en pause.',
+  'admin.copy': 'Copier',
+  'admin.open': 'Ouvrir',
+  'admin.roomElsewhere': 'Ce salon a été créé ailleurs : ses liens ne sont pas affichés ici.',
+  'admin.closeRoom': 'Fermer le salon',
+  'admin.simTitle': 'Simulateur de chat',
+  'admin.simHint': 'Chat simulé : envoyez des commentaires comme le ferait un spectateur.',
+  'admin.simViewer': 'Pseudo du spectateur',
+  'admin.simSay': 'Commenter {letter}',
+  'admin.simSent': '{name} a commenté {letter}.',
+
   // ---- stream overlay
   'overlay.title': 'ENCYCLA EN DIRECT',
   'overlay.live': 'EN DIRECT',

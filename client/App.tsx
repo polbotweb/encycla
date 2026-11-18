@@ -26,6 +26,9 @@ import type { RoomPhase } from '../shared/types';
 const OverlayView = lazy(() =>
   import('./views/OverlayView').then((module) => ({ default: module.OverlayView })),
 );
+const AdminView = lazy(() =>
+  import('./views/AdminView').then((module) => ({ default: module.AdminView })),
+);
 const ControlView = lazy(() =>
   import('./views/ControlView').then((module) => ({ default: module.ControlView })),
 );
@@ -132,6 +135,13 @@ export default function App() {
     return (
       <Suspense fallback={<main className="min-h-dvh" aria-busy="true" />}>
         <OverlayView roomCode={route.roomCode} token={route.token} />
+      </Suspense>
+    );
+  }
+  if (route.kind === 'admin') {
+    return (
+      <Suspense fallback={<main className="min-h-dvh" aria-busy="true" />}>
+        <AdminView />
       </Suspense>
     );
   }
