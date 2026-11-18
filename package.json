@@ -1,6 +1,7 @@
 {
   "name": "encycla",
   "private": true,
+  "license": "MIT",
   "version": "0.0.0",
   "packageManager": "pnpm@10.28.0",
   "type": "module",
@@ -81,5 +82,8 @@
       "better-sqlite3",
       "esbuild"
     ]
+  },
+  "optionalDependencies": {
+    "tiktok-live-connector": "2.5.0"
   }
 }

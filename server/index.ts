@@ -6,7 +6,7 @@ import {
 } from '../shared/question-bank';
 import { CATEGORY_VALUES } from '../shared/schemas';
 import { loadConfig, validateConfig } from './config';
-import { LiveTikTokAdapter } from './tiktok/liveAdapter';
+import { LiveTikTokAdapter, isConnectorInstalled } from './tiktok/liveAdapter';
 import { initializePersistence } from './persistence/db';
 import { createGameServer } from './server';
 import { createLogger, parseLogLevel } from './util/logger';
@@ -44,6 +44,15 @@ async function main(): Promise<void> {
   if (problems.length > 0) {
     throw new Error(`Invalid configuration:\n- ${problems.join('\n- ')}`);
   }
+  if (config.tiktokEnabled && !(await isConnectorInstalled())) {
+    const message =
+      'TIKTOK_ENABLED=true but the optional package tiktok-live-connector is not installed ' +
+      '(build the Docker image with WITH_TIKTOK=true, or `pnpm install` with optional dependencies).';
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(`Invalid configuration:\n- ${message}`);
+    }
+    console.warn(`${message} TikTok rooms stay in manual mode.`);
+  }
   const bank = await loadBank('data/questions.json');
   const questions = bank.bank?.questions ?? [];
   const initialized = initializePersistence({
@@ -78,6 +87,7 @@ async function main(): Promise<void> {
             new LiveTikTokAdapter({
               username: config.tiktokUsername as string,
               sessionCookie: config.tiktokSessionCookie as string,
+              signApiKey: config.tiktokSignApiKey,
             })
         : null,
   });

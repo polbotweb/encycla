@@ -17,7 +17,14 @@ export interface LiveAdapterOptions {
   username: string;
   /** Raw cookie string, e.g. `sessionid=…; tt-target-idc=…`. Never logged. */
   sessionCookie: string;
+  /** Optional Euler Stream signing key (`TIKTOK_SIGN_API_KEY`). Secret, never logged. */
+  signApiKey?: string | null;
 }
+
+/** Loads the optional connector package; injectable so tests never touch the network. */
+export type ConnectorModuleLoader = () => Promise<unknown>;
+
+const loadConnectorModule: ConnectorModuleLoader = () => import(/* @vite-ignore */ MODULE_NAME);
 
 export function parseSessionCookie(raw: string): { sessionId: string; ttTargetIdc: string } | null {
   const pairs = new Map<string, string>();
@@ -34,20 +41,38 @@ export function parseSessionCookie(raw: string): { sessionId: string; ttTargetId
   return { sessionId, ttTargetIdc: pairs.get('tt-target-idc') ?? '' };
 }
 
+/** Whether the optional connector package can be loaded (checked at startup when TikTok is on). */
+export async function isConnectorInstalled(
+  loadModule: ConnectorModuleLoader = loadConnectorModule,
+): Promise<boolean> {
+  try {
+    const loaded = (await loadModule()) as { TikTokLiveConnection?: unknown };
+    return typeof loaded.TikTokLiveConnection === 'function';
+  } catch {
+    return false;
+  }
+}
+
 /**
- * Adapter over the unofficial `tiktok-live-connector` package.
+ * Adapter over the unofficial `tiktok-live-connector` package (v2).
  *
- * The package is intentionally NOT a hard dependency: it is AGPL-3.0 licensed and relies on a
- * third-party signing service, so enabling it is an explicit operator decision
- * (`pnpm add tiktok-live-connector`, see docs/TIKTOK.md). When it is missing, `connect()` rejects
- * and the connector keeps retrying with backoff while the room stays in manual mode.
+ * The package is an **optional** dependency, isolated behind the `TikTokAdapter` port: it is
+ * AGPL-3.0-only and relies on a third-party signing service (Euler Stream). This file is the only
+ * place that loads it, lazily, with a dynamic import, and only when `TIKTOK_ENABLED=true`; no type
+ * or value of the package leaks into the rest of the code. When it is not installed
+ * (`pnpm install --no-optional`, or the Docker image built without `WITH_TIKTOK=true`), `connect()`
+ * rejects and the connector keeps retrying with backoff while the room stays in manual mode.
+ * See docs/TIKTOK.md and docs/LICENSES.md.
  */
 export class LiveTikTokAdapter implements TikTokAdapter {
   private connection: LiveConnection | null = null;
   private chatHandler: (message: TikTokChatMessage) => void = () => {};
   private disconnectHandler: (reason: string) => void = () => {};
 
-  constructor(private readonly options: LiveAdapterOptions) {}
+  constructor(
+    private readonly options: LiveAdapterOptions,
+    private readonly loadModule: ConnectorModuleLoader = loadConnectorModule,
+  ) {}
 
   onChat(handler: (message: TikTokChatMessage) => void): void {
     this.chatHandler = handler;
@@ -64,7 +89,7 @@ export class LiveTikTokAdapter implements TikTokAdapter {
     }
     let ctor: LiveConnectionCtor;
     try {
-      const loaded = (await import(/* @vite-ignore */ MODULE_NAME)) as {
+      const loaded = (await this.loadModule()) as {
         TikTokLiveConnection?: LiveConnectionCtor;
       };
       if (!loaded.TikTokLiveConnection) {
@@ -78,6 +103,7 @@ export class LiveTikTokAdapter implements TikTokAdapter {
     const connection = new ctor(this.options.username, {
       session: { cookie: { type: 'cookie', value: session } },
       authenticateWs: true,
+      ...(this.options.signApiKey ? { signApiKey: this.options.signApiKey } : {}),
     });
     connection.on('chat', (data: any) => {
       const uniqueId = data?.user?.uniqueId ?? data?.uniqueId;

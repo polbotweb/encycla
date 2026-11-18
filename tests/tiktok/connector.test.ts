@@ -6,7 +6,7 @@ import {
   backoffDelay,
   type Scheduler,
 } from '../../server/tiktok/connector';
-import { parseSessionCookie } from '../../server/tiktok/liveAdapter';
+import { LiveTikTokAdapter, parseSessionCookie } from '../../server/tiktok/liveAdapter';
 import { type LogLevel } from '../../server/util/logger';
 
 class ManualScheduler implements Scheduler {
@@ -153,5 +153,121 @@ describe('parseSessionCookie', () => {
     expect(parseSessionCookie('SessionId=abc')).toEqual({ sessionId: 'abc', ttTargetIdc: '' });
     expect(parseSessionCookie('foo=bar')).toBeNull();
     expect(parseSessionCookie('')).toBeNull();
+  });
+});
+
+describe('LiveTikTokAdapter (optional tiktok-live-connector)', () => {
+  class FakeConnection {
+    static last: FakeConnection | null = null;
+    handlers = new Map<string, (...args: unknown[]) => void>();
+    disconnected = false;
+    constructor(
+      public uniqueId: string,
+      public options: Record<string, unknown>,
+    ) {
+      FakeConnection.last = this;
+    }
+    on(event: string, handler: (...args: unknown[]) => void) {
+      this.handlers.set(event, handler);
+      return this;
+    }
+    async connect() {
+      return {};
+    }
+    disconnect() {
+      this.disconnected = true;
+    }
+    emit(event: string, payload?: unknown) {
+      this.handlers.get(event)?.(payload);
+    }
+  }
+  const load = async () => ({ TikTokLiveConnection: FakeConnection });
+
+  it('connects with the session cookie and the signing key, and maps chat messages', async () => {
+    const adapter = new LiveTikTokAdapter(
+      { username: 'host', sessionCookie: 'sessionid=abc; tt-target-idc=useast5', signApiKey: 'k' },
+      load,
+    );
+    const chats: unknown[] = [];
+    const drops: string[] = [];
+    adapter.onChat((message) => chats.push(message));
+    adapter.onDisconnect((reason) => drops.push(reason));
+    await adapter.connect();
+
+    const connection = FakeConnection.last!;
+    expect(connection.uniqueId).toBe('host');
+    expect(connection.options).toEqual({
+      session: { cookie: { type: 'cookie', value: { sessionId: 'abc', ttTargetIdc: 'useast5' } } },
+      authenticateWs: true,
+      signApiKey: 'k',
+    });
+
+    connection.emit('chat', { user: { uniqueId: 'viewer1', nickname: 'Vi' }, comment: 'B' });
+    connection.emit('chat', { uniqueId: 'viewer2', comment: 'c' });
+    connection.emit('chat', { user: {}, comment: 'A' });
+    expect(chats).toEqual([
+      { uniqueId: 'viewer1', nickname: 'Vi', comment: 'B' },
+      { uniqueId: 'viewer2', nickname: null, comment: 'c' },
+    ]);
+
+    connection.emit('error', new Error('secret request details'));
+    connection.emit('streamEnd');
+    expect(drops).toEqual(['stream ended']);
+    adapter.disconnect();
+    expect(connection.disconnected).toBe(true);
+  });
+
+  it('omits the signing key when none is configured', async () => {
+    const adapter = new LiveTikTokAdapter(
+      { username: 'host', sessionCookie: 'sessionid=abc' },
+      load,
+    );
+    await adapter.connect();
+    expect(FakeConnection.last?.options).not.toHaveProperty('signApiKey');
+  });
+
+  it('rejects without a sessionid or when the package is missing', async () => {
+    await expect(
+      new LiveTikTokAdapter({ username: 'host', sessionCookie: 'foo=bar' }, load).connect(),
+    ).rejects.toThrow('sessionid');
+    const missing = async () => {
+      throw new Error('Cannot find module');
+    };
+    await expect(
+      new LiveTikTokAdapter(
+        { username: 'host', sessionCookie: 'sessionid=abc' },
+        missing,
+      ).connect(),
+    ).rejects.toThrow('tiktok-live-connector is not installed');
+    await expect(
+      new LiveTikTokAdapter(
+        { username: 'host', sessionCookie: 'sessionid=abc' },
+        async () => ({}),
+      ).connect(),
+    ).rejects.toThrow('not installed or could not be loaded');
+  });
+
+  it('loads the real optional package when it is installed', async (context) => {
+    let module: { TikTokLiveConnection?: unknown };
+    try {
+      module = (await import('tiktok-live-connector')) as typeof module;
+    } catch {
+      context.skip(); // installed without optional dependencies
+      return;
+    }
+    expect(typeof module.TikTokLiveConnection).toBe('function');
+  });
+});
+
+describe('isConnectorInstalled', () => {
+  it('reports whether the optional package can be loaded', async () => {
+    const { isConnectorInstalled } = await import('../../server/tiktok/liveAdapter');
+    expect(await isConnectorInstalled(async () => ({ TikTokLiveConnection: class {} }))).toBe(true);
+    expect(await isConnectorInstalled(async () => ({}))).toBe(false);
+    expect(
+      await isConnectorInstalled(async () => {
+        throw new Error('missing');
+      }),
+    ).toBe(false);
   });
 });
