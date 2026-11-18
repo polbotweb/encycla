@@ -64,3 +64,22 @@ export function announcementFor(
       return null;
   }
 }
+
+const TIMER_MARKS = [0, 5_000, 10_000] as const;
+
+/**
+ * Spoken timer marks (UI-UX 21.2): "10 seconds remaining.", "5 seconds remaining.", "Time's up."
+ * Returns the mark crossed between two readings, never one announcement per second. When a
+ * throttled tab skips past several marks, only the latest one is spoken.
+ */
+export function timerAnnouncement(
+  previousMs: number | null,
+  currentMs: number | null,
+): string | null {
+  if (previousMs === null || currentMs === null || currentMs >= previousMs) return null;
+  const mark = TIMER_MARKS.find((value) => previousMs > value && currentMs <= value);
+  if (mark === undefined) return null;
+  return mark === 0
+    ? translate('announce.timeUp')
+    : `${translate('timer.remaining', { count: mark / 1000 })}.`;
+}

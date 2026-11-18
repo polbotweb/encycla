@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Stat } from '../components/game/Shell';
 import { Banner } from '../components/ui/Banner';
 import { FlameIcon, HeartIcon } from '../components/ui/Icons';
@@ -6,6 +6,7 @@ import { ImageFrame } from '../components/ui/ImageFrame';
 import { OptionButton, type OptionState } from '../components/ui/OptionButton';
 import { Timer } from '../components/ui/Timer';
 import { contentAttributes, errorMessage, useTranslation } from '../i18n';
+import { timerAnnouncement } from '../lib/announce';
 import { ApiClientError } from '../lib/api';
 import { gameActions } from '../lib/realtime';
 import { useMe } from '../lib/useMe';
@@ -54,6 +55,22 @@ export function QuestionView() {
   const canAnswer = Boolean(
     question && me && me.status === 'CONNECTED' && !locked && !paused && room?.phase === 'QUESTION',
   );
+
+  // Timer marks are spoken only to players who still have to answer (D-100).
+  const lastReading = useRef<{ questionId: string | null; ms: number | null }>({
+    questionId: null,
+    ms: null,
+  });
+  const questionId = question?.id ?? null;
+  const awaitingAnswer = canAnswer && !lockedChoice;
+  useEffect(() => {
+    const previous = lastReading.current;
+    const before = previous.questionId === questionId ? previous.ms : null;
+    lastReading.current = { questionId, ms: remaining };
+    if (!awaitingAnswer || paused) return;
+    const message = timerAnnouncement(before, remaining);
+    if (message) useGameStore.getState().announce(message);
+  }, [questionId, remaining, awaitingAnswer, paused]);
 
   const choose = useCallback(
     async (index: number) => {

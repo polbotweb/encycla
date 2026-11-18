@@ -53,6 +53,8 @@ interface GameStoreState {
   setProtocolMismatch(): void;
   setSessionInvalid(): void;
   setError(error: ApiError | null): void;
+  /** Sets the polite screen-reader announcement (timer marks). */
+  announce(message: string): void;
   lockChoice(questionId: string, index: number): void;
   leaveRoomLocal(): void;
   reset(): void;
@@ -137,6 +139,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   setProtocolMismatch: () => set({ protocolMismatch: true }),
   setSessionInvalid: () => set({ sessionInvalid: true }),
   setError: (lastError) => set({ lastError }),
+  announce: (announcement) => set({ announcement }),
   lockChoice: (questionId, index) => set({ lockedChoice: { questionId, index } }),
   leaveRoomLocal: () =>
     set({

@@ -110,9 +110,17 @@ export function LeaderboardView() {
 
       <Panel className="overflow-x-auto">
         {entries === null && !error ? (
-          <p className="text-ink-2" role="status">
-            {t('common.loading')}
-          </p>
+          <div role="status" aria-busy="true" className="space-y-2">
+            <span className="sr-only">{t('common.loading')}</span>
+            {[0, 1, 2, 3, 4].map((row) => (
+              <div
+                key={row}
+                aria-hidden="true"
+                data-testid="leaderboard-skeleton"
+                className="anim-pulse h-9 rounded-md bg-raised"
+              />
+            ))}
+          </div>
         ) : null}
         {entries !== null && entries.length === 0 ? (
           <p className="text-ink-2">{t('leaderboard.empty')}</p>
