@@ -8,7 +8,7 @@ import { join } from 'node:path';
  * Etiquette (https://www.mediawiki.org/wiki/API:Etiquette, https://meta.wikimedia.org/wiki/User-Agent_policy):
  *  - descriptive User-Agent with a contact URL;
  *  - strictly serial requests with a minimum delay between two calls;
- *  - `maxlag` on every request, and a retry honouring `Retry-After` on 429/503/maxlag;
+ *  - `maxlag` on every request, and a retry honouring `Retry-After` on 429/502/503/504/maxlag;
  *  - batched queries (up to 20/50 titles) instead of one call per title;
  *  - every response cached on disk, so re-running the generator does not hit the API again.
  */
@@ -94,7 +94,7 @@ export class WikiClient {
         continue;
       }
 
-      if (response.status === 429 || response.status === 503) {
+      if ([429, 502, 503, 504].includes(response.status)) {
         const retryAfter = Number(response.headers.get('retry-after') ?? '5');
         await sleep((Number.isFinite(retryAfter) ? retryAfter : 5) * 1000 + 500);
         continue;

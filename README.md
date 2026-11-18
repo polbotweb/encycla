@@ -264,6 +264,7 @@ Procédure complète dans [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 - chaque question garde `source` (permalien `oldid` de l'article, révision, langue, licence CC BY-SA 4.0) et `image.author` / `image.license` / `image.sourceUrl` (page du fichier sur Commons) ;
 - licences d'images acceptées : CC0, domaine public, CC BY, CC BY-SA ; tout le reste (NC, ND, GFDL seul, usage loyal, auteur inconnu pour une licence à attribution) est écarté ;
 - les distracteurs sont de vrais sujets du même type, de préférence du même groupe (même famille, même continent…), jamais la même entité Wikidata ni un libellé contenu dans l'autre ;
+- pour les êtres vivants, les distracteurs les plus proches dans la taxonomie Wikidata (P171) passent en premier, avec au plus un du même genre (paires listées dans `data/sources/report.json` pour relecture) ;
 - tout ce qui est douteux est écarté et listé dans `data/sources/report.json` (article introuvable, page d'homonymie, image non libre, réponse introuvable dans l'article…) ;
 - politesse API : User-Agent descriptif, requêtes séquentielles avec délai, `maxlag`, reprise sur 429/`Retry-After`, cache disque (`data/cache/`, ignoré par git). `--offline` rejoue la génération depuis le cache, de façon identique.
 

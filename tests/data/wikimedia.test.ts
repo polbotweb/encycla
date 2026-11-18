@@ -3,7 +3,9 @@ import {
   indistinguishable,
   labelsOverlap,
   pickDistractors,
+  sameParentTaxon,
   seededRandom,
+  taxonomicCloseness,
   shuffle,
   type Candidate,
 } from '../../scripts/wikimedia/distractors';
@@ -158,6 +160,35 @@ describe('distractors', () => {
     ];
     const picked = pickDistractors(target, pool, seededRandom('t'));
     expect(picked?.map((item) => item.label).sort()).toEqual(['Jaguar', 'Léopard', 'Tigre']);
+  });
+
+  it('prefers the closest relatives (P171), with at most one from the same genus', () => {
+    const taxon = (candidate: Candidate, lineage: string[]): Candidate => ({
+      ...candidate,
+      lineage: new Set(lineage),
+      parents: new Set(lineage.slice(0, 1)),
+    });
+    const FELIDAE = ['Felidae', 'Carnivora', 'Mammalia', 'Animalia'];
+    const target = taxon(make('t', 'Lion'), ['Panthera', ...FELIDAE]);
+    const pool = [
+      target,
+      taxon(make('a', 'Tigre'), ['Panthera', ...FELIDAE]),
+      taxon(make('b', 'Jaguar'), ['Panthera', ...FELIDAE]),
+      taxon(make('c', 'Lynx boréal'), ['Lynx', ...FELIDAE]),
+      taxon(make('d', 'Guépard'), ['Acinonyx', ...FELIDAE]),
+      taxon(make('e', 'Loup'), ['Canis', 'Canidae', 'Carnivora', 'Mammalia', 'Animalia']),
+      taxon(make('f', 'Zèbre'), ['Equus', 'Equidae', 'Perissodactyla', 'Mammalia', 'Animalia']),
+      make('g', 'Sans taxonomie'),
+    ];
+    expect(taxonomicCloseness(target, pool[1] as Candidate)).toBe(5);
+    expect(taxonomicCloseness(target, pool[7] as Candidate)).toBe(0);
+    expect(sameParentTaxon(target, pool[2] as Candidate)).toBe(true);
+    expect(sameParentTaxon(target, pool[3] as Candidate)).toBe(false);
+
+    const picked = pickDistractors(target, pool, seededRandom('t'))?.map((item) => item.label);
+    expect(picked).toHaveLength(3);
+    expect(picked?.filter((label) => label === 'Tigre' || label === 'Jaguar')).toHaveLength(1);
+    expect(picked).toEqual(expect.arrayContaining(['Lynx boréal', 'Guépard']));
   });
 
   it('never offers the same entity twice', () => {

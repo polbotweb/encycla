@@ -26,7 +26,7 @@
   "translations": {
     "en": {
       "answerLabels": { "wikipedia": 2444, "wikidata": 44, "fallback-fr": 8 },
-      "optionLabels": { "wikipedia": 9860, "wikidata": 113, "fallback-fr": 11 },
+      "optionLabels": { "wikipedia": 9893, "wikidata": 80, "fallback-fr": 11 },
       "articles": { "wikipedia": 2444, "fallback-fr": 52 },
       "perCategory": {
         "Fauna": {
@@ -38,7 +38,7 @@
         "Flora": {
           "questions": 144,
           "labels": { "wikipedia": 133, "wikidata": 8, "fallback-fr": 3 },
-          "options": { "wikipedia": 556, "wikidata": 17, "fallback-fr": 3 },
+          "options": { "wikipedia": 562, "wikidata": 11, "fallback-fr": 3 },
           "articles": { "wikipedia": 133, "fallback-fr": 11 }
         },
         "Flags": {
@@ -50,19 +50,19 @@
         "Birds": {
           "questions": 128,
           "labels": { "wikipedia": 127, "wikidata": 1, "fallback-fr": 0 },
-          "options": { "wikipedia": 505, "wikidata": 7, "fallback-fr": 0 },
+          "options": { "wikipedia": 511, "wikidata": 1, "fallback-fr": 0 },
           "articles": { "wikipedia": 127, "fallback-fr": 1 }
         },
         "Trees": {
           "questions": 109,
           "labels": { "wikipedia": 105, "wikidata": 4, "fallback-fr": 0 },
-          "options": { "wikipedia": 428, "wikidata": 8, "fallback-fr": 0 },
+          "options": { "wikipedia": 431, "wikidata": 5, "fallback-fr": 0 },
           "articles": { "wikipedia": 105, "fallback-fr": 4 }
         },
         "Insects": {
           "questions": 150,
           "labels": { "wikipedia": 143, "wikidata": 6, "fallback-fr": 1 },
-          "options": { "wikipedia": 573, "wikidata": 26, "fallback-fr": 1 },
+          "options": { "wikipedia": 591, "wikidata": 8, "fallback-fr": 1 },
           "articles": { "wikipedia": 143, "fallback-fr": 7 }
         },
         "Mushrooms": {
@@ -522,7 +522,7 @@
     },
     "ar": {
       "answerLabels": { "wikipedia": 2222, "wikidata": 53, "fallback-fr": 221 },
-      "optionLabels": { "wikipedia": 9506, "wikidata": 257, "fallback-fr": 221 },
+      "optionLabels": { "wikipedia": 9531, "wikidata": 232, "fallback-fr": 221 },
       "articles": { "wikipedia": 2071, "fallback-fr": 425 },
       "perCategory": {
         "Fauna": {
@@ -534,7 +534,7 @@
         "Flora": {
           "questions": 144,
           "labels": { "wikipedia": 133, "wikidata": 6, "fallback-fr": 5 },
-          "options": { "wikipedia": 556, "wikidata": 15, "fallback-fr": 5 },
+          "options": { "wikipedia": 562, "wikidata": 9, "fallback-fr": 5 },
           "articles": { "wikipedia": 121, "fallback-fr": 23 }
         },
         "Flags": {
@@ -546,25 +546,25 @@
         "Birds": {
           "questions": 128,
           "labels": { "wikipedia": 126, "wikidata": 1, "fallback-fr": 1 },
-          "options": { "wikipedia": 504, "wikidata": 7, "fallback-fr": 1 },
+          "options": { "wikipedia": 510, "wikidata": 1, "fallback-fr": 1 },
           "articles": { "wikipedia": 97, "fallback-fr": 31 }
         },
         "Trees": {
           "questions": 109,
           "labels": { "wikipedia": 102, "wikidata": 2, "fallback-fr": 5 },
-          "options": { "wikipedia": 424, "wikidata": 7, "fallback-fr": 5 },
+          "options": { "wikipedia": 425, "wikidata": 6, "fallback-fr": 5 },
           "articles": { "wikipedia": 83, "fallback-fr": 26 }
         },
         "Insects": {
           "questions": 150,
           "labels": { "wikipedia": 93, "wikidata": 16, "fallback-fr": 41 },
-          "options": { "wikipedia": 485, "wikidata": 74, "fallback-fr": 41 },
+          "options": { "wikipedia": 490, "wikidata": 69, "fallback-fr": 41 },
           "articles": { "wikipedia": 78, "fallback-fr": 72 }
         },
         "Mushrooms": {
           "questions": 103,
           "labels": { "wikipedia": 51, "wikidata": 5, "fallback-fr": 47 },
-          "options": { "wikipedia": 332, "wikidata": 33, "fallback-fr": 47 },
+          "options": { "wikipedia": 339, "wikidata": 26, "fallback-fr": 47 },
           "articles": { "wikipedia": 26, "fallback-fr": 77 }
         },
         "Architecture": {
@@ -3613,6 +3613,253 @@
         }
       ]
     }
+  },
+  "taxonomy": {
+    "livingThings": 783,
+    "withLineage": 734,
+    "arabicCommonNamesAvailable": 108,
+    "meanSharedAncestors": 47.1,
+    "sameGenusPairs": [
+      { "id": "fauna-lion", "answer": "Lion", "distractor": "Panthère des neiges" },
+      { "id": "fauna-loup-gris", "answer": "Loup gris", "distractor": "Coyote" },
+      { "id": "fauna-ours-brun", "answer": "Ours brun", "distractor": "Ours polaire" },
+      { "id": "fauna-dromadaire", "answer": "Dromadaire", "distractor": "Chameau de Bactriane" },
+      {
+        "id": "fauna-crocodile-du-nil",
+        "answer": "Crocodile du Nil",
+        "distractor": "Crocodile marin"
+      },
+      { "id": "fauna-grenouille-rousse", "answer": "Grenouille rousse", "distractor": "Ouaouaron" },
+      { "id": "fauna-tigre", "answer": "Tigre", "distractor": "Lion" },
+      { "id": "fauna-renard-roux", "answer": "Renard roux", "distractor": "Fennec" },
+      { "id": "fauna-ours-polaire", "answer": "Ours polaire", "distractor": "Ours brun" },
+      {
+        "id": "fauna-chameau-de-bactriane",
+        "answer": "Chameau de Bactriane",
+        "distractor": "Dromadaire"
+      },
+      { "id": "fauna-ouaouaron", "answer": "Ouaouaron", "distractor": "Grenouille rousse" },
+      { "id": "fauna-leopard", "answer": "Léopard", "distractor": "Panthère des neiges" },
+      { "id": "fauna-renard-polaire", "answer": "Renard polaire", "distractor": "Renard roux" },
+      { "id": "fauna-alpaga", "answer": "Alpaga", "distractor": "Vigogne" },
+      { "id": "fauna-jaguar", "answer": "Jaguar", "distractor": "Panthère des neiges" },
+      { "id": "fauna-fennec", "answer": "Fennec", "distractor": "Renard roux" },
+      { "id": "fauna-vigogne", "answer": "Vigogne", "distractor": "Alpaga" },
+      {
+        "id": "fauna-crocodile-marin",
+        "answer": "Crocodile marin",
+        "distractor": "Crocodile du Nil"
+      },
+      { "id": "fauna-coyote", "answer": "Coyote", "distractor": "Chacal doré" },
+      {
+        "id": "fauna-bison-d-amerique",
+        "answer": "Bison d'Amérique",
+        "distractor": "Bison d'Europe"
+      },
+      { "id": "fauna-chacal-dore", "answer": "Chacal doré", "distractor": "Coyote" },
+      { "id": "fauna-chimpanze-commun", "answer": "Chimpanzé commun", "distractor": "Bonobo" },
+      {
+        "id": "fauna-bison-d-europe",
+        "answer": "Bison d'Europe",
+        "distractor": "Bison d'Amérique"
+      },
+      { "id": "fauna-lynx-boreal", "answer": "Lynx boréal", "distractor": "Lynx pardelle" },
+      { "id": "fauna-bonobo", "answer": "Bonobo", "distractor": "Chimpanzé commun" },
+      {
+        "id": "fauna-panthere-des-neiges",
+        "answer": "Panthère des neiges",
+        "distractor": "Jaguar"
+      },
+      { "id": "fauna-cerf-elaphe", "answer": "Cerf élaphe", "distractor": "Wapiti" },
+      {
+        "id": "fauna-saumon-atlantique",
+        "answer": "Saumon atlantique",
+        "distractor": "Truite commune"
+      },
+      {
+        "id": "fauna-truite-commune",
+        "answer": "Truite commune",
+        "distractor": "Saumon atlantique"
+      },
+      { "id": "fauna-lynx-pardelle", "answer": "Lynx pardelle", "distractor": "Lynx boréal" },
+      {
+        "id": "fauna-putois-d-europe",
+        "answer": "Putois d'Europe",
+        "distractor": "Belette d'Europe"
+      },
+      { "id": "fauna-wapiti", "answer": "Wapiti", "distractor": "Cerf élaphe" },
+      {
+        "id": "fauna-dragon-de-komodo",
+        "answer": "Dragon de Komodo",
+        "distractor": "Varan du Nil"
+      },
+      {
+        "id": "fauna-belette-d-europe",
+        "answer": "Belette d'Europe",
+        "distractor": "Putois d'Europe"
+      },
+      { "id": "fauna-varan-du-nil", "answer": "Varan du Nil", "distractor": "Dragon de Komodo" },
+      { "id": "flora-sauge-officinale", "answer": "Sauge officinale", "distractor": "Romarin" },
+      { "id": "flora-romarin", "answer": "Romarin", "distractor": "Sauge officinale" },
+      { "id": "flora-rudbeckie", "answer": "Rudbeckie", "distractor": "Échinacée" },
+      { "id": "flora-echinacee", "answer": "Échinacée", "distractor": "Rudbeckie" },
+      { "id": "birds-aigle-royal", "answer": "Aigle royal", "distractor": "Aigle impérial" },
+      { "id": "birds-ara-rouge", "answer": "Ara rouge", "distractor": "Ara bleu" },
+      {
+        "id": "birds-faucon-pelerin",
+        "answer": "Faucon pèlerin",
+        "distractor": "Faucon crécerelle"
+      },
+      { "id": "birds-ara-bleu", "answer": "Ara bleu", "distractor": "Ara rouge" },
+      { "id": "birds-merle-noir", "answer": "Merle noir", "distractor": "Grive musicienne" },
+      {
+        "id": "birds-faucon-crecerelle",
+        "answer": "Faucon crécerelle",
+        "distractor": "Faucon pèlerin"
+      },
+      { "id": "birds-corbeau-freux", "answer": "Corbeau freux", "distractor": "Grand corbeau" },
+      {
+        "id": "birds-hibou-grand-duc",
+        "answer": "Hibou grand-duc",
+        "distractor": "Chouette harfang"
+      },
+      { "id": "birds-corneille-noire", "answer": "Corneille noire", "distractor": "Grand corbeau" },
+      {
+        "id": "birds-chouette-harfang",
+        "answer": "Chouette harfang",
+        "distractor": "Hibou grand-duc"
+      },
+      { "id": "birds-grand-corbeau", "answer": "Grand corbeau", "distractor": "Corbeau freux" },
+      {
+        "id": "birds-manchot-empereur",
+        "answer": "Manchot empereur",
+        "distractor": "Manchot royal"
+      },
+      { "id": "birds-manchot-royal", "answer": "Manchot royal", "distractor": "Manchot empereur" },
+      { "id": "birds-aigle-imperial", "answer": "Aigle impérial", "distractor": "Aigle royal" },
+      { "id": "birds-grive-musicienne", "answer": "Grive musicienne", "distractor": "Merle noir" },
+      { "id": "trees-chene-pedoncule", "answer": "Chêne pédonculé", "distractor": "Chêne-liège" },
+      {
+        "id": "trees-pin-sylvestre",
+        "answer": "Pin sylvestre",
+        "distractor": "Pin noir d'Autriche"
+      },
+      { "id": "trees-pecher", "answer": "Pêcher", "distractor": "Abricotier" },
+      { "id": "trees-chene-sessile", "answer": "Chêne sessile", "distractor": "Chêne-liège" },
+      { "id": "trees-pin-maritime", "answer": "Pin maritime", "distractor": "Pin noir d'Autriche" },
+      { "id": "trees-abricotier", "answer": "Abricotier", "distractor": "Pêcher" },
+      { "id": "trees-chene-vert", "answer": "Chêne vert", "distractor": "Chêne-liège" },
+      { "id": "trees-chene-liege", "answer": "Chêne-liège", "distractor": "Chêne vert" },
+      {
+        "id": "trees-pin-noir-d-autriche",
+        "answer": "Pin noir d'Autriche",
+        "distractor": "Pin maritime"
+      },
+      { "id": "trees-sapin-blanc", "answer": "Sapin blanc", "distractor": "Sapin de Nordmann" },
+      { "id": "trees-erable-sycomore", "answer": "Érable sycomore", "distractor": "Érable plane" },
+      {
+        "id": "trees-sapin-de-nordmann",
+        "answer": "Sapin de Nordmann",
+        "distractor": "Sapin blanc"
+      },
+      { "id": "trees-oranger", "answer": "Oranger", "distractor": "Citronnier" },
+      { "id": "trees-erable-plane", "answer": "Érable plane", "distractor": "Érable sycomore" },
+      { "id": "trees-citronnier", "answer": "Citronnier", "distractor": "Oranger" },
+      {
+        "id": "trees-erable-champetre",
+        "answer": "Érable champêtre",
+        "distractor": "Érable sycomore"
+      },
+      {
+        "id": "trees-cedre-du-liban",
+        "answer": "Cèdre du Liban",
+        "distractor": "Cèdre de l'Atlas"
+      },
+      {
+        "id": "trees-cedre-de-l-atlas",
+        "answer": "Cèdre de l'Atlas",
+        "distractor": "Cèdre du Liban"
+      },
+      { "id": "trees-peuplier-noir", "answer": "Peuplier noir", "distractor": "Peuplier blanc" },
+      { "id": "trees-peuplier-blanc", "answer": "Peuplier blanc", "distractor": "Tremble" },
+      { "id": "trees-saule-blanc", "answer": "Saule blanc", "distractor": "Saule pleureur" },
+      { "id": "trees-saule-pleureur", "answer": "Saule pleureur", "distractor": "Saule blanc" },
+      { "id": "trees-tremble", "answer": "Tremble", "distractor": "Peuplier noir" },
+      {
+        "id": "insects-pieride-du-navet",
+        "answer": "Piéride du navet",
+        "distractor": "Piéride de la rave"
+      },
+      { "id": "insects-perce-oreille", "answer": "Perce-oreille", "distractor": "Phasme" },
+      {
+        "id": "mushrooms-cepe-de-bordeaux",
+        "answer": "Cèpe de Bordeaux",
+        "distractor": "Cèpe d'été"
+      },
+      {
+        "id": "mushrooms-amanite-tue-mouches",
+        "answer": "Amanite tue-mouches",
+        "distractor": "Amanite phalloïde"
+      },
+      {
+        "id": "mushrooms-bolet-jaune",
+        "answer": "Bolet jaune",
+        "distractor": "Bolet des bouviers"
+      },
+      {
+        "id": "mushrooms-amanite-phalloide",
+        "answer": "Amanite phalloïde",
+        "distractor": "Amanite vireuse"
+      },
+      {
+        "id": "mushrooms-amanite-panthere",
+        "answer": "Amanite panthère",
+        "distractor": "Amanite tue-mouches"
+      },
+      {
+        "id": "mushrooms-agaric-des-jacheres",
+        "answer": "Agaric des jachères",
+        "distractor": "Agaric des bois"
+      },
+      {
+        "id": "mushrooms-trompette-de-la-mort",
+        "answer": "Trompette de la mort",
+        "distractor": "Chanterelle en tube"
+      },
+      {
+        "id": "mushrooms-amanite-vireuse",
+        "answer": "Amanite vireuse",
+        "distractor": "Amanite tue-mouches"
+      },
+      {
+        "id": "mushrooms-rose-des-pres",
+        "answer": "Rosé des prés",
+        "distractor": "Champignon de Paris"
+      },
+      {
+        "id": "mushrooms-champignon-de-paris",
+        "answer": "Champignon de Paris",
+        "distractor": "Rosé des prés"
+      },
+      { "id": "mushrooms-lactaire", "answer": "Lactaire", "distractor": "Russule" },
+      { "id": "mushrooms-russule", "answer": "Russule", "distractor": "Lactaire" },
+      {
+        "id": "mushrooms-amanite-citrine",
+        "answer": "Amanite citrine",
+        "distractor": "Amanite vireuse"
+      },
+      { "id": "mushrooms-cepe-d-ete", "answer": "Cèpe d'été", "distractor": "Cèpe de Bordeaux" },
+      {
+        "id": "mushrooms-agaric-des-bois",
+        "answer": "Agaric des bois",
+        "distractor": "Agaric des jachères"
+      },
+      {
+        "id": "mushrooms-bolet-elegant",
+        "answer": "Bolet élégant",
+        "distractor": "Bolet des bouviers"
+      }
+    ]
   },
   "imageLicenses": {
     "CC BY-SA 4.0": 441,

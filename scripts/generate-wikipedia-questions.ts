@@ -31,7 +31,14 @@ import {
   type TranslationOrigin,
 } from '../shared/schemas';
 import { chunk, WikiClient } from './wikimedia/client';
-import { pickDistractors, seededRandom, shuffle, type Candidate } from './wikimedia/distractors';
+import {
+  pickDistractors,
+  sameParentTaxon,
+  seededRandom,
+  shuffle,
+  taxonomicCloseness,
+  type Candidate,
+} from './wikimedia/distractors';
 import {
   classifyLicense,
   extractAuthor,
@@ -78,6 +85,16 @@ const PLACE_CATEGORIES = new Set<string>(['Geography', 'Architecture', 'History'
 const WIKI_API = `https://${LANG}.wikipedia.org/w/api.php`;
 const COMMONS_API = 'https://commons.wikimedia.org/w/api.php';
 const WIKIDATA_API = 'https://www.wikidata.org/w/api.php';
+const WIKIDATA_SPARQL = 'https://query.wikidata.org/sparql';
+/** Categories of living things: their distractors follow the Wikidata taxonomy (P171). */
+const LIVING_CATEGORIES = new Set<string>([
+  'Fauna',
+  'Birds',
+  'Insects',
+  'Flora',
+  'Trees',
+  'Mushrooms',
+]);
 // Commons only serves thumbnails in a fixed set of standard widths (640 is rejected with HTTP 400).
 const THUMB_WIDTH = 960;
 const MIN_WIDTH = 400;
@@ -337,6 +354,75 @@ function evaluateImage(
   };
 }
 
+// ---------------------------------------------------------------- taxonomy
+
+interface Taxonomy {
+  /** Every ancestor taxon (P171, transitively). */
+  lineage: Set<string>;
+  /** Direct parent taxa (P171). */
+  parents: Set<string>;
+  /** Arabic common names (P1843, non-deprecated), preferred rank first. */
+  arNames: string[];
+}
+
+interface SparqlBody {
+  results?: { bindings?: Record<string, { value: string; 'xml:lang'?: string } | undefined>[] };
+}
+
+const entityId = (uri: string | undefined): string | undefined =>
+  uri?.startsWith('http://www.wikidata.org/entity/') ? uri.slice(31) : undefined;
+
+/** Ancestors, parents and Arabic common names of living things, from the Wikidata Query Service. */
+async function fetchTaxonomy(qids: string[]): Promise<Map<string, Taxonomy>> {
+  const out = new Map<string, Taxonomy>();
+  const entry = (qid: string): Taxonomy => {
+    let value = out.get(qid);
+    if (!value) {
+      value = { lineage: new Set(), parents: new Set(), arNames: [] };
+      out.set(qid, value);
+    }
+    return value;
+  };
+  for (const batch of chunk([...new Set(qids)].sort(), 40)) {
+    const values = batch.map((qid) => `wd:${qid}`).join(' ');
+    const lineage = await client.get<SparqlBody>(WIKIDATA_SPARQL, {
+      query: `SELECT ?item ?ancestor WHERE { VALUES ?item { ${values} } ?item wdt:P171+ ?ancestor . }`,
+    });
+    for (const row of lineage.body.results?.bindings ?? []) {
+      const item = entityId(row.item?.value);
+      const ancestor = entityId(row.ancestor?.value);
+      if (item && ancestor) entry(item).lineage.add(ancestor);
+    }
+    const names = await client.get<SparqlBody>(WIKIDATA_SPARQL, {
+      query:
+        `SELECT ?item ?parent ?name ?rank WHERE { VALUES ?item { ${values} } ` +
+        `OPTIONAL { ?item wdt:P171 ?parent . } ` +
+        `OPTIONAL { ?item p:P1843 ?statement . ?statement ps:P1843 ?name ; wikibase:rank ?rank . ` +
+        `FILTER(LANG(?name) = "ar" && ?rank != wikibase:DeprecatedRank) } }`,
+    });
+    const ranked = new Map<string, Map<string, number>>();
+    for (const row of names.body.results?.bindings ?? []) {
+      const item = entityId(row.item?.value);
+      if (!item) continue;
+      const parent = entityId(row.parent?.value);
+      if (parent) entry(item).parents.add(parent);
+      const name = row.name?.value?.trim();
+      if (name && row.name?.['xml:lang'] === 'ar') {
+        const preferred = row.rank?.value.endsWith('PreferredRank') ? 0 : 1;
+        const list = ranked.get(item) ?? new Map<string, number>();
+        list.set(name, Math.min(list.get(name) ?? 1, preferred));
+        ranked.set(item, list);
+      }
+    }
+    for (const [item, list] of ranked) {
+      entry(item).arNames = [...list.entries()]
+        .sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0], 'ar'))
+        .map(([name]) => name);
+    }
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------- translations
 
 interface WikidataEntity {
@@ -412,6 +498,7 @@ const ARTICLE_LICENSE = 'CC BY-SA 4.0';
  */
 async function fetchTranslations(
   subjects: (Subject & { label: string; body: string })[],
+  taxonomy: Map<string, Taxonomy> = new Map(),
 ): Promise<Map<Subject, SubjectTranslations>> {
   const entities = await fetchWikidataEntities(
     subjects.flatMap((subject) => (subject.qid ? [subject.qid] : [])),
@@ -479,6 +566,12 @@ async function fetchTranslations(
           label: translatedLabel(wikidataLabel, kind, language),
           origin: 'wikidata',
         });
+      }
+      // Living things without an Arabic article or label: the Arabic common name (P1843).
+      const commonName =
+        language === 'ar' && subject.qid ? taxonomy.get(subject.qid)?.arNames[0] : undefined;
+      if (commonName) {
+        candidates.push({ label: translatedLabel(commonName, kind, language), origin: 'wikidata' });
       }
       const chosen = candidates.find(
         (candidate) => candidate.label.length > 0 && candidate.label.length <= MAX_LABEL,
@@ -758,8 +851,15 @@ async function main(): Promise<void> {
     }
   }
 
-  // 5b. English and Arabic content of the same items (Wikidata sitelinks and labels).
-  const translations = await fetchTranslations(selected);
+  // 5b. Living things: Wikidata taxonomy (closer distractors, Arabic common names).
+  const living = selected.filter(
+    (subject) => LIVING_CATEGORIES.has(subject.category) && subject.qid,
+  );
+  console.log(`Fetching the Wikidata taxonomy of ${living.length} living things…`);
+  const taxonomy = await fetchTaxonomy(living.map((subject) => subject.qid as string));
+
+  // 5c. English and Arabic content of the same items (Wikidata sitelinks and labels).
+  const translations = await fetchTranslations(selected, taxonomy);
 
   // 6. Questions.
   const candidates: (Candidate & { subject: (typeof selected)[number] })[] = selected.map(
@@ -775,6 +875,12 @@ async function main(): Promise<void> {
         (language) =>
           (translations.get(subject) as SubjectTranslations)[language].origin !== 'fallback-fr',
       ),
+      ...(LIVING_CATEGORIES.has(subject.category) && subject.qid && taxonomy.has(subject.qid)
+        ? {
+            lineage: (taxonomy.get(subject.qid) as Taxonomy).lineage,
+            parents: (taxonomy.get(subject.qid) as Taxonomy).parents,
+          }
+        : {}),
       subject,
     }),
   );
@@ -789,6 +895,8 @@ async function main(): Promise<void> {
   }
 
   const questions: QuestionRecord[] = [];
+  const sameGenus: { id: string; answer: string; distractor: string }[] = [];
+  const kinship: number[] = [];
   for (const candidate of candidates) {
     const { subject } = candidate;
     const random = seededRandom(candidate.id);
@@ -796,6 +904,18 @@ async function main(): Promise<void> {
     if (!distractors) {
       drop(subject.category, subject.seedTitle, 'not enough distractors of the same kind');
       continue;
+    }
+
+    for (const distractor of distractors) {
+      if (sameParentTaxon(candidate, distractor)) {
+        sameGenus.push({ id: candidate.id, answer: candidate.label, distractor: distractor.label });
+      }
+    }
+    if (candidate.lineage) {
+      kinship.push(
+        distractors.reduce((sum, item) => sum + taxonomicCloseness(candidate, item), 0) /
+          distractors.length,
+      );
     }
 
     const options = shuffle([candidate, ...distractors] as (typeof candidates)[number][], random);
@@ -889,7 +1009,20 @@ async function main(): Promise<void> {
 
   await mkdir(dirname(OUTPUT), { recursive: true });
   await writeFile(OUTPUT, await formatJson(bank, OUTPUT), 'utf8');
-  await writeReport(questions, seedEntries.length);
+  await writeReport(questions, seedEntries.length, {
+    livingThings: living.length,
+    withLineage: living.filter((subject) => taxonomy.get(subject.qid as string)?.lineage.size)
+      .length,
+    arabicCommonNamesAvailable: living.filter(
+      (subject) => (taxonomy.get(subject.qid as string)?.arNames.length ?? 0) > 0,
+    ).length,
+    meanSharedAncestors:
+      kinship.length === 0
+        ? 0
+        : Math.round((kinship.reduce((sum, value) => sum + value, 0) / kinship.length) * 10) / 10,
+    // Same direct parent taxon (usually the genus): to be reviewed for look-alike pictures.
+    sameGenusPairs: sameGenus,
+  });
   await writeCredits(questions);
 
   console.log(`\n${questions.length} questions written to ${OUTPUT}`);
@@ -909,7 +1042,11 @@ async function formatJson(value: unknown, file: string): Promise<string> {
   return format(JSON.stringify(value), { ...options, parser: 'json' });
 }
 
-async function writeReport(questions: QuestionRecord[], seedCount: number): Promise<void> {
+async function writeReport(
+  questions: QuestionRecord[],
+  seedCount: number,
+  taxonomy: Record<string, unknown>,
+): Promise<void> {
   const perCategory = Object.fromEntries(
     CATEGORY_VALUES.map((category) => {
       const own = questions.filter((question) => question.category === category);
@@ -942,6 +1079,7 @@ async function writeReport(questions: QuestionRecord[], seedCount: number): Prom
     questions: questions.length,
     perCategory,
     translations: translationReport(questions),
+    taxonomy,
     imageLicenses: licenses,
     dropReasons: reasons,
     redirects,
