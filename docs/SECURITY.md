@@ -182,11 +182,17 @@ Un payload invalide renvoie `VALIDATION_ERROR` sans détail interne.
 
 ### 5.4 Images
 
-- HTTPS uniquement.
-- Allowlist : `upload.wikimedia.org`, `commons.wikimedia.org`.
+Les images passent par le proxy same-origin `/img` (DECISIONS D-107) : le navigateur ne contacte jamais Wikimedia pendant une partie.
+
+- Banque : HTTPS uniquement, fichiers de `upload.wikimedia.org/wikipedia/commons/` (`sourceUrl` sur `commons.wikimedia.org`), `alt` obligatoire et générique (« Photographie d'un animal à identifier »).
 - Pas de `data:`, `blob:`, `javascript:`, `file:`.
-- `alt` obligatoire.
-- Les images sont servies directement par le navigateur ; le serveur ne les proxyfie pas en v1.
+- Snapshot `QUESTION` : `image = { url: "/img/<jeton>", alt, widths? }` uniquement. Le jeton (128 bits aléatoires, base64url) est propre à la manche, vit 2 h en mémoire et meurt au redémarrage. Crédit, licence, auteur, `sourceUrl` et nom de fichier n'arrivent qu'avec `REVEAL` ; `question.id` est un identifiant de manche opaque et `subject` n'est pas envoyé.
+- Anti-SSRF / pas de proxy ouvert : le client ne fournit jamais d'URL, seulement un jeton connu ; le serveur ne récupère que les URL de la banque qui passent une regex stricte (`https://upload.wikimedia.org/wikipedia/commons/[thumb/]x/xy/…`, refusée si le parseur d'URL la réécrirait (segments `.`/`..`), sans `%2f`, `%5c`, `\`, requête ni fragment), `redirect: 'error'`, délai 10 s, 10 Mo au plus.
+- Largeurs autorisées : 330, 500, 960 (`?w=`, sinon 400) ; une vignette n'est jamais agrandie.
+- Contenu : JPEG ou PNG reconnu par ses octets magiques, sinon 502. EXIF, XMP, IPTC, commentaires JPEG et chunks `tEXt`/`zTXt`/`iTXt`/`eXIf`/`tIME` retirés ; bourrage nul déterministe par jeton et largeur (0-16 Ko après la fin d'image) pour que taille et hash ne correspondent pas au fichier public.
+- En-têtes de réponse : `Content-Type` sniffé, `Cache-Control: private, max-age=<durée restante du jeton>`, `ETag` dérivé du jeton (HMAC, `304` sur `If-None-Match`), `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer` ; aucun en-tête amont recopié (pas de `Content-Disposition`, `Last-Modified`, métadonnées Swift). Jeton inconnu ou expiré : `404` `no-store`.
+- Rate limiting : 300 requêtes/min/IP sur `/img` (§8).
+- Risque résiduel assumé : reconnaissance visuelle de l'image (recherche inversée).
 - En cas d'image indisponible : placeholder local.
 
 ### 5.5 Articles
@@ -199,7 +205,7 @@ Un payload invalide renvoie `VALIDATION_ERROR` sans détail interne.
 
 ### 5.6 Réponses
 
-- `questionId` : slug connu de la room courante.
+- `questionId` : identifiant opaque de la manche courante (D-107), jamais le slug de la banque.
 - `choiceIndex` : entier strict 0-3.
 - `phaseToken` : 32 hex.
 - Le temps de réponse n'est jamais fourni par le client.
@@ -216,7 +222,7 @@ Content-Security-Policy:
   default-src 'self';
   script-src 'self';
   style-src 'self';
-  img-src 'self' https://upload.wikimedia.org https://commons.wikimedia.org;
+  img-src 'self';
   font-src 'self';
   connect-src 'self' wss://DOMAIN;
   media-src 'self';
@@ -259,7 +265,7 @@ Cross-Origin-Resource-Policy: same-origin
 
 - React échappe les textes.
 - Aucun `dangerouslySetInnerHTML`, aucun `innerHTML`, aucun `eval`.
-- Les URLs d'images sont validées par allowlist.
+- Les URLs d'images sont validées par allowlist côté serveur ; le client ne reçoit que `/img/<jeton>`.
 - Les pseudos et articles sont des textes.
 - CSP sans `unsafe-inline`.
 - Les erreurs serveur ne sont jamais injectées comme HTML.
@@ -277,6 +283,7 @@ Cross-Origin-Resource-Policy: same-origin
 - Les assets sont hashés par Vite.
 - `index.html` est `no-cache`.
 - Aucune donnée de room dans le cache HTTP.
+- Images `/img` : `Cache-Control: private` (jamais `public`, aucun cache partagé ne conserve le lien jeton → image).
 
 ## 7. Sécurité Socket.io
 
@@ -299,6 +306,7 @@ Cross-Origin-Resource-Policy: same-origin
 | --- | --- | --- |
 | HTTP par IP | 100/min | mémoire |
 | Sessions par IP | 10/min | mémoire |
+| Images `/img` par IP | 300/min | mémoire |
 | Rooms par session | 10/min | mémoire |
 | Join par IP | 10/min | mémoire |
 | File par session | 20/min | mémoire |

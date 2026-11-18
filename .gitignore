@@ -27,6 +27,7 @@ data/*.db-*
 .env.*
 !.env.example
 data/e2e.db*
+data/image-cache
 
 # Wikipedia/Wikimedia API response cache (regenerable)
 data/cache/

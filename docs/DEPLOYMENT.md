@@ -149,6 +149,8 @@ NODE_ENV=production
 PORT=3000
 PUBLIC_ORIGIN=https://encycla.example.com
 DATABASE_PATH=/var/lib/encycla/encycla.db
+IMAGE_CACHE_DIR=/var/cache/encycla/images
+IMAGE_CACHE_MAX_MB=512
 ADMIN_TOKEN=<openssl rand -hex 32>
 TRUST_PROXY=true
 TIKTOK_ENABLED=false
@@ -171,6 +173,7 @@ Validation **fail-fast** au démarrage (`server/config.ts`, avant d'ouvrir la ba
 | `TIKTOK_ENABLED=true` sans `TIKTOK_USERNAME` / `TIKTOK_SESSION_COOKIE` | refus | refus |
 | `TIKTOK_ENABLED=true` sans le paquet optionnel `tiktok-live-connector` | refus | avertissement, mode manuel |
 | `TRUST_PROXY` autre que `false`, `true` ou 1-10 | refus | refus |
+| `IMAGE_CACHE_MAX_MB` autre qu'un entier 1-100000 | refus | refus |
 
 - `PUBLIC_ORIGIN` doit correspondre exactement au domaine public, sans slash final.
 - `ADMIN_TOKEN` : `openssl rand -hex 32` (64 caractères).
@@ -252,6 +255,17 @@ server {
 - La valeur Express `true` (« faire confiance à tous les sauts ») n'est jamais utilisée : elle permettrait de falsifier l'IP et de contourner le rate limit.
 - Sans proxy, laisser `TRUST_PROXY=false`.
 
+### 6.5 Proxy d'images et bande passante
+
+Les images sont servies par le serveur de jeu sous `/img/<jeton>?w=330|500|960` (DECISIONS D-107, SECURITY §5.4) : le navigateur ne contacte jamais Wikimedia.
+
+- `IMAGE_CACHE_DIR` (défaut `data/image-cache`, vide = mémoire seule) : cache disque des images nettoyées, noms = SHA-256 de l'URL amont. Jetable : le supprimer ne coûte que de nouveaux téléchargements. Le processus doit pouvoir y écrire ; il ne fait pas partie des sauvegardes (§10).
+- `IMAGE_CACHE_MAX_MB` (défaut 512) : plafond du cache disque, les fichiers les moins récemment utilisés partent en premier (au démarrage aussi). Cache mémoire en plus : 64 Mo.
+- Sortie vers Wikimedia : une requête par fichier et par largeur tant qu'il est en cache (requêtes simultanées fusionnées), `User-Agent` identifiable conformément à la politique Wikimedia. Le serveur doit pouvoir joindre `https://upload.wikimedia.org` (pare-feu sortant). Une erreur ou un 429 amont donne un 502 et le placeholder « image indisponible », jamais l'URL d'origine.
+- Ordre de grandeur mesuré sur un échantillon de la banque (novembre 2026, une dizaine de fichiers) : ≈ 260 Ko en moyenne à 960 px, ≈ 50 Ko à 330 px. Les 2 496 images à 960 px représentent donc ≈ 650 Mo ; avec les trois largeurs, compter ≈ 1 Go pour tout garder (512 Mo suffisent pour les images les plus jouées).
+- Bande passante sortante vers les joueurs : une image par question et par joueur, à la largeur choisie par le navigateur (`srcset`), soit ≈ 2,5 Mo par partie de 10 questions sur un écran large, bien moins sur mobile. Les réponses sont `Cache-Control: private` (le navigateur les garde jusqu'à l'expiration du jeton, aucun CDN ne les partage) : prévoir cette bande passante sur l'hôte lui-même.
+- Limite : 300 requêtes/min/IP sur `/img`. Derrière un NAT très peuplé, `TRUST_PROXY` doit être correct pour que la limite porte sur l'IP réelle.
+
 ## 7. Docker
 
 ### 7.1 Dockerfile
@@ -276,7 +290,7 @@ docker build --build-arg WITH_TIKTOK=true -t encycla .   # avec le connecteur
 
 [`docker-compose.yml`](../docker-compose.yml) :
 
-- service `encycla` : `NODE_ENV=production` imposé, base dans le volume `encycla-data` (`DATABASE_PATH=/app/data/db/encycla.db`), système de fichiers en lecture seule, `cap_drop: ALL`, `no-new-privileges`, port publié uniquement sur `127.0.0.1:3000` ;
+- service `encycla` : `NODE_ENV=production` imposé, base dans le volume `encycla-data` (`DATABASE_PATH=/app/data/db/encycla.db`), cache d'images dans le volume `encycla-image-cache` (`IMAGE_CACHE_DIR=/app/data/image-cache`, §6.5), système de fichiers en lecture seule, `cap_drop: ALL`, `no-new-privileges`, port publié uniquement sur `127.0.0.1:3000` ;
 - service `caddy` (profil `proxy`, optionnel) : HTTPS automatique (Let's Encrypt) pour `DOMAIN`, ports 80/443, configuration [`deploy/Caddyfile`](../deploy/Caddyfile) ; mettre alors `TRUST_PROXY=true` et `PUBLIC_ORIGIN=https://$DOMAIN`.
 
 ```bash
@@ -288,7 +302,7 @@ docker compose logs -f encycla
 ```
 
 - `data/questions.json` reste dans l'image pour ne pas être masqué par un volume périmé.
-- `read_only` est compatible avec le volume de données.
+- `read_only` est compatible avec les volumes de données et de cache d'images ; `docker volume rm encycla_encycla-image-cache` vide le cache sans risque (service arrêté).
 - Sans le profil `proxy`, ne pas publier `3000` sur `0.0.0.0` : placer un reverse proxy TLS devant (§6.3).
 
 ### 7.3 Première mise en production
@@ -528,6 +542,7 @@ Réponse :
 2. Fermer les rooms inactives.
 3. Redémarrer hors heures de pointe.
 4. Réduire la limite de rooms.
+5. Le cache d'images mémoire est plafonné à 64 Mo ; le cache disque se règle avec `IMAGE_CACHE_MAX_MB` (§6.5).
 
 ### 13.4 Questions manquantes
 

@@ -232,7 +232,7 @@ Règles :
 - Validation Zod de toutes les entrées.
 - Rate limiting HTTP et Socket.io.
 - La bonne réponse n'est jamais envoyée avant `REVEAL`.
-- Images limitées à une allowlist HTTPS.
+- Images servies par notre serveur (`/img/<jeton>`, proxy Commons à allowlist stricte, métadonnées retirées) : ni nom de fichier ni crédit avant la révélation (D-107), CSP `img-src 'self'`.
 
 Détail dans [docs/SECURITY.md](docs/SECURITY.md).
 
@@ -269,7 +269,7 @@ Procédure complète dans [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 - politesse API : User-Agent descriptif, requêtes séquentielles avec délai, `maxlag`, reprise sur 429/`Retry-After`, cache disque (`data/cache/`, ignoré par git). `--offline` rejoue la génération depuis le cache, de façon identique.
 
 Les images sont servies en vignettes de 960 px (Commons n'accepte que des largeurs standard) ; les anciennes URL en 640 px répondent en HTTP 400.
-- Les images sont des URLs Wikimedia créditées.
+- Les images sont des fichiers Wikimedia crédités, servis par le proxy `/img` du serveur (cache disque `IMAGE_CACHE_DIR`, voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) §6.5).
 - Aucune génération Gemini au runtime ; la génération est hors ligne, avec revue humaine.
 
 Voir [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
@@ -322,7 +322,7 @@ Détail et estimation dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLA
 - Ne jamais ajouter une dépendance sans vérifier qu'elle existe déjà ou justifier son ajout.
 - Ajouter ou mettre à jour un test pour chaque comportement.
 - Ne jamais commiter de secret.
-- Ne jamais utiliser de CDN pour les polices, le JS ou le CSS ; les images éditoriales suivent l'allowlist CSP.
+- Ne jamais utiliser de CDN pour les polices, le JS ou le CSS ; les images éditoriales passent par le proxy same-origin `/img` (D-107).
 - Ne jamais utiliser `dangerouslySetInnerHTML`.
 - Ne jamais écrire de HTML dans les articles.
 - Ne jamais introduire de décision produit implicite : mettre à jour `DECISIONS.md` et `ADR.md`.

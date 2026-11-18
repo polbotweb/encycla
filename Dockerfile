@@ -24,7 +24,8 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/data/questions.json ./data/questions.json
 COPY --from=build /app/server/db/migrations ./server/db/migrations
 COPY --from=build /app/LICENSE /app/CREDITS.md ./
-RUN mkdir -p /app/data/db && chown -R encycla:encycla /app/data/db
+RUN mkdir -p /app/data/db /app/data/image-cache \
+  && chown -R encycla:encycla /app/data/db /app/data/image-cache
 USER encycla
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \

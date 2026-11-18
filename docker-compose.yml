@@ -16,10 +16,13 @@ services:
       NODE_ENV: production
       PORT: '3000'
       DATABASE_PATH: /app/data/db/encycla.db
+      IMAGE_CACHE_DIR: /app/data/image-cache
     ports:
       - '127.0.0.1:3000:3000'
     volumes:
       - encycla-data:/app/data/db
+      # Proxied Commons images (D-107), disposable: size capped by IMAGE_CACHE_MAX_MB.
+      - encycla-image-cache:/app/data/image-cache
     read_only: true
     tmpfs:
       - /tmp
@@ -60,5 +63,6 @@ services:
 
 volumes:
   encycla-data:
+  encycla-image-cache:
   caddy-data:
   caddy-config:
