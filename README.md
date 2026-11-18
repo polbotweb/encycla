@@ -54,10 +54,19 @@ Encycla v2 applique quatre principes :
 | Difficulté | progressive | choisie | Adventurer |
 | Article | après chaque question | après chaque question | après chaque question |
 
+**Sans TikTok (web, ordinateur et mobile)** — c'est le jeu complet, TikTok désactivé (`TIKTOK_ENABLED=false`, défaut) :
+
 - **Solo** : campagne CLASSIC ou SUBJECT, vies rechargées à chaque niveau.
-- **Room privée** : code à 6 caractères, 2 à 8 joueurs, démarrage par le host.
-- **Room publique** : matchmaking par mode, catégorie et difficulté ; small room après 2 minutes.
-- **TikTok** : les viewers répondent `A`, `B`, `C` ou `D` dans le chat ; overlay OBS et console host.
+- **Salon privé** : code à 6 caractères (ou lien `/?mode=join&code=…`), 2 à 8 joueurs, démarrage par le host.
+- **Matchmaking public** : par mode, catégorie et difficulté ; duel CONTEST dès 2 joueurs ; small room après 2 minutes.
+
+**Avec TikTok Live (n'importe quel live)** — `TIKTOK_ENABLED=true` :
+
+- La console streamer `/?mode=admin` (jeton `ADMIN_TOKEN`) crée le salon pour le `@` du live choisi et donne deux liens : l'**overlay** (source Navigateur dans OBS) et la **console** (téléphone ou second écran : démarrer, pause, passer, réponse manuelle, fermer).
+- Les spectateurs répondent `A`, `B`, `C` ou `D` dans le chat ; top 10 et classement final à l'écran.
+- `TIKTOK_ADAPTER=fake` : chat simulé pour les démos et les tests, sans compte TikTok. Guide pas à pas : [docs/TIKTOK.md](docs/TIKTOK.md).
+
+Les deux modes sont vérifiés de bout en bout par Playwright contre le serveur construit (bureau, Pixel 7 et iPhone 14 émulés, fr/en/ar ; TikTok avec chat simulé) : `pnpm test:e2e`.
 - Une fin naturelle affiche l'article final avant le classement ; une fin anticipée web/solo (élimination, moins de 2 actifs) passe directement de `REVEAL` à `MATCH_OVER`. Une room TikTok ne s'arrête pas sur `< 2` actifs.
 
 ## Architecture en un coup d'œil
@@ -90,7 +99,7 @@ La documentation est la référence d'implémentation. Aucune décision ouverte 
 | Document | Contenu |
 | --- | --- |
 | [docs/ADR.md](docs/ADR.md) | 18 décisions d'architecture binding. |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | 112 décisions explicites et dettes assumées. |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | 114 décisions explicites et dettes assumées. |
 | [docs/SPECIFICATION.md](docs/SPECIFICATION.md) | Règles, modes, phases, scores, matchmaking, TikTok. |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Contrat HTTP, Socket.io, payloads, erreurs. |
 | [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Schéma SQLite, JSON des questions, leaderboard. |

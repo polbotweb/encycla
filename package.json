@@ -23,6 +23,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
+    "test:e2e:desktop": "playwright test --project=chromium --project=tiktok",
+    "test:e2e:mobile": "playwright test --project=mobile-pixel --project=mobile-iphone",
     "test:load": "tsx scripts/load-test.ts",
     "data:extract": "tsx scripts/extract-legacy-questions.ts",
     "data:validate": "tsx scripts/validate-questions.ts",
