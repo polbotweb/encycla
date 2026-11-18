@@ -27,25 +27,31 @@ Comportement :
 
 ## Activer le connecteur réel
 
-Le connecteur réel est **volontairement absent des dépendances** :
+Le connecteur réel est une dépendance **optionnelle et isolée** (`optionalDependencies`, chargée uniquement par `server/tiktok/liveAdapter.ts` via `import()` dynamique, derrière l'interface `TikTokAdapter`) :
 
 1. `tiktok-live-connector` est un client **non officiel** ; son usage peut contrevenir aux conditions d'utilisation de TikTok (voir [DEPLOYMENT.md](DEPLOYMENT.md) §12.1).
-2. Il est publié sous licence **AGPL-3.0-only**. L'ajouter au dépôt a des conséquences de licence pour un service exposé en réseau : c'est une décision du propriétaire du projet.
+2. Il est publié sous licence **AGPL-3.0-only** ; il n'est donc **pas** inclus dans l'image Docker par défaut. L'activer sur une instance exposée en réseau impose de respecter l'AGPL pour ce paquet (voir [LICENSES.md](LICENSES.md) §3) : c'est une décision de l'opérateur.
 3. Il s'appuie sur un service de signature tiers (Euler Stream) dont la disponibilité et les quotas ne sont pas sous notre contrôle.
 
 Pour l'activer sur une instance, après décision explicite :
 
 ```bash
-pnpm add tiktok-live-connector
+pnpm install                                            # local : les dépendances optionnelles sont installées
+docker build --build-arg WITH_TIKTOK=true -t encycla .  # image avec le connecteur
+WITH_TIKTOK=true docker compose up -d --build           # ou via compose
 ```
 
 ```dotenv
 TIKTOK_ENABLED=true
 TIKTOK_USERNAME=<compte dédié>
 TIKTOK_SESSION_COOKIE=sessionid=<valeur>; tt-target-idc=<valeur>
+# optionnel : clé Euler Stream (quotas du service de signature)
+TIKTOK_SIGN_API_KEY=
 ```
 
-Au démarrage, le serveur refuse `TIKTOK_ENABLED=true` sans `TIKTOK_USERNAME` ni `TIKTOK_SESSION_COOKIE`. Si le paquet n'est pas installé, le connecteur reste déconnecté, réessaie avec backoff, `POST /api/tiktok/rooms` répond `TIKTOK_NOT_CONNECTED` et la santé est `degraded`.
+Au démarrage, le serveur refuse `TIKTOK_ENABLED=true` sans `TIKTOK_USERNAME` ni `TIKTOK_SESSION_COOKIE`. En production il refuse aussi de démarrer si le paquet optionnel n'est pas installé (image construite sans `WITH_TIKTOK=true`) ; en développement il avertit et reste en mode manuel. Si le live se coupe, le connecteur reste déconnecté, réessaie avec backoff, `POST /api/tiktok/rooms` répond `TIKTOK_NOT_CONNECTED` et la santé est `degraded`.
+
+Tests : `tests/tiktok/connector.test.ts` vérifie, avec un module simulé, les options passées au paquet (cookie de session, `authenticateWs`, clé de signature), la conversion des messages `chat`, la gestion de `streamEnd`/`disconnected`, le silence sur `error`, et que le vrai paquet installé expose bien `TikTokLiveConnection`.
 
 > `liveAdapter.ts` suit l'API publique de `tiktok-live-connector` 2.5 (événements `chat`, `disconnected`, `streamEnd`, option `session.cookie`). Il n'a **pas** pu être exécuté contre un vrai live dans cet environnement : la validation ci-dessous est obligatoire.
 

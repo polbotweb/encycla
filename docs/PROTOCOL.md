@@ -385,6 +385,7 @@ Query :
 
 - `mode` : `CLASSIC | SUBJECT | CONTEST` (optionnel)
 - `source` : `web | tiktok` (optionnel)
+- `language` : `fr | en | ar` (optionnel) : seulement les matchs joués dans cette langue de questions
 - `limit` : 1-100, défaut 50
 - `offset` : défaut 0
 

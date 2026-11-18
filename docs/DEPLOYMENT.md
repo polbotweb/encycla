@@ -45,18 +45,7 @@ pnpm run dev
 
 `.env.example` :
 
-```dotenv
-NODE_ENV=development
-PORT=3000
-PUBLIC_ORIGIN=http://localhost:5173
-DATABASE_PATH=data/encycla.db
-ADMIN_TOKEN=change-me
-TIKTOK_ENABLED=false
-TIKTOK_USERNAME=
-TIKTOK_SESSION_COOKIE=
-GEMINI_API_KEY=
-LOG_LEVEL=debug
-```
+Copier [`.env.example`](../.env.example) en `.env` : chaque variable y est commentée. En développement, `ADMIN_TOKEN` peut rester vide (routes admin désactivées) ; la valeur historique `change-me` est tolérée hors production, toute autre valeur faible est refusée au démarrage.
 
 Générer des secrets locaux :
 
@@ -160,16 +149,31 @@ NODE_ENV=production
 PORT=3000
 PUBLIC_ORIGIN=https://encycla.example.com
 DATABASE_PATH=/var/lib/encycla/encycla.db
-ADMIN_TOKEN=<32 bytes base64url>
-TIKTOK_ENABLED=true
-TIKTOK_USERNAME=<compte>
-TIKTOK_SESSION_COOKIE=<cookie>
-GEMINI_API_KEY=
+ADMIN_TOKEN=<openssl rand -hex 32>
+TRUST_PROXY=true
+TIKTOK_ENABLED=false
+TIKTOK_USERNAME=
+TIKTOK_SESSION_COOKIE=
+TIKTOK_SIGN_API_KEY=
 LOG_LEVEL=info
+DOMAIN=encycla.example.com
 ```
 
+Validation **fail-fast** au démarrage (`server/config.ts`, avant d'ouvrir la base ou d'écouter) : le processus s'arrête avec un code non nul et la liste des problèmes, sans jamais afficher la valeur d'un secret.
+
+| Règle | Production | Développement |
+| --- | --- | --- |
+| `ADMIN_TOKEN` absent | refus | admin désactivé |
+| `ADMIN_TOKEN` = valeur d'exemple (`change-me`, `admin`, `password`…) | refus | `change-me` toléré (admin désactivé), autres refusées |
+| `ADMIN_TOKEN` < 32 caractères (prod) / < 16 (dev), espaces, < 8 caractères distincts | refus | refus |
+| `PUBLIC_ORIGIN` absent ou pas `https://hôte[:port]` | refus | libre |
+| `RATE_LIMIT=off` | refus | autorisé (tests de charge) |
+| `TIKTOK_ENABLED=true` sans `TIKTOK_USERNAME` / `TIKTOK_SESSION_COOKIE` | refus | refus |
+| `TIKTOK_ENABLED=true` sans le paquet optionnel `tiktok-live-connector` | refus | avertissement, mode manuel |
+| `TRUST_PROXY` autre que `false`, `true` ou 1-10 | refus | refus |
+
 - `PUBLIC_ORIGIN` doit correspondre exactement au domaine public, sans slash final.
-- `ADMIN_TOKEN` est obligatoire en production ; le serveur refuse de démarrer sinon.
+- `ADMIN_TOKEN` : `openssl rand -hex 32` (64 caractères).
 - Les IP ne sont jamais persistées ; seul le rate limiting en mémoire les utilise.
 - `GEMINI_API_KEY` n'est pas nécessaire au runtime ; ne pas la monter dans le conteneur de jeu.
 - `TIKTOK_SESSION_COOKIE` est obligatoire si `TIKTOK_ENABLED=true`.
@@ -244,81 +248,60 @@ server {
 
 ### 6.4 `trust proxy`
 
-- Derrière un seul reverse proxy : `app.set('trust proxy', 1)`.
-- Ne jamais utiliser `true` sans contrôle : cela permettrait de falsifier l'IP et de contourner le rate limit.
+- `TRUST_PROXY=true` derrière **un** reverse proxy (Caddy du compose, Nginx) : Express reçoit `trust proxy = 1`. Un nombre `N` (1-10) pour une chaîne de proxies.
+- La valeur Express `true` (« faire confiance à tous les sauts ») n'est jamais utilisée : elle permettrait de falsifier l'IP et de contourner le rate limit.
+- Sans proxy, laisser `TRUST_PROXY=false`.
 
 ## 7. Docker
 
 ### 7.1 Dockerfile
 
-```dockerfile
-FROM node:22-alpine AS deps
-WORKDIR /app
-RUN apk add --no-cache python3 make g++ && corepack enable
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+Voir [`Dockerfile`](../Dockerfile) : trois étapes (`deps` compile `better-sqlite3`, `build` construit client et serveur, `runtime` non-root avec healthcheck). L'image contient `dist/`, les migrations, `data/questions.json`, `LICENSE` et `CREDITS.md` (attribution CC BY-SA du contenu).
 
-FROM deps AS build
-COPY . .
-RUN pnpm run build
-RUN pnpm prune --prod
+| Build arg | Défaut | Effet |
+| --- | --- | --- |
+| `WITH_TIKTOK` | `false` | `false` : `pnpm prune --prod --no-optional`, le connecteur AGPL **n'est pas** dans l'image. `true` : le connecteur est conservé (voir [LICENSES.md](LICENSES.md) §3). |
 
-FROM node:22-alpine AS runtime
-WORKDIR /app
-ENV NODE_ENV=production
-RUN addgroup -S encycla && adduser -S encycla -G encycla
-COPY --from=build /app/package.json ./
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/data/questions.json ./data/questions.json
-COPY --from=build /app/server/db/migrations ./server/db/migrations
-RUN mkdir -p /app/data && chown -R encycla:encycla /app
-USER encycla
-EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD node -e "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
-CMD ["node", "dist/server/index.js"]
+```bash
+docker build -t encycla .                                # sans TikTok
+docker build --build-arg WITH_TIKTOK=true -t encycla .   # avec le connecteur
 ```
 
 - Image de base épinglée par digest en production.
 - Pas de gestionnaire de paquets dans le runtime.
-- Pas de secrets dans l'image.
-- `better-sqlite3` doit être compilé dans `deps` et copié dans le runtime.
+- Pas de secrets dans l'image : tout passe par `.env` à l'exécution.
+- La CI construit les deux variantes, vérifie que l'image par défaut ne contient pas le connecteur et qu'elle refuse de démarrer en production avec `ADMIN_TOKEN=change-me`.
 
 ### 7.2 Compose
 
-```yaml
-services:
-  encycla:
-    build: .
-    restart: unless-stopped
-    env_file: .env
-    ports:
-      - "127.0.0.1:3000:3000"
-    volumes:
-      - encycla-data:/app/data/db
-    read_only: true
-    tmpfs:
-      - /tmp
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-    healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
+[`docker-compose.yml`](../docker-compose.yml) :
 
-volumes:
-  encycla-data:
+- service `encycla` : `NODE_ENV=production` imposé, base dans le volume `encycla-data` (`DATABASE_PATH=/app/data/db/encycla.db`), système de fichiers en lecture seule, `cap_drop: ALL`, `no-new-privileges`, port publié uniquement sur `127.0.0.1:3000` ;
+- service `caddy` (profil `proxy`, optionnel) : HTTPS automatique (Let's Encrypt) pour `DOMAIN`, ports 80/443, configuration [`deploy/Caddyfile`](../deploy/Caddyfile) ; mettre alors `TRUST_PROXY=true` et `PUBLIC_ORIGIN=https://$DOMAIN`.
+
+```bash
+cp .env.example .env        # puis renseigner les valeurs de production (§6.1)
+docker compose --profile proxy up -d --build             # application + HTTPS
+docker compose up -d --build                             # application seule (proxy existant)
+WITH_TIKTOK=true docker compose --profile proxy up -d --build   # avec le connecteur TikTok
+docker compose logs -f encycla
 ```
 
-- Le volume `encycla-data` contient SQLite (`/app/data/db`) ; `data/questions.json` reste dans l'image pour ne pas être masqué par un volume périmé. Définir `DATABASE_PATH=/app/data/db/encycla.db`.
-- `read_only` est compatible avec le volume `data`.
-- Ne pas publier `3000` sur `0.0.0.0` si un reverse proxy local est utilisé.
+- `data/questions.json` reste dans l'image pour ne pas être masqué par un volume périmé.
+- `read_only` est compatible avec le volume de données.
+- Sans le profil `proxy`, ne pas publier `3000` sur `0.0.0.0` : placer un reverse proxy TLS devant (§6.3).
 
-### 7.3 Migrations dans Docker
+### 7.3 Première mise en production
+
+1. Serveur Linux avec Docker et Docker Compose, DNS `A`/`AAAA` du domaine vers lui, ports 80 et 443 ouverts.
+2. `git clone https://github.com/polbotweb/encycla && cd encycla && cp .env.example .env`.
+3. Dans `.env` : `NODE_ENV=production`, `DOMAIN`, `PUBLIC_ORIGIN=https://<domaine>`, `ADMIN_TOKEN=$(openssl rand -hex 32)`, `TRUST_PROXY=true`. `chmod 600 .env`.
+4. `docker compose --profile proxy up -d --build` ; en cas d'erreur de configuration, `docker compose logs encycla` liste les variables à corriger.
+5. Vérifier `curl https://<domaine>/api/health` (`ok`) et une partie solo dans un navigateur.
+6. Programmer la sauvegarde SQLite (§10) vers un stockage hors serveur.
+7. TikTok, seulement après décision (§12 et [TIKTOK.md](TIKTOK.md)) : renseigner `TIKTOK_*`, puis `WITH_TIKTOK=true docker compose --profile proxy up -d --build`.
+
+### 7.4 Migrations dans Docker
 
 Le serveur applique les migrations au démarrage. Pour un contrôle explicite :
 

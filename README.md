@@ -90,7 +90,7 @@ La documentation est la référence d'implémentation. Aucune décision ouverte 
 | Document | Contenu |
 | --- | --- |
 | [docs/ADR.md](docs/ADR.md) | 18 décisions d'architecture binding. |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | 79 décisions explicites et dettes assumées. |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | 99 décisions explicites et dettes assumées. |
 | [docs/SPECIFICATION.md](docs/SPECIFICATION.md) | Règles, modes, phases, scores, matchmaking, TikTok. |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Contrat HTTP, Socket.io, payloads, erreurs. |
 | [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Schéma SQLite, JSON des questions, leaderboard. |
@@ -99,6 +99,7 @@ La documentation est la référence d'implémentation. Aucune décision ouverte 
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Local, Docker, TLS, migrations, runbook. |
 | [docs/UI-UX.md](docs/UI-UX.md) | Écrans, tokens, accessibilité, overlay, control. |
 | [docs/TIKTOK.md](docs/TIKTOK.md) | État de l'implémentation TikTok, activation du connecteur, checklist de live. |
+| [docs/LICENSES.md](docs/LICENSES.md) | Licences du code (MIT), du contenu (CC BY-SA, CC0, Commons), des polices et du connecteur TikTok (AGPL). |
 | [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | Phases, dépendances, estimation, critères de sortie. |
 
 Ordre de lecture recommandé :
@@ -115,20 +116,26 @@ Ordre de lecture recommandé :
 Les phases 0 à 9 sont implémentées et vérifiées automatiquement :
 
 - **Outillage** : pnpm (lockfile gelé), TypeScript strict, ESLint, Prettier, Vitest, Playwright, CI (secrets, format, lint, types, données, tests, audit, build, e2e, build Docker).
-- **Données** : `data/questions.json` (2 496 questions en français générées depuis Wikipédia et Wikimedia Commons par `pnpm run data:wikipedia`, validées par `pnpm run data:validate`) et import SQLite atomique.
+- **Données** : `data/questions.json` (2 496 questions en français, anglais et arabe générées depuis Wikipédia et Wikimedia Commons par `pnpm run data:wikipedia`, validées par `pnpm run data:validate`) et import SQLite atomique.
 - **Moteur** (`server/game`) : réducteur pur `reduce`/`tick`, scoring, state machine, effets sous forme de données.
 - **Serveur** : Express 5 + Socket.io (`/game`), `RoomManager`, sessions hachées, persistance SQLite avec repli mémoire, leaderboard, matchmaking public avec vote small room, reconnexion, fermeture admin, rate limiting HTTP et socket, CSP stricte, HSTS, Permissions-Policy.
-- **TikTok** (`server/tiktok`) : parsing strict, connecteur avec backoff, faux adaptateur, route `POST /api/tiktok/rooms`, viewers (capacité 100, déduplication), overlay en lecture seule et console control. Le connecteur réel n'est pas livré par défaut : voir [docs/TIKTOK.md](docs/TIKTOK.md).
+- **TikTok** (`server/tiktok`) : parsing strict, connecteur avec backoff, faux adaptateur, route `POST /api/tiktok/rooms`, viewers (capacité 100, déduplication), overlay en lecture seule et console control. Le connecteur réel (`tiktok-live-connector`, AGPL-3.0) est une dépendance **optionnelle** isolée derrière l'interface `TikTokAdapter`, absente de l'image Docker par défaut : voir [docs/TIKTOK.md](docs/TIKTOK.md) et [docs/LICENSES.md](docs/LICENSES.md).
 - **Client** (`client/`) : React 19 + Zustand, toutes les vues de `docs/UI-UX.md` (accueil, lobby, file publique, countdown, question, révélation, article, fin de niveau, résultats, leaderboard, overlay, control), tokens sombres AA, annonces `aria-live`, raccourcis clavier, sons synthétisés en WebAudio (aucun fichier audio).
-- **Livraison** : `Dockerfile` multi-stage non-root avec healthcheck, `docker-compose.yml` durci, bundle serveur `dist/server/index.js`.
+- **Livraison** : `Dockerfile` multi-stage non-root avec healthcheck (option `WITH_TIKTOK`), `docker-compose.yml` durci avec proxy Caddy HTTPS optionnel (profil `proxy`), `.env.example` commenté, validation fail-fast de la configuration de production, bundle serveur `dist/server/index.js`.
 - **Tests** : unitaires, intégration Socket.io de bout en bout (CONTEST complet, solo, file publique, vote small room, reconnexion, room TikTok à 100 viewers), sécurité HTTP, jsdom + axe pour les vues, Playwright (solo, deux joueurs, changement de langue, RTL arabe, axe avec contraste dans les trois langues), test de charge `pnpm run test:load` (les rooms alternent fr, en, ar).
 
 Ce qui reste, et qui ne peut pas être fait sans décision ou sans compte externe :
 
-- **SUBJECT** reste désactivé pour les 18 catégories (12 à 16 questions, seuil 20) : la rédaction éditoriale n'a pas été inventée (phase 10).
-- **Live TikTok** : le connecteur réel doit être validé sur un compte secondaire (1 h, 20 viewers) ; sa licence AGPL et son service de signature tiers imposent une décision explicite.
-- **Accessibilité manuelle** (NVDA, VoiceOver, contraste réel de l'overlay sur le flux OBS) et **déploiement TLS** ne sont pas automatisables.
-- 234 articles restent sous la cible éditoriale de 200 caractères et les licences d'images legacy restent à revoir.
+- **Live TikTok** : le connecteur réel doit être validé sur un compte secondaire (1 h, 20 viewers) avant tout live public.
+- **Accessibilité manuelle** (NVDA, VoiceOver, contraste réel de l'overlay sur le flux OBS) n'est pas automatisable.
+
+### Ce que le propriétaire doit encore fournir
+
+- **Licence du code** : confirmer la licence MIT, en particulier pour les premiers commits du dépôt d'origine `Ishaq74/encycla` (publié sans licence) ; ajuster si besoin la ligne de copyright de [`LICENSE`](LICENSE).
+- **Hébergement** : un serveur (ou VM) avec Docker, un **nom de domaine** pointant vers lui (ports 80/443 ouverts) ; reporter le domaine dans `DOMAIN` et `PUBLIC_ORIGIN=https://<domaine>`.
+- **Secrets** dans `.env` (jamais commité) : `ADMIN_TOKEN` (`openssl rand -hex 32`).
+- **TikTok, seulement si utilisé** : décision d'utiliser un client non officiel sous AGPL ([docs/LICENSES.md](docs/LICENSES.md) §3), un **compte TikTok dédié**, son cookie `TIKTOK_SESSION_COOKIE` (`sessionid=…; tt-target-idc=…`), `TIKTOK_USERNAME`, et en option une clé Euler Stream `TIKTOK_SIGN_API_KEY` ; image construite avec `WITH_TIKTOK=true`.
+- **Sauvegardes** : une destination hors serveur pour les copies SQLite ([docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) §10).
 - La couverture client est inférieure à l'objectif de 70 % (voir `pnpm run test:coverage`) ; les seuils serveur (95 % branches `server/game`, 80 % `server`) sont atteints.
 
 ## Démarrage
@@ -190,9 +197,10 @@ Détail complet dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md).
 | `TIKTOK_ENABLED` | `false` | Active le connecteur. |
 | `TIKTOK_USERNAME` | — | Compte TikTok du live. |
 | `TIKTOK_SESSION_COOKIE` | — | Cookie de session TikTok. |
+| `TIKTOK_SIGN_API_KEY` | — | Clé Euler Stream optionnelle pour le connecteur. |
 | `GEMINI_API_KEY` | — | Scripts de contenu hors ligne uniquement. |
 | `LOG_LEVEL` | `info` | Verbosité des logs. |
-| `TRUST_PROXY` | `false` | `true` derrière un seul reverse proxy. |
+| `TRUST_PROXY` | `false` | `true` (= 1) ou nombre de reverse proxies devant le serveur ; jamais « tout faire confiance ». |
 | `STATIC_DIR` | `dist/client` | Build Vite servi par Express. |
 | `RATE_LIMIT` | `on` | `off` pour les tests de charge ; refusé en production. |
 
@@ -202,7 +210,7 @@ Règles :
 - Aucune variable secrète n'est préfixée `VITE_`.
 - `GEMINI_API_KEY` n'est jamais montée dans le runtime de jeu.
 - `TIKTOK_USERNAME` et `TIKTOK_SESSION_COOKIE` sont obligatoires si `TIKTOK_ENABLED=true`.
-- Le serveur refuse de démarrer en production sans `ADMIN_TOKEN` et `PUBLIC_ORIGIN`.
+- Le serveur refuse de démarrer en production si `ADMIN_TOKEN` manque ou est faible (< 32 caractères, valeur d'exemple, peu de caractères distincts), si `PUBLIC_ORIGIN` n'est pas une origine `https://`, si `RATE_LIMIT=off`, ou si `TIKTOK_ENABLED=true` sans le paquet optionnel. Hors production, un `ADMIN_TOKEN` faible autre que `change-me` est aussi refusé (au lieu de désactiver silencieusement l'admin).
 
 ## Qualité et sécurité
 
@@ -321,8 +329,10 @@ Détail et estimation dans [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLA
 
 ## Licence et crédits
 
-- Code : licence à définir avant publication.
-- Questions et articles : contenu original, à relire et créditer.
-- Images : Wikimedia Commons, crédit et licence affichés par question.
-- Polices : Merriweather et Inter, SIL Open Font License.
+- **Code** : licence [MIT](LICENSE).
+- **Questions et articles** : textes de Wikipédia (fr, en, ar) sous **CC BY-SA 4.0**, libellés Wikidata sous CC0 ; permalien de révision par question et par langue, liste dans [CREDITS.md](CREDITS.md).
+- **Images** : Wikimedia Commons, licence de chaque fichier (CC0, domaine public, CC BY, CC BY-SA), crédit affiché sous chaque image et listé dans `CREDITS.md`.
+- **Polices** : Merriweather, Inter, Noto Sans Arabic, Noto Naskh Arabic, SIL Open Font License.
+- **Connecteur TikTok** (optionnel) : `tiktok-live-connector`, **AGPL-3.0-only**, non distribué par défaut.
+- Détail et obligations : [docs/LICENSES.md](docs/LICENSES.md).
 - Sons : signaux synthétisés en WebAudio au runtime, aucun fichier audio embarqué.

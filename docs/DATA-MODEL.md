@@ -118,6 +118,9 @@ CREATE TABLE matches (
                     CHECK (difficulty IS NULL OR difficulty IN ('Novice', 'Adventurer', 'Wizard')),
   source            TEXT NOT NULL
                     CHECK (source IN ('web', 'tiktok')),
+  -- migration 004 : langue des questions de la room (D-88, D-95)
+  language          TEXT NOT NULL DEFAULT 'fr'
+                    CHECK (language IN ('fr', 'en', 'ar')),
   player_count      INTEGER NOT NULL CHECK (player_count BETWEEN 0 AND 100),
   total_questions   INTEGER NOT NULL CHECK (total_questions > 0),
   status            TEXT NOT NULL
