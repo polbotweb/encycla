@@ -71,7 +71,7 @@ Principes d'architecture :
 | Interface | React 19, thème sombre AA, clavier (`A`–`D`, `1`–`4`, `M` pour le son, `Échap` pour quitter), annonces lecteur d'écran, voix automatique (synthèse vocale du navigateur, fr/en/ar), sons synthétisés, PWA (manifeste, icônes *maskable*). |
 | Images | Proxy same-origin `/img` : aucun nom de fichier ni crédit avant la révélation, métadonnées retirées, cache disque plafonné. |
 | Exploitation | Docker non-root, Caddy HTTPS, SQLite avec repli mémoire, validation de configuration *fail-fast*, healthcheck, sauvegardes `VACUUM INTO`. |
-| Qualité | TypeScript strict, 429 tests Vitest, 47 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok), test de charge, CI complète. |
+| Qualité | TypeScript strict, 452 tests Vitest, 50 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok, voix), test de charge, CI complète. |
 
 ## 3. Modes de jeu
 
@@ -102,6 +102,8 @@ C'est le jeu complet ; TikTok est désactivé par défaut (`TIKTOK_ENABLED=false
 | Overlay OBS (1920 × 1080) | Console de jeu |
 | --- | --- |
 | ![Overlay TikTok pendant une question](docs/screenshots/desktop-fr-tiktok-overlay-question.png) | ![Console de jeu TikTok](docs/screenshots/desktop-fr-tiktok-control.png) |
+
+Le navigateur sans tête qui a pris ces captures n'a aucune voix installée : la console affiche donc l'avis « Ce navigateur ne propose aucune voix de synthèse vocale ». Sur un ordinateur avec des voix, la liste « Voix (français) » les propose.
 
 Les deux modes sont vérifiés de bout en bout par Playwright contre le serveur construit : voir [Tests et CI](#13-tests-et-ci).
 
