@@ -90,6 +90,52 @@ describe('label fallback (D-108)', () => {
   });
 });
 
+describe('long original names (D-109)', () => {
+  const thai = 'วัดอรุณราชวรารามราชวรมหาวิหาร';
+  it('uses the English label for a long name in another script', () => {
+    const item = forms({
+      nativeNames: [{ text: thai, lang: 'th', property: 'P1705' }],
+      englishLabel: 'Wat Arun',
+      originAliases: { th: ['วัดอรุณ'] },
+    });
+    expect(nativeChoice(item, 'ar')).toEqual({
+      label: 'Wat Arun',
+      origin: 'native-name',
+      lang: 'en',
+    });
+    // Without an English label, the longest short form the name starts with.
+    const { englishLabel: _english, ...noEnglish } = item;
+    void _english;
+    expect(
+      nativeChoice(
+        { ...noEnglish, originAliases: { th: ['วัดอรุณ', 'วัดอรุณราชวราราม', 'วัดแจ้ง'] } },
+        'ar',
+      ),
+    ).toEqual({ label: 'วัดอรุณราชวราราม', origin: 'native-name', lang: 'th' });
+    expect(nativeChoice(noEnglish, 'ar')?.label).toBe('วัดอรุณ');
+  });
+
+  it('keeps a long Latin-script name unless it has a short form, and short names as they are', () => {
+    const latin = forms({
+      nativeNames: [{ text: 'Catedral Metropolitana de Brasília', lang: 'pt', property: 'P1705' }],
+      englishLabel: 'Cathedral of Brasília',
+    });
+    expect(nativeChoice(latin, 'ar')?.label).toBe('Catedral Metropolitana de Brasília');
+    expect(
+      nativeChoice({ ...latin, originAliases: { pt: ['Catedral Metropolitana', 'Sé'] } }, 'ar')
+        ?.label,
+    ).toBe('Catedral Metropolitana');
+    const short = forms({
+      nativeNames: [{ text: '浅草観音', lang: 'ja' }],
+      englishLabel: 'Sensō-ji',
+    });
+    expect(nativeChoice(short, 'ar')?.label).toBe('浅草観音');
+    // English rooms never get the English label as an "original" name.
+    const long = forms({ nativeNames: [{ text: thai, lang: 'th' }], englishLabel: 'Wat Arun' });
+    expect(nativeChoice(long, 'en')?.lang).toBe('th');
+  });
+});
+
 describe('option resolution (D-108)', () => {
   it('writes every living option by its scientific name when one needs it', () => {
     const result = resolveOptions(

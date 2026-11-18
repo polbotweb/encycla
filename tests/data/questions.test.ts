@@ -18,6 +18,7 @@ async function loadQuestions(): Promise<QuestionRecord[]> {
 
 const TRANSLATED = ['en', 'ar'] as const;
 const ARABIC = /[\u0600-\u06FF]/;
+const CATALOGUE = /^(?:NGC|IC|M) ?\d+$/;
 
 describe('question bank', () => {
   it('validates the approved bank', async () => {
@@ -92,20 +93,38 @@ describe('question bank', () => {
     }
   });
 
-  it('keeps enough questions per category and language to enable SUBJECT, with one known gap', async () => {
+  it('keeps every category comfortably above the SUBJECT threshold in every language', async () => {
     const questions = await loadQuestions();
-    const short: string[] = [];
     for (const language of TRANSLATED) {
       for (const category of CATEGORY_VALUES) {
         const offered = questions.filter(
           (question) => question.category === category && question.translations?.[language],
         ).length;
-        if (offered < MIN_QUESTIONS_PER_CATEGORY) short.push(`${category} ${language}`);
+        // D-109: a 10 % margin, so a few questions lost in one language never disable SUBJECT.
+        expect(offered, `${category} ${language}`).toBeGreaterThanOrEqual(
+          Math.ceil(MIN_QUESTIONS_PER_CATEGORY * 1.1),
+        );
       }
     }
-    // Four mushrooms have no Arabic, scientific or original name (D-108): 99 Arabic mushroom
-    // questions, so the SUBJECT mode is off for Mushrooms in Arabic rooms only.
-    expect(short).toEqual(['Mushrooms ar']);
+  });
+
+  it('shows no overly long original name in another script when a shorter real form exists', async () => {
+    for (const question of await loadQuestions()) {
+      const ar = question.translations?.ar;
+      if (!ar) continue;
+      ar.options.forEach((label, index) => {
+        if (ar.provenance.options[index] !== 'native-name') return;
+        // Long names are kept only in Latin script (the genuine, readable name, D-109).
+        if (label.length > 24)
+          expect(label, question.id).toMatch(/^[\p{Script=Latin}\p{N}\p{P}\p{Zs}\p{M}]+$/u);
+      });
+    }
+    const watArun = (await loadQuestions()).find(
+      (question) => question.id === 'architecture-wat-arun',
+    );
+    const ar = watArun?.translations?.ar;
+    expect(ar?.subject).toBe('Wat Arun');
+    expect(ar?.provenance.optionLanguages[watArun!.correctIndex]).toBe('en');
   });
 
   it('keeps provenance honest: an article is a permalink in the language it cites', async () => {
@@ -138,7 +157,8 @@ describe('question bank', () => {
         if (origin === 'wikipedia' || origin === 'wikidata') {
           // A real Arabic name, written in Arabic.
           expect(lang, where).toBe('ar');
-          expect(label, where).toMatch(ARABIC);
+          // Catalogue designations ("NGC 6302") are the Arabic Wikipedia title as written.
+          expect(ARABIC.test(label) || CATALOGUE.test(label), where).toBe(true);
         } else if (origin === 'scientific-name') {
           expect(lang, where).toBe('la');
           expect(label, where).not.toMatch(ARABIC);
@@ -149,7 +169,11 @@ describe('question bank', () => {
         }
         // The French label may only reappear as the item's own name (French, or identical in
         // its original language, e.g. a Spanish tower known in French by its Spanish name).
-        if (label === question.options[index] && origin !== 'scientific-name') {
+        if (
+          label === question.options[index] &&
+          origin !== 'scientific-name' &&
+          !CATALOGUE.test(label)
+        ) {
           expect(origin, where).toBe('native-name');
         }
       });
