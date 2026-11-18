@@ -10,6 +10,8 @@ import { isConnectorInstalled } from './tiktok/liveAdapter';
 import { tiktokOptions, tiktokSetup } from './tiktok/setup';
 import { initializePersistence } from './persistence/db';
 import { createGameServer } from './server';
+import { loadImageTokenSecret } from './images/secret';
+import { dirname } from 'node:path';
 import { createLogger, parseLogLevel } from './util/logger';
 
 const SESSION_PURGE_INTERVAL_MS = 24 * 60 * 60 * 1000;
@@ -76,7 +78,18 @@ async function main(): Promise<void> {
     console.info(`Abandoned ${initialized.abandonedMatches} in-progress match(es) at startup.`);
   }
 
+  const imageSecret = loadImageTokenSecret(
+    config.imageTokenSecret,
+    config.databasePath === ':memory:' ? null : dirname(config.databasePath),
+  );
+  if (imageSecret.source === 'generated') {
+    console.info(`Image token key generated in ${imageSecret.path} (keep it with the database).`);
+  } else if (imageSecret.source === 'ephemeral') {
+    console.warn('Image token key is per process: image links will not survive a restart.');
+  }
+
   const game = createGameServer({
+    imageTokenSecret: imageSecret.secret,
     persistence: initialized.persistence,
     questionList: questions,
     questions: bank.success ? 'ok' : 'degraded',

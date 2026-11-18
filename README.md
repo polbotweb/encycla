@@ -261,6 +261,7 @@ Copier [`.env.example`](.env.example) en `.env` (jamais commité). Le serveur **
 | `LOG_LEVEL` | `info` | `debug`, `info`, `warn`, `error`. |
 | `IMAGE_CACHE_DIR` | `data/image-cache` | Cache disque des images Commons du proxy `/img` ; vide = mémoire seule. |
 | `IMAGE_CACHE_MAX_MB` | `512` | Taille maximale de ce cache. |
+| `IMAGE_TOKEN_SECRET` | *(généré)* | Clé des liens `/img/…` (≥ 32 caractères). Vide : générée une fois dans le dossier de la base (`data/image-token.secret`, mode 600), pour que les images des parties en cours survivent à un redémarrage. **Secret.** |
 | `ADMIN_TOKEN` | — | Routes admin et console streamer ; requis en production, 32 caractères aléatoires minimum. |
 | `TRUST_PROXY` | `false` | `true` (un proxy) ou nombre de proxys devant le serveur. |
 | `RATE_LIMIT` | `on` | `off` pour les tests de charge et e2e ; refusé en production. |

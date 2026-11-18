@@ -22,6 +22,7 @@ describe('loadConfig', () => {
       staticDir: 'dist/client',
       imageCacheDir: 'data/image-cache',
       imageCacheMaxBytes: 512 * 1024 * 1024,
+      imageTokenSecret: null,
     });
   });
 
@@ -65,6 +66,16 @@ describe('validateConfig', () => {
       PUBLIC_ORIGIN: 'https://encycla.example.com',
     };
     expect(validateConfig(loadConfig(env), env)).toEqual([]);
+  });
+
+  it('requires a long IMAGE_TOKEN_SECRET when one is set', () => {
+    const short = { IMAGE_TOKEN_SECRET: 'too-short' };
+    expect(validateConfig(loadConfig(short), short)).toEqual([
+      expect.stringContaining('IMAGE_TOKEN_SECRET'),
+    ]);
+    const long = { IMAGE_TOKEN_SECRET: 'a'.repeat(64) };
+    expect(loadConfig(long).imageTokenSecret).toBe('a'.repeat(64));
+    expect(validateConfig(loadConfig(long), long)).toEqual([]);
   });
 
   it('refuses to disable rate limiting in production', () => {

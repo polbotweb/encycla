@@ -31,3 +31,6 @@ data/image-cache
 
 # Wikipedia/Wikimedia API response cache (regenerable)
 data/cache/
+data/image-token.secret
+data/*.secret*
+data/backups/

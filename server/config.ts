@@ -24,6 +24,8 @@ export interface ServerConfig {
   /** Disk cache of proxied Commons images (D-107); empty `IMAGE_CACHE_DIR` = memory only. */
   imageCacheDir: string | null;
   imageCacheMaxBytes: number;
+  /** Secret. Key of the image tokens (D-116); absent: generated once in the data directory. */
+  imageTokenSecret: string | null;
 }
 
 function parsePort(value: string | undefined): number {
@@ -116,6 +118,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     imageCacheDir:
       env.IMAGE_CACHE_DIR === undefined ? 'data/image-cache' : env.IMAGE_CACHE_DIR.trim() || null,
     imageCacheMaxBytes: parseCacheMegabytes(env.IMAGE_CACHE_MAX_MB) * 1024 * 1024,
+    imageTokenSecret: env.IMAGE_TOKEN_SECRET?.trim() || null,
   };
 }
 
@@ -149,6 +152,9 @@ export function validateConfig(
         'PUBLIC_ORIGIN must be an https origin without a path in production (https://host[:port]).',
       );
     }
+  }
+  if (config.imageTokenSecret !== null && config.imageTokenSecret.length < 32) {
+    problems.push('IMAGE_TOKEN_SECRET must be at least 32 characters (`openssl rand -hex 32`).');
   }
   if (!config.rateLimit && env.NODE_ENV === 'production') {
     problems.push('RATE_LIMIT=off is not allowed in production.');

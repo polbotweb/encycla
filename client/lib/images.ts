@@ -15,7 +15,7 @@ export interface ImageSources {
   srcSet: string | null;
 }
 
-const PROXIED = /^\/img\/[A-Za-z0-9_-]{22}$/;
+const PROXIED = /^\/img\/[A-Za-z0-9_-]{22,100}$/;
 
 export function imageSources(image: Pick<ImageView, 'url' | 'widths'>): ImageSources {
   const widths = image.widths ?? [];

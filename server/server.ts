@@ -22,6 +22,8 @@ export interface GameServerOptions extends Omit<
   /** Disk cache of proxied images (`IMAGE_CACHE_DIR`); null keeps them in memory only. */
   imageCacheDir?: string | null;
   imageCacheMaxBytes?: number;
+  /** Key of the image tokens (D-116), persisted so image links survive a restart. */
+  imageTokenSecret?: Buffer;
   questionList: readonly QuestionRecord[];
   logger?: Logger;
   random?: () => number;
@@ -62,11 +64,13 @@ export function createGameServer(options: GameServerOptions): GameServer {
     new ImageService({
       now,
       cacheDir: options.imageCacheDir ?? null,
+      ...(options.imageTokenSecret ? { tokenSecret: options.imageTokenSecret } : {}),
       rateLimitPerMinute: options.rateLimit === false ? null : 300,
       ...(options.imageCacheMaxBytes === undefined
         ? {}
         : { maxDiskBytes: options.imageCacheMaxBytes }),
     });
+  images.registerUrls(options.questionList.map((question) => question.image?.url));
 
   let gateway: Gateway | null = null;
   const emitter: RoomEmitter = {

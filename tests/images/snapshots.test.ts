@@ -67,7 +67,7 @@ describe('snapshots sent during a question (D-107)', () => {
     }
     expect(question.id).not.toBe(record.id);
     expect(question.image).toEqual({
-      url: expect.stringMatching(/^\/img\/[A-Za-z0-9_-]{22}$/),
+      url: expect.stringMatching(/^\/img\/[A-Za-z0-9_-]{75}$/),
       alt: 'Picture to identify',
       widths: [330, 500, 960],
     });

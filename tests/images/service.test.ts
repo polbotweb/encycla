@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import type { Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -68,7 +69,7 @@ describe('ImageService.publicView', () => {
       } as unknown as Partial<PublicRoomState>),
     );
     expect(view.question?.image).toEqual({
-      url: expect.stringMatching(/^\/img\/[A-Za-z0-9_-]{22}$/),
+      url: expect.stringMatching(/^\/img\/[A-Za-z0-9_-]{75}$/),
       alt: FULL_IMAGE.alt,
       widths: [330, 500, 960],
     });
@@ -164,6 +165,31 @@ describe('GET /img/:token', () => {
     expect(upstream.calls.at(-1)!.url).toBe(THUMB_URL);
   });
 
+  it('keeps serving the links of running rounds after a restart (same key, D-116)', async () => {
+    const tokenSecret = randomBytes(32);
+    const before = new ImageService({
+      fetcher: fakeUpstream().fetcher,
+      rateLimitPerMinute: null,
+      tokenSecret,
+    });
+    const path = issue(before);
+    const after = new ImageService({
+      fetcher: fakeUpstream().fetcher,
+      rateLimitPerMinute: null,
+      tokenSecret,
+    });
+    after.registerUrls([THUMB_URL, undefined, 'https://evil.example/x.jpg']);
+    const base = await start(after);
+    const response = await fetch(`${base}${path}?w=500`);
+    expect(response.status).toBe(200);
+    const stranger = new ImageService({
+      fetcher: fakeUpstream().fetcher,
+      rateLimitPerMinute: null,
+    });
+    stranger.registerUrls([THUMB_URL]);
+    expect((await fetch(`${await start(stranger)}${path}?w=500`)).status).toBe(404);
+  });
+
   it('pads differently per round so the bytes do not match the public file', async () => {
     const images = new ImageService({ fetcher: fakeUpstream().fetcher, rateLimitPerMinute: null });
     const base = await start(images);
@@ -199,7 +225,7 @@ describe('GET /img/:token', () => {
     const images = new ImageService({ fetcher: upstream.fetcher, rateLimitPerMinute: null });
     const base = await start(images);
     const path = issue(images);
-    const unknown = await fetch(`${base}/img/${'A'.repeat(22)}`);
+    const unknown = await fetch(`${base}/img/${'A'.repeat(75)}`);
     expect(unknown.status).toBe(404);
     expect(unknown.headers.get('cache-control')).toBe('no-store');
     expect((await fetch(`${base}/img/..%2F..%2Fetc%2Fpasswd`)).status).toBe(404);
@@ -259,6 +285,6 @@ describe('GET /img/:token', () => {
     server = createApp().listen(0);
     await new Promise<void>((resolve) => server!.once('listening', resolve));
     const port = (server.address() as AddressInfo).port;
-    expect((await fetch(`http://127.0.0.1:${port}/img/${'A'.repeat(22)}`)).status).toBe(404);
+    expect((await fetch(`http://127.0.0.1:${port}/img/${'A'.repeat(75)}`)).status).toBe(404);
   });
 });

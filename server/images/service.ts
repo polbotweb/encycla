@@ -4,7 +4,7 @@ import type { ImageView, PublicRoomState } from '../../shared/types';
 import { FixedWindowLimiter } from '../security/rateLimit';
 import { stripMetadata, sniffImageType } from './metadata';
 import { ImageStore } from './store';
-import { ImageTokens } from './tokens';
+import { ImageTokens, deriveKey } from './tokens';
 import { availableWidths, isProxyableImage, parseWidth, upstreamUrl } from './upstream';
 
 export const USER_AGENT =
@@ -21,6 +21,8 @@ export interface ImageServiceOptions {
   maxDiskBytes?: number;
   maxMemoryBytes?: number;
   tokenTtlMs?: number;
+  /** Key of the image tokens (D-116); random per process when absent (tests). */
+  tokenSecret?: Buffer;
   now?: () => number;
   fetcher?: Fetcher;
   /** Requests per minute and IP on /img (null: no limit, tests and load tests only). */
@@ -34,7 +36,7 @@ export interface ImageServiceOptions {
 export class ImageService {
   readonly tokens: ImageTokens;
   readonly store: ImageStore;
-  private readonly secret = randomBytes(32);
+  private readonly secret: Buffer;
   private readonly fetcher: Fetcher;
   private readonly now: () => number;
   private readonly inflight = new Map<string, Promise<Buffer | null>>();
@@ -43,7 +45,10 @@ export class ImageService {
 
   constructor(options: ImageServiceOptions = {}) {
     this.now = options.now ?? Date.now;
+    const tokenSecret = options.tokenSecret ?? randomBytes(32);
+    this.secret = deriveKey(tokenSecret, 'image-padding');
     this.tokens = new ImageTokens({
+      secret: tokenSecret,
       now: this.now,
       ...(options.tokenTtlMs === undefined ? {} : { ttlMs: options.tokenTtlMs }),
     });
@@ -55,6 +60,11 @@ export class ImageService {
     this.fetcher = options.fetcher ?? ((url, init) => fetch(url, init));
     const perMinute = options.rateLimitPerMinute === undefined ? 300 : options.rateLimitPerMinute;
     this.limiter = perMinute === null ? null : new FixedWindowLimiter(perMinute, 60_000, this.now);
+  }
+
+  /** Makes the pictures of the bank resolvable after a restart (tokens only carry a hash). */
+  registerUrls(urls: Iterable<string | undefined>): void {
+    for (const url of urls) if (url && isProxyableImage(url)) this.tokens.register(url);
   }
 
   /** Replaces every picture of a snapshot by an opaque same-origin URL. */

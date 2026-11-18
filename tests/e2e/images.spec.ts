@@ -57,7 +57,7 @@ test('a question reaches the browser without the Commons file name, credit or an
       await image.getAttribute('srcset'),
       await image.getAttribute('alt'),
     ].join(' ');
-    expect(src).toMatch(/^\/img\/[A-Za-z0-9_-]{22}\?w=\d+$/);
+    expect(src).toMatch(/^\/img\/[A-Za-z0-9_-]{75}\?w=\d+$/);
     const response = await page.request.get(src);
     expect(response.headers()['content-disposition']).toBeUndefined();
     expect(response.headers()['cache-control'] ?? '').toMatch(/private|no-store/);
