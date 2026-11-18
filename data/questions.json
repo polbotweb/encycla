@@ -81800,7 +81800,7 @@
           "subject": "Pont Saint-Bénezet",
           "questionText": "ما هذا المَعلَم أو المبنى؟",
           "options": [
-            "Basilica de Sant Sarnin",
+            "Basilique Saint-Sernin de Toulouse",
             "Pont Saint-Bénezet",
             "Château de Chaumont",
             "Abbaye de Fontenay"
@@ -81820,7 +81820,7 @@
           "provenance": {
             "label": "native-name",
             "options": ["native-name", "native-name", "native-name", "native-name"],
-            "optionLanguages": ["oc", "fr", "fr", "fr"],
+            "optionLanguages": ["fr", "fr", "fr", "fr"],
             "article": "other-language"
           }
         }
@@ -82447,7 +82447,7 @@
           "subject": "Arènes de Nîmes",
           "questionText": "ما هذا المَعلَم أو المبنى؟",
           "options": [
-            "Basilica de Sant Sarnin",
+            "Basilique Saint-Sernin de Toulouse",
             "Palais idéal",
             "Château de Foix",
             "Arènes de Nîmes"
@@ -82467,7 +82467,7 @@
           "provenance": {
             "label": "native-name",
             "options": ["native-name", "native-name", "native-name", "native-name"],
-            "optionLanguages": ["oc", "fr", "fr", "fr"],
+            "optionLanguages": ["fr", "fr", "fr", "fr"],
             "article": "other-language"
           }
         }
@@ -86991,7 +86991,7 @@
           "subject": "Basilique Notre-Dame de Fourvière",
           "questionText": "ما هذا المَعلَم أو المبنى؟",
           "options": [
-            "Basilica de Sant Sarnin",
+            "Basilique Saint-Sernin de Toulouse",
             "Basilique Notre-Dame de Fourvière",
             "Cathédrale Sainte-Cécile d'Albi",
             "Palais idéal"
@@ -87011,7 +87011,7 @@
           "provenance": {
             "label": "native-name",
             "options": ["native-name", "native-name", "native-name", "native-name"],
-            "optionLanguages": ["oc", "fr", "fr", "fr"],
+            "optionLanguages": ["fr", "fr", "fr", "fr"],
             "article": "other-language"
           }
         }
@@ -88776,15 +88776,15 @@
           }
         },
         "ar": {
-          "subject": "Basilica de Sant Sarnin",
+          "subject": "Basilique Saint-Sernin de Toulouse",
           "questionText": "ما هذا المَعلَم أو المبنى؟",
           "options": [
             "Château de Foix",
             "Abbaye de Fontenay",
             "Basilique Notre-Dame de Fourvière",
-            "Basilica de Sant Sarnin"
+            "Basilique Saint-Sernin de Toulouse"
           ],
-          "explanation": "الإجابة الصحيحة: Basilica de Sant Sarnin. المصدر: ويكيبيديا.",
+          "explanation": "الإجابة الصحيحة: Basilique Saint-Sernin de Toulouse. المصدر: ويكيبيديا.",
           "articleTitle": "Basilica of Saint-Sernin, Toulouse",
           "articleBody": "The Basilica of Saint-Sernin (Occitan: Basilica de Sant Sarnin) is a church in Toulouse, France, the former abbey church of the Abbey of Saint-Sernin or St Saturnin. Apart from the church, none of the abbey buildings remain. The current church is located on the site of a previous basilica of the 4th century which contained the body of Saint Saturnin or Sernin, the first bishop of Toulouse in c. 250. The church is particularly noted for the quality and quantity of its Romanesque sculpture. In 1998 the basilica was added to the UNESCO World Heritage Sites under the description: World Heritage Sites of the Routes of Santiago de Compostela in France.",
           "imageAlt": "صورة فوتوغرافية لمَعلَم أو مبنى يجب التعرّف عليه",
@@ -88799,7 +88799,7 @@
           "provenance": {
             "label": "native-name",
             "options": ["native-name", "native-name", "native-name", "native-name"],
-            "optionLanguages": ["fr", "fr", "fr", "oc"],
+            "optionLanguages": ["fr", "fr", "fr", "fr"],
             "article": "other-language"
           }
         }
@@ -123465,7 +123465,7 @@
           "provenance": {
             "label": "native-name",
             "options": ["wikipedia", "native-name", "wikipedia", "native-name"],
-            "optionLanguages": ["ar", "en", "ar", "es"],
+            "optionLanguages": ["ar", "es", "ar", "es"],
             "article": "wikipedia"
           }
         }
@@ -124220,7 +124220,7 @@
           "provenance": {
             "label": "wikipedia",
             "options": ["wikipedia", "native-name", "wikipedia", "native-name"],
-            "optionLanguages": ["ar", "es", "ar", "en"],
+            "optionLanguages": ["ar", "es", "ar", "es"],
             "article": "wikipedia"
           }
         }
@@ -128543,7 +128543,7 @@
           "provenance": {
             "label": "wikipedia",
             "options": ["wikipedia", "wikipedia", "native-name", "wikipedia"],
-            "optionLanguages": ["ar", "ar", "en", "ar"],
+            "optionLanguages": ["ar", "ar", "es", "ar"],
             "article": "wikipedia"
           }
         }
@@ -129466,7 +129466,7 @@
           "provenance": {
             "label": "native-name",
             "options": ["native-name", "native-name", "wikipedia", "wikipedia"],
-            "optionLanguages": ["en", "ru", "ar", "ar"],
+            "optionLanguages": ["es", "ru", "ar", "ar"],
             "article": "wikipedia"
           }
         }
@@ -165090,7 +165090,7 @@
       "category": "Music",
       "subject": "Flûte traversière",
       "questionText": "Quel est cet instrument de musique ?",
-      "options": ["Bansuri", "Flûte traversière", "Shakuhachi", "Synthétiseur"],
+      "options": ["Cymbale", "Flûte traversière", "Synthétiseur", "Hautbois"],
       "correctIndex": 1,
       "explanation": "Bonne réponse : Flûte traversière. La flûte traversière est un instrument à vent de la famille des bois.",
       "articleTitle": "Flûte traversière",
@@ -165114,7 +165114,7 @@
         "en": {
           "subject": "Transverse flute",
           "questionText": "What is this musical instrument?",
-          "options": ["Bansuri", "Transverse flute", "Shakuhachi", "Synthesizer"],
+          "options": ["Cymbal", "Transverse flute", "Synthesizer", "Oboe"],
           "explanation": "Correct answer: Transverse flute. A transverse flute or side-blown flute is a flute which is held horizontally when played.",
           "articleTitle": "Transverse flute",
           "articleBody": "A transverse flute or side-blown flute is a flute which is held horizontally when played. The player blows across the embouchure hole, in a direction perpendicular to the flute's body length.\n\nTransverse flutes include the Western concert flute, the Irish flute, the Indian classical flutes (the bansuri and the venu), the Chinese dizi, the Western fife, a number of Japanese fue, and Korean flutes such as daegeum, junggeum and sogeum.",
@@ -165133,31 +165133,9 @@
             "optionLanguages": ["en", "en", "en", "en"],
             "article": "wikipedia"
           }
-        },
-        "ar": {
-          "subject": "Side-blown flutes",
-          "questionText": "ما هذه الآلة الموسيقية؟",
-          "options": ["Bansuri", "Side-blown flutes", "尺八", "مركب"],
-          "explanation": "الإجابة الصحيحة: Side-blown flutes. المصدر: ويكيبيديا.",
-          "articleTitle": "Transverse flute",
-          "articleBody": "A transverse flute or side-blown flute is a flute which is held horizontally when played. The player blows across the embouchure hole, in a direction perpendicular to the flute's body length.\n\nTransverse flutes include the Western concert flute, the Irish flute, the Indian classical flutes (the bansuri and the venu), the Chinese dizi, the Western fife, a number of Japanese fue, and Korean flutes such as daegeum, junggeum and sogeum.",
-          "imageAlt": "صورة فوتوغرافية لآلة موسيقية يجب التعرّف عليها",
-          "imageCredit": "Petar Milošević – عبر ويكيميديا كومنز",
-          "source": {
-            "url": "https://en.wikipedia.org/w/index.php?title=Transverse_flute&oldid=1327724716",
-            "revisionId": 1327724716,
-            "language": "en",
-            "license": "CC BY-SA 4.0",
-            "retrievedAt": "2026-11-16T09:56:41.320Z"
-          },
-          "provenance": {
-            "label": "native-name",
-            "options": ["native-name", "native-name", "native-name", "wikipedia"],
-            "optionLanguages": ["en", "en", "ja", "ar"],
-            "article": "other-language"
-          }
         }
-      }
+      },
+      "unavailable": { "ar": "an option has no name in this language" }
     },
     {
       "id": "music-johannes-brahms",
@@ -172103,7 +172081,7 @@
       "category": "Music",
       "subject": "Cornemuse écossaise",
       "questionText": "Quel est cet instrument de musique ?",
-      "options": ["Bansuri", "Flûte traversière", "Tabla", "Cornemuse écossaise"],
+      "options": ["Saxophone", "Tabla", "Bansuri", "Cornemuse écossaise"],
       "correctIndex": 3,
       "explanation": "Bonne réponse : Cornemuse écossaise. La cornemuse écossaise, ou pìob-mhòr en gaélique écossais (grande cornemuse), ou great Highland bagpipe en anglais (grande cornemuse des Highlands), est un instrument à vent d'Écosse répandu à travers l'ancien empire britannique.",
       "articleTitle": "Cornemuse écossaise",
@@ -172127,7 +172105,7 @@
         "en": {
           "subject": "Great Highland bagpipe",
           "questionText": "What is this musical instrument?",
-          "options": ["Bansuri", "Transverse flute", "Tabla", "Great Highland bagpipe"],
+          "options": ["Saxophone", "Tabla", "Bansuri", "Great Highland bagpipe"],
           "explanation": "Correct answer: Great Highland bagpipe. The great Highland bagpipe (Scottish Gaelic: a' phìob mhòr pronounced [ə ˌfiːp ˈvoːɾ] lit. 'the great pipe') is a type of bagpipe native to Scotland, and the Scottish analogue to the great Irish warpipes.",
           "articleTitle": "Great Highland bagpipe",
           "articleBody": "The great Highland bagpipe (Scottish Gaelic: a' phìob mhòr pronounced [ə ˌfiːp ˈvoːɾ] lit. 'the great pipe') is a type of bagpipe native to Scotland, and the Scottish analogue to the great Irish warpipes. It has acquired widespread recognition through its usage in the British military and in pipe bands throughout the world.\n\nThe bagpipe of any kind is first attested in Scotland around 1400. The earliest references to bagpipes in Scotland are in a military context, and it is in that context that the great Highland bagpipe became established in the British military and achieved the widespread prominence it enjoys today, whereas other bagpipe traditions throughout Europe, ranging from Portugal to Russia, almost universally went into decline by the late 19th and early 20th century.\n\nThough widely famous for its role in military and civilian pipe bands, the great Highland bagpipe is also used for a solo virtuosic style called pìobaireachd, ceòl mòr, or simply pibroch. Through development over the centuries, the great Highland bagpipes probably reached something like their distinctive modern form in the 18th century.",
@@ -172377,7 +172355,7 @@
       "category": "Music",
       "subject": "Shakuhachi",
       "questionText": "Quel est cet instrument de musique ?",
-      "options": ["Bansuri", "Flûte traversière", "Shakuhachi", "Cloches tubulaires"],
+      "options": ["Bansuri", "Cloches tubulaires", "Shakuhachi", "Uilleann pipes"],
       "correctIndex": 2,
       "explanation": "Bonne réponse : Shakuhachi. Le shakuhachi (尺八) ou en chinois chiba (en) 尺八, chǐbā est une flûte japonaise d'origine chinoise, à cinq trous, droite, en bambou munie d'une embouchure libre de type quena mais qui, à la différence de cette dernière, est le résultat d'une taille oblique de la partie supérieure de l'instrument.",
       "articleTitle": "Shakuhachi",
@@ -172401,7 +172379,7 @@
         "en": {
           "subject": "Shakuhachi",
           "questionText": "What is this musical instrument?",
-          "options": ["Bansuri", "Transverse flute", "Shakuhachi", "Tubular bells"],
+          "options": ["Bansuri", "Tubular bells", "Shakuhachi", "Uilleann pipes"],
           "explanation": "Correct answer: Shakuhachi. A shakuhachi (Japanese: 尺八; pronounced [ɕakɯhat͡ɕi]) is a Japanese longitudinal, end-blown flute that is made of bamboo.",
           "articleTitle": "Shakuhachi",
           "articleBody": "A shakuhachi (Japanese: 尺八; pronounced [ɕakɯhat͡ɕi]) is a Japanese longitudinal, end-blown flute that is made of bamboo. The bamboo end-blown flute now known as the shakuhachi was developed in Japan in the 16th century and is called the fuke shakuhachi (普化尺八). A bamboo flute known as the kodai shakuhachi (古代尺八, ancient shakuhachi) or gagaku shakuhachi (雅楽尺八) was derived from the Chinese xiao in the Nara period and died out in the 10th century. After a long blank period, the hitoyogiri shakuhachi (一節切尺八) appeared in the 15th century, and then in the 16th century, the fuke shakuhachi was developed in Japan. The fuke shakuhachi flourished in the 18th century during the Edo period, and eventually the hitoyogiri shakuhachi also died out. The fuke shakuhachi developed in Japan is longer and thicker than the kodai shakuhachi and has one finger hole less. It is longer and thicker than hitoyogiri shakuhachi and is superior in volume, range, scale and tone quality. Today, since the shakuhachi generally refers only to fuke shakuhachi, the theory that the shakuhachi is an instrument unique to Japan is widely accepted.",
@@ -172424,7 +172402,7 @@
         "ar": {
           "subject": "尺八",
           "questionText": "ما هذه الآلة الموسيقية؟",
-          "options": ["Bansuri", "Side-blown flutes", "尺八", "أجراس أنبوبية"],
+          "options": ["Bansuri", "أجراس أنبوبية", "尺八", "أنابيب اتحادية"],
           "explanation": "الإجابة الصحيحة: 尺八. المصدر: ويكيبيديا.",
           "articleTitle": "Shakuhachi",
           "articleBody": "A shakuhachi (Japanese: 尺八; pronounced [ɕakɯhat͡ɕi]) is a Japanese longitudinal, end-blown flute that is made of bamboo. The bamboo end-blown flute now known as the shakuhachi was developed in Japan in the 16th century and is called the fuke shakuhachi (普化尺八). A bamboo flute known as the kodai shakuhachi (古代尺八, ancient shakuhachi) or gagaku shakuhachi (雅楽尺八) was derived from the Chinese xiao in the Nara period and died out in the 10th century. After a long blank period, the hitoyogiri shakuhachi (一節切尺八) appeared in the 15th century, and then in the 16th century, the fuke shakuhachi was developed in Japan. The fuke shakuhachi flourished in the 18th century during the Edo period, and eventually the hitoyogiri shakuhachi also died out. The fuke shakuhachi developed in Japan is longer and thicker than the kodai shakuhachi and has one finger hole less. It is longer and thicker than hitoyogiri shakuhachi and is superior in volume, range, scale and tone quality. Today, since the shakuhachi generally refers only to fuke shakuhachi, the theory that the shakuhachi is an instrument unique to Japan is widely accepted.",
@@ -172439,8 +172417,8 @@
           },
           "provenance": {
             "label": "native-name",
-            "options": ["native-name", "native-name", "native-name", "wikipedia"],
-            "optionLanguages": ["en", "en", "ja", "ar"],
+            "options": ["native-name", "wikipedia", "native-name", "wikidata"],
+            "optionLanguages": ["en", "ar", "ja", "ar"],
             "article": "other-language"
           }
         }
@@ -172530,7 +172508,7 @@
       "category": "Music",
       "subject": "Bansuri",
       "questionText": "Quel est cet instrument de musique ?",
-      "options": ["Flûte traversière", "Shakuhachi", "Bansuri", "Vibraphone"],
+      "options": ["Shakuhachi", "Vibraphone", "Bansuri", "Thérémine"],
       "correctIndex": 2,
       "explanation": "Bonne réponse : Bansuri. Le bansurî est la grande flûte traversière indienne classique et est probablement le plus ancien instrument de musique de l'Inde du nord.",
       "articleTitle": "Bansuri",
@@ -172554,7 +172532,7 @@
         "en": {
           "subject": "Bansuri",
           "questionText": "What is this musical instrument?",
-          "options": ["Transverse flute", "Shakuhachi", "Bansuri", "Vibraphone"],
+          "options": ["Shakuhachi", "Vibraphone", "Bansuri", "Theremin"],
           "explanation": "Correct answer: Bansuri. A bansuri/flute is an ancient side-blown bamboo flute originating from the Indian Subcontinent.",
           "articleTitle": "Bansuri",
           "articleBody": "A bansuri/flute is an ancient side-blown bamboo flute originating from the Indian Subcontinent. It is an aerophone produced from bamboo and metal-like material, used in many Indian, Sri Lankan and Nepali folk songs. A bansuri is traditionally made from a single hollow shaft of bamboo with seven finger holes. Some modern designs come in ivory, fiberglass and various metals. The six-hole instrument covers two and a half octaves of music. The bansuri is typically between 30 and 75 centimetres (12 and 30 in) in length, and the thickness of a human thumb. The sound of the bansuri depends on size of the bamboo. One end is closed, and few centimeters from the closed end is its blow hole. Longer bansuris feature deeper tones and lower pitches. The traditional design features no mechanical keys, and the musician creates the notes they want by covering and uncovering the various finger holes.\n\nThe bansuri-like flute is depicted in ancient Buddhist, Hindu and Jain temple paintings and reliefs, and is common in the iconography of the Hindu god Krishna. It is intimately linked to the love story of Krishna and Radha.",
@@ -172577,7 +172555,7 @@
         "ar": {
           "subject": "Bansuri",
           "questionText": "ما هذه الآلة الموسيقية؟",
-          "options": ["Side-blown flutes", "尺八", "Bansuri", "ميقاع"],
+          "options": ["尺八", "ميقاع", "Bansuri", "ثيرمين"],
           "explanation": "الإجابة الصحيحة: Bansuri. المصدر: ويكيبيديا.",
           "articleTitle": "Bansuri",
           "articleBody": "A bansuri/flute is an ancient side-blown bamboo flute originating from the Indian Subcontinent. It is an aerophone produced from bamboo and metal-like material, used in many Indian, Sri Lankan and Nepali folk songs. A bansuri is traditionally made from a single hollow shaft of bamboo with seven finger holes. Some modern designs come in ivory, fiberglass and various metals. The six-hole instrument covers two and a half octaves of music. The bansuri is typically between 30 and 75 centimetres (12 and 30 in) in length, and the thickness of a human thumb. The sound of the bansuri depends on size of the bamboo. One end is closed, and few centimeters from the closed end is its blow hole. Longer bansuris feature deeper tones and lower pitches. The traditional design features no mechanical keys, and the musician creates the notes they want by covering and uncovering the various finger holes.\n\nThe bansuri-like flute is depicted in ancient Buddhist, Hindu and Jain temple paintings and reliefs, and is common in the iconography of the Hindu god Krishna. It is intimately linked to the love story of Krishna and Radha.",
@@ -172592,8 +172570,8 @@
           },
           "provenance": {
             "label": "native-name",
-            "options": ["native-name", "native-name", "native-name", "wikipedia"],
-            "optionLanguages": ["en", "ja", "en", "ar"],
+            "options": ["native-name", "wikipedia", "native-name", "wikipedia"],
+            "optionLanguages": ["ja", "ar", "en", "ar"],
             "article": "other-language"
           }
         }
@@ -172678,7 +172656,7 @@
       "category": "Music",
       "subject": "Mellotron",
       "questionText": "Quel est cet instrument de musique ?",
-      "options": ["Hautbois", "Flûte traversière", "Uilleann pipes", "Mellotron"],
+      "options": ["Uilleann pipes", "Hautbois", "Orgue", "Mellotron"],
       "correctIndex": 3,
       "explanation": "Bonne réponse : Mellotron. Le mellotron est un instrument de musique polyphonique à clavier qui produit des sons préalablement enregistrés sur des bandes magnétiques.",
       "articleTitle": "Mellotron",
@@ -172702,7 +172680,7 @@
         "en": {
           "subject": "Mellotron",
           "questionText": "What is this musical instrument?",
-          "options": ["Oboe", "Transverse flute", "Uilleann pipes", "Mellotron"],
+          "options": ["Uilleann pipes", "Oboe", "Pipe organ", "Mellotron"],
           "explanation": "Correct answer: Mellotron. The Mellotron is an electro-mechanical musical instrument developed in Birmingham, England, in 1963.",
           "articleTitle": "Mellotron",
           "articleBody": "The Mellotron is an electro-mechanical musical instrument developed in Birmingham, England, in 1963. It is played by pressing its keys, each of which causes a length of magnetic tape to contact a capstan, which pulls it across a playback head. As the key is released, the tape is retracted by a spring to its initial position. Different portions of the tape can be played for different sounds.\n\nThe Mellotron evolved from the similar Chamberlin, but could be mass-produced more efficiently. The first models were designed for the home and contained a variety of sounds, including automatic accompaniments. Bandleader Eric Robinson and television personality David Nixon helped promote the first instruments, and celebrities such as Princess Margaret were early adopters. It was adopted by rock and pop groups in the mid to late 1960s. One of the first pop songs featuring the Mellotron was Manfred Mann's \"Semi-Detached, Suburban Mr. James\" (1966). The Beatles used it on tracks including the hit single \"Strawberry Fields Forever\" (1967).\n\nThe Moody Blues keyboardist Mike Pinder used it extensively on the band's 1967 album Days of Future Passed as well as the group's following six albums.",
@@ -172814,7 +172792,7 @@
       "category": "Music",
       "subject": "Piano droit",
       "questionText": "Quel est cet instrument de musique ?",
-      "options": ["Flûte traversière", "Piano droit", "Bansuri", "Saxophone"],
+      "options": ["Bansuri", "Piano droit", "Saxophone", "Cornet à pistons"],
       "correctIndex": 1,
       "explanation": "Bonne réponse : Piano droit. Un piano droit ou piano vertical est un piano dont les cordes sont disposées verticalement, par opposition à un piano à queue, dont les cordes sont disposées horizontalement.",
       "articleTitle": "Piano droit",
@@ -172838,7 +172816,7 @@
         "en": {
           "subject": "upright piano",
           "questionText": "What is this musical instrument?",
-          "options": ["Transverse flute", "upright piano", "Bansuri", "Saxophone"],
+          "options": ["Bansuri", "upright piano", "Saxophone", "Cornet"],
           "explanation": "Correct answer: upright piano. Source: Wikipedia.",
           "articleTitle": "Pianino",
           "articleBody": "Pianino (italienisch für „kleines Piano“) ist die Bezeichnung für das heute allgemein bekannte, aufrecht stehende Klavier. Der Begriff Klavier wird häufig einengend nur für das Pianino verwendet, im Gegensatz zum Flügel. Im Fachjargon setzen sich auch zunehmend die besser nach Bautypen differenzierenden englischsprachigen Bezeichnungen (Grand) Upright piano, Studio piano und Console piano durch, für die es keine deutschen Entsprechungen gibt.",

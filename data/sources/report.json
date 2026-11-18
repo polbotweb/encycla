@@ -233,17 +233,17 @@
         "wikipedia": 2280,
         "wikidata": 54,
         "scientific-name": 138,
-        "native-name": 82
+        "native-name": 81
       },
       "optionLabels": {
         "wikipedia": 9172,
-        "wikidata": 192,
+        "wikidata": 193,
         "scientific-name": 552,
-        "native-name": 300
+        "native-name": 295
       },
       "articles": {
         "own": 2116,
-        "other:en": 402,
+        "other:en": 401,
         "other:fr": 19,
         "other:pt": 2,
         "other:de": 6,
@@ -251,12 +251,11 @@
         "other:es": 4
       },
       "nativeNameLanguages": {
-        "en": 15,
-        "ja": 5,
-        "oc": 4,
-        "fr": 213,
+        "en": 7,
+        "ja": 4,
+        "fr": 217,
         "pt": 6,
-        "es": 23,
+        "es": 27,
         "grc": 2,
         "it": 2,
         "is": 5,
@@ -379,11 +378,11 @@
           "articles": { "own": 101, "other:es": 2, "other:en": 38, "other:it": 2, "other:fr": 3 }
         },
         "Music": {
-          "questions": 138,
-          "unavailable": 12,
-          "labels": { "wikipedia": 127, "wikidata": 4, "scientific-name": 0, "native-name": 7 },
-          "options": { "wikipedia": 503, "wikidata": 24, "scientific-name": 0, "native-name": 25 },
-          "articles": { "own": 122, "other:en": 16 }
+          "questions": 137,
+          "unavailable": 13,
+          "labels": { "wikipedia": 127, "wikidata": 4, "scientific-name": 0, "native-name": 6 },
+          "options": { "wikipedia": 503, "wikidata": 25, "scientific-name": 0, "native-name": 20 },
+          "articles": { "own": 122, "other:en": 15 }
         },
         "Sports": {
           "questions": 150,
@@ -400,7 +399,7 @@
           "articles": { "own": 149 }
         }
       },
-      "answersWithoutOwnName": 220,
+      "answersWithoutOwnName": 219,
       "fallbacks": [
         {
           "id": "fauna-requin-marteau-halicorne",
@@ -1299,7 +1298,7 @@
         {
           "id": "architecture-basilique-saint-sernin-de-toulouse",
           "subject": "Basilique Saint-Sernin de Toulouse",
-          "label": "native-name:oc",
+          "label": "native-name:fr",
           "article": "other:en"
         },
         {
@@ -1431,7 +1430,7 @@
         {
           "id": "space-astronomy-viking-1",
           "subject": "Viking 1",
-          "label": "native-name:en",
+          "label": "native-name:es",
           "article": "own"
         },
         {
@@ -1663,12 +1662,6 @@
           "article": "other:en"
         },
         {
-          "id": "music-flute-traversiere",
-          "subject": "Flûte traversière",
-          "label": "native-name:en",
-          "article": "other:en"
-        },
-        {
           "id": "music-vielle-a-roue",
           "subject": "Vielle à roue",
           "label": "native-name:fr",
@@ -1718,7 +1711,7 @@
           "article": "other:en"
         }
       ],
-      "notOffered": 51,
+      "notOffered": 52,
       "unavailable": [
         {
           "id": "fauna-loutre-de-mer",
@@ -1908,6 +1901,11 @@
         {
           "id": "gastronomy-magret-de-canard",
           "subject": "Magret de canard",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "music-flute-traversiere",
+          "subject": "Flûte traversière",
           "reason": "an option has no name in this language"
         },
         {
