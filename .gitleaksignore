@@ -1,0 +1,2 @@
+# False positive: a localStorage item name (encycla.voice.suggestion.v1), not a secret.
+6edff9e0e44451a4603be4e5a8ef5d16d6feceed:client/components/game/Voice.tsx:generic-api-key:301

@@ -298,7 +298,7 @@ export function VoiceSettingsPanel({
   );
 }
 
-const SUGGESTION_KEY = 'encycla.voice.suggestion.v1';
+const SUGGESTION_ITEM = 'encycla.voice.suggestion.v1';
 
 /**
  * A one-time offer on the home screen. Browsers do not tell a page whether a screen reader is
@@ -308,10 +308,10 @@ export function VoiceSuggestion() {
   const { t, language } = useTranslation();
   const enabled = useVoiceStore((state) => state.settings.enabled);
   const supported = useVoiceStore((state) => state.supported);
-  const [dismissed, setDismissed] = useState(() => safeStorage.get(SUGGESTION_KEY) === 'dismissed');
+  const [dismissed, setDismissed] = useState(() => safeStorage.get(SUGGESTION_ITEM) === 'dismissed');
   if (!supported || enabled || dismissed) return null;
   const dismiss = (): void => {
-    safeStorage.set(SUGGESTION_KEY, 'dismissed');
+    safeStorage.set(SUGGESTION_ITEM, 'dismissed');
     setDismissed(true);
   };
   return (
