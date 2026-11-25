@@ -15,6 +15,9 @@ import type { Persistence } from './persistence/repositories';
 import { TikTokService } from './tiktok/service';
 import type { TikTokAdapterFactory } from './tiktok/adapter';
 import { silentLogger, type Logger } from './util/logger';
+import { createServerMetrics, type ServerMetrics } from './observability/metrics';
+import type { Readiness } from './http/observability';
+import { VERSION } from './config';
 
 export interface GameServerOptions extends Omit<
   AppOptions,
@@ -50,6 +53,8 @@ export interface GameServer {
   tiktok: TikTokService;
   images: ImageService;
   /** `preserveRooms`: keep the running rooms for the next process (graceful restart, D-117). */
+  metrics: ServerMetrics;
+  readiness: Readiness;
   close(options?: { preserveRooms?: boolean }): Promise<void>;
 }
 
@@ -58,6 +63,8 @@ export function createGameServer(options: GameServerOptions): GameServer {
   const persistence = options.persistence ?? createMemoryPersistence(options.questionList);
   const now = options.now ?? Date.now;
   const logger = options.logger ?? silentLogger;
+  const metrics = options.metrics ?? createServerMetrics({ now, version: VERSION });
+  const readiness: Readiness = options.readiness ?? { shuttingDown: false };
   const sessions = new SessionService({
     persistence,
     ...(options.now === undefined ? {} : { now: options.now }),
@@ -145,6 +152,9 @@ export function createGameServer(options: GameServerOptions): GameServer {
     queue: matchmaking,
     tiktok: tiktokService,
     images,
+    logger,
+    metrics,
+    readiness,
   });
   const httpServer = createServer(app);
   gateway = Gateway.attach(httpServer, {
@@ -154,10 +164,23 @@ export function createGameServer(options: GameServerOptions): GameServer {
     logger,
     now,
     queue: matchmaking,
+    metrics,
     ...(options.rateLimit === undefined ? {} : { rateLimit: options.rateLimit }),
     ...(options.allowedOrigin === undefined ? {} : { allowedOrigin: options.allowedOrigin }),
     ...(typeof options.trustProxy === 'number' ? { trustProxy: options.trustProxy } : {}),
   });
+  metrics.registry.gauge('encycla_sockets_connected', 'Players with a live socket.', () =>
+    gateway ? gateway.connectedCount() : 0,
+  );
+  metrics.registry.gauge('encycla_queue_players', 'Players waiting in matchmaking.', () =>
+    matchmaking.size(),
+  );
+  metrics.registry.gauge(
+    'encycla_tiktok_connected',
+    'TikTok chat connector: 1 connected, 0 not connected, absent when TikTok is off.',
+    () =>
+      tiktokService.enabled ? [{ labels: {}, value: tiktokService.isConnected() ? 1 : 0 }] : [],
+  );
   if (options.restoreRooms) {
     const restored = manager.restore();
     if (restored > 0) logger.log('info', 'rooms.restored', { count: restored });
@@ -176,7 +199,10 @@ export function createGameServer(options: GameServerOptions): GameServer {
     roomTokens,
     tiktok: tiktokService,
     images,
+    metrics,
+    readiness,
     async close(closeOptions = {}) {
+      readiness.shuttingDown = true;
       tiktokService.stop();
       matchmaking.stop();
       manager.stop('SERVER_RESTART', { preserve: closeOptions.preserveRooms === true });
@@ -184,6 +210,7 @@ export function createGameServer(options: GameServerOptions): GameServer {
       if (httpServer.listening) {
         await new Promise<void>((resolve) => httpServer.close(() => resolve()));
       }
+      metrics.stop();
     },
   };
 }

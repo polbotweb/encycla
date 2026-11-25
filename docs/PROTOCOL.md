@@ -468,6 +468,13 @@ Public.
 
 `status` vaut `degraded` si `db = disabled`, si `questions = degraded`, ou si TikTok est activé mais déconnecté. Il vaut `error` si la banque de questions est inutilisable ou si le démarrage est incomplet hors mode dégradé. Réponse `503` si `status = error` ; `200` sinon.
 
+### 3.10 bis Sondes et métriques (D-123)
+
+- `GET /healthz` (public) : `200 {"status":"ok","uptimeMs":123456,"version":"1.0.0"}` tant que le processus répond.
+- `GET /readyz` (public) : `200 {"status":"ready","checks":{"questions":"ok","db":"ok|memory","shutdown":false}}`, ou `503` avec `"status":"not_ready"` si la banque est inutilisable, si la base ne répond plus ou si l'arrêt a commencé.
+- `GET /metrics` (admin, `Authorization: Bearer ADMIN_TOKEN`) : texte Prometheus 0.0.4. Détail dans `docs/DEPLOYMENT.md` §11.4.
+- Toute réponse porte `X-Request-Id` (repris de la requête s'il fait 8 à 64 caractères `[A-Za-z0-9._-]`).
+
 ### 3.11 `POST /api/tiktok/rooms`
 
 Admin uniquement (`ADMIN_TOKEN`).

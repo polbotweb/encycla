@@ -307,7 +307,8 @@ Cross-Origin-Resource-Policy: same-origin
 | `/api` avec session valide | 120/min par session | mémoire |
 | `/api` sans session (ou jeton forgé) | 120/min par IP | mémoire |
 | `/api` plafond, toutes sessions d'une IP | 1 200/min par IP | mémoire |
-| `GET /api/health` | aucune limite (sondes) | — |
+| `GET /api/health`, `/healthz`, `/readyz` | aucune limite (sondes) | — |
+| `GET /metrics` (admin) | 30/min par IP | mémoire |
 | Création de session `POST /api/sessions` | 30/min par IP | mémoire |
 | Admin et streamer (`/api/admin/*`, `POST /api/tiktok/rooms`) | 30/min par IP | mémoire |
 | Images `/img` | 1 200/min par IP | mémoire |

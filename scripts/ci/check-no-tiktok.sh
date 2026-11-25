@@ -25,6 +25,8 @@ check() {
   health="$(curl -sf "http://127.0.0.1:$PORT/api/health")"
   tiktok="$(curl -s -H "Authorization: Bearer $ADMIN" "http://127.0.0.1:$PORT/api/admin/tiktok")"
   curl -sf "http://127.0.0.1:$PORT/" | grep -q '<div id="root"'
+  curl -sf "http://127.0.0.1:$PORT/readyz" | grep -q '"status":"ready"'
+  curl -sf -H "Authorization: Bearer $ADMIN" "http://127.0.0.1:$PORT/metrics" | grep -q '^encycla_questions '
   kill "$pid"; wait "$pid" 2>/dev/null || true
   echo "$label: health=$(echo "$health" | grep -o '"status":"[a-z]*"') tiktok=$(echo "$tiktok" | grep -o '"enabled":[a-z]*,"simulated":[a-z]*')"
 }

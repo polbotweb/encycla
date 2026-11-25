@@ -237,7 +237,8 @@ Caddy obtient le certificat TLS automatiquement ([deploy/Caddyfile](deploy/Caddy
 
 | Tâche | Comment |
 | --- | --- |
-| Santé | `GET /api/health` : `ok`, `degraded` (base indisponible, TikTok déconnecté…) ou `error` (`503`). |
+| Santé | `GET /healthz` (le processus répond) et `GET /readyz` (prêt à servir : questions, base, pas en arrêt ; `503` sinon). `GET /api/health` : `ok`, `degraded` (base indisponible, TikTok déconnecté…) ou `error` (`503`). |
+| Métriques | `curl -H "Authorization: Bearer $ADMIN_TOKEN" https://<domaine>/metrics` (Prometheus : requêtes, latence, rooms, sockets, file, TikTok, mémoire). Voir `docs/DEPLOYMENT.md` §11. |
 | Logs | JSON sur la sortie standard, sans IP persistée, sans cookie ni jeton. Niveau : `LOG_LEVEL` (`debug`, `info`, `warn`, `error`). |
 | Fermer une room bloquée | `curl -X POST -H "Authorization: Bearer $ADMIN_TOKEN" https://<domaine>/api/admin/rooms/CODE/close` |
 | Sauvegarde | `sqlite3 encycla.db "VACUUM INTO '/backups/encycla-$(date +%F).db'"` (jamais de copie à chaud du fichier). |

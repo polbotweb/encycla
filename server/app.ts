@@ -6,6 +6,9 @@ import type { QuestionRecord } from '../shared/schemas';
 import { VERSION } from './config';
 import { createGameRouter, type PresencePort } from './http/game';
 import { buildHealth, type QuestionsHealth } from './http/health';
+import { createObservabilityRouter, requestObserver, type Readiness } from './http/observability';
+import { createServerMetrics, type ServerMetrics } from './observability/metrics';
+import { silentLogger, type Logger } from './util/logger';
 import { sendError } from './http/errors';
 import { precompressedAssets } from './http/precompressed';
 import { socialIndex } from './http/social';
@@ -43,6 +46,12 @@ export interface AppOptions {
   images?: ImageService;
   /** `PUBLIC_ORIGIN`: makes the social preview image URLs absolute (D-111). */
   publicOrigin?: string | null;
+  /** Structured logger (access log, D-123). */
+  logger?: Logger;
+  /** Counters and gauges served on `/metrics` (D-123). */
+  metrics?: ServerMetrics;
+  /** Shared with the shutdown path: `/readyz` answers 503 once set. */
+  readiness?: Readiness;
 }
 
 const NOT_CONNECTED: PresencePort = { isConnected: () => false };
@@ -62,6 +71,9 @@ export function createApp(options: AppOptions = {}): Express {
       ...(options.now === undefined ? {} : { now: options.now }),
     });
   const rateLimit = options.rateLimit ?? true;
+  const logger = options.logger ?? silentLogger;
+  const metrics = options.metrics ?? createServerMetrics({ now, version: VERSION });
+  const readiness = options.readiness ?? { shuttingDown: false };
   const images =
     options.images ??
     new ImageService({ now, rateLimitPerMinute: rateLimit ? RATE_LIMITS.imagesPerIp : null });
@@ -101,6 +113,7 @@ export function createApp(options: AppOptions = {}): Express {
       },
     }),
   );
+  app.use(requestObserver(metrics, logger));
   app.use((_request, response, next) => {
     response.setHeader(
       'Permissions-Policy',
@@ -132,6 +145,30 @@ export function createApp(options: AppOptions = {}): Express {
     app.post('/api/tiktok/rooms', admin);
   }
 
+  metrics.registry.gauge('encycla_rooms', 'Rooms held in memory.', () => manager.roomCount());
+  metrics.registry.gauge(
+    'encycla_questions',
+    'Approved questions loaded.',
+    () => questionList.length,
+  );
+  app.use(
+    createObservabilityRouter({
+      persistence,
+      questionsUsable,
+      readiness,
+      metrics,
+      adminToken: options.adminToken ?? null,
+      uptimeMs: () => now() - startedAt,
+      version: VERSION,
+      ...(rateLimit
+        ? {
+            metricsGuard: httpRateLimit(
+              new FixedWindowLimiter(RATE_LIMITS.adminPerIp, 60_000, now),
+            ),
+          }
+        : {}),
+    }),
+  );
   app.use(images.router());
   app.use('/api', createSessionsRouter(sessions));
   app.use(

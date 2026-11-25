@@ -21,6 +21,7 @@ import type { RoomTokenRegistry } from '../security/roomTokens';
 import { SessionError, type SessionService } from '../services/session-service';
 import type { Logger } from '../util/logger';
 import { silentLogger } from '../util/logger';
+import type { Counter } from '../observability/metrics';
 import {
   answerPayload,
   continuePayload,
@@ -62,6 +63,8 @@ export interface GatewayOptions {
   rateLimit?: boolean;
   /** Proxy hops to trust for the client address, as `TRUST_PROXY` (default none). */
   trustProxy?: false | number;
+  /** Event and rate-limit counters exposed on `/metrics` (D-123). */
+  metrics?: { socketEvents: Counter; rateLimited: Counter };
 }
 
 type Role = 'player' | 'overlay' | 'control';
@@ -181,6 +184,7 @@ export class Gateway implements RoomEmitter {
       this.options.trustProxy ?? false,
     );
     if (this.options.rateLimit !== false && !this.connectLimiter.hit(ip)) {
+      this.options.metrics?.rateLimited.inc({ scope: 'socket_connect' });
       next(connectError('RATE_LIMITED', 'Too many connections.'));
       return;
     }
@@ -433,11 +437,19 @@ export class Gateway implements RoomEmitter {
           throw new AppError('VALIDATION_ERROR', 'Invalid payload.');
         }
         const result = handler(parsed.data, this.contextFor(socket));
+        this.options.metrics?.socketEvents.inc({ event, outcome: 'ok' });
         ack?.({ ok: true, data: result });
       } catch (error) {
         if (error instanceof AppError) {
+          const limited = error.code === 'RATE_LIMITED';
+          this.options.metrics?.socketEvents.inc({
+            event,
+            outcome: limited ? 'rate_limited' : 'rejected',
+          });
+          if (limited) this.options.metrics?.rateLimited.inc({ scope: 'socket' });
           fail(error);
         } else {
+          this.options.metrics?.socketEvents.inc({ event, outcome: 'error' });
           this.logger.log('error', 'socket.handler_failed', {
             event,
             message: error instanceof Error ? error.message : String(error),

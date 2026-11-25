@@ -450,24 +450,49 @@ Dans Docker : `docker compose stop encycla`, puis `docker compose run --rm encyc
 - DB inaccessible/corrompue : `200` avec `status: "degraded"`, `db: "disabled"`, jeu jouable.
 - `degraded` (200) : DB désactivée, TikTok activé mais déconnecté, ou banque sous le seuil.
 
-### 11.2 Logs
+### 11.2 Sondes `/healthz` et `/readyz` (D-123)
 
-- JSON sur stdout.
-- Collecte par le superviseur (Docker, systemd, Loki).
-- Redaction des tokens.
-- Rotation si fichier.
-- Rétention 30 jours.
+| Route | Rôle | Réponse |
+| --- | --- | --- |
+| `GET /healthz` | Vivacité : le processus répond. À utiliser pour redémarrer un conteneur figé. | Toujours `200 {"status":"ok","uptimeMs":…,"version":…}`. |
+| `GET /readyz` | Disponibilité : questions chargées, base qui répond à `SELECT 1` (ou mode mémoire), arrêt non commencé. À utiliser pour envoyer du trafic (proxy, orchestrateur, healthcheck Docker). | `200 {"status":"ready","checks":{"questions":"ok","db":"ok","shutdown":false}}` ; `503 "not_ready"` sinon. |
 
-### 11.3 Métriques
+`/readyz` passe à `503` dès `SIGTERM` reçu, avant la fermeture des sockets. Les deux sondes ne sont ni limitées ni journalisées au niveau `info`. Le `HEALTHCHECK` de l'image et du `docker-compose.yml` interroge `/readyz`. `/api/health` reste disponible (même contenu qu'avant).
 
-- Rooms actives.
-- Sockets connectés.
-- Matchs terminés.
-- Latence HTTP.
-- Erreurs par code.
-- Reconnexions et abandons.
-- TikTok connecté/déconnecté.
-- Taille de la base.
+### 11.3 Logs structurés
+
+- Une ligne JSON par événement sur stdout (`warn`/`error` sur stderr) : `{"t":"…","level":"info","event":"http.request",…}`. Niveau : `LOG_LEVEL`.
+- Journal d'accès `http.request` : `rid` (identifiant de requête, renvoyé dans l'en-tête `X-Request-Id` ; celui du proxy est repris s'il est bien formé), `method`, `route` (**groupe** de route, jamais le chemin brut ni la query : pas de code de room ni de jeton), `status`, `ms`. Niveau `info` pour l'API, `debug` pour les sondes, images et fichiers statiques, `error` pour toute réponse 5xx.
+- Événements serveur : `server.listening`, `server.shutdown`, `db.backup_written`, `db.backup_failed`, `rooms.restored`, `queue.match_found`, `socket.handler_failed`, `tiktok.*`…
+- Clés contenant `token`, `cookie`, `authorization`, `secret` ou `password` remplacées par `[redacted]` ; aucune IP n'est écrite.
+- Collecte par le superviseur (Docker, systemd, Loki) ; rotation et rétention (30 jours) côté collecteur.
+
+### 11.4 Métriques `/metrics` (D-123)
+
+`GET /metrics` au format texte Prometheus, protégé par `Authorization: Bearer ADMIN_TOKEN` (`401` sans jeton, `403` mauvais jeton ou `ADMIN_TOKEN` absent), limité comme l'admin (30/min/IP).
+
+```yaml
+# prometheus.yml
+scrape_configs:
+  - job_name: encycla
+    scheme: https
+    metrics_path: /metrics
+    authorization: { type: Bearer, credentials_file: /etc/prometheus/encycla-admin-token }
+    static_configs: [{ targets: ['<domaine>'] }]
+```
+
+| Métrique | Type | Contenu |
+| --- | --- | --- |
+| `encycla_http_requests_total{method,route,status}` | counter | Requêtes par groupe de route et classe de statut (`2xx`…). |
+| `encycla_http_request_duration_seconds{route}` | histogram | Latence HTTP. |
+| `encycla_socket_events_total{event,outcome}` | counter | Événements Socket.io : `ok`, `rejected`, `rate_limited`, `error`. |
+| `encycla_rate_limited_total{scope}` | counter | Refus de débit : `http`, `socket`, `socket_connect`. |
+| `encycla_rooms`, `encycla_sockets_connected`, `encycla_queue_players` | gauge | Rooms en mémoire, joueurs connectés, file de matchmaking. |
+| `encycla_tiktok_connected` | gauge | 1/0, absente quand TikTok est coupé. |
+| `encycla_questions` | gauge | Questions approuvées chargées. |
+| `encycla_uptime_seconds`, `encycla_process_resident_memory_bytes`, `encycla_process_heap_used_bytes`, `encycla_event_loop_delay_p99_seconds`, `encycla_build_info{version,node}` | gauge | Processus. |
+
+Aucune métrique ne porte d'identifiant de joueur, de code de room ni de pseudo.
 
 ### 11.4 Alertes
 
