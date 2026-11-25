@@ -240,6 +240,7 @@ export function createGameRouter(options: GameRouterOptions): Router {
         connected: enabled && tiktok.isConnected(),
         liveUsername: enabled ? tiktok.liveTarget() : null,
         activeRoomCode: enabled ? tiktok.activeRoomCode() : null,
+        connection: enabled ? (tiktok.connectionStatus?.() ?? null) : null,
       });
     }),
   );

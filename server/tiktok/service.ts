@@ -7,12 +7,16 @@ import { AppError } from '../http/errors';
 import type { ModeSelection } from '../http/modes';
 import type { Logger } from '../util/logger';
 import type { TikTokAdapterFactory, TikTokChatMessage } from './adapter';
-import { TikTokConnector, type Scheduler } from './connector';
+import { TikTokConnector, type ConnectorStatus, type Scheduler } from './connector';
 import { publicQuestionId } from '../game/types';
 import { parseAnswerComment } from './parser';
 
 export const DEFAULT_TIKTOK_TIMER_MS = 15_000;
 const MAX_UNIQUE_ID_LENGTH = 64;
+/** An answer is one letter; longer comments are chatter and never parsed. */
+export const MAX_COMMENT_LENGTH = 200;
+/** Recent message ids remembered to drop a message delivered twice (reconnects). */
+const SEEN_MESSAGE_IDS = 2_000;
 
 export interface TikTokPort {
   readonly enabled: boolean;
@@ -30,6 +34,8 @@ export interface TikTokPort {
   ): { roomCode: string; liveUsername: string; connected: boolean } & IssuedRoomTokens;
   /** Feeds one chat comment as if it came from the live (simulation only). */
   simulateChat(message: TikTokChatMessage): void;
+  /** Chat connection details for the streamer console (state, retries, last error). */
+  connectionStatus?(): ConnectorStatus | null;
 }
 
 export interface TikTokServiceOptions {
@@ -57,6 +63,7 @@ export class TikTokService implements TikTokPort {
   private activeRoom: string | null = null;
   private readonly viewers = new Map<string, string>();
   private capacityLogged = false;
+  private readonly seenIds = new Set<string>();
 
   constructor(private readonly options: TikTokServiceOptions) {
     this.idFactory = options.idFactory ?? randomUUID;
@@ -89,6 +96,10 @@ export class TikTokService implements TikTokPort {
       throw new AppError('TIKTOK_DISABLED', 'The simulated TikTok chat is not enabled.');
     }
     this.handleChat(message);
+  }
+
+  connectionStatus(): ConnectorStatus | null {
+    return this.connector?.status() ?? null;
   }
 
   isConnected(): boolean {
@@ -177,6 +188,17 @@ export class TikTokService implements TikTokPort {
     const code = this.activeRoomCode();
     if (code === null) {
       return;
+    }
+    if (typeof message.comment !== 'string' || message.comment.length > MAX_COMMENT_LENGTH) {
+      return;
+    }
+    if (message.id !== undefined) {
+      if (this.seenIds.has(message.id)) return;
+      this.seenIds.add(message.id);
+      if (this.seenIds.size > SEEN_MESSAGE_IDS) {
+        const oldest = this.seenIds.values().next().value;
+        if (oldest !== undefined) this.seenIds.delete(oldest);
+      }
     }
     const { manager } = this.options;
     const state = manager.getState(code);

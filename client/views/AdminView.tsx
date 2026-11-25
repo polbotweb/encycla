@@ -199,6 +199,23 @@ export function AdminView() {
               </span>
             ) : null}
           </div>
+          {status.connection && status.connection.state !== 'connected' ? (
+            <p className="mt-2 text-sm text-ink-2" data-testid="tiktok-connection">
+              {t(`admin.conn.${status.connection.state}`)}
+              {status.connection.state === 'retrying'
+                ? ` · ${t('admin.conn.attempts', { count: status.connection.attempts })}`
+                : ''}
+              {status.connection.offline ? ` · ${t('admin.conn.offline')}` : ''}
+              {status.connection.lastError ? (
+                <>
+                  {' · '}
+                  <span dir="ltr" className="font-mono">
+                    {status.connection.lastError}
+                  </span>
+                </>
+              ) : null}
+            </p>
+          ) : null}
         </Panel>
       ) : null}
 

@@ -53,6 +53,14 @@ La voix lit la question, les réponses A/B/C/D, « 10 secondes », « 5 secondes
 
 Réglages par URL de l'overlay (jamais enregistrés côté serveur) : `voice=0|1`, `rate=0.5` à `2`, `volume=0` à `1`, `article=1` (lire aussi la première phrase de l'article). Sans voix pour la langue des questions (par exemple pas de voix arabe installée), **rien n'est lu dans une autre langue** : l'overlay et la console affichent « Aucune voix arabe sur cet appareil » ; installer une voix arabe dans les réglages de synthèse vocale du système puis recharger. Si le navigateur exige un clic avant de parler, un bouton « Activer la voix » apparaît (dans OBS : clic droit sur la source → **Interagir**).
 
+## Robustesse de la connexion (D-121)
+
+- **Reprise automatique** : 1 s, 2 s, 4 s… jusqu'à 30 s entre deux essais (±20 %). Si TikTok répond que le live est **hors ligne** (live pas encore lancé, terminé), les essais s'espacent de 15 s à 2 min : on peut créer la room avant de lancer le live, elle se connecte toute seule.
+- **Connexion bloquée** : un essai sans réponse au bout de 20 s est abandonné et relancé.
+- **Console streamer** : sous l'état du live, « Chat déconnecté : nouvel essai automatique · 3 échecs · le live semble hors ligne · <dernière erreur> ». La dernière erreur est expurgée (cookies, clés, URL) et n'apparaît jamais dans les journaux en clair.
+- **Doublons** : un message reçu deux fois après une reconnexion (même identifiant TikTok) ne compte qu'une fois ; les commentaires de plus de 200 caractères sont ignorés.
+- **Sans le paquet** : `pnpm check:no-tiktok` construit et lance le jeu sans `tiktok-live-connector` (comme l'image Docker par défaut), TikTok coupé puis chat simulé.
+
 ## Mode démo et tests : `TIKTOK_ADAPTER=fake`
 
 ```dotenv

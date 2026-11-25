@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { FakeTikTokAdapter } from '../../server/tiktok/fakeAdapter';
 import {
   BACKOFF_MAX_MS,
+  CONNECT_TIMEOUT_MS,
+  OFFLINE_BACKOFF_MAX_MS,
+  describe as describeError,
+  isOfflineReason,
   TikTokConnector,
   backoffDelay,
   type Scheduler,
@@ -34,11 +38,15 @@ class ManualScheduler implements Scheduler {
   }
 }
 
+/** Retry delays only (each attempt also arms a connect timeout). */
+const retryDelays = (scheduler: ManualScheduler) =>
+  scheduler.delays.filter((ms) => ms !== CONNECT_TIMEOUT_MS);
+
 const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
 
 describe('backoffDelay', () => {
   it('doubles from 1 s and caps at 30 s', () => {
-    expect([0, 1, 2, 3, 4, 5, 6, 20].map(backoffDelay)).toEqual([
+    expect([0, 1, 2, 3, 4, 5, 6, 20].map((attempt) => backoffDelay(attempt))).toEqual([
       1000, 2000, 4000, 8000, 16000, 30000, 30000, 30000,
     ]);
     expect(backoffDelay(50)).toBe(BACKOFF_MAX_MS);
@@ -69,6 +77,7 @@ describe('TikTokConnector', () => {
       onConnectionChange: (connected) => changes.push(connected),
       scheduler,
       target: 'game',
+      random: () => 0.5,
     });
     return { scheduler, adapters, changes, chats, logs, connector };
   }
@@ -93,7 +102,7 @@ describe('TikTokConnector', () => {
     expect(connector.isConnected()).toBe(false);
     await scheduler.advance(4000);
     expect(connector.isConnected()).toBe(true);
-    expect(scheduler.delays).toEqual([1000, 2000, 4000]);
+    expect(retryDelays(scheduler)).toEqual([1000, 2000, 4000]);
     expect(adapters).toHaveLength(4);
   });
 
@@ -108,7 +117,7 @@ describe('TikTokConnector', () => {
     expect(changes).toEqual([true, false, true]);
     adapters[1]!.drop();
     await scheduler.advance(1000);
-    expect(scheduler.delays).toEqual([1000, 1000]);
+    expect(retryDelays(scheduler)).toEqual([1000, 1000]);
   });
 
   it('ignores chat from a replaced adapter and stops cleanly', async () => {
@@ -145,6 +154,143 @@ describe('TikTokConnector', () => {
     await flush();
     expect(logs.join('\n')).not.toContain('FAKE-VALUE-FOR-TEST');
     connector.stop();
+  });
+});
+
+describe('TikTokConnector robustness (D-121)', () => {
+  function build(adapterSetup: (adapter: FakeTikTokAdapter, index: number) => void = () => {}) {
+    const scheduler = new ManualScheduler();
+    const adapters: FakeTikTokAdapter[] = [];
+    const logs: { event: string; data?: Record<string, unknown> | undefined }[] = [];
+    let now = 1_000_000;
+    const connector = new TikTokConnector({
+      factory: () => {
+        const adapter = new FakeTikTokAdapter();
+        adapterSetup(adapter, adapters.length);
+        adapters.push(adapter);
+        return adapter;
+      },
+      logger: { log: (_level, event, data) => logs.push({ event, data }) },
+      onChat: () => {},
+      onConnectionChange: () => {},
+      scheduler,
+      target: 'game',
+      random: () => 0.5,
+      now: () => now,
+    });
+    return { scheduler, adapters, logs, connector, tick: (ms: number) => (now += ms) };
+  }
+
+  it('slows down when the live is offline, up to 2 minutes', () => {
+    expect([0, 1, 2, 3, 10].map((attempt) => backoffDelay(attempt, true))).toEqual([
+      15_000,
+      30_000,
+      60_000,
+      120_000,
+      OFFLINE_BACKOFF_MAX_MS,
+    ]);
+    expect(isOfflineReason("UserOfflineError: The requested user isn't online :(")).toBe(true);
+    expect(isOfflineReason('stream ended')).toBe(true);
+    expect(isOfflineReason('fetch failed')).toBe(false);
+  });
+
+  it('uses the offline backoff and reports it in the status', async () => {
+    const { connector, scheduler, adapters } = build((adapter, index) => {
+      if (index < 2) {
+        adapter.failNextConnects = 1;
+        adapter.failMessage = "UserOfflineError: The requested user isn't online :(";
+      }
+    });
+    connector.start();
+    await flush();
+    expect(connector.status()).toMatchObject({
+      state: 'retrying',
+      attempts: 1,
+      offline: true,
+      nextRetryAt: 1_015_000,
+    });
+    expect(connector.status().lastError).toContain('UserOfflineError');
+    await scheduler.advance(15_000);
+    expect(retryDelays(scheduler)).toEqual([15_000, 30_000]);
+    await scheduler.advance(30_000);
+    expect(connector.status()).toMatchObject({
+      state: 'connected',
+      attempts: 0,
+      offline: false,
+      lastError: null,
+      nextRetryAt: null,
+    });
+    expect(adapters).toHaveLength(3);
+  });
+
+  it('abandons a connection that hangs and retries', async () => {
+    const { connector, scheduler, adapters, logs } = build((adapter, index) => {
+      if (index === 0) adapter.hangNextConnect = true;
+    });
+    connector.start();
+    await flush();
+    expect(connector.status().state).toBe('connecting');
+    await scheduler.advance(CONNECT_TIMEOUT_MS);
+    expect(logs.map((entry) => entry.event)).toContain('tiktok.connect_timeout');
+    expect(connector.status().state).toBe('retrying');
+    await scheduler.advance(1_000);
+    expect(connector.isConnected()).toBe(true);
+    expect(adapters).toHaveLength(2);
+    expect(adapters[0]!.connected).toBe(false);
+  });
+
+  it('spreads the retries with a ±20 % jitter', async () => {
+    const delays: number[] = [];
+    for (const random of [0, 1]) {
+      const scheduler = new ManualScheduler();
+      const connector = new TikTokConnector({
+        factory: () => {
+          const adapter = new FakeTikTokAdapter();
+          adapter.failNextConnects = 1;
+          return adapter;
+        },
+        logger: { log: () => {} },
+        onChat: () => {},
+        onConnectionChange: () => {},
+        scheduler,
+        target: 'game',
+        random: () => random,
+      });
+      connector.start();
+      await flush();
+      delays.push(...retryDelays(scheduler));
+      connector.stop();
+    }
+    expect(delays).toEqual([800, 1200]);
+  });
+
+  it('records the last chat time, logs library errors by kind only, and resets on stop', async () => {
+    const { connector, adapters, logs, tick } = build();
+    connector.start();
+    await flush();
+    tick(5_000);
+    adapters[0]!.say('viewer', 'A');
+    expect(connector.status()).toMatchObject({
+      lastConnectedAt: 1_000_000,
+      lastMessageAt: 1_005_000,
+    });
+    adapters[0]!.error('WebcastFetchError');
+    expect(logs.at(-1)).toEqual({
+      event: 'tiktok.library_error',
+      data: { kind: 'WebcastFetchError' },
+    });
+    connector.stop();
+    expect(connector.status()).toMatchObject({ state: 'idle', nextRetryAt: null });
+  });
+
+  it('redacts cookies, keys and URLs from error summaries', () => {
+    const summary = describeError(
+      new Error(
+        'GET https://webcast.tiktok.com/x?a=1 failed sessionid=SECRET1; sid_tt=SECRET2 signApiKey: SECRET3',
+      ),
+    );
+    expect(summary).not.toMatch(/SECRET|webcast/);
+    expect(summary).toContain('[url]');
   });
 });
 

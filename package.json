@@ -31,6 +31,7 @@
     "test:load": "tsx scripts/load-test.ts",
     "data:extract": "tsx scripts/extract-legacy-questions.ts",
     "data:validate": "tsx scripts/validate-questions.ts",
+    "check:no-tiktok": "bash scripts/ci/check-no-tiktok.sh",
     "data:wikipedia": "tsx scripts/generate-wikipedia-questions.ts",
     "data:import": "tsx scripts/import-questions.ts",
     "format": "prettier --write .",

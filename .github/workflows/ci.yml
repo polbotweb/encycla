@@ -38,6 +38,8 @@ jobs:
       - run: pnpm run test:coverage
       - run: pnpm audit --prod
       - run: pnpm run build
+      # The web game (and the simulated chat) without the optional TikTok package (D-121).
+      - run: pnpm run check:no-tiktok
 
   e2e:
     runs-on: ubuntu-latest

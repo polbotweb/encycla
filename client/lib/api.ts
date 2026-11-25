@@ -101,6 +101,14 @@ export interface TikTokStatusView {
   connected: boolean;
   liveUsername: string | null;
   activeRoomCode: string | null;
+  /** Chat connection details (D-121); null when TikTok is off. */
+  connection?: {
+    state: 'idle' | 'connecting' | 'connected' | 'retrying';
+    attempts: number;
+    lastError: string | null;
+    offline: boolean;
+    nextRetryAt: number | null;
+  } | null;
 }
 
 export interface TikTokRoomCreated {

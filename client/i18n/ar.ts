@@ -378,6 +378,20 @@ export const ar: Record<MessageKey, Message> = {
   'admin.simSay': 'التعليق بـ {letter}',
   'admin.simSent': 'علّق {name} بـ {letter}.',
 
+  'admin.conn.idle': 'الاتصال بالدردشة: في انتظار بث مباشر.',
+  'admin.conn.connecting': 'جارٍ الاتصال بالدردشة…',
+  'admin.conn.connected': 'الدردشة متصلة.',
+  'admin.conn.retrying': 'انقطع الاتصال بالدردشة: إعادة المحاولة تلقائيًا.',
+  'admin.conn.attempts': {
+    zero: 'لا إخفاقات',
+    one: 'إخفاق واحد',
+    two: 'إخفاقان',
+    few: '{count} إخفاقات',
+    many: '{count} إخفاقًا',
+    other: '{count} إخفاق',
+  },
+  'admin.conn.offline': 'يبدو أن البث متوقف (محاولات متباعدة حتى دقيقتين)',
+
   // ---- stream overlay
   'overlay.title': 'ENCYCLA مباشر',
   'overlay.live': 'مباشر',

@@ -3,6 +3,8 @@ export interface TikTokChatMessage {
   uniqueId: string;
   nickname: string | null;
   comment: string;
+  /** Message id from TikTok, when known: the same message delivered twice is counted once. */
+  id?: string;
 }
 
 /** Narrow port over the (unofficial) TikTok live chat client. */
@@ -13,6 +15,8 @@ export interface TikTokAdapter {
   onChat(handler: (message: TikTokChatMessage) => void): void;
   /** Called when an established connection drops. */
   onDisconnect(handler: (reason: string) => void): void;
+  /** Non-fatal library errors: only a short kind (error name), never the request details. */
+  onError?(handler: (kind: string) => void): void;
 }
 
 /** Builds an adapter for the live of `target` (a TikTok handle without "@"). */

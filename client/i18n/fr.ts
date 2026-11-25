@@ -323,6 +323,13 @@ export const fr = {
   'admin.simSay': 'Commenter {letter}',
   'admin.simSent': '{name} a commenté {letter}.',
 
+  'admin.conn.idle': 'Connexion au chat : en attente d’un live.',
+  'admin.conn.connecting': 'Connexion au chat en cours…',
+  'admin.conn.connected': 'Chat connecté.',
+  'admin.conn.retrying': 'Chat déconnecté : nouvel essai automatique.',
+  'admin.conn.attempts': { one: '{count} échec', other: '{count} échecs' },
+  'admin.conn.offline': 'le live semble hors ligne (essais espacés jusqu’à 2 min)',
+
   // ---- stream overlay
   'overlay.title': 'ENCYCLA EN DIRECT',
   'overlay.live': 'EN DIRECT',

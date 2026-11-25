@@ -125,6 +125,28 @@ describe('AdminView (streamer console)', () => {
     expect(await screen.findByRole('button', { name: 'Create the room' })).toBeTruthy();
   });
 
+  it('shows why the chat is not connected and that retries continue', async () => {
+    status = {
+      ...status,
+      connected: false,
+      connection: {
+        state: 'retrying',
+        attempts: 3,
+        lastError: "UserOfflineError: The requested user isn't online :(",
+        offline: true,
+        nextRetryAt: null,
+      },
+    };
+    render(<AdminView />);
+    fireEvent.change(screen.getByLabelText('Admin token'), { target: { value: 'good-token' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Unlock' }));
+    const line = await screen.findByTestId('tiktok-connection');
+    expect(line.textContent).toContain('Chat disconnected: retrying automatically.');
+    expect(line.textContent).toContain('3 failures');
+    expect(line.textContent).toContain('the live looks offline');
+    expect(line.textContent).toContain('UserOfflineError');
+  });
+
   it('explains that TikTok is off without breaking anything', async () => {
     status = { ...status, enabled: false, simulated: false, connected: false };
     render(<AdminView />);

@@ -312,6 +312,13 @@ export const en: Record<MessageKey, Message> = {
   'admin.simSay': 'Comment {letter}',
   'admin.simSent': '{name} commented {letter}.',
 
+  'admin.conn.idle': 'Chat connection: waiting for a live.',
+  'admin.conn.connecting': 'Connecting to the chat…',
+  'admin.conn.connected': 'Chat connected.',
+  'admin.conn.retrying': 'Chat disconnected: retrying automatically.',
+  'admin.conn.attempts': { one: '{count} failure', other: '{count} failures' },
+  'admin.conn.offline': 'the live looks offline (retries spaced up to 2 min)',
+
   // ---- stream overlay
   'overlay.title': 'ENCYCLA LIVE',
   'overlay.live': 'LIVE',

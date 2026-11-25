@@ -153,6 +153,7 @@ describe('any live, streamer status and simulated chat', () => {
       connected: false,
       liveUsername: null,
       activeRoomCode: null,
+      connection: expect.objectContaining({ state: 'idle', attempts: 0, lastError: null }),
     });
     const missing = await createRoom(h);
     expect(missing.body.error.code).toBe('VALIDATION_ERROR');
@@ -169,6 +170,7 @@ describe('any live, streamer status and simulated chat', () => {
       connected: true,
       liveUsername: 'any.live',
       activeRoomCode: created.body.roomCode,
+      connection: expect.objectContaining({ state: 'connected', target: 'any.live' }),
     });
     // The simulated chat endpoint stays closed with a real adapter.
     const chat = await h.api('/api/admin/tiktok/chat', {
@@ -254,10 +256,16 @@ describe('TikTok room end to end', () => {
     fake.say('lurker', 'bonjour');
     fake.say('lurker', 'réponse A');
     fake.say('lurker', 'https://x.test A');
+    fake.say('lurker', `A ${'x'.repeat(250)}`); // over 200 characters: chatter, never parsed
     expect(h.server.manager.getState(code)!.joinedPlayerCount).toBe(0);
 
+    // the same TikTok message delivered twice (reconnect) counts once
+    fake.say('echo', 'A', 'Echo', 'msg-1');
+    fake.say('echo2', 'B', 'Echo 2', 'msg-1');
+    expect(h.server.manager.getState(code)!.joinedPlayerCount).toBe(1);
+
     // 100 viewers answer; first answer counts, duplicates ignored
-    for (let index = 0; index < 100; index += 1) {
+    for (let index = 0; index < 99; index += 1) {
       fake.say(`viewer${index}`, index % 2 === 0 ? 'A' : '@streamer b', `Viewer ${index}`);
     }
     fake.say('viewer0', 'C');
@@ -267,6 +275,7 @@ describe('TikTok room end to end', () => {
     expect(state.phase).toBe('QUESTION');
     expect(state.joinedPlayerCount).toBe(100);
     expect(Object.keys(state.players)).toHaveLength(100);
+    expect(Object.values(state.players).some((p) => p.displayName === 'Echo')).toBe(true);
     h.clock.advance(15_000);
     h.server.manager.sweep();
 

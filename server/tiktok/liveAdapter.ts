@@ -68,6 +68,7 @@ export class LiveTikTokAdapter implements TikTokAdapter {
   private connection: LiveConnection | null = null;
   private chatHandler: (message: TikTokChatMessage) => void = () => {};
   private disconnectHandler: (reason: string) => void = () => {};
+  private errorHandler: (kind: string) => void = () => {};
 
   constructor(
     private readonly options: LiveAdapterOptions,
@@ -80,6 +81,10 @@ export class LiveTikTokAdapter implements TikTokAdapter {
 
   onDisconnect(handler: (reason: string) => void): void {
     this.disconnectHandler = handler;
+  }
+
+  onError(handler: (kind: string) => void): void {
+    this.errorHandler = handler;
   }
 
   async connect(): Promise<void> {
@@ -112,18 +117,33 @@ export class LiveTikTokAdapter implements TikTokAdapter {
         return;
       }
       const nickname = data?.user?.nickname ?? data?.nickname;
+      const id = data?.common?.msgId ?? data?.msgId;
       this.chatHandler({
         uniqueId,
         nickname: typeof nickname === 'string' ? nickname : null,
         comment,
+        ...(typeof id === 'string' || typeof id === 'number' ? { id: String(id) } : {}),
       });
     });
     connection.on('disconnected', () => this.disconnectHandler('disconnected'));
     connection.on('streamEnd', () => this.disconnectHandler('stream ended'));
-    // Library errors may embed request details; they are deliberately not forwarded.
-    connection.on('error', () => {});
+    // Library errors may embed request details: only their kind (class name) is forwarded.
+    connection.on('error', (error: unknown) => {
+      const kind =
+        error && typeof error === 'object' && 'name' in error && typeof error.name === 'string'
+          ? error.name
+          : 'Error';
+      this.errorHandler(kind.slice(0, 60));
+    });
     this.connection = connection;
-    await connection.connect();
+    try {
+      await connection.connect();
+    } catch (error) {
+      // Keep the class name (UserOfflineError…) and a short message; the connector redacts it.
+      const name = error instanceof Error ? error.name : 'Error';
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`${name}: ${message}`.slice(0, 200));
+    }
   }
 
   disconnect(): void {
