@@ -70,8 +70,8 @@ Principes d'architecture :
 | Contenu | Banque Wikipédia/Commons/Wikidata, crédits par image, licences libres uniquement, traductions réelles ou question retirée de la langue. |
 | Interface | React 19, thème sombre AA, clavier (`A`–`D`, `1`–`4`, `M` pour le son, `Échap` pour quitter), annonces lecteur d'écran, voix automatique (synthèse vocale du navigateur, fr/en/ar), sons synthétisés, PWA (manifeste, icônes *maskable*). |
 | Images | Proxy same-origin `/img` : aucun nom de fichier ni crédit avant la révélation, métadonnées retirées, cache disque plafonné. |
-| Exploitation | Docker non-root, Caddy HTTPS, SQLite avec repli mémoire, validation de configuration *fail-fast*, healthcheck, sauvegardes `VACUUM INTO`. |
-| Qualité | TypeScript strict, 452 tests Vitest, 50 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok, voix), test de charge, CI complète. |
+| Exploitation | Docker non-root, Caddy HTTPS, SQLite avec repli mémoire, validation de configuration *fail-fast*, sondes `/healthz` et `/readyz`, métriques Prometheus `/metrics` (admin), logs JSON, sauvegardes SQLite à chaud vérifiées et tournantes. |
+| Qualité | TypeScript strict, 510 tests Vitest, 59 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok simulé, voix), build et démarrage vérifiés sans le paquet TikTok, test de charge, `pnpm audit` sans vulnérabilité, CI complète. |
 
 ## 3. Modes de jeu
 
@@ -241,8 +241,8 @@ Caddy obtient le certificat TLS automatiquement ([deploy/Caddyfile](deploy/Caddy
 | Métriques | `curl -H "Authorization: Bearer $ADMIN_TOKEN" https://<domaine>/metrics` (Prometheus : requêtes, latence, rooms, sockets, file, TikTok, mémoire). Voir `docs/DEPLOYMENT.md` §11. |
 | Logs | JSON sur la sortie standard, sans IP persistée, sans cookie ni jeton. Niveau : `LOG_LEVEL` (`debug`, `info`, `warn`, `error`). |
 | Fermer une room bloquée | `curl -X POST -H "Authorization: Bearer $ADMIN_TOKEN" https://<domaine>/api/admin/rooms/CODE/close` |
-| Sauvegarde | `sqlite3 encycla.db "VACUUM INTO '/backups/encycla-$(date +%F).db'"` (jamais de copie à chaud du fichier). |
-| Restauration | Arrêter, copier la sauvegarde, supprimer `-wal`/`-shm`, démarrer, `PRAGMA integrity_check`. |
+| Sauvegarde | Automatique toutes les `BACKUP_INTERVAL_HOURS` (6 h) dans `BACKUP_DIR`, `BACKUP_KEEP` (28) gardées ; ponctuelle : `pnpm db:backup` (D-119). Copier ensuite le dossier hors du serveur. |
+| Restauration | Serveur arrêté : `pnpm db:restore latest --yes` (vérifie la sauvegarde, garde l'ancienne base de côté, supprime `-wal`/`-shm`). |
 | Mise à jour | `git pull && docker compose --profile proxy up -d --build` ; migrations et synchronisation des questions au démarrage. |
 | Redémarrage | Les rooms en cours sont perdues (matchs marqués `abandoned`) ; le classement est conservé. |
 | Activer TikTok | `.env` : `TIKTOK_ENABLED=true`, cookie, puis `WITH_TIKTOK=true docker compose --profile proxy up -d --build`. |

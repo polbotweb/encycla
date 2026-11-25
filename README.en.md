@@ -55,8 +55,10 @@ Pick a language (top right), type a nickname (no account), choose solo / private
 git clone https://github.com/polbotweb/encycla.git && cd encycla
 cp .env.example .env    # NODE_ENV=production, PUBLIC_ORIGIN=https://<domain>, ADMIN_TOKEN=$(openssl rand -hex 32), DOMAIN, TRUST_PROXY=true
 docker compose --profile proxy up -d --build   # app + Caddy (automatic HTTPS)
-curl -s https://<domain>/api/health
+curl -s https://<domain>/readyz     # 200 when ready (questions loaded, database answering)
 ```
+
+Operations: `GET /healthz` (liveness), `GET /readyz` (readiness, 503 while shutting down), Prometheus `GET /metrics` with `Authorization: Bearer $ADMIN_TOKEN`, JSON logs with `X-Request-Id`, automatic verified SQLite backups (`pnpm db:backup`, `pnpm db:restore latest --yes`). The game builds and runs without the optional TikTok package (`pnpm check:no-tiktok`).
 
 Single instance only (rooms are in memory), a persistent volume for SQLite, WebSockets enabled. The server refuses to start in production with a missing/weak `ADMIN_TOKEN`, a non-https `PUBLIC_ORIGIN` or `RATE_LIMIT=off`. All variables: README §8 and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). TikTok (optional, unofficial AGPL connector): `TIKTOK_ENABLED=true`, a dedicated account cookie, image built with `WITH_TIKTOK=true`.
 
