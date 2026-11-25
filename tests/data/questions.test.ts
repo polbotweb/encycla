@@ -20,14 +20,6 @@ const TRANSLATED = ['en', 'ar'] as const;
 const ARABIC = /[\u0600-\u06FF]/;
 const CATALOGUE = /^(?:NGC|IC|M) ?\d+$/;
 
-/**
- * Categories that cannot reach the SUBJECT threshold without inventing content (D-122): French
- * Wikipedia has about 85 cat-breed articles with a picture (Wikidata P31 Q43577).
- */
-const SHORT_CATEGORIES: Partial<Record<(typeof CATEGORY_VALUES)[number], string>> = {
-  Cats: 'about 85 cat breeds have a French Wikipedia article with a picture',
-};
-
 describe('question bank', () => {
   it('validates the approved bank', async () => {
     const { success, report } = await loadQuestionBank('data/questions.json');
@@ -41,12 +33,6 @@ describe('question bank', () => {
     const { report } = await loadQuestionBank('data/questions.json');
 
     for (const category of CATEGORY_VALUES) {
-      if (category in SHORT_CATEGORIES) {
-        // Real content only: these stay in CLASSIC play, SUBJECT is disabled for them.
-        expect(report.counts[category], category).toBeGreaterThanOrEqual(60);
-        expect(report.counts[category], category).toBeLessThan(MIN_QUESTIONS_PER_CATEGORY);
-        continue;
-      }
       expect(report.counts[category], category).toBeGreaterThanOrEqual(MIN_QUESTIONS_PER_CATEGORY);
     }
   });
@@ -111,7 +97,6 @@ describe('question bank', () => {
     const questions = await loadQuestions();
     for (const language of TRANSLATED) {
       for (const category of CATEGORY_VALUES) {
-        if (category in SHORT_CATEGORIES) continue;
         const offered = questions.filter(
           (question) => question.category === category && question.translations?.[language],
         ).length;

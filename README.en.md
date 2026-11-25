@@ -22,7 +22,7 @@
 
 Encycla MindMaze is a real-time multiplayer picture quiz. Each question shows a real Wikimedia Commons photo with four answers; after each question the matching Wikipedia article is shown.
 
-- **3,410 questions** in **24 categories** (including Dogs, Cats, Arab & Islamic monuments, World dishes, Cities, Painters), all generated from Wikipedia, Wikidata and Wikimedia Commons (author, licence and revision permalink for each). No invented content.
+- **3,329 questions** in **23 categories** (including Dogs & Cats, Arab & Islamic monuments, World dishes, Cities, Painters), all generated from Wikipedia, Wikidata and Wikimedia Commons (author, licence and revision permalink for each). No invented content.
 - **French (default), English and Arabic** (right-to-left).
 - **Without TikTok**: solo, private rooms, public matchmaking, on desktop and mobile.
 - **With TikTok Live**: viewers of **any live** answer `A`, `B`, `C` or `D` in the chat; OBS overlay and streamer consoles.

@@ -46,7 +46,7 @@
 
 **Encycla MindMaze** est un quiz visuel multijoueur en temps réel. Chaque question montre une vraie photo de Wikimedia Commons (un animal, un drapeau, un monument, une planète, un plat…) et propose quatre réponses. Après chaque question, l'article Wikipédia correspondant s'affiche : on joue, puis on apprend.
 
-- **3 410 questions** dans **24 catégories** (dont Chiens, Chats, Monuments arabes et islamiques, Plats du monde, Villes, Peintres), toutes générées depuis Wikipédia, Wikidata et Wikimedia Commons, avec auteur, licence et permalien de révision ; aucun contenu inventé.
+- **3 329 questions** dans **23 catégories** (dont Chiens et chats, Monuments arabes et islamiques, Plats du monde, Villes, Peintres), toutes générées depuis Wikipédia, Wikidata et Wikimedia Commons, avec auteur, licence et permalien de révision ; aucun contenu inventé.
 - **Trois langues** : français (par défaut), anglais et arabe (mise en page de droite à gauche).
 - **Sans TikTok** : solo, salon privé, matchmaking public, sur ordinateur et sur mobile.
 - **Avec TikTok Live** : les spectateurs de **n'importe quel live** répondent `A`, `B`, `C` ou `D` dans le chat, avec un overlay pour OBS et une console pour le streamer.
@@ -71,7 +71,7 @@ Principes d'architecture :
 | Interface | React 19, thème sombre AA, clavier (`A`–`D`, `1`–`4`, `M` pour le son, `Échap` pour quitter), annonces lecteur d'écran, voix automatique (synthèse vocale du navigateur, fr/en/ar), sons synthétisés, PWA (manifeste, icônes *maskable*). |
 | Images | Proxy same-origin `/img` : aucun nom de fichier ni crédit avant la révélation, métadonnées retirées, cache disque plafonné. |
 | Exploitation | Docker non-root, Caddy HTTPS, SQLite avec repli mémoire, validation de configuration *fail-fast*, sondes `/healthz` et `/readyz`, métriques Prometheus `/metrics` (admin), logs JSON, sauvegardes SQLite à chaud vérifiées et tournantes. |
-| Qualité | TypeScript strict, 510 tests Vitest, 59 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok simulé, voix), build et démarrage vérifiés sans le paquet TikTok, test de charge, `pnpm audit` sans vulnérabilité, CI complète. |
+| Qualité | TypeScript strict, 513 tests Vitest, 59 tests Playwright (bureau, Pixel 7, iPhone 14, TikTok simulé, voix), build et démarrage vérifiés sans le paquet TikTok, test de charge, `pnpm audit` sans vulnérabilité, CI complète. |
 
 ## 3. Modes de jeu
 
@@ -93,7 +93,7 @@ C'est le jeu complet ; TikTok est désactivé par défaut (`TIKTOK_ENABLED=false
 - **Solo** : « Solo CLASSIC » ou « Solo SUBJECT » sur l'accueil. On joue seul ; la partie se termine à la perte des trois vies ou à la fin du dernier niveau.
 - **Salon privé** : « Créer un salon privé » donne un code à 6 caractères et un lien `/?mode=join&code=…`. Les invités le rejoignent, chacun se déclare prêt, l'hôte lance la partie. L'hôte peut passer un article pour tout le monde.
 - **Matchmaking public** : « Jouer en ligne ». Les joueurs sont regroupés par mode, catégorie, difficulté et langue des questions. CONTEST démarre dès 2 joueurs ; CLASSIC et SUBJECT visent 4 joueurs et proposent un vote « petit salon » (2 à 3 joueurs) après 2 minutes d'attente.
-- **SUBJECT / catégories** : une catégorie n'est proposée que si elle compte au moins 100 questions dans la langue choisie (23 des 24 catégories le dépassent dans les trois langues ; **Chats** reste en dessous — 81 questions, 74 en arabe — car Wikipédia en français ne compte qu'environ 85 races de chat illustrées : la catégorie sert en partie CLASSIC, sans contenu inventé).
+- **SUBJECT / catégories** : une catégorie n'est proposée que si elle compte au moins 100 questions dans la langue choisie (les 23 catégories le dépassent dans les trois langues ; « Chiens et chats » réunit les races de chien et de chat, D-124).
 
 ### 3.2 Avec TikTok Live (n'importe quel live)
 
@@ -204,7 +204,7 @@ Avec `TIKTOK_ADAPTER=fake`, la console streamer affiche « Chat simulé (démo) 
 - **Français par défaut**, anglais (`en`) et arabe (`ar`, de droite à gauche).
 - Choix : sélecteur dans l'en-tête, mémorisé (`localStorage`, clé `encycla.lang.v1`) et dans l'URL (`?lang=ar`, prioritaire). La langue du navigateur n'est pas utilisée.
 - Les questions sont dans la **langue du salon** (« Langue des questions ») ; chaque joueur garde son interface dans sa langue. Le matchmaking apparie les joueurs de même langue.
-- Traductions (D-108) : nom de l'article Wikipédia ou libellé Wikidata de la langue ; sinon le nom scientifique (êtres vivants) ; sinon le nom d'origine ; sinon la question n'est pas proposée dans cette langue. **Jamais de français par défaut.** Banque actuelle : anglais 2 596 questions, arabe 2 553.
+- Traductions (D-108) : nom de l'article Wikipédia ou libellé Wikidata de la langue ; sinon le nom scientifique (êtres vivants) ; sinon le nom d'origine ; sinon la question n'est pas proposée dans cette langue. **Jamais de français par défaut.** Banque actuelle : anglais 3 320 questions, arabe 3 264 (sur 3 329).
 - TikTok : réponses `A`–`D` quelle que soit la langue.
 
 | Arabe, ordinateur | Arabe, mobile |

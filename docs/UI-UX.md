@@ -196,7 +196,7 @@ Permettre en moins de 15 secondes de : créer un pseudo, lancer un solo, créer/
 │                               │  [ Join with code        ]   │
 │                               │  [ Leaderboard           ]   │
 ├───────────────────────────────┴──────────────────────────────┤
-│ 3410 questions · 24 categories · v1.0                        │
+│ 3329 questions · 23 categories · v1.0                        │
 └──────────────────────────────────────────────────────────────┘
 ```
 

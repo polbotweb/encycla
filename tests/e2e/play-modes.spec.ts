@@ -16,11 +16,11 @@ import type { Language } from '../../shared/languages';
 
 const LANGUAGES: Language[] = ['fr', 'en', 'ar'];
 const OPTION = /^[A-D] /;
-/** Seed wording of the Dogs questions (scripts/wikimedia/languages.ts). */
-const DOG_QUESTION: Record<Language, string> = {
-  fr: 'Quelle est cette race de chien ?',
-  en: 'What is this dog breed?',
-  ar: 'ما سلالة هذا الكلب؟',
+/** Seed wording of the Dogs & Cats questions (scripts/wikimedia/languages.ts). */
+const BREED_QUESTION: Record<Language, RegExp> = {
+  fr: /^Quelle est cette race de (chien|chat) \?$/,
+  en: /^What is this (dog|cat) breed\?$/,
+  ar: /^ما سلالة هذا (الكلب|القط)؟$/,
 };
 
 /** A fresh context with the same device as the project (viewport, touch, user agent). */
@@ -103,9 +103,7 @@ async function playToResults(page: Page, language: Language, touch: boolean): Pr
 
 for (const language of LANGUAGES) {
   test.describe(`web game without TikTok · ${language}`, () => {
-    test('solo by subject in a new category (D-122): Dogs plays, Cats stays disabled', async ({
-      browser,
-    }) => {
+    test('solo by subject in the merged Dogs & Cats category (D-124)', async ({ browser }) => {
       test.setTimeout(90_000);
       const { touch, ...options } = await deviceContext(browser);
       const context = await browser.newContext(options);
@@ -120,9 +118,9 @@ for (const language of LANGUAGES) {
       );
       await press(page, page.getByText(translate('mode.SUBJECT.desc', {}, language)), touch);
       const category = page.locator('#category');
-      await expect(category.locator('option[value="Cats"]')).toBeDisabled();
-      await expect(category.locator('option[value="Dogs"]')).toBeEnabled();
-      await category.selectOption('Dogs');
+      await expect(category.locator('option[value="Cats"]')).toHaveCount(0);
+      await expect(category.locator('option[value="Dogs & Cats"]')).toBeEnabled();
+      await category.selectOption('Dogs & Cats');
       const scan = await new AxeBuilder({ page }).analyze();
       expect(
         scan.violations.filter((v) => ['serious', 'critical'].includes(v.impact ?? '')),
@@ -135,7 +133,7 @@ for (const language of LANGUAGES) {
       );
       const title = page.locator('#question-title');
       await expect(title).toBeVisible({ timeout: 15_000 });
-      await expect(title).toHaveText(DOG_QUESTION[language]);
+      await expect(title).toHaveText(BREED_QUESTION[language]);
       await expect(page.getByRole('button', { name: OPTION })).toHaveCount(4);
       expect(problems).toEqual([]);
       await context.close();

@@ -25,8 +25,8 @@ export const SEEDS: SeedMap = {
   Music: MUSIC,
   Sports: SPORTS,
   Science: SCIENCE,
-  Dogs: DOGS,
-  Cats: CATS,
+  // Dog and cat breeds share one category (D-124); each keeps its own question and distractors.
+  'Dogs & Cats': [...DOGS, ...CATS],
   'Arab & Islamic Monuments': ISLAMIC_MONUMENTS,
   'World Dishes': WORLD_DISHES,
   Cities: CITIES,

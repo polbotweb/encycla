@@ -27,8 +27,7 @@ export const CATEGORY_VALUES = [
   'Music',
   'Sports',
   'Science',
-  'Dogs',
-  'Cats',
+  'Dogs & Cats',
   'Arab & Islamic Monuments',
   'World Dishes',
   'Cities',
@@ -52,7 +51,26 @@ export {
   type TranslatedLanguage,
 };
 
-export const categorySchema = z.enum(CATEGORY_VALUES);
+/**
+ * Former category ids still found in saved rooms, match history or old clients (D-124):
+ * "Dogs" and "Cats" were merged into "Dogs & Cats".
+ */
+export const LEGACY_CATEGORIES: Readonly<Record<string, (typeof CATEGORY_VALUES)[number]>> = {
+  Dogs: 'Dogs & Cats',
+  Cats: 'Dogs & Cats',
+};
+
+/** Maps a former category id to the current one; other values are returned unchanged. */
+export function normalizeCategory<T extends string | null | undefined>(value: T): T {
+  return (
+    typeof value === 'string' && value in LEGACY_CATEGORIES ? LEGACY_CATEGORIES[value] : value
+  ) as T;
+}
+
+export const categorySchema = z.preprocess(
+  (value) => normalizeCategory(value as string | null | undefined),
+  z.enum(CATEGORY_VALUES),
+);
 
 const htmlPattern = /<[^>]*>/;
 

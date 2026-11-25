@@ -2,7 +2,7 @@
   "language": "fr",
   "languages": ["fr", "en", "ar"],
   "seedTitles": 4975,
-  "questions": 3410,
+  "questions": 3329,
   "perCategory": {
     "Fauna": { "seedTitles": 261, "questions": 150, "dropped": 41 },
     "Flora": { "seedTitles": 247, "questions": 144, "dropped": 103 },
@@ -22,8 +22,7 @@
     "Music": { "seedTitles": 185, "questions": 150, "dropped": 34 },
     "Sports": { "seedTitles": 209, "questions": 150, "dropped": 32 },
     "Science": { "seedTitles": 229, "questions": 150, "dropped": 43 },
-    "Dogs": { "seedTitles": 230, "questions": 150, "dropped": 31 },
-    "Cats": { "seedTitles": 85, "questions": 81, "dropped": 4 },
+    "Dogs & Cats": { "seedTitles": 315, "questions": 150, "dropped": 35 },
     "Arab & Islamic Monuments": { "seedTitles": 147, "questions": 128, "dropped": 19 },
     "World Dishes": { "seedTitles": 230, "questions": 150, "dropped": 22 },
     "Cities": { "seedTitles": 230, "questions": 150, "dropped": 32 },
@@ -31,21 +30,21 @@
   },
   "translations": {
     "en": {
-      "answerLabels": { "wikipedia": 3335, "wikidata": 66, "scientific-name": 0, "native-name": 0 },
+      "answerLabels": { "wikipedia": 3261, "wikidata": 59, "scientific-name": 0, "native-name": 0 },
       "optionLabels": {
-        "wikipedia": 13429,
-        "wikidata": 175,
+        "wikipedia": 13127,
+        "wikidata": 153,
         "scientific-name": 0,
         "native-name": 0
       },
       "articles": {
-        "own": 3331,
-        "other:fr": 34,
+        "own": 3257,
+        "other:fr": 32,
         "other:pt": 2,
-        "other:de": 19,
+        "other:de": 15,
         "other:nl": 1,
         "other:it": 6,
-        "other:es": 8
+        "other:es": 7
       },
       "nativeNameLanguages": {},
       "perCategory": {
@@ -182,19 +181,12 @@
           "options": { "wikipedia": 595, "wikidata": 5, "scientific-name": 0, "native-name": 0 },
           "articles": { "own": 148, "other:it": 1, "other:de": 1 }
         },
-        "Dogs": {
+        "Dogs & Cats": {
           "questions": 150,
           "unavailable": 0,
-          "labels": { "wikipedia": 149, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 593, "wikidata": 7, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 149, "other:de": 1 }
-        },
-        "Cats": {
-          "questions": 81,
-          "unavailable": 0,
-          "labels": { "wikipedia": 73, "wikidata": 8, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 303, "wikidata": 21, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 73, "other:de": 5, "other:es": 1, "other:fr": 2 }
+          "labels": { "wikipedia": 148, "wikidata": 2, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 594, "wikidata": 6, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 148, "other:de": 2 }
         },
         "Arab & Islamic Monuments": {
           "questions": 128,
@@ -278,50 +270,47 @@
     },
     "ar": {
       "answerLabels": {
-        "wikipedia": 2942,
-        "wikidata": 61,
+        "wikipedia": 2912,
+        "wikidata": 60,
         "scientific-name": 138,
-        "native-name": 189
+        "native-name": 154
       },
       "optionLabels": {
-        "wikipedia": 11823,
-        "wikidata": 219,
+        "wikipedia": 11705,
+        "wikidata": 216,
         "scientific-name": 552,
-        "native-name": 726
+        "native-name": 583
       },
       "articles": {
-        "own": 2751,
-        "other:en": 538,
-        "other:fr": 21,
+        "own": 2729,
+        "other:en": 495,
+        "other:fr": 20,
         "other:pt": 2,
         "other:de": 9,
         "other:it": 5,
         "other:es": 4
       },
       "nativeNameLanguages": {
-        "ja": 19,
-        "en": 51,
-        "fr": 283,
-        "pt": 23,
-        "es": 85,
+        "ja": 15,
+        "en": 24,
+        "fr": 269,
+        "pt": 16,
+        "es": 65,
         "grc": 2,
-        "it": 34,
+        "it": 32,
         "is": 5,
-        "ru": 13,
+        "ru": 2,
         "el": 7,
-        "de": 70,
-        "da": 8,
-        "nl": 14,
+        "de": 47,
+        "da": 6,
+        "nl": 5,
         "eu": 4,
-        "nb": 9,
-        "af": 4,
-        "hu": 27,
+        "sco": 12,
+        "nb": 4,
+        "pl": 18,
+        "hu": 12,
+        "mk": 2,
         "fi": 11,
-        "sco": 10,
-        "mk": 3,
-        "uk": 3,
-        "ca": 2,
-        "pl": 14,
         "ne": 4,
         "sw": 4,
         "fa": 2,
@@ -464,19 +453,12 @@
           "options": { "wikipedia": 596, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
           "articles": { "own": 149 }
         },
-        "Dogs": {
-          "questions": 133,
-          "unavailable": 17,
-          "labels": { "wikipedia": 64, "wikidata": 0, "scientific-name": 0, "native-name": 69 },
-          "options": { "wikipedia": 256, "wikidata": 0, "scientific-name": 0, "native-name": 276 },
-          "articles": { "own": 59, "other:en": 73, "other:de": 1 }
-        },
-        "Cats": {
-          "questions": 74,
-          "unavailable": 7,
-          "labels": { "wikipedia": 69, "wikidata": 1, "scientific-name": 0, "native-name": 4 },
-          "options": { "wikipedia": 277, "wikidata": 3, "scientific-name": 0, "native-name": 16 },
-          "articles": { "own": 59, "other:en": 13, "other:de": 1, "other:fr": 1 }
+        "Dogs & Cats": {
+          "questions": 141,
+          "unavailable": 9,
+          "labels": { "wikipedia": 103, "wikidata": 0, "scientific-name": 0, "native-name": 38 },
+          "options": { "wikipedia": 415, "wikidata": 0, "scientific-name": 0, "native-name": 149 },
+          "articles": { "own": 96, "other:en": 43, "other:de": 2 }
         },
         "Arab & Islamic Monuments": {
           "questions": 127,
@@ -507,7 +489,7 @@
           "articles": { "own": 145, "other:en": 5 }
         }
       },
-      "answersWithoutOwnName": 327,
+      "answersWithoutOwnName": 292,
       "fallbacks": [
         {
           "id": "fauna-requin-marteau-halicorne",
@@ -1903,422 +1885,232 @@
           "article": "other:en"
         },
         {
-          "id": "dogs-berger-de-maremme-et-abruzzes",
+          "id": "dogs-cats-berger-de-maremme-et-abruzzes",
           "subject": "Berger de Maremme et Abruzzes",
           "label": "native-name:it",
           "article": "other:en"
         },
         {
-          "id": "dogs-dogue-de-bordeaux",
+          "id": "dogs-cats-dogue-de-bordeaux",
           "subject": "Dogue de Bordeaux",
           "label": "native-name:fr",
           "article": "other:en"
         },
         {
-          "id": "dogs-malinois",
+          "id": "dogs-cats-malinois",
           "subject": "Malinois",
           "label": "native-name:de",
           "article": "other:de"
         },
         {
-          "id": "dogs-retriever-de-la-nouvelle-ecosse",
+          "id": "dogs-cats-retriever-de-la-nouvelle-ecosse",
           "subject": "Retriever de la Nouvelle-Écosse",
           "label": "native-name:fr",
           "article": "other:en"
         },
         {
-          "id": "dogs-fila-brasileiro",
+          "id": "dogs-cats-fila-brasileiro",
           "subject": "Fila Brasileiro",
           "label": "native-name:pt",
           "article": "other:en"
         },
         {
-          "id": "dogs-berger-blanc-suisse",
+          "id": "dogs-cats-berger-blanc-suisse",
           "subject": "Berger blanc suisse",
           "label": "native-name:de",
           "article": "other:en"
         },
         {
-          "id": "dogs-epagneul-japonais",
+          "id": "dogs-cats-epagneul-japonais",
           "subject": "Épagneul japonais",
           "label": "native-name:ja",
           "article": "other:en"
         },
         {
-          "id": "dogs-bichon-havanais",
+          "id": "dogs-cats-bichon-havanais",
           "subject": "Bichon havanais",
           "label": "native-name:es",
           "article": "other:en"
         },
         {
-          "id": "dogs-kuvasz",
+          "id": "dogs-cats-kuvasz",
           "subject": "Kuvasz",
           "label": "native-name:hu",
           "article": "other:en"
         },
         {
-          "id": "dogs-chien-de-berger-yougoslave-de-charplanina",
+          "id": "dogs-cats-chien-de-berger-yougoslave-de-charplanina",
           "subject": "Chien de berger yougoslave de Charplanina",
           "label": "native-name:mk",
           "article": "other:en"
         },
         {
-          "id": "dogs-terrier-australien",
+          "id": "dogs-cats-terrier-australien",
           "subject": "Terrier australien",
           "label": "native-name:en",
           "article": "other:en"
         },
         {
-          "id": "dogs-esquimau-americain",
+          "id": "dogs-cats-esquimau-americain",
           "subject": "Esquimau américain",
           "label": "native-name:es",
           "article": "other:en"
         },
         {
-          "id": "dogs-terrier-de-chasse-allemand",
+          "id": "dogs-cats-terrier-de-chasse-allemand",
           "subject": "Terrier de chasse allemand",
           "label": "native-name:de",
           "article": "other:en"
         },
         {
-          "id": "dogs-coton-de-tulear",
+          "id": "dogs-cats-coton-de-tulear",
           "subject": "Coton de Tuléar",
           "label": "native-name:fr",
           "article": "other:en"
         },
         {
-          "id": "dogs-chien-d-eau-portugais",
+          "id": "dogs-cats-chien-d-eau-portugais",
           "subject": "Chien d'eau portugais",
           "label": "native-name:pt",
           "article": "other:en"
         },
-        { "id": "dogs-pumi", "subject": "Pumi", "label": "native-name:hu", "article": "other:en" },
         {
-          "id": "dogs-skye-terrier",
+          "id": "dogs-cats-pumi",
+          "subject": "Pumi",
+          "label": "native-name:hu",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-cats-skye-terrier",
           "subject": "Skye terrier",
           "label": "native-name:sco",
           "article": "other:en"
         },
         {
-          "id": "dogs-pinscher-allemand",
+          "id": "dogs-cats-pinscher-allemand",
           "subject": "Pinscher allemand",
           "label": "native-name:de",
           "article": "other:en"
         },
         {
-          "id": "dogs-chien-d-ours-de-carelie",
+          "id": "dogs-cats-chien-d-ours-de-carelie",
           "subject": "Chien d'ours de Carélie",
           "label": "native-name:fi",
           "article": "other:en"
         },
         {
-          "id": "dogs-chien-d-elan-norvegien-gris",
+          "id": "dogs-cats-chien-d-elan-norvegien-gris",
           "subject": "Chien d'élan norvégien gris",
           "label": "native-name:nb",
           "article": "other:en"
         },
         {
-          "id": "dogs-berger-polonais-de-plaine",
+          "id": "dogs-cats-berger-polonais-de-plaine",
           "subject": "Berger polonais de plaine",
           "label": "native-name:pl",
           "article": "other:en"
         },
         {
-          "id": "dogs-hokkaido",
+          "id": "dogs-cats-hokkaido",
           "subject": "Hokkaïdo",
           "label": "native-name:ja",
           "article": "other:en"
         },
         {
-          "id": "dogs-field-spaniel",
+          "id": "dogs-cats-field-spaniel",
           "subject": "Field Spaniel",
           "label": "native-name:en",
           "article": "other:en"
         },
         {
-          "id": "dogs-chien-finnois-de-laponie",
+          "id": "dogs-cats-chien-finnois-de-laponie",
           "subject": "Chien finnois de Laponie",
           "label": "native-name:fi",
           "article": "other:en"
         },
         {
-          "id": "dogs-berger-australien",
+          "id": "dogs-cats-berger-australien",
           "subject": "Berger australien",
           "label": "native-name:es",
           "article": "other:en"
         },
         {
-          "id": "dogs-american-hairless-terrier",
+          "id": "dogs-cats-american-hairless-terrier",
           "subject": "American Hairless terrier",
           "label": "native-name:es",
           "article": "other:en"
         },
         {
-          "id": "dogs-levrier-espagnol",
+          "id": "dogs-cats-levrier-espagnol",
           "subject": "Lévrier espagnol",
           "label": "native-name:es",
           "article": "other:en"
         },
         {
-          "id": "dogs-matin-espagnol",
+          "id": "dogs-cats-matin-espagnol",
           "subject": "Mâtin espagnol",
           "label": "native-name:es",
           "article": "other:en"
         },
         {
-          "id": "dogs-braque-italien",
+          "id": "dogs-cats-braque-italien",
           "subject": "Braque italien",
           "label": "native-name:it",
           "article": "other:en"
         },
         {
-          "id": "dogs-terrier-noir-russe",
+          "id": "dogs-cats-terrier-noir-russe",
           "subject": "Terrier noir russe",
           "label": "native-name:ru",
           "article": "other:en"
         },
-        { "id": "dogs-mudi", "subject": "Mudi", "label": "native-name:hu", "article": "other:en" },
         {
-          "id": "dogs-springer-anglais",
+          "id": "dogs-cats-mudi",
+          "subject": "Mudi",
+          "label": "native-name:hu",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-cats-springer-anglais",
           "subject": "Springer anglais",
           "label": "native-name:en",
           "article": "other:en"
         },
         {
-          "id": "dogs-retriever-de-la-baie-de-chesapeake",
+          "id": "dogs-cats-retriever-de-la-baie-de-chesapeake",
           "subject": "Retriever de la baie de Chesapeake",
           "label": "native-name:es",
           "article": "other:en"
         },
         {
-          "id": "dogs-cane-corso",
+          "id": "dogs-cats-cane-corso",
           "subject": "Cane Corso",
           "label": "native-name:it",
           "article": "other:en"
         },
         {
-          "id": "dogs-retriever-a-poil-plat",
+          "id": "dogs-cats-retriever-a-poil-plat",
           "subject": "Retriever à poil plat",
           "label": "native-name:en",
           "article": "other:en"
         },
         {
-          "id": "dogs-bouvier-bernois",
+          "id": "dogs-cats-bouvier-bernois",
           "subject": "Bouvier bernois",
           "label": "native-name:de",
           "article": "other:en"
         },
         {
-          "id": "dogs-lakeland-terrier",
+          "id": "dogs-cats-lakeland-terrier",
           "subject": "Lakeland Terrier",
           "label": "native-name:en",
           "article": "other:en"
         },
         {
-          "id": "dogs-grand-bouvier-suisse",
+          "id": "dogs-cats-grand-bouvier-suisse",
           "subject": "Grand bouvier suisse",
           "label": "native-name:de",
           "article": "other:en"
-        },
-        {
-          "id": "dogs-american-pit-bull-terrier",
-          "subject": "American Pit Bull Terrier",
-          "label": "native-name:es",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-pinscher-autrichien",
-          "subject": "Pinscher autrichien",
-          "label": "native-name:de",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-basset-hound",
-          "subject": "Basset hound",
-          "label": "native-name:fr",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-terrier-bresilien",
-          "subject": "Terrier brésilien",
-          "label": "native-name:pt",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-norfolk-terrier",
-          "subject": "Norfolk Terrier",
-          "label": "native-name:en",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-shetland",
-          "subject": "Shetland",
-          "label": "native-name:en",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-berger-hollandais",
-          "subject": "Berger hollandais",
-          "label": "native-name:nl",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-bichon-a-poil-frise",
-          "subject": "Bichon à poil frisé",
-          "label": "native-name:fr",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-broholmer",
-          "subject": "Broholmer",
-          "label": "native-name:da",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-american-staffordshire-terrier",
-          "subject": "American Staffordshire Terrier",
-          "label": "native-name:es",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-podenco-d-ibiza",
-          "subject": "Podenco d'Ibiza",
-          "label": "native-name:ca",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-bouvier-des-flandres",
-          "subject": "Bouvier des Flandres",
-          "label": "native-name:fr",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-komondor",
-          "subject": "Komondor",
-          "label": "native-name:hu",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-eurasier",
-          "subject": "Eurasier",
-          "label": "native-name:de",
-          "article": "other:en"
-        },
-        { "id": "dogs-puli", "subject": "Puli", "label": "native-name:hu", "article": "other:en" },
-        {
-          "id": "dogs-laika-de-iakoutie",
-          "subject": "Laïka de Iakoutie",
-          "label": "native-name:ru",
-          "article": "other:en"
-        },
-        { "id": "dogs-kai", "subject": "Kai", "label": "native-name:ja", "article": "other:en" },
-        {
-          "id": "dogs-terrier-de-boston",
-          "subject": "Terrier de Boston",
-          "label": "native-name:es",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-spitz-loup",
-          "subject": "Spitz Loup",
-          "label": "native-name:de",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-berger-belge",
-          "subject": "Berger belge",
-          "label": "native-name:de",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-boerboel",
-          "subject": "Boerboel",
-          "label": "native-name:af",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-bobtail",
-          "subject": "Bobtail",
-          "label": "native-name:en",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-berger-picard",
-          "subject": "Berger picard",
-          "label": "native-name:fr",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-alano-espagnol",
-          "subject": "Alano espagnol",
-          "label": "native-name:es",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-terrier-irlandais",
-          "subject": "Terrier irlandais",
-          "label": "native-name:en",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-pinscher-nain",
-          "subject": "Pinscher nain",
-          "label": "native-name:de",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-berger-de-russie-meridionale",
-          "subject": "Berger de Russie méridionale",
-          "label": "native-name:uk",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-kooikerhondje",
-          "subject": "Kooikerhondje",
-          "label": "native-name:nl",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-chien-norvegien-de-macareux",
-          "subject": "Chien norvégien de macareux",
-          "label": "native-name:nb",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-norwich-terrier",
-          "subject": "Norwich Terrier",
-          "label": "native-name:en",
-          "article": "other:en"
-        },
-        {
-          "id": "dogs-spinone",
-          "subject": "Spinone",
-          "label": "native-name:it",
-          "article": "other:en"
-        },
-        {
-          "id": "cats-lykoi",
-          "subject": "Lykoï",
-          "label": "native-name:es",
-          "article": "other:en"
-        },
-        {
-          "id": "cats-bobtail-de-carelie",
-          "subject": "Bobtail de Carélie",
-          "label": "native-name:ru",
-          "article": "other:en"
-        },
-        {
-          "id": "cats-chat-rex",
-          "subject": "Chat rex",
-          "label": "native-name:en",
-          "article": "other:en"
-        },
-        {
-          "id": "cats-burmese-anglais",
-          "subject": "Burmese anglais",
-          "label": "native-name:en",
-          "article": "other:fr"
         },
         {
           "id": "world-dishes-ugali",
@@ -2447,7 +2239,7 @@
           "article": "other:en"
         }
       ],
-      "notOffered": 80,
+      "notOffered": 65,
       "unavailable": [
         {
           "id": "fauna-loutre-de-mer",
@@ -2705,123 +2497,48 @@
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-terrier-kerry-blue",
+          "id": "dogs-cats-terrier-kerry-blue",
           "subject": "Terrier Kerry Blue",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-welsh-corgi-pembroke",
+          "id": "dogs-cats-welsh-corgi-pembroke",
           "subject": "Welsh Corgi Pembroke",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-berger-catalan",
+          "id": "dogs-cats-berger-catalan",
           "subject": "Berger catalan",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-terrier-australien-a-poil-soyeux",
+          "id": "dogs-cats-terrier-australien-a-poil-soyeux",
           "subject": "Terrier australien à poil soyeux",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-dogue-des-canaries",
+          "id": "dogs-cats-dogue-des-canaries",
           "subject": "Dogue des Canaries",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-terre-neuve",
+          "id": "dogs-cats-terre-neuve",
           "subject": "Terre-neuve",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-epagneul-tibetain",
+          "id": "dogs-cats-epagneul-tibetain",
           "subject": "Épagneul tibétain",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-shar-pei",
+          "id": "dogs-cats-shar-pei",
           "subject": "Shar Pei",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "dogs-berger-d-asie-centrale",
+          "id": "dogs-cats-berger-d-asie-centrale",
           "subject": "Berger d'Asie centrale",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-cairn-terrier",
-          "subject": "Cairn terrier",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-matin-des-pyrenees",
-          "subject": "Mâtin des Pyrénées",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-setter-irlandais-rouge",
-          "subject": "Setter irlandais rouge",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-cocker-spaniel-anglais",
-          "subject": "Cocker spaniel anglais",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-epagneul-d-eau-irlandais",
-          "subject": "Épagneul d'eau irlandais",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-dandie-dinmont-terrier",
-          "subject": "Dandie Dinmont Terrier",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-azawakh",
-          "subject": "Azawakh",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "dogs-petit-chien-lion",
-          "subject": "Petit chien lion",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "cats-seychellois",
-          "subject": "Seychellois",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "cats-bobtail-du-mekong",
-          "subject": "Bobtail du Mékong",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "cats-ural-rex",
-          "subject": "Ural rex",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "cats-highlander",
-          "subject": "Highlander",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "cats-anatoli",
-          "subject": "Anatoli",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "cats-foreign-white",
-          "subject": "Foreign white",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "cats-burmese-americain",
-          "subject": "Burmese américain",
           "reason": "an option has no name in this language"
         },
         {
@@ -2860,7 +2577,7 @@
     "sameGenusPairs": []
   },
   "pictures": {
-    "hashed": 3413,
+    "hashed": 3332,
     "notHashed": 0,
     "nearDuplicates": [
       { "kept": "France", "other": "Italie", "bits": 0, "color": 18, "action": "never paired" },
@@ -2921,16 +2638,16 @@
     ]
   },
   "imageLicenses": {
-    "CC BY-SA 4.0": 645,
-    "CC BY 4.0": 104,
-    "CC BY 2.0": 201,
-    "CC BY-SA 2.0": 165,
-    "CC BY-SA 3.0": 769,
-    "Public domain": 1159,
-    "CC BY 3.0": 124,
-    "CC BY-SA 2.5": 76,
-    "CC BY 2.5": 59,
-    "CC0 1.0": 104,
+    "CC BY-SA 4.0": 630,
+    "CC BY 4.0": 103,
+    "CC BY 2.0": 197,
+    "CC BY-SA 2.0": 163,
+    "CC BY-SA 3.0": 731,
+    "Public domain": 1153,
+    "CC BY 3.0": 117,
+    "CC BY-SA 2.5": 74,
+    "CC BY 2.5": 57,
+    "CC0 1.0": 100,
     "CC BY-SA 1.0": 4
   },
   "dropReasons": {
@@ -5636,7 +5353,7 @@
     },
     { "category": "Science", "title": "Stibine", "reason": "disambiguation page" },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Kangal (chien)",
       "reason": "duplicate of an earlier subject (Berger Kangal)"
     },
@@ -6808,168 +6525,172 @@
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Airedale Terrier",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Landseer (chien)",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Bullmastiff",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Setter anglais",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Pointer anglais",
       "reason": "licence rejected: licence not in the allowlist"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Spitz finlandais",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Welsh terrier",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Spitz japonais",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Shikoku (chien)",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Colley",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Foxhound américain",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Chien d'eau américain",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Griffon bruxellois",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Foxhound anglais",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Manchester terrier",
       "reason": "licence rejected: licence not in the allowlist"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Buhund norvégien",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Esquimau canadien",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Welsh Corgi Cardigan",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Kishu (chien)",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Berger belge Groenendael",
       "reason": "same image already used by another subject"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Berger de Bosnie-Herzégovine et de Croatie",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Schnauzer moyen",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Barbet (chien)",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Volpino italien",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Parson Russell terrier",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Chart polski",
       "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Berger basque",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Chien nu du Pérou",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Chien d'eau romagnol",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Dogs",
+      "category": "Dogs & Cats",
       "title": "Tchouvatch slovaque",
       "reason": "author unknown for an attribution licence"
     },
     {
-      "category": "Cats",
+      "category": "Dogs & Cats",
       "title": "Manx (chat)",
       "reason": "image too small or extreme aspect ratio"
     },
     {
-      "category": "Cats",
+      "category": "Dogs & Cats",
       "title": "Peterbald",
       "reason": "image too small or extreme aspect ratio"
     },
-    { "category": "Cats", "title": "Chausie", "reason": "image too small or extreme aspect ratio" },
     {
-      "category": "Cats",
+      "category": "Dogs & Cats",
+      "title": "Chausie",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs & Cats",
       "title": "Ashera (chat)",
       "reason": "same image already used by another subject"
     },

@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { normalizeCategory } from '../../shared/schemas';
 import type { ErrorCode, TimerSync } from '../../shared/protocol';
 import type { Language } from '../../shared/languages';
 import type { Difficulty, GameMode, PublicRoomState } from '../../shared/types';
@@ -197,6 +198,8 @@ export class RoomManager {
         value === null ? null : value + shift;
       const next: GameState = {
         ...state,
+        // Rooms saved before the Dogs/Cats merge (D-124) keep working.
+        category: normalizeCategory(state.category),
         phaseStartedAt: moved(state.phaseStartedAt),
         phaseEndsAt: moved(state.phaseEndsAt),
         pausedAt: moved(state.pausedAt),

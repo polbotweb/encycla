@@ -371,7 +371,7 @@ Critères de sortie :
 
 Risques :
 
-- Une catégorie sous le seuil SUBJECT (100) reste désactivée. La banque Wikipédia (3 410 questions) atteint le seuil dans 23 des 24 catégories (Chats : 81, faute de races illustrées en nombre suffisant, D-122).
+- Une catégorie sous le seuil SUBJECT (100) reste désactivée. La banque Wikipédia (3 329 questions) atteint le seuil dans les 23 catégories et les trois langues (Chats, trop court seul, a été fusionné avec Chiens, D-124).
 - Les articles peuvent être courts ou incohérents. Revue humaine obligatoire.
 - Les images peuvent être retirées de Wikimedia. Prévoir un placeholder.
 

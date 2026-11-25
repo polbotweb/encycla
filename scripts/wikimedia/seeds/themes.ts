@@ -4,7 +4,7 @@ import { t, type SeedGroup } from './types';
  * Round-2 categories (D-122). Titles are French Wikipedia article titles picked from Wikidata
  * (instance-of class, picture P18, French article), ordered by number of Wikipedia editions
  * (sitelinks) so the best-known subjects come first; the generator keeps at most 150 per category.
- *   Dogs: P31 Q39367 (dog breed) · Cats: P31 Q43577 (cat breed)
+ *   Dogs & Cats (D-124): P31 Q39367 (dog breed) + P31 Q43577 (cat breed)
  *   Painters: P106 Q1028181 (painter) and creator (P170) of at least two paintings (Q3305213)
  *   Cities: P31/P279? Q515 (city), population > 300 000, 60+ sitelinks (plus the former Geography "Villes")
  *   World dishes: P31/P279? Q746549 (dish), 10+ sitelinks (plus the former Gastronomy "Cuisines du monde")

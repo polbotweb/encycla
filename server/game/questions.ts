@@ -1,5 +1,5 @@
 import { DEFAULT_LANGUAGE, type Language } from '../../shared/languages';
-import type { QuestionRecord } from '../../shared/schemas';
+import { normalizeCategory, type QuestionRecord } from '../../shared/schemas';
 import type { LabelForm } from '../../shared/types';
 import type { QuestionRuntime } from './types';
 
@@ -131,8 +131,9 @@ export function selectQuestion(
   language: Language = DEFAULT_LANGUAGE,
 ): QuestionSelection | null {
   const playable = offeredIn(questions, language);
+  const wanted = normalizeCategory(category);
   const eligible =
-    category === null ? playable : playable.filter((question) => question.category === category);
+    wanted === null ? playable : playable.filter((question) => question.category === wanted);
 
   if (eligible.length === 0) {
     return null;

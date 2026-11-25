@@ -1,6 +1,6 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { z } from 'zod';
-import { CATEGORY_VALUES, type QuestionRecord } from '../../shared/schemas';
+import { CATEGORY_VALUES, categorySchema, type QuestionRecord } from '../../shared/schemas';
 import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from '../../shared/languages';
 import { PROTOCOL_VERSION, type ConfigResponse } from '../../shared/protocol';
 import { MAX_LIVES } from '../game/scoring';
@@ -45,7 +45,7 @@ export interface GameRouterOptions {
 const soloSchema = z
   .object({
     mode: z.enum(['CLASSIC', 'SUBJECT', 'CONTEST']),
-    category: z.enum(CATEGORY_VALUES).nullable().optional(),
+    category: categorySchema.nullable().optional(),
     difficulty: z.enum(['Novice', 'Adventurer', 'Wizard']).nullable().optional(),
     language: languageSchema.optional(),
   })

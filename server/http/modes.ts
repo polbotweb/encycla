@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import {
-  CATEGORY_VALUES,
   MIN_QUESTIONS_PER_CATEGORY,
+  categorySchema,
   type QuestionRecord,
 } from '../../shared/schemas';
 import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from '../../shared/languages';
@@ -18,7 +18,7 @@ export const languageSchema = z.enum(LANGUAGES);
 const selectionSchema = z
   .object({
     mode: modeSchema,
-    category: z.enum(CATEGORY_VALUES).nullable().optional(),
+    category: categorySchema.nullable().optional(),
     difficulty: difficultySchema.nullable().optional(),
     /** Language of the questions of the room (French by default). */
     language: languageSchema.optional(),
