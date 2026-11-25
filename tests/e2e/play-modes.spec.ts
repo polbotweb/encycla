@@ -5,6 +5,7 @@ import {
   type BrowserContextOptions,
   type Page,
 } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { translate } from '../../client/i18n';
 import type { Language } from '../../shared/languages';
 
@@ -15,6 +16,12 @@ import type { Language } from '../../shared/languages';
 
 const LANGUAGES: Language[] = ['fr', 'en', 'ar'];
 const OPTION = /^[A-D] /;
+/** Seed wording of the Dogs questions (scripts/wikimedia/languages.ts). */
+const DOG_QUESTION: Record<Language, string> = {
+  fr: 'Quelle est cette race de chien ?',
+  en: 'What is this dog breed?',
+  ar: 'ما سلالة هذا الكلب؟',
+};
 
 /** A fresh context with the same device as the project (viewport, touch, user agent). */
 async function deviceContext(
@@ -96,6 +103,44 @@ async function playToResults(page: Page, language: Language, touch: boolean): Pr
 
 for (const language of LANGUAGES) {
   test.describe(`web game without TikTok · ${language}`, () => {
+    test('solo by subject in a new category (D-122): Dogs plays, Cats stays disabled', async ({
+      browser,
+    }) => {
+      test.setTimeout(90_000);
+      const { touch, ...options } = await deviceContext(browser);
+      const context = await browser.newContext(options);
+      const page = await context.newPage();
+      const problems = watch(page);
+      await openHome(page, language);
+      await nickname(page, language, 'Dora', touch);
+      await press(
+        page,
+        page.getByRole('button', { name: translate('home.soloClassic', {}, language) }),
+        touch,
+      );
+      await press(page, page.getByText(translate('mode.SUBJECT.desc', {}, language)), touch);
+      const category = page.locator('#category');
+      await expect(category.locator('option[value="Cats"]')).toBeDisabled();
+      await expect(category.locator('option[value="Dogs"]')).toBeEnabled();
+      await category.selectOption('Dogs');
+      const scan = await new AxeBuilder({ page }).analyze();
+      expect(
+        scan.violations.filter((v) => ['serious', 'critical'].includes(v.impact ?? '')),
+      ).toEqual([]);
+      await noHorizontalScroll(page);
+      await press(
+        page,
+        page.getByRole('button', { name: translate('setup.startSolo', {}, language) }),
+        touch,
+      );
+      const title = page.locator('#question-title');
+      await expect(title).toBeVisible({ timeout: 15_000 });
+      await expect(title).toHaveText(DOG_QUESTION[language]);
+      await expect(page.getByRole('button', { name: OPTION })).toHaveCount(4);
+      expect(problems).toEqual([]);
+      await context.close();
+    });
+
     test('solo classic: question, answer, article, results', async ({ browser }) => {
       test.setTimeout(180_000);
       const { touch, ...options } = await deviceContext(browser);
