@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import type { FormKey } from './forms';
+import { nearDuplicate, type ImageFingerprint } from './phash';
 import { normalizeText } from './text';
 
 export interface Candidate {
@@ -21,6 +22,13 @@ export interface Candidate {
   lineage?: ReadonlySet<string>;
   /** Living things: direct parent taxa (P171), usually the genus. */
   parents?: ReadonlySet<string>;
+  /** Perceptual fingerprint of the subject's picture (D-120). */
+  picture?: ImageFingerprint;
+}
+
+/** Pictures that look alike (same layout and colours): never offered together. */
+export function picturesAlike(a: Candidate, b: Candidate): boolean {
+  return a.picture !== undefined && b.picture !== undefined && nearDuplicate(a.picture, b.picture);
 }
 
 /** Number of ancestor taxa two living things share (0 when either has no taxonomy). */
@@ -40,10 +48,14 @@ export function formAffinity(target: Candidate, candidate: Candidate): number {
     .length;
 }
 
-/** True when two living things have the same direct parent taxon (typically the same genus). */
+/**
+ * True when two living things are in the same genus: same direct parent taxon, or one's parent is
+ * an ancestor of the other (a subspecies such as "Tigre de Sibérie" next to "Lion", both Panthera).
+ */
 export function sameParentTaxon(a: Candidate, b: Candidate): boolean {
   if (!a.parents || !b.parents) return false;
-  for (const taxon of a.parents) if (b.parents.has(taxon)) return true;
+  for (const taxon of a.parents) if (b.parents.has(taxon) || b.lineage?.has(taxon)) return true;
+  for (const taxon of b.parents) if (a.lineage?.has(taxon)) return true;
   return false;
 }
 
@@ -101,8 +113,8 @@ export function labelsOverlap(a: string, b: string): boolean {
  * Picks three distractors for `target`: real subjects of the same kind (same question), never the
  * same entity (page id / Wikidata item), never an overlapping label. Same-group subjects (similar
  * items: same family, same continent, same era…) come first when the group is large enough.
- * For living things, candidates sharing more ancestor taxa (Wikidata P171) come first, with at
- * most one distractor from the answer's own genus.
+ * For living things, candidates sharing more ancestor taxa (Wikidata P171) come first; one from
+ * the answer's own genus only when the category offers no other candidate (D-120).
  */
 export function pickDistractors(
   target: Candidate,
@@ -116,7 +128,8 @@ export function pickDistractors(
       candidate.pageId !== target.pageId &&
       (target.qid === undefined || candidate.qid !== target.qid) &&
       !labelsOverlap(candidate.label, target.label) &&
-      !indistinguishable(candidate.label, target.label),
+      !indistinguishable(candidate.label, target.label) &&
+      !picturesAlike(candidate, target),
   );
 
   const sameGroup = comparable.filter(
@@ -129,23 +142,30 @@ export function pickDistractors(
 
   // Similar items first (same group), then the rest of the category, then other categories.
   const tiers = [sameGroup, sameCategory, elsewhere];
+  // Tier orders are computed lazily, in tier order, so the random sequence (and therefore every
+  // question that never needed a later tier) stays the same as with a single pass.
+  const orders: Candidate[][] = [];
+  const orderOf = (index: number): Candidate[] => {
+    for (let next = orders.length; next <= index; next += 1) {
+      const shuffled = shuffle(tiers[next] as Candidate[], random);
+      // Living things: closest relatives first (most shared ancestor taxa); stable, so the random
+      // order is kept among equally close candidates and for subjects without a taxonomy.
+      const byKinship = target.lineage
+        ? [...shuffled].sort(
+            (a, b) => taxonomicCloseness(target, b) - taxonomicCloseness(target, a),
+          )
+        : shuffled;
+      // Stable: written like the answer in the most languages first, unnamed items last.
+      orders.push([...byKinship].sort((a, b) => formAffinity(target, b) - formAffinity(target, a)));
+    }
+    return orders[index] as Candidate[];
+  };
 
   const picked: Candidate[] = [];
-  for (const tier of tiers) {
-    const shuffled = shuffle(tier, random);
-    // Living things: closest relatives first (most shared ancestor taxa); stable, so the random
-    // order is kept among equally close candidates and for subjects without a taxonomy.
-    const byKinship = target.lineage
-      ? [...shuffled].sort((a, b) => taxonomicCloseness(target, b) - taxonomicCloseness(target, a))
-      : shuffled;
-    // Stable: written like the answer in the most languages first, unnamed items last.
-    const ordered = [...byKinship].sort(
-      (a, b) => formAffinity(target, b) - formAffinity(target, a),
-    );
-    for (const candidate of ordered) {
-      if (picked.length === 3) {
-        break;
-      }
+  const fill = (tierIndex: number, sameGenusAllowed: boolean): void => {
+    for (const candidate of orderOf(tierIndex)) {
+      if (picked.length === 3) return;
+      if (picked.includes(candidate)) continue;
       if (
         picked.some(
           (existing) =>
@@ -155,19 +175,26 @@ export function pickDistractors(
       ) {
         continue;
       }
-      // At most one distractor from the answer's own genus: close, but not four look-alikes.
+      // Same genus (direct parent taxon): photos often near-identical. Only when the category
+      // has no other candidate left, and then at most one (D-120).
       if (
         sameParentTaxon(target, candidate) &&
-        picked.some((existing) => sameParentTaxon(target, existing))
+        (!sameGenusAllowed || picked.some((existing) => sameParentTaxon(target, existing)))
       ) {
         continue;
       }
       picked.push(candidate);
     }
-    if (picked.length === 3) {
-      break;
-    }
-  }
+  };
+
+  // 1. The answer's category without same-genus look-alikes (a different genus of the same
+  //    family ranks first through the kinship order).
+  for (let tier = 0; tier < 2 && picked.length < 3; tier += 1) fill(tier, false);
+  // 2. No alternative in the category: at most one from the same genus.
+  for (let tier = 0; tier < 2 && picked.length < 3; tier += 1) fill(tier, true);
+  // 3. Other categories (same question text).
+  if (picked.length < 3) fill(2, false);
+  if (picked.length < 3) fill(2, true);
 
   return picked.length === 3 ? picked : null;
 }

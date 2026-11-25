@@ -10,6 +10,7 @@ Encycla mélange du **code** (le nôtre), du **contenu** (Wikipédia, Wikidata, 
 | Images | URLs `upload.wikimedia.org` dans `data/questions.json` | Licence **de chaque fichier** : CC0, domaine public, CC BY ou CC BY-SA (versions variables) | Afficher auteur + licence + lien vers la page du fichier (fait dans l'UI et dans [`CREDITS.md`](../CREDITS.md)). |
 | Polices Inter, Merriweather, Noto Sans Arabic, Noto Naskh Arabic | `@fontsource/*` (bundle client) | **SIL Open Font License 1.1** | Ne pas vendre les polices seules ; conserver la licence. |
 | Dépendances npm du runtime (Express, Socket.io, React, better-sqlite3, Zod…) | `node_modules` | MIT, ISC, Apache-2.0, BSD | Conserver leurs notices (présentes dans `node_modules`). |
+| Outils de génération de la banque (`jpeg-js` BSD-3-Clause, `pngjs` MIT : décodage des vignettes pour l'empreinte perceptuelle, D-120) | `devDependencies` | BSD-3-Clause, MIT | Non embarqués dans l'image ni dans le client. |
 | **`tiktok-live-connector`** (optionnel) | `optionalDependencies` | **AGPL-3.0-only** | Voir ci-dessous. |
 
 ## 1. Le code : MIT

@@ -30,7 +30,19 @@ import {
   type TranslatedLanguage,
   type TranslationOrigin,
 } from '../shared/schemas';
-import { chunk, WikiClient } from './wikimedia/client';
+import { chunk, USER_AGENT, WikiClient } from './wikimedia/client';
+import {
+  colorDistance,
+  decodeImage,
+  fingerprintOf,
+  hammingDistance,
+  hashThumbnailUrl,
+  nearDuplicate,
+  samePhoto,
+  signature,
+  type ImageFingerprint,
+  type ImageSignature,
+} from './wikimedia/phash';
 import {
   pickDistractors,
   sameParentTaxon,
@@ -87,6 +99,8 @@ const REFRESH = args.includes('--refresh');
 const OUTPUT = flag('out') ?? 'data/questions.json';
 const REPORT = 'data/sources/report.json';
 const CREDITS = 'CREDITS.md';
+/** Perceptual hashes of the pictures, keyed by Commons file name (D-120). */
+const IMAGE_HASHES = 'data/sources/image-hashes.json';
 
 const AMBIGUOUS_OPENING = /\bpeut(?:vent)? (?:aussi )?désigner\b/i;
 const PLACE_OPENING =
@@ -366,6 +380,60 @@ function evaluateImage(
       family: verdict.family,
     },
   };
+}
+
+// ---------------------------------------------------------------- image fingerprints
+
+async function fetchBytes(url: string): Promise<Uint8Array | null> {
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const response = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+    if (response.ok) return new Uint8Array(await response.arrayBuffer());
+    if (response.status !== 429 && response.status < 500) return null;
+    const wait = Number(response.headers.get('retry-after')) || 2 ** attempt;
+    await new Promise((resolve) => setTimeout(resolve, Math.min(wait, 60) * 1000));
+  }
+  return null;
+}
+
+/**
+ * Fingerprints of the chosen pictures (120 px thumbnails), cached in IMAGE_HASHES. Offline: only
+ * the cache is used; pictures without a fingerprint are simply not compared.
+ */
+async function imageFingerprints(
+  images: readonly ImageChoice[],
+): Promise<{ hashes: Map<string, ImageFingerprint>; missing: number }> {
+  let cache: Record<string, ImageSignature> = {};
+  try {
+    cache = JSON.parse(await readFile(IMAGE_HASHES, 'utf8')) as Record<string, ImageSignature>;
+  } catch {
+    cache = {};
+  }
+  const save = async (): Promise<void> => {
+    const sorted = Object.fromEntries(Object.entries(cache).sort(([a], [b]) => a.localeCompare(b)));
+    await mkdir(dirname(IMAGE_HASHES), { recursive: true });
+    await writeFile(IMAGE_HASHES, await formatJson(sorted, IMAGE_HASHES), 'utf8');
+  };
+  const todo = OFFLINE ? [] : images.filter((image) => !cache[image.file]);
+  if (todo.length > 0) console.log(`Hashing ${todo.length} pictures (120 px thumbnails)…`);
+  for (const [index, image] of todo.entries()) {
+    const bytes = await fetchBytes(hashThumbnailUrl(image.url));
+    const raster = bytes ? decodeImage(bytes) : null;
+    if (raster) cache[image.file] = signature(raster);
+    if ((index + 1) % 200 === 0) {
+      console.log(`  ${index + 1}/${todo.length}`);
+      await save();
+    }
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+  if (todo.length > 0) await save();
+  const hashes = new Map<string, ImageFingerprint>();
+  let missing = 0;
+  for (const image of images) {
+    const known = cache[image.file] ? fingerprintOf(cache[image.file] as string) : null;
+    if (known) hashes.set(image.file, known);
+    else missing += 1;
+  }
+  return { hashes, missing };
 }
 
 // ---------------------------------------------------------------- taxonomy
@@ -1087,6 +1155,44 @@ async function main(): Promise<void> {
     }
   }
 
+  // 5a. Near-duplicate pictures (D-120): the same photograph under another kind of subject is
+  //     dropped; look-alike pictures (same layout and colours) are never offered together.
+  const { hashes, missing: unhashed } = await imageFingerprints(
+    selected.map((subject) => subject.image),
+  );
+  const nearDuplicates: {
+    kept: string;
+    other: string;
+    bits: number;
+    color: number;
+    action: 'dropped' | 'never paired';
+  }[] = [];
+  for (let index = 0; index < selected.length; index += 1) {
+    const subject = selected[index] as (typeof selected)[number];
+    const print = hashes.get(subject.image.file);
+    if (!print) continue;
+    for (let earlier = 0; earlier < index; earlier += 1) {
+      const other = selected[earlier] as (typeof selected)[number];
+      const otherPrint = hashes.get(other.image.file);
+      if (!otherPrint || !nearDuplicate(print, otherPrint)) continue;
+      const sameKind = other.question === subject.question;
+      const drops = !sameKind && samePhoto(print, otherPrint);
+      nearDuplicates.push({
+        kept: other.label,
+        other: subject.label,
+        bits: hammingDistance(print.dhash, otherPrint.dhash),
+        color: Math.round(colorDistance(print.colors, otherPrint.colors)),
+        action: drops ? 'dropped' : 'never paired',
+      });
+      if (drops) {
+        drop(subject.category, subject.seedTitle, `near-duplicate picture of "${other.label}"`);
+        selected.splice(index, 1);
+        index -= 1;
+        break;
+      }
+    }
+  }
+
   // 5b. Living things: Wikidata taxonomy (closer distractors, Arabic common names).
   const living = selected.filter(
     (subject) => LIVING_CATEGORIES.has(subject.category) && subject.qid,
@@ -1111,6 +1217,9 @@ async function main(): Promise<void> {
       label: subject.label,
       pageId: subject.pageId,
       qid: subject.qid,
+      ...(hashes.has(subject.image.file)
+        ? { picture: hashes.get(subject.image.file) as ImageFingerprint }
+        : {}),
       forms: Object.fromEntries(
         TRANSLATED_LANGUAGES.map((language) => [
           language,
@@ -1261,20 +1370,29 @@ async function main(): Promise<void> {
 
   await mkdir(dirname(OUTPUT), { recursive: true });
   await writeFile(OUTPUT, await formatJson(bank, OUTPUT), 'utf8');
-  await writeReport(questions, seedEntries.length, {
-    livingThings: living.length,
-    withLineage: living.filter((subject) => taxonomy.get(subject.qid as string)?.lineage.size)
-      .length,
-    arabicCommonNamesAvailable: living.filter(
-      (subject) => (taxonomy.get(subject.qid as string)?.arNames.length ?? 0) > 0,
-    ).length,
-    meanSharedAncestors:
-      kinship.length === 0
-        ? 0
-        : Math.round((kinship.reduce((sum, value) => sum + value, 0) / kinship.length) * 10) / 10,
-    // Same direct parent taxon (usually the genus): to be reviewed for look-alike pictures.
-    sameGenusPairs: sameGenus,
-  });
+  await writeReport(
+    questions,
+    seedEntries.length,
+    {
+      livingThings: living.length,
+      withLineage: living.filter((subject) => taxonomy.get(subject.qid as string)?.lineage.size)
+        .length,
+      arabicCommonNamesAvailable: living.filter(
+        (subject) => (taxonomy.get(subject.qid as string)?.arNames.length ?? 0) > 0,
+      ).length,
+      meanSharedAncestors:
+        kinship.length === 0
+          ? 0
+          : Math.round((kinship.reduce((sum, value) => sum + value, 0) / kinship.length) * 10) / 10,
+      // Same genus: only when the category had no other candidate (D-120); review the pictures.
+      sameGenusPairs: sameGenus,
+    },
+    {
+      hashed: hashes.size,
+      notHashed: unhashed,
+      nearDuplicates,
+    },
+  );
   await writeCredits(questions);
 
   console.log(`\n${questions.length} questions written to ${OUTPUT}`);
@@ -1298,6 +1416,7 @@ async function writeReport(
   questions: QuestionRecord[],
   seedCount: number,
   taxonomy: Record<string, unknown>,
+  pictures: Record<string, unknown>,
 ): Promise<void> {
   const perCategory = Object.fromEntries(
     CATEGORY_VALUES.map((category) => {
@@ -1332,6 +1451,7 @@ async function writeReport(
     perCategory,
     translations: translationReport(questions),
     taxonomy,
+    pictures,
     imageLicenses: licenses,
     dropReasons: reasons,
     redirects,

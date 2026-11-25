@@ -416,6 +416,7 @@ WHERE match_id IN (SELECT id FROM matches WHERE status = 'abandoned')
 - `image.credit`, `image.license`, `image.sourceUrl` : obligatoires si l'image est présente ; `image.author` (texte brut) et `source` (`url` permalien `oldid`, `revisionId`, `language`, `license`, `retrievedAt`) sont renseignés par le générateur Wikipédia et exigés par la validation (colonnes `image_author`, `source_*` ajoutées par la migration 002).
 - Aucun HTML, aucun script, aucun `data:` URI.
 - La bonne réponse ne doit pas être déductible de la formulation (pas d'indice « all of the above »).
+- Distracteurs (D-120) : jamais deux sujets du même genre sauf faute d'autre candidat, jamais deux images qui se ressemblent (empreinte perceptuelle, `data/sources/image-hashes.json`) ; les paires écartées sont listées dans `data/sources/report.json` (`pictures.nearDuplicates`).
 
 #### 6.2 bis Traductions (`translations`)
 

@@ -3,6 +3,7 @@ import {
   indistinguishable,
   labelsOverlap,
   pickDistractors,
+  picturesAlike,
   sameParentTaxon,
   seededRandom,
   taxonomicCloseness,
@@ -187,8 +188,42 @@ describe('distractors', () => {
 
     const picked = pickDistractors(target, pool, seededRandom('t'))?.map((item) => item.label);
     expect(picked).toHaveLength(3);
-    expect(picked?.filter((label) => label === 'Tigre' || label === 'Jaguar')).toHaveLength(1);
+    // Other genera of the family exist (and a canid): no same-genus look-alike at all (D-120).
+    expect(picked?.filter((label) => label === 'Tigre' || label === 'Jaguar')).toHaveLength(0);
     expect(picked).toEqual(expect.arrayContaining(['Lynx boréal', 'Guépard']));
+
+    // Only same-genus relatives left in the category: exactly one of them.
+    const narrow = [target, pool[1]!, pool[2]!, pool[3]!, pool[4]!];
+    const fallback = pickDistractors(target, narrow, seededRandom('t'))?.map((item) => item.label);
+    expect(fallback).toHaveLength(3);
+    expect(fallback?.filter((label) => label === 'Tigre' || label === 'Jaguar')).toHaveLength(1);
+
+    // A subspecies of the same genus counts as the same genus.
+    const siberian = taxon(make('h', 'Tigre de Sibérie'), [
+      'Panthera tigris',
+      'Panthera',
+      ...FELIDAE,
+    ]);
+    expect(sameParentTaxon(target, siberian)).toBe(true);
+    expect(sameParentTaxon(siberian, target)).toBe(true);
+    expect(sameParentTaxon(siberian, pool[3]!)).toBe(false);
+  });
+
+  it('never offers a subject whose picture looks like the answer', () => {
+    const picture = (dhash: string, tone: number) => ({ dhash, colors: Array(27).fill(tone) });
+    const target = { ...make('t', 'Tchad'), picture: picture('00ff00ff00ff00ff', 100) };
+    const pool = [
+      target,
+      { ...make('a', 'Roumanie'), picture: picture('00ff00ff00ff00fe', 104) },
+      { ...make('b', 'Mali'), picture: picture('00ff00ff00ff00ff', 200) },
+      make('c', 'Japon'),
+      { ...make('d', 'Népal'), picture: picture('ffffffff00000000', 100) },
+    ];
+    const picked = pickDistractors(target, pool, seededRandom('t'))?.map((item) => item.label);
+    expect(picked?.sort()).toEqual(['Japon', 'Mali', 'Népal']);
+    expect(picturesAlike(target, pool[1]!)).toBe(true);
+    expect(picturesAlike(target, pool[2]!)).toBe(false);
+    expect(picturesAlike(target, pool[3]!)).toBe(false);
   });
 
   it('never offers the same entity twice', () => {
