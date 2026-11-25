@@ -683,3 +683,8 @@ Résultat au 2026-11-18 : 23/24 parcours verts au premier passage (bureau, iPhon
 - Unitaires (`tests/client/speech.test.tsx`, `speechSynthesis` simulé) : réglages par lieu et paramètres d'URL, choix de la voix par langue sans repli sur une autre langue, texte lu à chaque phase (question + A/B/C/D, repères 10 s / 5 s / 0 s, bonne réponse, article en option), noms scientifiques, annulation entre les manches, avis « aucune voix », autoplay bloqué puis débloqué, composants (bouton d'en-tête, panneau de réglages, proposition de l'accueil, état de l'overlay).
 - E2E (`tests/e2e/voice.spec.ts`, et l'overlay dans `tiktok.spec.ts`) : les navigateurs sans tête n'ont aucune voix, donc `tests/e2e/fakeSpeech.ts` remplace `speechSynthesis` par un enregistreur avec des voix fr et en seulement. Vérifié : voix coupée par défaut pour un joueur, bouton d'en-tête et persistance, lecture de la question et des quatre lettres puis de la bonne réponse, avis sans voix arabe (rien lu dans une autre langue), réglages gardés après rechargement, voix activée par défaut sur l'overlay OBS.
 - Non vérifiable en CI : le son réel. À tester à la main avant un live (checklist de docs/TIKTOK.md).
+
+## Avec et sans TikTok
+
+- Sans TikTok : `pnpm run test:e2e` (projets `chromium`, `mobile-pixel`, `mobile-iphone`) ; `pnpm check:no-tiktok` construit et lance le jeu sans le paquet optionnel, TikTok coupé puis chat simulé, et interroge `/api/health`, `/readyz`, `/metrics` (aussi en CI).
+- Avec TikTok : projet `tiktok` (serveur `TIKTOK_ADAPTER=fake`) : console streamer, overlay OBS, contrôle, réponses A/B/C/D du chat, axe sur chaque écran. Un vrai live reste à tester à la main (voir `docs/TIKTOK.md`).

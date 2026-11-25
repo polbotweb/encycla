@@ -485,6 +485,8 @@ Détails : [docs/DATA-MODEL.md](docs/DATA-MODEL.md), [docs/DECISIONS.md](docs/DE
 
 Les e2e tournent contre le **serveur construit** (`pnpm build`), un serveur web sans TikTok et un serveur `TIKTOK_ADAPTER=fake`. Contre un déploiement existant : `E2E_BASE_URL=https://… E2E_TIKTOK_BASE_URL=https://… E2E_ADMIN_TOKEN=… pnpm exec playwright test`. Une passe « production » locale (`NODE_ENV=production`, https via `scripts/e2e/tls-proxy.mjs`) est décrite dans [docs/TESTING.md](docs/TESTING.md).
 
+Les deux modes sont vérifiés à chaque commit : projets Playwright `chromium`, `mobile-pixel`, `mobile-iphone` (jeu web sans TikTok, y compris SUBJECT dans les nouvelles catégories) et `tiktok` (console, overlay OBS, contrôle, chat simulé) ; `pnpm check:no-tiktok` construit puis lance le jeu **sans** le paquet optionnel `tiktok-live-connector` (TikTok coupé, puis chat simulé) et vérifie `/api/health`, `/readyz` et `/metrics`.
+
 ```bash
 pnpm lint && pnpm typecheck && pnpm format:check && pnpm data:validate && pnpm test:coverage && pnpm build
 pnpm test:e2e
