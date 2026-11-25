@@ -84,13 +84,6 @@ export const GASTRONOMY: SeedGroup[] = [
     ),
   },
   {
-    group: 'Cuisines du monde',
-    ...DISH,
-    titles: t(
-      `Pizza; Hamburger; Sushi; Ramen; Paella; Couscous; Tajine; Lasagnes; Spaghetti alla carbonara; Risotto; Gnocchi; Ravioli; Moussaka; Gyros; Falafel; Houmous; Taboulé; Kebab; Pad thaï; Phở; Dim sum; Canard laqué; Kimchi; Bibimbap; Tempura; Okonomiyaki; Takoyaki; Burrito; Taco; Guacamole; Nachos; Ceviche; Empanada; Feijoada; Poutine; Fish and chips; Haggis; Goulasch; Pierogi; Bortsch; Blini; Biryani; Poulet tikka masala; Naan; Samoussa; Gazpacho; Tortilla; Chili con carne; Hot-dog; Club sandwich; Bagel; Pastrami; Barbecue; Fajita; Quesadilla; Tamale; Arepa; Pupusa; Jambalaya; Gumbo; Tom yum; Rouleau de printemps; Wonton; Mapo doufu; Nem; Bánh mì; Satay; Nasi goreng; Rendang; Laksa; Dal; Chapati; Tandoori; Chawarma; Mezzé; Shakshouka; Injera; Poulet yassa; Mafé; Thieboudiène; Bobotie; Biltong; Kibbeh; Dolma; Pita; Pide; Lahmacun`,
-    ),
-  },
-  {
     group: 'Fromages',
     question: 'Quel est ce fromage ?',
     alt: 'Photographie d’un fromage à identifier',

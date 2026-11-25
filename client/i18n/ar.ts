@@ -92,6 +92,12 @@ export const ar: Record<MessageKey, Message> = {
   'category.Music': 'الموسيقى',
   'category.Sports': 'الرياضة',
   'category.Science': 'العلوم',
+  'category.Dogs': 'الكلاب',
+  'category.Cats': 'القطط',
+  'category.Arab & Islamic Monuments': 'المعالم العربية والإسلامية',
+  'category.World Dishes': 'أطباق العالم',
+  'category.Cities': 'المدن',
+  'category.Painters': 'الرسامون',
 
   // ---- home
   'home.intro':

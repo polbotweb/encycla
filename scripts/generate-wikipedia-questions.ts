@@ -102,13 +102,21 @@ const CREDITS = 'CREDITS.md';
 /** Perceptual hashes of the pictures, keyed by Commons file name (D-120). */
 const IMAGE_HASHES = 'data/sources/image-hashes.json';
 
+/** Arabic script, required of Arabic Wikidata labels. */
+const ARABIC_SCRIPT = /[\u0600-\u06FF]/;
 const AMBIGUOUS_OPENING = /\bpeut(?:vent)? (?:aussi )?désigner\b/i;
 const PLACE_OPENING =
   /\b(?:est|sont) (?:une |un |des )?(?:ancienne |ancien )?(?:commune|ville|village|hameau|localité|municipalité|cours d'eau|rivière|fleuve|sommet|massif|montagne|île|canton|région)\b/i;
 const FUNGUS_OPENING =
   /champignon|fongi|fungi|basidiomycète|ascomycète|bolet|amanit|morille|russule|lactaire|truffe|polypore|agaric|cortinaire|mycolog|coprin|lépiote|tricholome/i;
 /** Categories whose subjects are legitimately places or sites. */
-const PLACE_CATEGORIES = new Set<string>(['Geography', 'Architecture', 'History']);
+const PLACE_CATEGORIES = new Set<string>([
+  'Geography',
+  'Architecture',
+  'History',
+  'Cities',
+  'Arab & Islamic Monuments',
+]);
 
 const WIKI_API = `https://${LANG}.wikipedia.org/w/api.php`;
 const COMMONS_API = 'https://commons.wikimedia.org/w/api.php';
@@ -606,8 +614,26 @@ async function fetchItemForms(qids: string[]): Promise<Map<string, ItemForms>> {
   }
 
   // Labels in the original languages and articles in the other Wikipedias, 50 items per request.
-  for (const batch of chunk(sorted, 50)) {
-    const codes = [...new Set(batch.flatMap((qid) => entry(qid).originLanguages))].sort();
+  // The API takes at most 50 language codes: a batch whose items need more is split (same
+  // requests as before for every other batch, so the cache stays valid).
+  const originCodes = (items: readonly string[]): string[] =>
+    [...new Set(items.flatMap((qid) => entry(qid).originLanguages))].sort();
+  const batches = chunk(sorted, 50).flatMap((batch) => {
+    if (originCodes(batch).length <= 50) return [batch];
+    const parts: string[][] = [];
+    let current: string[] = [];
+    for (const qid of batch) {
+      if (current.length > 0 && originCodes([...current, qid]).length > 50) {
+        parts.push(current);
+        current = [];
+      }
+      current.push(qid);
+    }
+    if (current.length > 0) parts.push(current);
+    return parts;
+  });
+  for (const batch of batches) {
+    const codes = originCodes(batch);
     const sites = [
       ...new Set(
         [...codes.map(baseLang), ...GENERIC_ARTICLE_LANGUAGES]
@@ -901,7 +927,9 @@ async function fetchTranslations(
         });
       }
       const wikidataLabel = entity?.labels[language];
-      if (wikidataLabel) {
+      // An Arabic label must be written in Arabic: Wikidata sometimes copies the Latin name
+      // ("Grana Padano DOP") into the Arabic label; such a label is not an Arabic name.
+      if (wikidataLabel && (language !== 'ar' || ARABIC_SCRIPT.test(wikidataLabel))) {
         real.push({
           label: translatedLabel(wikidataLabel, kind, language),
           origin: 'wikidata',

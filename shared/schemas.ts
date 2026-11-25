@@ -27,6 +27,12 @@ export const CATEGORY_VALUES = [
   'Music',
   'Sports',
   'Science',
+  'Dogs',
+  'Cats',
+  'Arab & Islamic Monuments',
+  'World Dishes',
+  'Cities',
+  'Painters',
 ] as const;
 
 /** SUBJECT mode is only offered for a category with at least this many approved questions. */

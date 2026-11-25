@@ -3,6 +3,7 @@ import { ARCHITECTURE, FLAGS } from './world';
 import { ARTS, GEOGRAPHY, INVENTIONS, SPACE } from './culture';
 import { BIRDS, FAUNA, FLORA, INSECTS, MUSHROOMS, TREES } from './nature';
 import { GASTRONOMY, HISTORY, MUSIC, MYTHOLOGY, SCIENCE, SPORTS } from './society';
+import { CATS, CITIES, DOGS, ISLAMIC_MONUMENTS, PAINTERS, WORLD_DISHES } from './themes';
 import type { SeedMap } from './types';
 
 export const SEEDS: SeedMap = {
@@ -24,6 +25,12 @@ export const SEEDS: SeedMap = {
   Music: MUSIC,
   Sports: SPORTS,
   Science: SCIENCE,
+  Dogs: DOGS,
+  Cats: CATS,
+  'Arab & Islamic Monuments': ISLAMIC_MONUMENTS,
+  'World Dishes': WORLD_DISHES,
+  Cities: CITIES,
+  Painters: PAINTERS,
 };
 
 export type { QuestionCategory };

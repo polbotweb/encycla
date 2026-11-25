@@ -88,6 +88,12 @@ export const en: Record<MessageKey, Message> = {
   'category.Music': 'Music',
   'category.Sports': 'Sports',
   'category.Science': 'Science',
+  'category.Dogs': 'Dogs',
+  'category.Cats': 'Cats',
+  'category.Arab & Islamic Monuments': 'Arab & Islamic monuments',
+  'category.World Dishes': 'World dishes',
+  'category.Cities': 'Cities',
+  'category.Painters': 'Painters',
 
   // ---- home
   'home.intro':

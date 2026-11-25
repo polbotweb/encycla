@@ -92,6 +92,12 @@ export const fr = {
   'category.Music': 'Musique',
   'category.Sports': 'Sports',
   'category.Science': 'Sciences',
+  'category.Dogs': 'Chiens',
+  'category.Cats': 'Chats',
+  'category.Arab & Islamic Monuments': 'Monuments arabes et islamiques',
+  'category.World Dishes': 'Plats du monde',
+  'category.Cities': 'Villes',
+  'category.Painters': 'Peintres',
 
   // ---- home
   'home.intro':

@@ -53,7 +53,18 @@ export const QUESTION_TEXT: Record<string, Pick<Localized, TranslatedLanguage>> 
     ar: 'ما هذا العمل الفني؟',
   },
   'Quel écrivain est représenté ?': { en: 'Which writer is shown?', ar: 'مَن هذا الكاتب؟' },
-  'Quel artiste est représenté ?': { en: 'Which artist is shown?', ar: 'مَن هذا الفنان؟' },
+  'Quel sculpteur est représenté ?': { en: 'Which sculptor is shown?', ar: 'مَن هذا النحّات؟' },
+  'Quelle est cette race de chien ?': {
+    en: 'What is this dog breed?',
+    ar: 'ما سلالة هذا الكلب؟',
+  },
+  'Quelle est cette race de chat ?': {
+    en: 'What is this cat breed?',
+    ar: 'ما سلالة هذا القط؟',
+  },
+  'Quel est ce monument ?': { en: 'What is this monument?', ar: 'ما هذا المَعلَم؟' },
+  'Quel est ce plat ?': { en: 'What is this dish?', ar: 'ما هذا الطبق؟' },
+  'Quel peintre est représenté ?': { en: 'Which painter is shown?', ar: 'مَن هذا الرسام؟' },
   'Quelle est cette montagne ou ce volcan ?': {
     en: 'What is this mountain or volcano?',
     ar: 'ما هذا الجبل أو البركان؟',
@@ -160,9 +171,29 @@ export const ALT_TEXT: Record<string, Pick<Localized, TranslatedLanguage>> = {
     en: 'Portrait of a writer to identify',
     ar: 'صورة شخصية لكاتب يجب التعرّف عليه',
   },
-  'Portrait d’un artiste à identifier': {
-    en: 'Portrait of an artist to identify',
-    ar: 'صورة شخصية لفنان يجب التعرّف عليه',
+  'Portrait d’un sculpteur à identifier': {
+    en: 'Portrait of a sculptor to identify',
+    ar: 'صورة شخصية لنحّات يجب التعرّف عليه',
+  },
+  'Photographie d’un chien à identifier': {
+    en: 'Photograph of a dog to identify',
+    ar: 'صورة فوتوغرافية لكلب يجب التعرّف عليه',
+  },
+  'Photographie d’un chat à identifier': {
+    en: 'Photograph of a cat to identify',
+    ar: 'صورة فوتوغرافية لقط يجب التعرّف عليه',
+  },
+  'Photographie d’un monument à identifier': {
+    en: 'Photograph of a monument to identify',
+    ar: 'صورة فوتوغرافية لمَعلَم يجب التعرّف عليه',
+  },
+  'Photographie d’un plat à identifier': {
+    en: 'Photograph of a dish to identify',
+    ar: 'صورة فوتوغرافية لطبق يجب التعرّف عليه',
+  },
+  'Portrait d’un peintre à identifier': {
+    en: 'Portrait of a painter to identify',
+    ar: 'صورة شخصية لرسام يجب التعرّف عليه',
   },
   'Photographie d’une montagne ou d’un volcan à identifier': {
     en: 'Photograph of a mountain or volcano to identify',

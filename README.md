@@ -46,7 +46,7 @@
 
 **Encycla MindMaze** est un quiz visuel multijoueur en temps réel. Chaque question montre une vraie photo de Wikimedia Commons (un animal, un drapeau, un monument, une planète, un plat…) et propose quatre réponses. Après chaque question, l'article Wikipédia correspondant s'affiche : on joue, puis on apprend.
 
-- **2 605 questions** dans **18 catégories**, toutes générées depuis Wikipédia, Wikidata et Wikimedia Commons, avec auteur, licence et permalien de révision ; aucun contenu inventé.
+- **3 410 questions** dans **24 catégories** (dont Chiens, Chats, Monuments arabes et islamiques, Plats du monde, Villes, Peintres), toutes générées depuis Wikipédia, Wikidata et Wikimedia Commons, avec auteur, licence et permalien de révision ; aucun contenu inventé.
 - **Trois langues** : français (par défaut), anglais et arabe (mise en page de droite à gauche).
 - **Sans TikTok** : solo, salon privé, matchmaking public, sur ordinateur et sur mobile.
 - **Avec TikTok Live** : les spectateurs de **n'importe quel live** répondent `A`, `B`, `C` ou `D` dans le chat, avec un overlay pour OBS et une console pour le streamer.
@@ -93,7 +93,7 @@ C'est le jeu complet ; TikTok est désactivé par défaut (`TIKTOK_ENABLED=false
 - **Solo** : « Solo CLASSIC » ou « Solo SUBJECT » sur l'accueil. On joue seul ; la partie se termine à la perte des trois vies ou à la fin du dernier niveau.
 - **Salon privé** : « Créer un salon privé » donne un code à 6 caractères et un lien `/?mode=join&code=…`. Les invités le rejoignent, chacun se déclare prêt, l'hôte lance la partie. L'hôte peut passer un article pour tout le monde.
 - **Matchmaking public** : « Jouer en ligne ». Les joueurs sont regroupés par mode, catégorie, difficulté et langue des questions. CONTEST démarre dès 2 joueurs ; CLASSIC et SUBJECT visent 4 joueurs et proposent un vote « petit salon » (2 à 3 joueurs) après 2 minutes d'attente.
-- **SUBJECT / catégories** : une catégorie n'est proposée que si elle compte au moins 100 questions dans la langue choisie (les 18 catégories le dépassent dans les trois langues).
+- **SUBJECT / catégories** : une catégorie n'est proposée que si elle compte au moins 100 questions dans la langue choisie (23 des 24 catégories le dépassent dans les trois langues ; **Chats** reste en dessous — 81 questions, 74 en arabe — car Wikipédia en français ne compte qu'environ 85 races de chat illustrées : la catégorie sert en partie CLASSIC, sans contenu inventé).
 
 ### 3.2 Avec TikTok Live (n'importe quel live)
 

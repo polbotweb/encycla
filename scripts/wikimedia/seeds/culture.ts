@@ -25,6 +25,14 @@ export const INVENTIONS: SeedGroup[] = [
       `Lampe à incandescence; Bougie; Lampe à huile; Lanterne; Allumette; Briquet; Réfrigérateur; Lave-linge; Aspirateur; Four à micro-ondes; Cocotte-minute; Machine à coudre; Fer à repasser; Métier à tisser; Rouet; Parapluie; Fermeture à glissière; Velcro; Épingle à nourrice; Lunettes; Loupe; Jumelles; Horloge; Sablier; Montre; Réveille-matin; Cadran solaire; Balance; Boulier; Calculatrice; Règle à calcul; Pascaline; Thermomètre; Baromètre; Stéthoscope; Seringue; Microscope; Boussole; Sextant; Astrolabe; Télescope; Compas; Équerre; Pile Volta; Dynamo; Éolienne; Panneau solaire; Moulin à vent; Moulin à eau; Machine à vapeur; Moteur à explosion; Moteur Diesel; Turbine; Poulie; Vis d'Archimède; Levier; Brouette; Charrue; Faux; Arbalète; Arc; Catapulte; Canon; Fusil; Épée; Bouclier; Casque; Armure; Imprimante 3D; Laser; Robot de cuisine`,
     ),
   },
+  {
+    group: 'Inventions — compléments',
+    question: 'Quelle est cette invention ?',
+    alt: 'Photographie d’une invention à identifier',
+    titles: t(
+      `Ordinateur; Téléphone mobile; Condensateur; Diode; Transformateur électrique; Rubik's Cube; Radar; Dynamite; Guillotine; Feu de circulation; Guichet automatique bancaire; Haut-parleur; Machine pneumatique; Clé USB; Diode électroluminescente; Disque Blu-ray; Microscope électronique; Gyroscope; Grue (engin); Taille-crayon; Paratonnerre; Oscilloscope; Lave-vaisselle; Casque audio; Télécommande; Électroaimant; Kaléidoscope; Disque phonographique; Compteur Geiger; Fil de fer barbelé; Diapason; Video Home System; Tube cathodique; Carte perforée; Agrafeuse; Trombone (bureautique); Ouvre-boîte; Grille-pain; Sèche-cheveux; Extincteur; Bouteille isotherme; Caisse enregistreuse; Console de jeux vidéo; Microphone; Pneumatique (véhicule); Montre-bracelet; Stylo-plume; Moissonneuse-batteuse; Tracteur agricole; Bulldozer; Machine à laver la vaisselle; Cafetière; Mixeur; Climatiseur; Radiateur`,
+    ),
+  },
 ];
 
 const ARTWORK = {
@@ -56,12 +64,18 @@ export const ARTS: SeedGroup[] = [
     ),
   },
   {
-    group: 'Artistes',
-    question: 'Quel artiste est représenté ?',
-    alt: 'Portrait d’un artiste à identifier',
+    group: 'Écrivains — compléments',
+    question: 'Quel écrivain est représenté ?',
+    alt: 'Portrait d’un écrivain à identifier',
     titles: t(
-      `Léonard de Vinci; Michel-Ange; Raphaël; Rembrandt; Vincent van Gogh; Claude Monet; Pablo Picasso; Salvador Dalí; Frida Kahlo; Auguste Rodin; Paul Cézanne; Édouard Manet; Edgar Degas; Henri Matisse; Johannes Vermeer; Francisco de Goya; Diego Vélasquez; Albrecht Dürer; Sandro Botticelli; Titien; Caravage; Gustav Klimt; Edvard Munch; Pierre-Auguste Renoir; Paul Gauguin; Camille Pissarro; Eugène Delacroix; Jean-Auguste-Dominique Ingres; Jacques-Louis David; Georges Seurat; Henri de Toulouse-Lautrec; Marc Chagall; Wassily Kandinsky; Piet Mondrian; Joan Miró; René Magritte; Andy Warhol; Jackson Pollock; Pierre Soulages; Camille Claudel; Donatello; Giotto; Jan van Eyck; Pierre Paul Rubens; Nicolas Poussin; Gustave Courbet; Jean-François Millet; Rosa Bonheur; Berthe Morisot; Georgia O'Keeffe; Katsushika Hokusai`,
+      `Arthur Conan Doyle; J. R. R. Tolkien; Virginia Woolf; James Joyce; Herman Melville; Walt Whitman; Rainer Maria Rilke; Thomas Mann; Hermann Hesse; Pablo Neruda; Federico García Lorca; Naguib Mahfouz; Khalil Gibran; Omar Khayyam; Djalâl ad-Dîn Rûmî; Hafez; Ferdowsi; Taha Hussein; Rabindranath Tagore; Lu Xun; Yukio Mishima; Umberto Eco; Italo Calvino; Charlotte Brontë; Emily Brontë; Mary Shelley; Bram Stoker; H. G. Wells; Aldous Huxley; John Steinbeck; F. Scott Fitzgerald; William Faulkner; Toni Morrison; Maya Angelou; Marguerite Yourcenar; Colette; George Sand; Marguerite Duras; André Gide; Paul Valéry; Guillaume Apollinaire; Jean Cocteau; Boris Vian; Samuel Beckett; Eugène Ionesco; Bertolt Brecht; Henrik Ibsen; Nicolas Gogol; Ivan Tourgueniev; Mikhaïl Boulgakov; Vladimir Nabokov; Alexandre Soljenitsyne; Boris Pasternak; Rudyard Kipling; Robert Louis Stevenson; Jonathan Swift; Daniel Defoe; Walter Scott; Lord Byron; John Keats`,
     ),
+  },
+  {
+    group: 'Sculpteurs',
+    question: 'Quel sculpteur est représenté ?',
+    alt: 'Portrait d’un sculpteur à identifier',
+    titles: t(`Auguste Rodin; Camille Claudel; Donatello`),
   },
 ];
 
@@ -80,14 +94,6 @@ export const GEOGRAPHY: SeedGroup[] = [
     alt: 'Photographie d’un site naturel à identifier',
     titles: t(
       `Grand Canyon; Chutes du Niagara; Chutes Victoria; Chutes d'Iguazú; Angel Falls; Lac Baïkal; Lac Léman; Lac de Constance; Lac Majeur; Lac de Côme; Lac Titicaca; Lac Victoria; Lac Tanganyika; Lac Balaton; Lac Louise; Lac Moraine; Lac Annecy; Loch Ness; Mer Morte; Danube; Rhin; Seine; Loire; Rhône; Garonne; Tamise; Tibre; Amazone; Nil; Mississippi; Yangzi Jiang; Gange; Mékong; Congo; Zambèze; Colorado; Volga; Désert du Sahara; Désert de Gobi; Désert d'Atacama; Désert de Namib; Désert du Néguev; Vallée de la Mort; Monument Valley; Cappadoce; Baie d'Ha Long; Grande Barrière de corail; Geysir; Yellowstone; Chaussée des Géants; Falaises d'Étretat; Dune du Pilat; Cirque de Gavarnie; Gorges du Verdon; Calanques de Marseille; Mer de Glace; Glacier Perito Moreno; Fjord de Geiranger; Pamukkale; Salar d'Uyuni; Ayers Rock; Delta du Danube; Camargue; Île de Pâques; Îles Galápagos; Santorin; Capri; Ibiza; Corse; Sicile; Sardaigne; Majorque; Bora-Bora; Tahiti; Hawaï; Madère; Île de Ré; Mont-Saint-Michel; Îles Lofoten; Spitzberg; Islande; Groenland`,
-    ),
-  },
-  {
-    group: 'Villes',
-    question: 'Quelle est cette ville ?',
-    alt: 'Photographie d’une ville à identifier',
-    titles: t(
-      `Paris; Marseille; Lyon; Bordeaux; Toulouse; Nice; Strasbourg; Lille; Nantes; Rouen; Londres; Édimbourg; Dublin; Amsterdam; Bruges; Bruxelles; Berlin; Munich; Hambourg; Vienne; Prague; Budapest; Varsovie; Cracovie; Rome; Venise; Florence; Milan; Naples; Barcelone; Madrid; Séville; Lisbonne; Porto; Athènes; Istanbul; Moscou; Saint-Pétersbourg; Stockholm; Copenhague; Oslo; Helsinki; Reykjavik; Zurich; Genève; New York; San Francisco; Los Angeles; Chicago; Las Vegas; Washington; Boston; Miami; Montréal; Québec; Toronto; Vancouver; Mexico; Rio de Janeiro; Buenos Aires; Lima; Cuzco; La Havane; Tokyo; Kyoto; Osaka; Séoul; Pékin; Shanghai; Hong Kong; Singapour; Bangkok; Hanoï; Dubaï; Jérusalem; Le Caire; Marrakech; Casablanca; Tunis; Le Cap; Nairobi; Sydney; Melbourne; Mumbai; Delhi; Jaipur; Venise; Dubrovnik; Santorin; Cordoue; Grenade`,
     ),
   },
 ];

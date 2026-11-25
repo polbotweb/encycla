@@ -1,8 +1,8 @@
 {
   "language": "fr",
   "languages": ["fr", "en", "ar"],
-  "seedTitles": 3948,
-  "questions": 2605,
+  "seedTitles": 4975,
+  "questions": 3410,
   "perCategory": {
     "Fauna": { "seedTitles": 261, "questions": 150, "dropped": 41 },
     "Flora": { "seedTitles": 247, "questions": 144, "dropped": 103 },
@@ -11,35 +11,41 @@
     "Trees": { "seedTitles": 233, "questions": 144, "dropped": 89 },
     "Insects": { "seedTitles": 310, "questions": 150, "dropped": 141 },
     "Mushrooms": { "seedTitles": 232, "questions": 147, "dropped": 85 },
-    "Architecture": { "seedTitles": 196, "questions": 150, "dropped": 39 },
-    "Inventions": { "seedTitles": 146, "questions": 118, "dropped": 28 },
-    "Arts & Literature": { "seedTitles": 198, "questions": 150, "dropped": 42 },
-    "Geography": { "seedTitles": 226, "questions": 150, "dropped": 30 },
+    "Architecture": { "seedTitles": 182, "questions": 147, "dropped": 35 },
+    "Inventions": { "seedTitles": 201, "questions": 150, "dropped": 37 },
+    "Arts & Literature": { "seedTitles": 210, "questions": 147, "dropped": 51 },
+    "Geography": { "seedTitles": 135, "questions": 120, "dropped": 15 },
     "Space & Astronomy": { "seedTitles": 191, "questions": 137, "dropped": 54 },
     "History": { "seedTitles": 170, "questions": 137, "dropped": 33 },
-    "Mythology": { "seedTitles": 228, "questions": 150, "dropped": 78 },
-    "Gastronomy": { "seedTitles": 364, "questions": 150, "dropped": 75 },
-    "Music": { "seedTitles": 185, "questions": 150, "dropped": 35 },
+    "Mythology": { "seedTitles": 228, "questions": 150, "dropped": 76 },
+    "Gastronomy": { "seedTitles": 277, "questions": 150, "dropped": 64 },
+    "Music": { "seedTitles": 185, "questions": 150, "dropped": 34 },
     "Sports": { "seedTitles": 209, "questions": 150, "dropped": 32 },
-    "Science": { "seedTitles": 229, "questions": 150, "dropped": 43 }
+    "Science": { "seedTitles": 229, "questions": 150, "dropped": 43 },
+    "Dogs": { "seedTitles": 230, "questions": 150, "dropped": 31 },
+    "Cats": { "seedTitles": 85, "questions": 81, "dropped": 4 },
+    "Arab & Islamic Monuments": { "seedTitles": 147, "questions": 128, "dropped": 19 },
+    "World Dishes": { "seedTitles": 230, "questions": 150, "dropped": 22 },
+    "Cities": { "seedTitles": 230, "questions": 150, "dropped": 32 },
+    "Painters": { "seedTitles": 230, "questions": 150, "dropped": 16 }
   },
   "translations": {
     "en": {
-      "answerLabels": { "wikipedia": 2544, "wikidata": 52, "scientific-name": 0, "native-name": 0 },
+      "answerLabels": { "wikipedia": 3335, "wikidata": 66, "scientific-name": 0, "native-name": 0 },
       "optionLabels": {
-        "wikipedia": 10250,
-        "wikidata": 134,
+        "wikipedia": 13429,
+        "wikidata": 175,
         "scientific-name": 0,
         "native-name": 0
       },
       "articles": {
-        "own": 2540,
-        "other:fr": 29,
-        "other:pt": 3,
-        "other:de": 11,
+        "own": 3331,
+        "other:fr": 34,
+        "other:pt": 2,
+        "other:de": 19,
         "other:nl": 1,
         "other:it": 6,
-        "other:es": 6
+        "other:es": 8
       },
       "nativeNameLanguages": {},
       "perCategory": {
@@ -100,32 +106,32 @@
           "articles": { "own": 134, "other:es": 1, "other:fr": 6, "other:de": 4, "other:it": 1 }
         },
         "Architecture": {
-          "questions": 150,
+          "questions": 147,
           "unavailable": 0,
-          "labels": { "wikipedia": 149, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 596, "wikidata": 4, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 149, "other:it": 1 }
+          "labels": { "wikipedia": 145, "wikidata": 2, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 577, "wikidata": 11, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 145, "other:it": 1, "other:de": 1 }
         },
         "Inventions": {
-          "questions": 116,
+          "questions": 148,
           "unavailable": 2,
-          "labels": { "wikipedia": 115, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 463, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 115, "other:fr": 1 }
+          "labels": { "wikipedia": 147, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 591, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 147, "other:fr": 1 }
         },
         "Arts & Literature": {
-          "questions": 149,
+          "questions": 146,
           "unavailable": 1,
-          "labels": { "wikipedia": 148, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 595, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 148, "other:de": 1 }
+          "labels": { "wikipedia": 145, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 583, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 145, "other:de": 1 }
         },
         "Geography": {
-          "questions": 150,
+          "questions": 120,
           "unavailable": 0,
-          "labels": { "wikipedia": 149, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 598, "wikidata": 2, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 149, "other:fr": 1 }
+          "labels": { "wikipedia": 119, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 477, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 119, "other:fr": 1 }
         },
         "Space & Astronomy": {
           "questions": 137,
@@ -151,16 +157,16 @@
         "Gastronomy": {
           "questions": 150,
           "unavailable": 0,
-          "labels": { "wikipedia": 139, "wikidata": 11, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 560, "wikidata": 40, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 139, "other:es": 4, "other:it": 2, "other:fr": 5 }
+          "labels": { "wikipedia": 138, "wikidata": 12, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 558, "wikidata": 42, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 138, "other:es": 4, "other:it": 2, "other:fr": 6 }
         },
         "Music": {
           "questions": 150,
           "unavailable": 0,
           "labels": { "wikipedia": 147, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
           "options": { "wikipedia": 597, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 147, "other:pt": 1, "other:de": 2 }
+          "articles": { "own": 147, "other:de": 3 }
         },
         "Sports": {
           "questions": 150,
@@ -175,6 +181,48 @@
           "labels": { "wikipedia": 148, "wikidata": 2, "scientific-name": 0, "native-name": 0 },
           "options": { "wikipedia": 595, "wikidata": 5, "scientific-name": 0, "native-name": 0 },
           "articles": { "own": 148, "other:it": 1, "other:de": 1 }
+        },
+        "Dogs": {
+          "questions": 150,
+          "unavailable": 0,
+          "labels": { "wikipedia": 149, "wikidata": 1, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 593, "wikidata": 7, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 149, "other:de": 1 }
+        },
+        "Cats": {
+          "questions": 81,
+          "unavailable": 0,
+          "labels": { "wikipedia": 73, "wikidata": 8, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 303, "wikidata": 21, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 73, "other:de": 5, "other:es": 1, "other:fr": 2 }
+        },
+        "Arab & Islamic Monuments": {
+          "questions": 128,
+          "unavailable": 0,
+          "labels": { "wikipedia": 128, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 512, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 128 }
+        },
+        "World Dishes": {
+          "questions": 150,
+          "unavailable": 0,
+          "labels": { "wikipedia": 147, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 597, "wikidata": 3, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 147, "other:fr": 2, "other:es": 1 }
+        },
+        "Cities": {
+          "questions": 150,
+          "unavailable": 0,
+          "labels": { "wikipedia": 150, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 600, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 150 }
+        },
+        "Painters": {
+          "questions": 150,
+          "unavailable": 0,
+          "labels": { "wikipedia": 150, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 600, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 150 }
         }
       },
       "answersWithoutOwnName": 0,
@@ -230,39 +278,57 @@
     },
     "ar": {
       "answerLabels": {
-        "wikipedia": 2280,
-        "wikidata": 54,
+        "wikipedia": 2942,
+        "wikidata": 61,
         "scientific-name": 138,
-        "native-name": 81
+        "native-name": 189
       },
       "optionLabels": {
-        "wikipedia": 9170,
-        "wikidata": 195,
+        "wikipedia": 11823,
+        "wikidata": 219,
         "scientific-name": 552,
-        "native-name": 295
+        "native-name": 726
       },
       "articles": {
-        "own": 2116,
-        "other:en": 401,
-        "other:fr": 19,
+        "own": 2751,
+        "other:en": 538,
+        "other:fr": 21,
         "other:pt": 2,
-        "other:de": 6,
+        "other:de": 9,
         "other:it": 5,
         "other:es": 4
       },
       "nativeNameLanguages": {
-        "en": 7,
-        "ja": 4,
-        "fr": 217,
-        "pt": 6,
-        "es": 27,
+        "ja": 19,
+        "en": 51,
+        "fr": 283,
+        "pt": 23,
+        "es": 85,
         "grc": 2,
-        "it": 2,
+        "it": 34,
         "is": 5,
-        "ru": 1,
+        "ru": 13,
         "el": 7,
-        "de": 14,
-        "eu": 3
+        "de": 70,
+        "da": 8,
+        "nl": 14,
+        "eu": 4,
+        "nb": 9,
+        "af": 4,
+        "hu": 27,
+        "fi": 11,
+        "sco": 10,
+        "mk": 3,
+        "uk": 3,
+        "ca": 2,
+        "pl": 14,
+        "ne": 4,
+        "sw": 4,
+        "fa": 2,
+        "ko": 3,
+        "ro": 5,
+        "hy": 2,
+        "hi": 5
       },
       "perCategory": {
         "Fauna": {
@@ -322,32 +388,32 @@
           }
         },
         "Architecture": {
-          "questions": 150,
+          "questions": 147,
           "unavailable": 0,
-          "labels": { "wikipedia": 132, "wikidata": 3, "scientific-name": 0, "native-name": 15 },
-          "options": { "wikipedia": 535, "wikidata": 12, "scientific-name": 0, "native-name": 53 },
-          "articles": { "own": 127, "other:en": 22, "other:it": 1 }
+          "labels": { "wikipedia": 125, "wikidata": 4, "scientific-name": 0, "native-name": 18 },
+          "options": { "wikipedia": 510, "wikidata": 13, "scientific-name": 0, "native-name": 65 },
+          "articles": { "own": 120, "other:en": 25, "other:it": 1, "other:de": 1 }
         },
         "Inventions": {
-          "questions": 115,
+          "questions": 147,
           "unavailable": 3,
-          "labels": { "wikipedia": 111, "wikidata": 4, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 445, "wikidata": 15, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 110, "other:en": 5 }
+          "labels": { "wikipedia": 143, "wikidata": 4, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 573, "wikidata": 15, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 142, "other:en": 5 }
         },
         "Arts & Literature": {
-          "questions": 142,
+          "questions": 139,
           "unavailable": 8,
-          "labels": { "wikipedia": 137, "wikidata": 1, "scientific-name": 0, "native-name": 4 },
-          "options": { "wikipedia": 554, "wikidata": 6, "scientific-name": 0, "native-name": 8 },
-          "articles": { "own": 132, "other:en": 10 }
+          "labels": { "wikipedia": 134, "wikidata": 1, "scientific-name": 0, "native-name": 4 },
+          "options": { "wikipedia": 542, "wikidata": 6, "scientific-name": 0, "native-name": 8 },
+          "articles": { "own": 129, "other:en": 10 }
         },
         "Geography": {
-          "questions": 150,
+          "questions": 120,
           "unavailable": 0,
-          "labels": { "wikipedia": 136, "wikidata": 1, "scientific-name": 0, "native-name": 13 },
-          "options": { "wikipedia": 543, "wikidata": 5, "scientific-name": 0, "native-name": 52 },
-          "articles": { "own": 133, "other:en": 16, "other:fr": 1 }
+          "labels": { "wikipedia": 106, "wikidata": 1, "scientific-name": 0, "native-name": 13 },
+          "options": { "wikipedia": 424, "wikidata": 4, "scientific-name": 0, "native-name": 52 },
+          "articles": { "own": 103, "other:en": 16, "other:fr": 1 }
         },
         "Space & Astronomy": {
           "questions": 137,
@@ -364,24 +430,24 @@
           "articles": { "own": 134, "other:en": 3 }
         },
         "Mythology": {
-          "questions": 144,
-          "unavailable": 6,
-          "labels": { "wikipedia": 144, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
-          "options": { "wikipedia": 576, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
-          "articles": { "own": 138, "other:en": 6 }
-        },
-        "Gastronomy": {
           "questions": 146,
           "unavailable": 4,
-          "labels": { "wikipedia": 103, "wikidata": 8, "scientific-name": 0, "native-name": 35 },
-          "options": { "wikipedia": 407, "wikidata": 40, "scientific-name": 0, "native-name": 137 },
-          "articles": { "own": 101, "other:es": 2, "other:en": 38, "other:it": 2, "other:fr": 3 }
+          "labels": { "wikipedia": 146, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 584, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 140, "other:en": 6 }
+        },
+        "Gastronomy": {
+          "questions": 145,
+          "unavailable": 5,
+          "labels": { "wikipedia": 90, "wikidata": 9, "scientific-name": 0, "native-name": 46 },
+          "options": { "wikipedia": 357, "wikidata": 39, "scientific-name": 0, "native-name": 184 },
+          "articles": { "own": 88, "other:es": 2, "other:en": 49, "other:it": 2, "other:fr": 4 }
         },
         "Music": {
           "questions": 137,
           "unavailable": 13,
           "labels": { "wikipedia": 127, "wikidata": 4, "scientific-name": 0, "native-name": 6 },
-          "options": { "wikipedia": 501, "wikidata": 27, "scientific-name": 0, "native-name": 20 },
+          "options": { "wikipedia": 499, "wikidata": 29, "scientific-name": 0, "native-name": 20 },
           "articles": { "own": 122, "other:en": 15 }
         },
         "Sports": {
@@ -397,9 +463,51 @@
           "labels": { "wikipedia": 149, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
           "options": { "wikipedia": 596, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
           "articles": { "own": 149 }
+        },
+        "Dogs": {
+          "questions": 133,
+          "unavailable": 17,
+          "labels": { "wikipedia": 64, "wikidata": 0, "scientific-name": 0, "native-name": 69 },
+          "options": { "wikipedia": 256, "wikidata": 0, "scientific-name": 0, "native-name": 276 },
+          "articles": { "own": 59, "other:en": 73, "other:de": 1 }
+        },
+        "Cats": {
+          "questions": 74,
+          "unavailable": 7,
+          "labels": { "wikipedia": 69, "wikidata": 1, "scientific-name": 0, "native-name": 4 },
+          "options": { "wikipedia": 277, "wikidata": 3, "scientific-name": 0, "native-name": 16 },
+          "articles": { "own": 59, "other:en": 13, "other:de": 1, "other:fr": 1 }
+        },
+        "Arab & Islamic Monuments": {
+          "questions": 127,
+          "unavailable": 1,
+          "labels": { "wikipedia": 127, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 508, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 125, "other:en": 2 }
+        },
+        "World Dishes": {
+          "questions": 146,
+          "unavailable": 4,
+          "labels": { "wikipedia": 124, "wikidata": 3, "scientific-name": 0, "native-name": 19 },
+          "options": { "wikipedia": 492, "wikidata": 16, "scientific-name": 0, "native-name": 76 },
+          "articles": { "own": 116, "other:en": 30 }
+        },
+        "Cities": {
+          "questions": 150,
+          "unavailable": 0,
+          "labels": { "wikipedia": 150, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "options": { "wikipedia": 600, "wikidata": 0, "scientific-name": 0, "native-name": 0 },
+          "articles": { "own": 150 }
+        },
+        "Painters": {
+          "questions": 150,
+          "unavailable": 0,
+          "labels": { "wikipedia": 147, "wikidata": 1, "scientific-name": 0, "native-name": 2 },
+          "options": { "wikipedia": 592, "wikidata": 4, "scientific-name": 0, "native-name": 4 },
+          "articles": { "own": 145, "other:en": 5 }
         }
       },
-      "answersWithoutOwnName": 219,
+      "answersWithoutOwnName": 327,
       "fallbacks": [
         {
           "id": "fauna-requin-marteau-halicorne",
@@ -1320,6 +1428,24 @@
           "article": "other:en"
         },
         {
+          "id": "architecture-colonne-vendome",
+          "subject": "Colonne Vendôme",
+          "label": "native-name:fr",
+          "article": "other:de"
+        },
+        {
+          "id": "architecture-place-stanislas",
+          "subject": "Place Stanislas",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "architecture-pont-de-normandie",
+          "subject": "Pont de Normandie",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
           "id": "arts-literature-statue-equestre-de-marc-aurele",
           "subject": "Statue équestre de Marc Aurèle",
           "label": "native-name:it",
@@ -1662,6 +1788,72 @@
           "article": "other:en"
         },
         {
+          "id": "gastronomy-confit-de-canard",
+          "subject": "Confit de canard",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-raclette-fromage",
+          "subject": "Raclette (fromage)",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-religieuse",
+          "subject": "Religieuse",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-tete-de-moine",
+          "subject": "Tête de moine",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-gougere",
+          "subject": "Gougère",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-grana-padano",
+          "subject": "Grana Padano",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-calisson",
+          "subject": "Calisson",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-havarti",
+          "subject": "Havarti",
+          "label": "native-name:da",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-tapenade",
+          "subject": "Tapenade",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-leerdammer",
+          "subject": "Leerdammer",
+          "label": "native-name:nl",
+          "article": "other:en"
+        },
+        {
+          "id": "gastronomy-aioli",
+          "subject": "Aïoli",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
           "id": "music-vielle-a-roue",
           "subject": "Vielle à roue",
           "label": "native-name:fr",
@@ -1709,9 +1901,553 @@
           "subject": "Marie-Amélie Le Fur",
           "label": "native-name:fr",
           "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-de-maremme-et-abruzzes",
+          "subject": "Berger de Maremme et Abruzzes",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-dogue-de-bordeaux",
+          "subject": "Dogue de Bordeaux",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-malinois",
+          "subject": "Malinois",
+          "label": "native-name:de",
+          "article": "other:de"
+        },
+        {
+          "id": "dogs-retriever-de-la-nouvelle-ecosse",
+          "subject": "Retriever de la Nouvelle-Écosse",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-fila-brasileiro",
+          "subject": "Fila Brasileiro",
+          "label": "native-name:pt",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-blanc-suisse",
+          "subject": "Berger blanc suisse",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-epagneul-japonais",
+          "subject": "Épagneul japonais",
+          "label": "native-name:ja",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-bichon-havanais",
+          "subject": "Bichon havanais",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-kuvasz",
+          "subject": "Kuvasz",
+          "label": "native-name:hu",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-chien-de-berger-yougoslave-de-charplanina",
+          "subject": "Chien de berger yougoslave de Charplanina",
+          "label": "native-name:mk",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-terrier-australien",
+          "subject": "Terrier australien",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-esquimau-americain",
+          "subject": "Esquimau américain",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-terrier-de-chasse-allemand",
+          "subject": "Terrier de chasse allemand",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-coton-de-tulear",
+          "subject": "Coton de Tuléar",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-chien-d-eau-portugais",
+          "subject": "Chien d'eau portugais",
+          "label": "native-name:pt",
+          "article": "other:en"
+        },
+        { "id": "dogs-pumi", "subject": "Pumi", "label": "native-name:hu", "article": "other:en" },
+        {
+          "id": "dogs-skye-terrier",
+          "subject": "Skye terrier",
+          "label": "native-name:sco",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-pinscher-allemand",
+          "subject": "Pinscher allemand",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-chien-d-ours-de-carelie",
+          "subject": "Chien d'ours de Carélie",
+          "label": "native-name:fi",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-chien-d-elan-norvegien-gris",
+          "subject": "Chien d'élan norvégien gris",
+          "label": "native-name:nb",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-polonais-de-plaine",
+          "subject": "Berger polonais de plaine",
+          "label": "native-name:pl",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-hokkaido",
+          "subject": "Hokkaïdo",
+          "label": "native-name:ja",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-field-spaniel",
+          "subject": "Field Spaniel",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-chien-finnois-de-laponie",
+          "subject": "Chien finnois de Laponie",
+          "label": "native-name:fi",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-australien",
+          "subject": "Berger australien",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-american-hairless-terrier",
+          "subject": "American Hairless terrier",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-levrier-espagnol",
+          "subject": "Lévrier espagnol",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-matin-espagnol",
+          "subject": "Mâtin espagnol",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-braque-italien",
+          "subject": "Braque italien",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-terrier-noir-russe",
+          "subject": "Terrier noir russe",
+          "label": "native-name:ru",
+          "article": "other:en"
+        },
+        { "id": "dogs-mudi", "subject": "Mudi", "label": "native-name:hu", "article": "other:en" },
+        {
+          "id": "dogs-springer-anglais",
+          "subject": "Springer anglais",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-retriever-de-la-baie-de-chesapeake",
+          "subject": "Retriever de la baie de Chesapeake",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-cane-corso",
+          "subject": "Cane Corso",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-retriever-a-poil-plat",
+          "subject": "Retriever à poil plat",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-bouvier-bernois",
+          "subject": "Bouvier bernois",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-lakeland-terrier",
+          "subject": "Lakeland Terrier",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-grand-bouvier-suisse",
+          "subject": "Grand bouvier suisse",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-american-pit-bull-terrier",
+          "subject": "American Pit Bull Terrier",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-pinscher-autrichien",
+          "subject": "Pinscher autrichien",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-basset-hound",
+          "subject": "Basset hound",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-terrier-bresilien",
+          "subject": "Terrier brésilien",
+          "label": "native-name:pt",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-norfolk-terrier",
+          "subject": "Norfolk Terrier",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-shetland",
+          "subject": "Shetland",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-hollandais",
+          "subject": "Berger hollandais",
+          "label": "native-name:nl",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-bichon-a-poil-frise",
+          "subject": "Bichon à poil frisé",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-broholmer",
+          "subject": "Broholmer",
+          "label": "native-name:da",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-american-staffordshire-terrier",
+          "subject": "American Staffordshire Terrier",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-podenco-d-ibiza",
+          "subject": "Podenco d'Ibiza",
+          "label": "native-name:ca",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-bouvier-des-flandres",
+          "subject": "Bouvier des Flandres",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-komondor",
+          "subject": "Komondor",
+          "label": "native-name:hu",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-eurasier",
+          "subject": "Eurasier",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        { "id": "dogs-puli", "subject": "Puli", "label": "native-name:hu", "article": "other:en" },
+        {
+          "id": "dogs-laika-de-iakoutie",
+          "subject": "Laïka de Iakoutie",
+          "label": "native-name:ru",
+          "article": "other:en"
+        },
+        { "id": "dogs-kai", "subject": "Kai", "label": "native-name:ja", "article": "other:en" },
+        {
+          "id": "dogs-terrier-de-boston",
+          "subject": "Terrier de Boston",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-spitz-loup",
+          "subject": "Spitz Loup",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-belge",
+          "subject": "Berger belge",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-boerboel",
+          "subject": "Boerboel",
+          "label": "native-name:af",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-bobtail",
+          "subject": "Bobtail",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-picard",
+          "subject": "Berger picard",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-alano-espagnol",
+          "subject": "Alano espagnol",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-terrier-irlandais",
+          "subject": "Terrier irlandais",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-pinscher-nain",
+          "subject": "Pinscher nain",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-berger-de-russie-meridionale",
+          "subject": "Berger de Russie méridionale",
+          "label": "native-name:uk",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-kooikerhondje",
+          "subject": "Kooikerhondje",
+          "label": "native-name:nl",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-chien-norvegien-de-macareux",
+          "subject": "Chien norvégien de macareux",
+          "label": "native-name:nb",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-norwich-terrier",
+          "subject": "Norwich Terrier",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "dogs-spinone",
+          "subject": "Spinone",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "cats-lykoi",
+          "subject": "Lykoï",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "cats-bobtail-de-carelie",
+          "subject": "Bobtail de Carélie",
+          "label": "native-name:ru",
+          "article": "other:en"
+        },
+        {
+          "id": "cats-chat-rex",
+          "subject": "Chat rex",
+          "label": "native-name:en",
+          "article": "other:en"
+        },
+        {
+          "id": "cats-burmese-anglais",
+          "subject": "Burmese anglais",
+          "label": "native-name:en",
+          "article": "other:fr"
+        },
+        {
+          "id": "world-dishes-ugali",
+          "subject": "Ugali",
+          "label": "native-name:sw",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-kalakukko",
+          "subject": "Kalakukko",
+          "label": "native-name:fi",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-fabada-asturiana",
+          "subject": "Fabada asturiana",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-poke",
+          "subject": "Poke",
+          "label": "native-name:es",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-mandu",
+          "subject": "Mandu",
+          "label": "native-name:ko",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-zurek",
+          "subject": "Żurek",
+          "label": "native-name:pl",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-panzanella",
+          "subject": "Panzanella",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-bortsch-froid",
+          "subject": "Bortsch froid",
+          "label": "native-name:pl",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-mititei",
+          "subject": "Mititei",
+          "label": "native-name:ro",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-ribollita",
+          "subject": "Ribollita",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-saucisse-de-francfort",
+          "subject": "Saucisse de Francfort",
+          "label": "native-name:de",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-spaghetti-alle-vongole",
+          "subject": "Spaghetti alle vongole",
+          "label": "native-name:it",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-ghapama",
+          "subject": "Ghapama",
+          "label": "native-name:hy",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-dhokla",
+          "subject": "Dhokla",
+          "label": "native-name:hi",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-dal-bhat",
+          "subject": "Dal bhat",
+          "label": "native-name:ne",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-chawanmushi",
+          "subject": "Chawanmushi",
+          "label": "native-name:ja",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-rogan-josh",
+          "subject": "Rogan josh",
+          "label": "native-name:fa",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-cachupa",
+          "subject": "Cachupa",
+          "label": "native-name:pt",
+          "article": "other:en"
+        },
+        {
+          "id": "world-dishes-cranachan",
+          "subject": "Cranachan",
+          "label": "native-name:sco",
+          "article": "other:en"
+        },
+        {
+          "id": "painters-eugene-boudin",
+          "subject": "Eugène Boudin",
+          "label": "native-name:fr",
+          "article": "other:en"
+        },
+        {
+          "id": "painters-lovis-corinth",
+          "subject": "Lovis Corinth",
+          "label": "native-name:de",
+          "article": "other:en"
         }
       ],
-      "notOffered": 52,
+      "notOffered": 80,
       "unavailable": [
         {
           "id": "fauna-loutre-de-mer",
@@ -1874,21 +2610,6 @@
           "reason": "an option has no name in this language"
         },
         {
-          "id": "mythology-teutates",
-          "subject": "Teutatès",
-          "reason": "an option has no name in this language"
-        },
-        {
-          "id": "mythology-svarog",
-          "subject": "Svarog",
-          "reason": "the answer would be the only option written differently"
-        },
-        {
-          "id": "gastronomy-canard-laque",
-          "subject": "Canard laqué",
-          "reason": "an option has no name in this language"
-        },
-        {
           "id": "gastronomy-papaye",
           "subject": "Papaye",
           "reason": "an option has no name in this language"
@@ -1901,6 +2622,16 @@
         {
           "id": "gastronomy-magret-de-canard",
           "subject": "Magret de canard",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "gastronomy-socca",
+          "subject": "Socca",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "gastronomy-nefle",
+          "subject": "Nèfle",
           "reason": "an option has no name in this language"
         },
         {
@@ -1919,13 +2650,13 @@
           "reason": "an option has no name in this language"
         },
         {
-          "id": "music-cavaquinho",
-          "subject": "Cavaquinho",
+          "id": "music-djembe",
+          "subject": "Djembé",
           "reason": "an option has no name in this language"
         },
         {
-          "id": "music-djembe",
-          "subject": "Djembé",
+          "id": "music-cavaquinho",
+          "subject": "Cavaquinho",
           "reason": "an option has no name in this language"
         },
         {
@@ -1972,6 +2703,151 @@
           "id": "science-soufre-natif",
           "subject": "Soufre natif",
           "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-terrier-kerry-blue",
+          "subject": "Terrier Kerry Blue",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-welsh-corgi-pembroke",
+          "subject": "Welsh Corgi Pembroke",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-berger-catalan",
+          "subject": "Berger catalan",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-terrier-australien-a-poil-soyeux",
+          "subject": "Terrier australien à poil soyeux",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-dogue-des-canaries",
+          "subject": "Dogue des Canaries",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-terre-neuve",
+          "subject": "Terre-neuve",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-epagneul-tibetain",
+          "subject": "Épagneul tibétain",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-shar-pei",
+          "subject": "Shar Pei",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-berger-d-asie-centrale",
+          "subject": "Berger d'Asie centrale",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-cairn-terrier",
+          "subject": "Cairn terrier",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-matin-des-pyrenees",
+          "subject": "Mâtin des Pyrénées",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-setter-irlandais-rouge",
+          "subject": "Setter irlandais rouge",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-cocker-spaniel-anglais",
+          "subject": "Cocker spaniel anglais",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-epagneul-d-eau-irlandais",
+          "subject": "Épagneul d'eau irlandais",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-dandie-dinmont-terrier",
+          "subject": "Dandie Dinmont Terrier",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-azawakh",
+          "subject": "Azawakh",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "dogs-petit-chien-lion",
+          "subject": "Petit chien lion",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "cats-seychellois",
+          "subject": "Seychellois",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "cats-bobtail-du-mekong",
+          "subject": "Bobtail du Mékong",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "cats-ural-rex",
+          "subject": "Ural rex",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "cats-highlander",
+          "subject": "Highlander",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "cats-anatoli",
+          "subject": "Anatoli",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "cats-foreign-white",
+          "subject": "Foreign white",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "cats-burmese-americain",
+          "subject": "Burmese américain",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "arab-islamic-monuments-medina-azahara",
+          "subject": "Medina Azahara",
+          "reason": "the answer would be the only option written differently"
+        },
+        {
+          "id": "world-dishes-canard-laque",
+          "subject": "Canard laqué",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "world-dishes-gogol-mogol",
+          "subject": "Gogol Mogol",
+          "reason": "an option has no name in this language"
+        },
+        {
+          "id": "world-dishes-tandoori",
+          "subject": "Tandoori",
+          "reason": "the answer would be the only option written differently"
+        },
+        {
+          "id": "world-dishes-mafe",
+          "subject": "Mafé",
+          "reason": "an option has no name in this language"
         }
       ]
     }
@@ -1984,8 +2860,8 @@
     "sameGenusPairs": []
   },
   "pictures": {
-    "hashed": 2604,
-    "notHashed": 1,
+    "hashed": 3413,
+    "notHashed": 0,
     "nearDuplicates": [
       { "kept": "France", "other": "Italie", "bits": 0, "color": 18, "action": "never paired" },
       { "kept": "France", "other": "Mexique", "bits": 4, "color": 16, "action": "never paired" },
@@ -2045,39 +2921,40 @@
     ]
   },
   "imageLicenses": {
-    "CC BY-SA 4.0": 464,
-    "CC BY 4.0": 82,
-    "CC BY 2.0": 152,
-    "CC BY-SA 2.0": 125,
-    "CC BY-SA 3.0": 554,
-    "Public domain": 957,
-    "CC BY 3.0": 85,
-    "CC BY-SA 2.5": 64,
-    "CC BY 2.5": 51,
-    "CC0 1.0": 70,
-    "CC BY-SA 1.0": 1
+    "CC BY-SA 4.0": 645,
+    "CC BY 4.0": 104,
+    "CC BY 2.0": 201,
+    "CC BY-SA 2.0": 165,
+    "CC BY-SA 3.0": 769,
+    "Public domain": 1159,
+    "CC BY 3.0": 124,
+    "CC BY-SA 2.5": 76,
+    "CC BY 2.5": 59,
+    "CC0 1.0": 104,
+    "CC BY-SA 1.0": 4
   },
   "dropReasons": {
-    "article not found": 135,
-    "duplicate of an earlier subject": 284,
-    "disambiguation page": 300,
-    "answer not found in the article introduction": 35,
-    "author unknown for an attribution licence": 35,
-    "image too small or extreme aspect ratio": 42,
-    "licence rejected: licence not in the allowlist": 39,
+    "article not found": 146,
+    "duplicate of an earlier subject": 290,
+    "disambiguation page": 303,
+    "answer not found in the article introduction": 37,
+    "author unknown for an attribution licence": 50,
+    "image too small or extreme aspect ratio": 77,
+    "licence rejected: licence not in the allowlist": 49,
     "article is about a place, not this kind of subject": 8,
-    "image is not a photograph of the subject": 30,
+    "image is not a photograph of the subject": 49,
     "article has no lead image": 23,
-    "same image already used by another subject": 9,
+    "same image already used by another subject": 11,
     "unsupported image type application/ogg": 1,
     "article is a homonymy/list-like page": 1,
     "article does not look like a fungus": 2,
     "image not on Wikimedia Commons": 2,
-    "unsupported image type image/gif": 2,
-    "label  already used or too long": 2,
+    "unsupported image type image/gif": 4,
     "licence rejected: no licence metadata": 1,
     "unsupported image type image/webp": 1,
-    "unsupported image type image/tiff": 1
+    "unsupported image type image/tiff": 2,
+    "label  already used or too long": 2,
+    "not enough distractors of the same kind": 3
   },
   "redirects": [
     { "category": "Fauna", "seed": "Loup gris", "article": "Canis lupus" },
@@ -2446,11 +3323,6 @@
       "seed": "Basilique Saint-Pierre de Rome",
       "article": "Basilique Saint-Pierre"
     },
-    {
-      "category": "Architecture",
-      "seed": "Mezquita de Cordoue",
-      "article": "Mosquée-cathédrale de Cordoue"
-    },
     { "category": "Architecture", "seed": "Alcázar de Ségovie", "article": "Alcazar de Ségovie" },
     {
       "category": "Architecture",
@@ -2480,20 +3352,8 @@
     },
     { "category": "Architecture", "seed": "Borobudur", "article": "Temple de Borobudur" },
     { "category": "Architecture", "seed": "Prambanan", "article": "Temple de Prambanan" },
-    { "category": "Architecture", "seed": "Mosquée Al-Aqsa", "article": "Mosquée al-Aqsa" },
     { "category": "Architecture", "seed": "Burj Al Arab", "article": "Burj al-Arab" },
-    { "category": "Architecture", "seed": "Qutb Minar", "article": "Qûtb Minâr" },
     { "category": "Architecture", "seed": "Temple de Louxor", "article": "Temple d'Amon (Louxor)" },
-    {
-      "category": "Architecture",
-      "seed": "Grande Mosquée de Djenné",
-      "article": "Grande mosquée de Djenné"
-    },
-    {
-      "category": "Architecture",
-      "seed": "Grande Mosquée de Kairouan",
-      "article": "Grande mosquée de Kairouan"
-    },
     {
       "category": "Architecture",
       "seed": "Hagia Sophia",
@@ -2519,6 +3379,11 @@
       "category": "Inventions",
       "seed": "Moteur à explosion",
       "article": "Moteur à combustion et explosion"
+    },
+    {
+      "category": "Inventions",
+      "seed": "Radiateur",
+      "article": "Radiateur (échangeur de chaleur)"
     },
     {
       "category": "Arts & Literature",
@@ -2549,18 +3414,7 @@
       "article": "Buste de Néfertiti"
     },
     { "category": "Arts & Literature", "seed": "Rabelais", "article": "François Rabelais" },
-    {
-      "category": "Arts & Literature",
-      "seed": "Pierre-Auguste Renoir",
-      "article": "Auguste Renoir"
-    },
-    {
-      "category": "Arts & Literature",
-      "seed": "Wassily Kandinsky",
-      "article": "Vassily Kandinsky"
-    },
-    { "category": "Arts & Literature", "seed": "Giotto", "article": "Giotto di Bondone" },
-    { "category": "Arts & Literature", "seed": "Katsushika Hokusai", "article": "Hokusai" },
+    { "category": "Arts & Literature", "seed": "Djalâl ad-Dîn Rûmî", "article": "Rûmî" },
     { "category": "Geography", "seed": "Denali", "article": "Mont McKinley" },
     { "category": "Geography", "seed": "Mont Cook", "article": "Aoraki/Mont Cook" },
     { "category": "Geography", "seed": "Uluru", "article": "Uluru/Ayers Rock" },
@@ -2576,7 +3430,6 @@
     { "category": "Geography", "seed": "Falaises d'Étretat", "article": "Site d'Étretat" },
     { "category": "Geography", "seed": "Calanques de Marseille", "article": "Calanques" },
     { "category": "Geography", "seed": "Fjord de Geiranger", "article": "Geirangerfjord" },
-    { "category": "Geography", "seed": "Mumbai", "article": "Bombay" },
     { "category": "Space & Astronomy", "seed": "Cérès (planète naine)", "article": "(1) Cérès" },
     { "category": "Space & Astronomy", "seed": "Éris (planète naine)", "article": "(136199) Éris" },
     {
@@ -2727,13 +3580,7 @@
     { "category": "Gastronomy", "seed": "Bouchées à la reine", "article": "Bouchée à la reine" },
     { "category": "Gastronomy", "seed": "Île flottante (dessert)", "article": "Œufs à la neige" },
     { "category": "Gastronomy", "seed": "Churros", "article": "Churro" },
-    { "category": "Gastronomy", "seed": "Ramen", "article": "Rāmen" },
-    { "category": "Gastronomy", "seed": "Pad thaï", "article": "Phat thai" },
-    { "category": "Gastronomy", "seed": "Dim sum", "article": "Dimsum" },
-    { "category": "Gastronomy", "seed": "Gumbo", "article": "Gombo (soupe)" },
-    { "category": "Gastronomy", "seed": "Satay", "article": "Sate" },
-    { "category": "Gastronomy", "seed": "Poulet yassa", "article": "Yassa (plat)" },
-    { "category": "Gastronomy", "seed": "Kibbeh", "article": "Kebbé" },
+    { "category": "Gastronomy", "seed": "Cheddar (fromage)", "article": "Cheddar" },
     { "category": "Gastronomy", "seed": "Ossau-iraty", "article": "Ossau-Iraty" },
     { "category": "Gastronomy", "seed": "Vacherin Mont-d'Or", "article": "Mont d'Or (fromage)" },
     { "category": "Gastronomy", "seed": "Selles-sur-Cher (fromage)", "article": "Selles-sur-cher" },
@@ -2769,7 +3616,48 @@
     { "category": "Science", "seed": "Jacques Cousteau", "article": "Jacques-Yves Cousteau" },
     { "category": "Science", "seed": "Ptolémée", "article": "Claude Ptolémée" },
     { "category": "Science", "seed": "Mercure (élément)", "article": "Mercure (chimie)" },
-    { "category": "Science", "seed": "Pierre ponce", "article": "Ponce" }
+    { "category": "Science", "seed": "Pierre ponce", "article": "Ponce" },
+    { "category": "Arab & Islamic Monuments", "seed": "Qutb Minar", "article": "Qûtb Minâr" },
+    {
+      "category": "Arab & Islamic Monuments",
+      "seed": "Place Naghsh-e Jahan",
+      "article": "Place Naghch-e Djahan"
+    },
+    { "category": "Arab & Islamic Monuments", "seed": "Si-o-se Pol", "article": "Si-o-se-pol" },
+    { "category": "Arab & Islamic Monuments", "seed": "Ali Qapu", "article": "Ali Qapou" },
+    {
+      "category": "Arab & Islamic Monuments",
+      "seed": "Mosquée Badshahi",
+      "article": "Mosquée Royale"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "seed": "Aljafería",
+      "article": "Palais de l'Aljaferia"
+    },
+    { "category": "Arab & Islamic Monuments", "seed": "Generalife", "article": "Généralife" },
+    {
+      "category": "Arab & Islamic Monuments",
+      "seed": "Citadelle de Saladin",
+      "article": "Citadelle de Saladin (Le Caire)"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "seed": "Gonbad-e Qabus",
+      "article": "Gonbad-e Qabous"
+    },
+    { "category": "World Dishes", "seed": "Ramen", "article": "Rāmen" },
+    { "category": "World Dishes", "seed": "Pad thaï", "article": "Phat thai" },
+    { "category": "World Dishes", "seed": "Dim sum", "article": "Dimsum" },
+    { "category": "World Dishes", "seed": "Gumbo", "article": "Gombo (soupe)" },
+    { "category": "World Dishes", "seed": "Satay", "article": "Sate" },
+    { "category": "World Dishes", "seed": "Poulet yassa", "article": "Yassa (plat)" },
+    { "category": "World Dishes", "seed": "Kibbeh", "article": "Kebbé" },
+    { "category": "Cities", "seed": "Mumbai", "article": "Bombay" },
+    { "category": "Painters", "seed": "Pierre-Auguste Renoir", "article": "Auguste Renoir" },
+    { "category": "Painters", "seed": "Wassily Kandinsky", "article": "Vassily Kandinsky" },
+    { "category": "Painters", "seed": "Giotto", "article": "Giotto di Bondone" },
+    { "category": "Painters", "seed": "Katsushika Hokusai", "article": "Hokusai" }
   ],
   "dropped": [
     { "category": "Fauna", "title": "Chat-pêcheur", "reason": "article not found" },
@@ -4123,7 +5011,6 @@
       "title": "Tour de Pise",
       "reason": "duplicate of an earlier subject (Tour de Pise)"
     },
-    { "category": "Architecture", "title": "Alhambra", "reason": "disambiguation page" },
     { "category": "Architecture", "title": "Reichstag", "reason": "disambiguation page" },
     { "category": "Architecture", "title": "Sainte-Sophie", "reason": "disambiguation page" },
     {
@@ -4159,7 +5046,6 @@
       "title": "Temple d'or d'Amritsar",
       "reason": "article not found"
     },
-    { "category": "Architecture", "title": "Fort Rouge", "reason": "disambiguation page" },
     { "category": "Architecture", "title": "Gateway of India", "reason": "article not found" },
     {
       "category": "Architecture",
@@ -4177,11 +5063,6 @@
     { "category": "Architecture", "title": "Temple Shwedagon", "reason": "article not found" },
     { "category": "Architecture", "title": "Temple de Bagan", "reason": "article not found" },
     { "category": "Architecture", "title": "Temple d'Angkor Bayon", "reason": "article not found" },
-    {
-      "category": "Architecture",
-      "title": "Mosquée du Chah à Ispahan",
-      "reason": "article not found"
-    },
     { "category": "Architecture", "title": "Christ Rédempteur", "reason": "disambiguation page" },
     { "category": "Architecture", "title": "Palais de l'Alvorada", "reason": "article not found" },
     {
@@ -4216,6 +5097,14 @@
     { "category": "Inventions", "title": "Fusil", "reason": "disambiguation page" },
     { "category": "Inventions", "title": "Bouclier", "reason": "disambiguation page" },
     { "category": "Inventions", "title": "Armure", "reason": "disambiguation page" },
+    { "category": "Inventions", "title": "Trombone (bureautique)", "reason": "article not found" },
+    { "category": "Inventions", "title": "Montre-bracelet", "reason": "article not found" },
+    {
+      "category": "Inventions",
+      "title": "Machine à laver la vaisselle",
+      "reason": "article not found"
+    },
+    { "category": "Inventions", "title": "Mixeur", "reason": "disambiguation page" },
     {
       "category": "Arts & Literature",
       "title": "La Nuit étoilée",
@@ -4330,7 +5219,8 @@
       "title": "Molière",
       "reason": "duplicate of an earlier subject (Molière)"
     },
-    { "category": "Arts & Literature", "title": "Caravage", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "Hafez", "reason": "disambiguation page" },
+    { "category": "Arts & Literature", "title": "Lu Xun", "reason": "disambiguation page" },
     { "category": "Geography", "title": "Chimborazo", "reason": "disambiguation page" },
     { "category": "Geography", "title": "Matterhorn", "reason": "disambiguation page" },
     { "category": "Geography", "title": "Meije", "reason": "disambiguation page" },
@@ -4352,20 +5242,6 @@
       "title": "Mont-Saint-Michel",
       "reason": "duplicate of an earlier subject (Le Mont-Saint-Michel)"
     },
-    { "category": "Geography", "title": "Vienne", "reason": "disambiguation page" },
-    { "category": "Geography", "title": "Washington", "reason": "disambiguation page" },
-    { "category": "Geography", "title": "Dubaï", "reason": "disambiguation page" },
-    {
-      "category": "Geography",
-      "title": "Venise",
-      "reason": "duplicate of an earlier subject (Venise)"
-    },
-    {
-      "category": "Geography",
-      "title": "Santorin",
-      "reason": "duplicate of an earlier subject (Santorin)"
-    },
-    { "category": "Geography", "title": "Grenade", "reason": "disambiguation page" },
     { "category": "Space & Astronomy", "title": "Éros (astéroïde)", "reason": "article not found" },
     {
       "category": "Space & Astronomy",
@@ -4641,18 +5517,6 @@
     },
     { "category": "Gastronomy", "title": "Pavlova", "reason": "disambiguation page" },
     { "category": "Gastronomy", "title": "Glace (aliment)", "reason": "article not found" },
-    {
-      "category": "Gastronomy",
-      "title": "Spaghetti alla carbonara",
-      "reason": "article not found"
-    },
-    { "category": "Gastronomy", "title": "Poutine", "reason": "disambiguation page" },
-    { "category": "Gastronomy", "title": "Gazpacho", "reason": "disambiguation page" },
-    { "category": "Gastronomy", "title": "Nem", "reason": "disambiguation page" },
-    { "category": "Gastronomy", "title": "Thieboudiène", "reason": "article not found" },
-    { "category": "Gastronomy", "title": "Dolma", "reason": "disambiguation page" },
-    { "category": "Gastronomy", "title": "Pita", "reason": "disambiguation page" },
-    { "category": "Gastronomy", "title": "Pide", "reason": "disambiguation page" },
     { "category": "Gastronomy", "title": "Roquefort", "reason": "disambiguation page" },
     { "category": "Gastronomy", "title": "Comté", "reason": "disambiguation page" },
     { "category": "Gastronomy", "title": "Gruyère", "reason": "disambiguation page" },
@@ -4771,6 +5635,110 @@
       "reason": "duplicate of an earlier subject (Halite)"
     },
     { "category": "Science", "title": "Stibine", "reason": "disambiguation page" },
+    {
+      "category": "Dogs",
+      "title": "Kangal (chien)",
+      "reason": "duplicate of an earlier subject (Berger Kangal)"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Alhambra",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Pont Khadju",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Palais de Chehel Sotoun",
+      "reason": "article not found"
+    },
+    { "category": "Arab & Islamic Monuments", "title": "Registan", "reason": "article not found" },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Mausolée de Gour Emir",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Shah-i-Zinda",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Fort Rouge",
+      "reason": "disambiguation page"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Minaret de Djam",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Médersa Bou Inania",
+      "reason": "article not found"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Bab Mansour",
+      "reason": "article not found"
+    },
+    { "category": "Arab & Islamic Monuments", "title": "Qasr Amra", "reason": "article not found" },
+    {
+      "category": "World Dishes",
+      "title": "Spaghetti alla carbonara",
+      "reason": "article not found"
+    },
+    { "category": "World Dishes", "title": "Poutine", "reason": "disambiguation page" },
+    { "category": "World Dishes", "title": "Gazpacho", "reason": "disambiguation page" },
+    { "category": "World Dishes", "title": "Nem", "reason": "disambiguation page" },
+    { "category": "World Dishes", "title": "Thieboudiène", "reason": "article not found" },
+    { "category": "World Dishes", "title": "Dolma", "reason": "disambiguation page" },
+    { "category": "World Dishes", "title": "Pita", "reason": "disambiguation page" },
+    { "category": "World Dishes", "title": "Pide", "reason": "disambiguation page" },
+    {
+      "category": "World Dishes",
+      "title": "Rāmen",
+      "reason": "duplicate of an earlier subject (Rāmen)"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Chakchouka",
+      "reason": "duplicate of an earlier subject (Chakchouka)"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Kebbé",
+      "reason": "duplicate of an earlier subject (Kebbé)"
+    },
+    { "category": "Cities", "title": "Vienne", "reason": "disambiguation page" },
+    { "category": "Cities", "title": "Washington", "reason": "disambiguation page" },
+    { "category": "Cities", "title": "Dubaï", "reason": "disambiguation page" },
+    { "category": "Cities", "title": "Grenade", "reason": "disambiguation page" },
+    {
+      "category": "Cities",
+      "title": "Bombay",
+      "reason": "duplicate of an earlier subject (Bombay)"
+    },
+    { "category": "Painters", "title": "Caravage", "reason": "disambiguation page" },
+    {
+      "category": "Painters",
+      "title": "Auguste Renoir",
+      "reason": "duplicate of an earlier subject (Auguste Renoir)"
+    },
+    {
+      "category": "Painters",
+      "title": "Vassily Kandinsky",
+      "reason": "duplicate of an earlier subject (Vassily Kandinsky)"
+    },
+    {
+      "category": "Painters",
+      "title": "Giotto di Bondone",
+      "reason": "duplicate of an earlier subject (Giotto di Bondone)"
+    },
     {
       "category": "Fauna",
       "title": "Chat de Pallas",
@@ -5149,11 +6117,6 @@
     },
     {
       "category": "Architecture",
-      "title": "Mosquée Sheikh Zayed",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Architecture",
       "title": "Chrysler Building",
       "reason": "article has no lead image"
     },
@@ -5215,6 +6178,31 @@
       "reason": "answer not found in the article introduction"
     },
     {
+      "category": "Inventions",
+      "title": "Rubik's Cube",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Inventions",
+      "title": "Diode électroluminescente",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Inventions",
+      "title": "Gyroscope",
+      "reason": "unsupported image type image/gif"
+    },
+    {
+      "category": "Inventions",
+      "title": "Électroaimant",
+      "reason": "unsupported image type image/gif"
+    },
+    {
+      "category": "Inventions",
+      "title": "Climatiseur",
+      "reason": "answer not found in the article introduction"
+    },
+    {
       "category": "Arts & Literature",
       "title": "Les Trois Grâces",
       "reason": "article has no lead image"
@@ -5244,7 +6232,36 @@
       "title": "Anton Tchekhov",
       "reason": "image too small or extreme aspect ratio"
     },
-    { "category": "Arts & Literature", "title": "Raphaël", "reason": "article has no lead image" },
+    {
+      "category": "Arts & Literature",
+      "title": "Rainer Maria Rilke",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Hermann Hesse",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Khalil Gibran",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Taha Hussein",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Italo Calvino",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Aldous Huxley",
+      "reason": "image too small or extreme aspect ratio"
+    },
     {
       "category": "Geography",
       "title": "Colorado",
@@ -5253,51 +6270,6 @@
     {
       "category": "Geography",
       "title": "Islande",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Lyon",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Amsterdam",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Florence",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Istanbul",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Chicago",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Québec",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Shanghai",
-      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
-    },
-    {
-      "category": "Geography",
-      "title": "Singapour",
-      "reason": "label \"Singapour\" already used or too long"
-    },
-    {
-      "category": "Geography",
-      "title": "Delhi",
       "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
     },
     {
@@ -5395,16 +6367,6 @@
       "category": "Mythology",
       "title": "Diane (mythologie)",
       "reason": "same image already used by another subject"
-    },
-    {
-      "category": "Mythology",
-      "title": "Pâris",
-      "reason": "label \"Pâris\" already used or too long"
-    },
-    {
-      "category": "Mythology",
-      "title": "Romulus et Rémus",
-      "reason": "licence rejected: licence not in the allowlist"
     },
     {
       "category": "Mythology",
@@ -5529,21 +6491,6 @@
     },
     {
       "category": "Gastronomy",
-      "title": "Rouleau de printemps",
-      "reason": "article has no lead image"
-    },
-    {
-      "category": "Gastronomy",
-      "title": "Rendang",
-      "reason": "author unknown for an attribution licence"
-    },
-    {
-      "category": "Gastronomy",
-      "title": "Shakshouka",
-      "reason": "answer not found in the article introduction"
-    },
-    {
-      "category": "Gastronomy",
       "title": "Rocamadour (fromage)",
       "reason": "image too small or extreme aspect ratio"
     },
@@ -5568,7 +6515,6 @@
       "reason": "licence rejected: licence not in the allowlist"
     },
     { "category": "Music", "title": "Banjo", "reason": "article has no lead image" },
-    { "category": "Music", "title": "Ukulélé", "reason": "article has no lead image" },
     { "category": "Music", "title": "Erhu", "reason": "image too small or extreme aspect ratio" },
     { "category": "Music", "title": "Sarod", "reason": "article has no lead image" },
     { "category": "Music", "title": "Tanpura", "reason": "article has no lead image" },
@@ -5860,6 +6806,473 @@
       "category": "Science",
       "title": "Bauxite",
       "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Airedale Terrier",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Landseer (chien)",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Bullmastiff",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Setter anglais",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Pointer anglais",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Dogs",
+      "title": "Spitz finlandais",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Welsh terrier",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Spitz japonais",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Shikoku (chien)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Colley",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Foxhound américain",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Chien d'eau américain",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Griffon bruxellois",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Foxhound anglais",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Manchester terrier",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Dogs",
+      "title": "Buhund norvégien",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Esquimau canadien",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Welsh Corgi Cardigan",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Kishu (chien)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Berger belge Groenendael",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Dogs",
+      "title": "Berger de Bosnie-Herzégovine et de Croatie",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Schnauzer moyen",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Barbet (chien)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Volpino italien",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Parson Russell terrier",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Chart polski",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Dogs",
+      "title": "Berger basque",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Chien nu du Pérou",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Dogs",
+      "title": "Chien d'eau romagnol",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Dogs",
+      "title": "Tchouvatch slovaque",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Cats",
+      "title": "Manx (chat)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Cats",
+      "title": "Peterbald",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    { "category": "Cats", "title": "Chausie", "reason": "image too small or extreme aspect ratio" },
+    {
+      "category": "Cats",
+      "title": "Ashera (chat)",
+      "reason": "same image already used by another subject"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Mosquée Cheikh Zayed",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Tombeau d'Humayun",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Fort d'Agra",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Jama Masjid (Delhi)",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Mosquée Qolsharif",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Mosquée d'Ortaköy",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Mosquée de Kocatepe",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Arab & Islamic Monuments",
+      "title": "Grande mosquée de Meknès",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Rouleau de printemps",
+      "reason": "article has no lead image"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Rendang",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Shakshouka",
+      "reason": "answer not found in the article introduction"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Cordon bleu (cuisine)",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Rujak",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Bortsch vert",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Lemang",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Rousong",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Croustillon",
+      "reason": "author unknown for an attribution licence"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Harosset",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "World Dishes",
+      "title": "Toum (sauce)",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Cities",
+      "title": "Paris",
+      "reason": "label \"Paris\" already used or too long"
+    },
+    {
+      "category": "Cities",
+      "title": "Lyon",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Amsterdam",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Florence",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Istanbul",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Chicago",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Québec",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Shanghai",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Singapour",
+      "reason": "label \"Singapour\" already used or too long"
+    },
+    {
+      "category": "Cities",
+      "title": "Delhi",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Tirana",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Jakarta",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Belgrade",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Manille",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Houston",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Liverpool",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Dresde",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "La Haye",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Turin",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Gênes",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Asuncion",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Odessa",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Détroit (Michigan)",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Rotterdam",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Kazan",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "Birmingham",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    {
+      "category": "Cities",
+      "title": "San Diego",
+      "reason": "image is not a photograph of the subject (map/diagram/logo/…)"
+    },
+    { "category": "Painters", "title": "Raphaël", "reason": "article has no lead image" },
+    {
+      "category": "Painters",
+      "title": "Georges Braque",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Masaccio",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Mark Rothko",
+      "reason": "licence rejected: licence not in the allowlist"
+    },
+    {
+      "category": "Painters",
+      "title": "Giorgio de Chirico",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Max Beckmann",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Jean-Michel Basquiat",
+      "reason": "unsupported image type image/tiff"
+    },
+    {
+      "category": "Painters",
+      "title": "Fernand Léger",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Maurice Denis",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Ambrogio Lorenzetti",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Nathalie Gontcharova",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Painters",
+      "title": "Pinturicchio",
+      "reason": "image too small or extreme aspect ratio"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Auguste Rodin",
+      "reason": "not enough distractors of the same kind"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Camille Claudel",
+      "reason": "not enough distractors of the same kind"
+    },
+    {
+      "category": "Arts & Literature",
+      "title": "Donatello",
+      "reason": "not enough distractors of the same kind"
     }
   ]
 }
